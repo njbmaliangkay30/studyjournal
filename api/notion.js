@@ -58,10 +58,10 @@ module.exports = async function handler(req, res) {
     return res.status(200).end();
   }
 
-  if (!NOTION_TOKEN || !NOTION_WEEKLY_ID) {
+  if (!NOTION_TOKEN || !WEEKLY_DB_ID) {
     const missing = [];
     if (!NOTION_TOKEN) missing.push("NOTION_TOKEN");
-    if (!NOTION_WEEKLY_ID) missing.push("NOTION_DATABASE_ID");
+    if (!WEEKLY_DB_ID) missing.push("NOTION_DATABASE_ID");
     return res.status(500).json({
       error: `Environment variable tidak ditemukan: ${missing.join(", ")}. Pastikan sudah ditambahkan di Vercel → Settings → Environment Variables, lalu Redeploy.`,
     });
@@ -73,7 +73,7 @@ module.exports = async function handler(req, res) {
 
     try {
       const weeklyRes = await fetch(
-        `https://api.notion.com/v1/databases/${NOTION_WEEKLY_ID}/query`,
+        `https://api.notion.com/v1/databases/${WEEKLY_DB_ID}/query`,
         {
           method: "POST",
           headers: notionHeaders(),
@@ -107,9 +107,9 @@ module.exports = async function handler(req, res) {
         nilaiUjian = getNumber(p, "Nilai Ujian");
       }
 
-      if (NOTION_DAILY_ID && weeklyPage) {
+      if (DAILY_DB_ID && weeklyPage) {
         const dailyRes = await fetch(
-          `https://api.notion.com/v1/databases/${NOTION_DAILY_ID}/query`,
+          `https://api.notion.com/v1/databases/${DAILY_DB_ID}/query`,
           {
             method: "POST",
             headers: notionHeaders(),
@@ -136,9 +136,9 @@ module.exports = async function handler(req, res) {
             }
           }
         }
-      } else if (NOTION_DAILY_ID && !weeklyPage) {
+      } else if (DAILY_DB_ID && !weeklyPage) {
         const dailyRes = await fetch(
-          `https://api.notion.com/v1/databases/${NOTION_DAILY_ID}/query`,
+          `https://api.notion.com/v1/databases/${DAILY_DB_ID}/query`,
           {
             method: "POST",
             headers: notionHeaders(),
@@ -208,7 +208,7 @@ module.exports = async function handler(req, res) {
           method: "POST",
           headers: notionHeaders(),
           body: JSON.stringify({
-            parent: { database_id: NOTION_WEEKLY_ID },
+            parent: { database_id: WEEKLY_DB_ID },
             properties: {
               ...weeklyProps,
               Name: makeTitle(`Week ${monday} – ${sunday}`),
@@ -226,7 +226,7 @@ module.exports = async function handler(req, res) {
       }
       const weeklyPageId = weeklyResult.id;
 
-      if (NOTION_DAILY_ID && typeof dayIndex === "number") {
+      if (DAILY_DB_ID && typeof dayIndex === "number") {
         const dayNames = [
           "Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu",
         ];
@@ -234,7 +234,7 @@ module.exports = async function handler(req, res) {
         const slideCount = (slides ?? [])[dayIndex] ?? 0;
 
         const existingRes = await fetch(
-          `https://api.notion.com/v1/databases/${NOTION_DAILY_ID}/query`,
+          `https://api.notion.com/v1/databases/${DAILY_DB_ID}/query`,
           {
             method: "POST",
             headers: notionHeaders(),
@@ -276,7 +276,7 @@ module.exports = async function handler(req, res) {
             method: "POST",
             headers: notionHeaders(),
             body: JSON.stringify({
-              parent: { database_id: NOTION_DAILY_ID },
+              parent: { database_id: DAILY_DB_ID },
               properties: {
                 ...dailyProps,
                 Name: makeTitle(`${dayName}, ${today}`),
