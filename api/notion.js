@@ -49,7 +49,7 @@ function makeRelation(pageId) {
   return { relation: [{ id: pageId }] };
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -59,7 +59,12 @@ export default async function handler(req, res) {
   }
 
   if (!NOTION_TOKEN || !NOTION_WEEKLY_ID) {
-    return res.status(500).json({ error: "Notion credentials not configured. Tambahkan NOTION_TOKEN dan NOTION_DATABASE_ID di Vercel environment variables." });
+    const missing = [];
+    if (!NOTION_TOKEN) missing.push("NOTION_TOKEN");
+    if (!NOTION_WEEKLY_ID) missing.push("NOTION_DATABASE_ID");
+    return res.status(500).json({
+      error: `Environment variable tidak ditemukan: ${missing.join(", ")}. Pastikan sudah ditambahkan di Vercel → Settings → Environment Variables, lalu Redeploy.`,
+    });
   }
 
   /* ── GET: fetch current week data ── */
@@ -86,21 +91,20 @@ export default async function handler(req, res) {
       const weeklyData = await weeklyRes.json();
 
       if (!weeklyRes.ok) {
-        return res.status(weeklyRes.status).json({ error: weeklyData.message ?? "Notion API error" });
+        return res.status(weeklyRes.status).json({
+          error: weeklyData.message ?? "Notion API error",
+        });
       }
 
       let weeklyPage = weeklyData.results?.[0] ?? null;
       let slides = [0, 0, 0, 0, 0, 0, 0];
       let target = 30;
       let nilaiUjian = 0;
-      let name = "Revalina";
 
       if (weeklyPage) {
         const p = weeklyPage.properties;
         target = getNumber(p, "Weekly Target") || 30;
         nilaiUjian = getNumber(p, "Nilai Ujian");
-        const titleArr = p["Name"]?.title ?? [];
-        name = titleArr[0]?.plain_text ?? "Revalina";
       }
 
       if (NOTION_DAILY_ID && weeklyPage) {
@@ -168,16 +172,18 @@ export default async function handler(req, res) {
         found: !!weeklyPage,
         pageId: weeklyPage?.id ?? null,
         weekBounds: { monday, sunday },
-        data: { slides, target, nilaiUjian, name },
+        data: { slides, target, nilaiUjian },
       });
     } catch (err) {
-      return res.status(500).json({ error: "Gagal mengambil data dari Notion: " + err.message });
+      return res
+        .status(500)
+        .json({ error: "Gagal mengambil data dari Notion: " + err.message });
     }
   }
 
   /* ── POST: save data ── */
   if (req.method === "POST") {
-    const { slides, target, nilaiUjian, name, pageId, dayIndex } = req.body;
+    const { slides, target, nilaiUjian, pageId, dayIndex } = req.body;
     const { monday, sunday } = getWeekBounds();
     const today = todayISO();
 
@@ -189,11 +195,14 @@ export default async function handler(req, res) {
 
       let weeklyResponse;
       if (pageId) {
-        weeklyResponse = await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
-          method: "PATCH",
-          headers: notionHeaders(),
-          body: JSON.stringify({ properties: weeklyProps }),
-        });
+        weeklyResponse = await fetch(
+          `https://api.notion.com/v1/pages/${pageId}`,
+          {
+            method: "PATCH",
+            headers: notionHeaders(),
+            body: JSON.stringify({ properties: weeklyProps }),
+          }
+        );
       } else {
         weeklyResponse = await fetch("https://api.notion.com/v1/pages", {
           method: "POST",
@@ -202,7 +211,7 @@ export default async function handler(req, res) {
             parent: { database_id: NOTION_WEEKLY_ID },
             properties: {
               ...weeklyProps,
-              "Name": makeTitle(`Week ${monday} – ${sunday}`),
+              Name: makeTitle(`Week ${monday} – ${sunday}`),
               "Range Date": makeDateRange(monday, sunday),
             },
           }),
@@ -218,7 +227,9 @@ export default async function handler(req, res) {
       const weeklyPageId = weeklyResult.id;
 
       if (NOTION_DAILY_ID && typeof dayIndex === "number") {
-        const dayNames = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+        const dayNames = [
+          "Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu",
+        ];
         const dayName = dayNames[dayIndex] ?? "Senin";
         const slideCount = (slides ?? [])[dayIndex] ?? 0;
 
@@ -230,7 +241,10 @@ export default async function handler(req, res) {
             body: JSON.stringify({
               filter: {
                 and: [
-                  { property: "Weekly Tracker", relation: { contains: weeklyPageId } },
+                  {
+                    property: "Weekly Tracker",
+                    relation: { contains: weeklyPageId },
+                  },
                   { property: "Date", date: { equals: today } },
                 ],
               },
@@ -247,7 +261,7 @@ export default async function handler(req, res) {
 
         const dailyProps = {
           "Total Slide": makeNumber(slideCount),
-          "Date": makeDate(today),
+          Date: makeDate(today),
           "Weekly Tracker": makeRelation(weeklyPageId),
         };
 
@@ -265,7 +279,7 @@ export default async function handler(req, res) {
               parent: { database_id: NOTION_DAILY_ID },
               properties: {
                 ...dailyProps,
-                "Name": makeTitle(`${dayName}, ${today}`),
+                Name: makeTitle(`${dayName}, ${today}`),
               },
             }),
           });
@@ -274,9 +288,11 @@ export default async function handler(req, res) {
 
       return res.json({ success: true, pageId: weeklyPageId });
     } catch (err) {
-      return res.status(500).json({ error: "Gagal menyimpan ke Notion: " + err.message });
+      return res
+        .status(500)
+        .json({ error: "Gagal menyimpan ke Notion: " + err.message });
     }
   }
 
   return res.status(405).json({ error: "Method not allowed" });
-}
+};
