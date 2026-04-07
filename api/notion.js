@@ -61,7 +61,7 @@ module.exports = async function handler(req, res) {
   if (!NOTION_TOKEN || !WEEKLY_DB_ID) {
     const missing = [];
     if (!NOTION_TOKEN) missing.push("NOTION_TOKEN");
-    if (!WEEKLY_DB_ID) missing.push("NOTION_DATABASE_ID");
+    if (!WEEKLY_DB_ID) missing.push("NOTION_WEEKLY_DB_ID");
     return res.status(500).json({
       error: `Environment variable tidak ditemukan: ${missing.join(", ")}. Pastikan sudah ditambahkan di Vercel → Settings → Environment Variables, lalu Redeploy.`,
     });
