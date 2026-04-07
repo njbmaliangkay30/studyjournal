@@ -1,6 +1,6 @@
 const NOTION_TOKEN = process.env.NOTION_TOKEN;
-const NOTION_WEEKLY_ID = process.env.NOTION_DATABASE_ID;
-const NOTION_DAILY_ID = process.env.NOTION_DAILY_LOG_ID;
+const WEEKLY_DB_ID = process.env.NOTION_WEEKLY_DB_ID;
+const DAILY_DB_ID  = process.env.NOTION_DAILY_DB_ID;
 const NOTION_VERSION = "2022-06-28";
 
 function notionHeaders() {
