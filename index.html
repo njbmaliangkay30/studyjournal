@@ -1,0 +1,1372 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Revalina — Study Journey</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --gold: #f5c842;
+        --gold-light: #ffe478;
+        --gold-pale: #fff8d6;
+        --gold-dark: #b8900a;
+        --green-deep: #1a3a0f;
+        --green-mid: #2e6b1a;
+        --green-leaf: #4a9b28;
+        --green-light: #8dc95a;
+        --green-pale: #d4edba;
+        --cream: #fdfaf0;
+        --cream2: #f7f1dc;
+        --brown: #6b4c1e;
+        --amber: #e8a020;
+        --red-soft: #e85050;
+        --text-dark: #2a1f0a;
+        --text-mid: #5a4a2a;
+        --text-soft: #9a8a6a;
+        --serif: "Playfair Display", Georgia, serif;
+        --sans: "Nunito", system-ui, sans-serif;
+      }
+
+      html,
+      body {
+        font-family: var(--sans);
+        background: var(--cream);
+        color: var(--text-dark);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* SPARKLE PARTICLES */
+      .sparkles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 220px;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 0;
+      }
+      .sp {
+        position: absolute;
+        border-radius: 50%;
+        animation: sparkle-float linear infinite;
+        opacity: 0;
+      }
+      @keyframes sparkle-float {
+        0% {
+          opacity: 0;
+          transform: translateY(0) scale(0.5);
+        }
+        20% {
+          opacity: 1;
+        }
+        80% {
+          opacity: 0.6;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-80px) scale(1.2);
+        }
+      }
+
+      /* HEADER */
+      .header {
+        background: linear-gradient(
+          160deg,
+          #0f2a06 0%,
+          #1a4a0a 45%,
+          #234f10 100%
+        );
+        padding: 28px 20px 22px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+      .header-leaves {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .leaf {
+        position: absolute;
+        border-radius: 50% 0 50% 0;
+        background: rgba(74, 155, 40, 0.12);
+      }
+      .leaf1 {
+        width: 90px;
+        height: 60px;
+        top: -10px;
+        right: -15px;
+        transform: rotate(30deg);
+      }
+      .leaf2 {
+        width: 60px;
+        height: 40px;
+        bottom: -5px;
+        right: 30%;
+        transform: rotate(-20deg);
+      }
+      .leaf3 {
+        width: 50px;
+        height: 35px;
+        top: 20px;
+        left: -10px;
+        transform: rotate(50deg);
+      }
+
+      .header-eyebrow {
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.4);
+        margin-bottom: 3px;
+        font-weight: 400;
+      }
+      .header-name {
+        font-family: var(--serif);
+        font-size: 28px;
+        color: #fff;
+        line-height: 1.15;
+        margin-bottom: 2px;
+      }
+      .header-name span {
+        color: var(--gold-light);
+        font-style: italic;
+      }
+      .header-sub {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.38);
+        margin-bottom: 18px;
+      }
+
+      /* PROGRESS RING — gold glow */
+      .prog-wrap {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .ring-outer {
+        position: relative;
+        width: 80px;
+        height: 80px;
+        flex-shrink: 0;
+        filter: drop-shadow(0 0 10px rgba(245, 200, 66, 0.55))
+          drop-shadow(0 0 22px rgba(245, 200, 66, 0.3));
+      }
+      .ring-outer svg {
+        transform: rotate(-90deg);
+      }
+      .ring-bg {
+        fill: none;
+        stroke: rgba(255, 255, 255, 0.08);
+        stroke-width: 6;
+      }
+      .ring-track {
+        fill: none;
+        stroke: rgba(245, 200, 66, 0.15);
+        stroke-width: 6;
+      }
+      .ring-fill {
+        fill: none;
+        stroke: url(#goldGrad);
+        stroke-width: 6;
+        stroke-linecap: round;
+        stroke-dasharray: 213.6;
+        stroke-dashoffset: 213.6;
+        transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .ring-glow {
+        fill: none;
+        stroke: rgba(255, 228, 120, 0.35);
+        stroke-width: 10;
+        stroke-linecap: round;
+        stroke-dasharray: 213.6;
+        stroke-dashoffset: 213.6;
+        transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .ring-center {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .ring-pct {
+        font-size: 17px;
+        font-weight: 600;
+        color: var(--gold-light);
+        line-height: 1;
+      }
+      .ring-lbl {
+        font-size: 9px;
+        color: rgba(255, 255, 255, 0.4);
+        margin-top: 1px;
+      }
+
+      .prog-info {
+        flex: 1;
+      }
+      .prog-label {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.45);
+        margin-bottom: 7px;
+        letter-spacing: 0.05em;
+      }
+      .prog-bar-track {
+        height: 5px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 3px;
+        margin-bottom: 7px;
+        overflow: visible;
+      }
+      .prog-bar-fill {
+        height: 5px;
+        border-radius: 3px;
+        background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+        box-shadow:
+          0 0 8px rgba(245, 200, 66, 0.7),
+          0 0 16px rgba(245, 200, 66, 0.3);
+        transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .prog-nums {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.38);
+      }
+      .prog-nums strong {
+        color: var(--gold);
+        font-weight: 600;
+      }
+
+      /* WEEK BADGE */
+      .week-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(245, 200, 66, 0.12);
+        border: 1px solid rgba(245, 200, 66, 0.25);
+        border-radius: 20px;
+        padding: 4px 12px;
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.55);
+        margin-bottom: 14px;
+      }
+      .week-badge::before {
+        content: "✦";
+        color: var(--gold);
+        font-size: 9px;
+      }
+
+      /* TABS */
+      .tab-bar {
+        background: var(--cream2);
+        padding: 10px 16px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        display: flex;
+        gap: 4px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .tab-bar::-webkit-scrollbar {
+        display: none;
+      }
+      .tab {
+        flex-shrink: 0;
+        padding: 7px 16px;
+        border-radius: 12px 12px 0 0;
+        font-size: 12px;
+        font-weight: 600;
+        border: none;
+        background: transparent;
+        color: var(--text-soft);
+        cursor: pointer;
+        transition: all 0.2s;
+        letter-spacing: 0.02em;
+        font-family: var(--sans);
+      }
+      .tab.active {
+        background: var(--cream);
+        color: var(--green-deep);
+        border-bottom: 2px solid var(--gold);
+      }
+      .tab:hover:not(.active) {
+        color: var(--text-mid);
+      }
+
+      /* MAIN */
+      .main {
+        padding: 16px 16px 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        position: relative;
+        z-index: 1;
+      }
+      .page {
+        display: none;
+      }
+      .page.active {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      /* SECTION LABEL */
+      .sec-lbl {
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--text-soft);
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .sec-lbl::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0.07), transparent);
+      }
+
+      /* METRICS */
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+      .metric {
+        background: #fff;
+        border-radius: 14px;
+        padding: 12px 10px;
+        text-align: center;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        position: relative;
+        overflow: hidden;
+      }
+      .metric::before {
+        content: "";
+        position: absolute;
+        top: -12px;
+        right: -12px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--gold-pale);
+        opacity: 0.5;
+      }
+      .metric-icon {
+        font-size: 16px;
+        margin-bottom: 4px;
+      }
+      .metric-val {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text-dark);
+        line-height: 1;
+        margin-bottom: 3px;
+      }
+      .metric-val.glow-val {
+        color: var(--gold-dark);
+        text-shadow: 0 0 12px rgba(245, 180, 10, 0.35);
+      }
+      .metric-val.green-val {
+        color: var(--green-mid);
+      }
+      .metric-lbl {
+        font-size: 9px;
+        color: var(--text-soft);
+        font-weight: 500;
+        letter-spacing: 0.04em;
+      }
+
+      /* REWARD CARD */
+      .reward-card {
+        background: linear-gradient(
+          135deg,
+          #1a4a0a 0%,
+          #0f2a06 60%,
+          #1a3a10 100%
+        );
+        border-radius: 18px;
+        padding: 18px 18px 16px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(26, 74, 10, 0.3);
+      }
+      .reward-card::before {
+        content: "✦";
+        position: absolute;
+        right: 18px;
+        top: 16px;
+        font-size: 52px;
+        opacity: 0.07;
+        color: var(--gold);
+        text-shadow: 0 0 20px var(--gold);
+      }
+      .reward-card::after {
+        content: "✦";
+        position: absolute;
+        right: 50px;
+        bottom: 12px;
+        font-size: 24px;
+        opacity: 0.05;
+        color: var(--gold);
+      }
+      .rc-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .rc-title {
+        font-family: var(--serif);
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.8);
+        font-style: italic;
+      }
+      .rc-chip {
+        background: rgba(245, 200, 66, 0.15);
+        border: 1px solid rgba(245, 200, 66, 0.3);
+        border-radius: 20px;
+        padding: 3px 10px;
+        font-size: 10px;
+        color: var(--gold);
+      }
+      .rc-amount {
+        font-family: var(--serif);
+        font-size: 30px;
+        color: var(--gold-light);
+        text-shadow: 0 0 20px rgba(245, 200, 66, 0.5);
+        margin-bottom: 4px;
+        line-height: 1;
+      }
+      .rc-note {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.45);
+        margin-bottom: 12px;
+      }
+      .rc-bar {
+        height: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .rc-bar-fill {
+        height: 100%;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+        box-shadow: 0 0 6px rgba(245, 200, 66, 0.6);
+        transition: width 1.2s ease;
+      }
+
+      /* RULES */
+      .rules-card {
+        background: #fff;
+        border-radius: 14px;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+      .rule-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 16px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .rule-row:last-child {
+        border-bottom: none;
+      }
+      .rule-icon {
+        font-size: 15px;
+        flex-shrink: 0;
+      }
+      .rule-text {
+        flex: 1;
+        font-size: 12px;
+        color: var(--text-mid);
+      }
+      .rule-val {
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .rv-g {
+        color: var(--green-mid);
+      }
+      .rv-a {
+        color: var(--amber);
+      }
+      .rv-r {
+        color: var(--red-soft);
+      }
+
+      /* WISHLIST */
+      .wishlist {
+        background: #fff;
+        border-radius: 14px;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+      .wish-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 16px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .wish-row:last-child {
+        border-bottom: none;
+      }
+      .wish-name {
+        flex: 1;
+        font-size: 13px;
+        color: var(--text-mid);
+      }
+      .wish-price {
+        font-size: 12px;
+        color: var(--text-soft);
+      }
+      .wish-badge {
+        font-size: 10px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 20px;
+      }
+      .wb-h {
+        background: #fdeded;
+        color: var(--red-soft);
+      }
+      .wb-m {
+        background: #fef3dc;
+        color: var(--amber);
+      }
+      .wb-l {
+        background: var(--green-pale);
+        color: var(--green-mid);
+      }
+      .wish-row.total-row {
+        background: var(--gold-pale);
+      }
+      .wish-row.total-row .wish-name {
+        font-weight: 700;
+        color: var(--text-dark);
+      }
+      .wish-row.total-row .wish-price {
+        font-weight: 700;
+        color: var(--gold-dark);
+      }
+
+      /* DAYS GRID */
+      .days-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+      }
+      .day {
+        background: #fff;
+        border-radius: 10px;
+        padding: 8px 3px;
+        text-align: center;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+      }
+      .day.today {
+        border-color: var(--gold);
+        background: var(--gold-pale);
+        box-shadow: 0 0 10px rgba(245, 200, 66, 0.2);
+      }
+      .day.reward-day {
+        background: #fff8e0;
+        border-color: rgba(245, 200, 66, 0.4);
+      }
+      .day-name {
+        font-size: 9px;
+        color: var(--text-soft);
+        margin-bottom: 5px;
+        font-weight: 600;
+      }
+      .day.today .day-name {
+        color: var(--gold-dark);
+      }
+      .day-dot {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        margin: 0 auto 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        font-weight: 700;
+      }
+      .day-dot.done {
+        background: var(--gold);
+        color: var(--text-dark);
+        box-shadow: 0 0 8px rgba(245, 200, 66, 0.5);
+      }
+      .day-dot.empty {
+        background: rgba(0, 0, 0, 0.05);
+        color: var(--text-soft);
+        font-size: 9px;
+      }
+      .day-dot.reward {
+        background: var(--gold-pale);
+        color: var(--gold-dark);
+        font-size: 12px;
+      }
+      .day-dot.rest {
+        background: var(--green-pale);
+        color: var(--green-mid);
+        font-size: 10px;
+      }
+      .day-pts {
+        font-size: 8px;
+        color: var(--text-soft);
+      }
+      .day.today .day-pts {
+        color: var(--gold-dark);
+      }
+
+      /* INPUT CARD */
+      .input-card {
+        background: #fff;
+        border-radius: 14px;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+      .input-label {
+        font-size: 11px;
+        color: var(--text-soft);
+        margin-bottom: 8px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+      }
+      .input-row {
+        display: flex;
+        gap: 8px;
+      }
+      .field {
+        flex: 1;
+        padding: 10px 14px;
+        border: 1.5px solid rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        font-size: 15px;
+        font-family: var(--sans);
+        color: var(--text-dark);
+        background: var(--cream);
+        outline: none;
+        transition: border-color 0.15s;
+      }
+      .field:focus {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(245, 200, 66, 0.15);
+      }
+      .btn-save {
+        padding: 10px 18px;
+        background: var(--green-deep);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 700;
+        font-family: var(--sans);
+        cursor: pointer;
+        transition: all 0.15s;
+        letter-spacing: 0.04em;
+      }
+      .btn-save:hover {
+        background: var(--green-mid);
+      }
+      .save-msg {
+        font-size: 11px;
+        color: var(--green-leaf);
+        margin-top: 6px;
+        display: none;
+        font-weight: 600;
+      }
+      .save-msg::before {
+        content: "✦ ";
+      }
+
+      /* NOTION CONNECT */
+      .notion-note {
+        background: var(--gold-pale);
+        border: 1px solid rgba(245, 200, 66, 0.4);
+        border-radius: 12px;
+        padding: 12px 14px;
+        font-size: 11px;
+        color: var(--text-mid);
+        line-height: 1.6;
+      }
+      .notion-note strong {
+        color: var(--text-dark);
+      }
+
+      /* SETTINGS */
+      .settings-card {
+        background: #fff;
+        border-radius: 14px;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .set-label {
+        font-size: 11px;
+        color: var(--text-soft);
+        margin-bottom: 5px;
+        font-weight: 600;
+      }
+      .btn-reset {
+        padding: 10px 18px;
+        background: #fdeded;
+        color: var(--red-soft);
+        border: 1px solid #f7c1c1;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 700;
+        font-family: var(--sans);
+        cursor: pointer;
+      }
+      .btn-full {
+        width: 100%;
+      }
+
+      /* DECORATIVE FOOTER */
+      .fairy-footer {
+        text-align: center;
+        padding: 10px 16px 24px;
+        font-size: 10px;
+        color: var(--text-soft);
+        letter-spacing: 0.1em;
+      }
+      .fairy-footer span {
+        color: var(--gold);
+      }
+
+      /* FADE IN */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .page.active > * {
+        animation: fadeUp 0.35s ease both;
+      }
+      .page.active > *:nth-child(1) {
+        animation-delay: 0.03s;
+      }
+      .page.active > *:nth-child(2) {
+        animation-delay: 0.08s;
+      }
+      .page.active > *:nth-child(3) {
+        animation-delay: 0.13s;
+      }
+      .page.active > *:nth-child(4) {
+        animation-delay: 0.18s;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- SPARKLES -->
+    <div class="sparkles" id="sparkles"></div>
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-leaves">
+        <div class="leaf leaf1"></div>
+        <div class="leaf leaf2"></div>
+        <div class="leaf leaf3"></div>
+      </div>
+
+      <div class="header-eyebrow">Study Journey</div>
+      <div class="header-name">
+        <span id="header-name">Revalina</span>,<br /><span id="greeting-line"
+          >semangat belajarnya!</span
+        >
+      </div>
+      <div class="header-sub" id="date-line">—</div>
+
+      <div class="week-badge" id="week-badge-txt">
+        Memuat data minggu ini...
+      </div>
+
+      <div class="prog-wrap">
+        <div class="ring-outer">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <defs>
+              <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#B8900A" />
+                <stop offset="60%" stop-color="#F5C842" />
+                <stop offset="100%" stop-color="#FFE478" />
+              </linearGradient>
+            </defs>
+            <circle class="ring-bg" cx="40" cy="40" r="34" />
+            <circle class="ring-track" cx="40" cy="40" r="34" />
+            <circle class="ring-glow" cx="40" cy="40" r="34" id="ring-glow" />
+            <circle class="ring-fill" cx="40" cy="40" r="34" id="ring-fill" />
+          </svg>
+          <div class="ring-center">
+            <div class="ring-pct" id="ring-pct">0%</div>
+            <div class="ring-lbl">progress</div>
+          </div>
+        </div>
+        <div class="prog-info">
+          <div class="prog-label">Slide PPT minggu ini</div>
+          <div class="prog-bar-track">
+            <div class="prog-bar-fill" id="prog-bar" style="width: 0%"></div>
+          </div>
+          <div class="prog-nums">
+            <span><strong id="slide-done">0</strong> slide selesai</span>
+            <span>target <strong id="slide-target-hdr">30</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tab-bar">
+      <button class="tab active" onclick="switchTab('dashboard',this)">
+        Dashboard
+      </button>
+      <button class="tab" onclick="switchTab('tracker',this)">Tracker</button>
+      <button class="tab" onclick="switchTab('reward',this)">Reward</button>
+      <button class="tab" onclick="switchTab('setting',this)">
+        Pengaturan
+      </button>
+    </div>
+
+    <div class="main">
+      <!-- DASHBOARD -->
+      <div class="page active" id="tab-dashboard">
+        <div>
+          <div class="sec-lbl">Weekly Recap</div>
+          <div class="metrics">
+            <div class="metric">
+              <div class="metric-icon">📖</div>
+              <div class="metric-val glow-val" id="m-slide">0</div>
+              <div class="metric-lbl">Slide dibaca</div>
+            </div>
+            <div class="metric">
+              <div class="metric-icon">🎯</div>
+              <div class="metric-val green-val" id="m-nilai">—</div>
+              <div class="metric-lbl">Nilai ujian</div>
+            </div>
+            <div class="metric">
+              <div class="metric-icon">💰</div>
+              <div class="metric-val glow-val" id="m-reward-hdr">Rp 0</div>
+              <div class="metric-lbl">Reward cair</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reward-card">
+          <div class="rc-top">
+            <div class="rc-title">Reward minggu ini</div>
+            <div class="rc-chip" id="rc-chip">0%</div>
+          </div>
+          <div class="rc-amount" id="rc-amount">Rp 0</div>
+          <div class="rc-note" id="rc-note">
+            Mulai tambahkan slide untuk menghitung reward
+          </div>
+          <div class="rc-bar">
+            <div class="rc-bar-fill" id="rc-bar" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRACKER -->
+      <div class="page" id="tab-tracker">
+        <div>
+          <div class="sec-lbl">Slide per hari — minggu ini</div>
+          <div class="days-grid" id="days-grid"></div>
+        </div>
+
+        <div>
+          <div class="sec-lbl">Input slide hari ini</div>
+          <div class="input-card">
+            <div class="input-label">Berapa slide yang kamu baca hari ini?</div>
+            <div class="input-row">
+              <input
+                type="number"
+                id="inp-slide"
+                min="0"
+                max="99"
+                placeholder="0"
+                class="field"
+              />
+              <button class="btn-save" onclick="addSlide()">Simpan</button>
+            </div>
+            <div class="save-msg" id="save-msg-slide">Tersimpan!</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="sec-lbl">Input nilai ujian</div>
+          <div class="input-card">
+            <div class="input-label">Nilai ujian terakhir (0–100)</div>
+            <div class="input-row">
+              <input
+                type="number"
+                id="inp-nilai"
+                min="0"
+                max="100"
+                placeholder="–"
+                class="field"
+              />
+              <button class="btn-save" onclick="saveNilai()">Simpan</button>
+            </div>
+            <div class="save-msg" id="save-msg-nilai">Tersimpan!</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="sec-lbl">Ketentuan reward</div>
+          <div class="rules-card">
+            <div class="rule-row">
+              <div class="rule-icon">✅</div>
+              <div class="rule-text">Selesai ≥ target slide</div>
+              <div class="rule-val rv-g">Rp 100.000</div>
+            </div>
+            <div class="rule-row">
+              <div class="rule-icon">⚠️</div>
+              <div class="rule-text">15 slide s/d target−1</div>
+              <div class="rule-val rv-a">Rp 50.000</div>
+            </div>
+            <div class="rule-row">
+              <div class="rule-icon">❌</div>
+              <div class="rule-text">Di bawah 15 slide</div>
+              <div class="rule-val rv-r">Tidak ada</div>
+            </div>
+            <div class="rule-row">
+              <div class="rule-icon">🛒</div>
+              <div class="rule-text">Ada impulse buy</div>
+              <div class="rule-val rv-r">−Rp 20.000</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="notion-note">
+          <strong>Tentang sinkronisasi Notion:</strong> Widget ini menyimpan
+          data secara lokal di browser. Untuk menghubungkan ke database Weekly
+          Tracker di Notion, salin nilai slide dari tabel Notion ke input di
+          atas setiap hari — atau gunakan Notion Formula untuk menghitung
+          otomatis di tabel Notion kamu.
+        </div>
+      </div>
+
+      <!-- REWARD -->
+      <div class="page" id="tab-reward">
+        <div class="reward-card">
+          <div class="rc-top">
+            <div class="rc-title">Reward yang akan cair</div>
+            <div class="rc-chip" id="rc-chip2">minggu ini</div>
+          </div>
+          <div class="rc-amount" id="rc-amount2">Rp 0</div>
+          <div class="rc-note" id="rc-note2">
+            Tambahkan progress slide untuk melihat reward
+          </div>
+          <div class="rc-bar">
+            <div class="rc-bar-fill" id="rc-bar2" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="sec-lbl">Wishlist</div>
+          <div class="wishlist">
+            <div class="wish-row">
+              <div class="wish-name">Boba / minuman</div>
+              <div class="wish-price">Rp 25.000</div>
+              <span class="wish-badge wb-h">Utama</span>
+            </div>
+            <div class="wish-row">
+              <div class="wish-name">Masker wajah</div>
+              <div class="wish-price">Rp 35.000</div>
+              <span class="wish-badge wb-m">Sedang</span>
+            </div>
+            <div class="wish-row">
+              <div class="wish-name">Stiker / alat tulis</div>
+              <div class="wish-price">Rp 20.000</div>
+              <span class="wish-badge wb-l">Rendah</span>
+            </div>
+            <div class="wish-row total-row">
+              <div class="wish-name">Total wishlist</div>
+              <div class="wish-price">Rp 80.000</div>
+              <span class="wish-badge wb-l">✓</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="sec-lbl">Aturan belanja</div>
+          <div class="rules-card">
+            <div class="rule-row">
+              <div class="rule-icon">📝</div>
+              <div class="rule-text">
+                Hanya boleh beli dari wishlist yang sudah ditulis
+              </div>
+            </div>
+            <div class="rule-row">
+              <div class="rule-icon">⏳</div>
+              <div class="rule-text">
+                Impulse buy: tahan 24 jam dulu sebelum beli
+              </div>
+            </div>
+            <div class="rule-row">
+              <div class="rule-icon">💸</div>
+              <div class="rule-text">
+                Sisa reward yang tidak dipakai hangus minggu itu
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTING -->
+      <div class="page" id="tab-setting">
+        <div>
+          <div class="sec-lbl">Pengaturan target</div>
+          <div class="settings-card">
+            <div>
+              <div class="set-label">Target slide per minggu</div>
+              <input
+                type="number"
+                id="set-target"
+                min="5"
+                max="200"
+                value="30"
+                class="field"
+                style="width: 100%"
+              />
+            </div>
+            <div>
+              <div class="set-label">Nama kamu</div>
+              <input
+                type="text"
+                id="set-name"
+                placeholder="Revalina"
+                class="field"
+                style="width: 100%"
+              />
+            </div>
+            <button class="btn-save btn-full" onclick="saveSettings()">
+              Simpan Pengaturan
+            </button>
+            <div class="save-msg" id="save-msg-set" style="text-align: center">
+              Pengaturan tersimpan!
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="sec-lbl">Reset data</div>
+          <div class="input-card">
+            <div class="input-label" style="margin-bottom: 10px">
+              Gunakan setiap awal minggu baru untuk memulai dari nol.
+            </div>
+            <button class="btn-reset" onclick="resetWeek()">
+              Reset Minggu Baru
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fairy-footer">
+      ✦ <span id="footer-name">Revalina</span> — Study Journey ✦
+    </div>
+
+    <script>
+      /* --- DATA --- */
+      function ls(k, d) {
+        try {
+          const v = localStorage.getItem(k);
+          return v !== null ? JSON.parse(v) : d;
+        } catch {
+          return d;
+        }
+      }
+      function ss(k, v) {
+        try {
+          localStorage.setItem(k, JSON.stringify(v));
+        } catch {}
+      }
+
+      const state = {
+        slides: ls("rv_slides", [0, 0, 0, 0, 0, 0, 0]),
+        target: ls("rv_target", 30),
+        name: ls("rv_name", "Revalina"),
+        nilai: ls("rv_nilai", "—"),
+      };
+
+      const DAYS = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
+      const circ = 213.6;
+
+      function total() {
+        return state.slides.slice(0, 5).reduce((a, b) => a + b, 0);
+      }
+      function pct() {
+        return Math.min(Math.round((total() / state.target) * 100), 100);
+      }
+      function reward() {
+        const t = total(),
+          tgt = state.target;
+        if (t >= tgt) return 100000;
+        if (t >= 15) return 50000;
+        return 0;
+      }
+      function fmtRp(n) {
+        return "Rp " + (n / 1000).toFixed(0) + ".000";
+      }
+
+      function render() {
+        const p = pct(),
+          t = total(),
+          r = reward();
+        const offset = circ - (circ * p) / 100;
+
+        /* header ring */
+        document.getElementById("ring-fill").style.strokeDashoffset = offset;
+        document.getElementById("ring-glow").style.strokeDashoffset = offset;
+        document.getElementById("ring-pct").textContent = p + "%";
+        document.getElementById("prog-bar").style.width = p + "%";
+        document.getElementById("slide-done").textContent = t;
+        document.getElementById("slide-target-hdr").textContent = state.target;
+
+        /* name & greeting */
+        document.getElementById("header-name").textContent = state.name;
+        document.getElementById("footer-name").textContent = state.name;
+        const h = new Date().getHours();
+        const greet =
+          h < 11
+            ? "Semangat paginya!"
+            : h < 15
+              ? "Terus semangat ya!"
+              : h < 18
+                ? "Yuk lanjut belajarnya!"
+                : "Semangat malam harinya!";
+        document.getElementById("greeting-line").textContent = greet;
+        document.getElementById("date-line").textContent =
+          new Date().toLocaleDateString("id-ID", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          });
+
+        /* week badge */
+        const weekNum = getWeekNum();
+        document.getElementById("week-badge-txt").textContent =
+          "Minggu ke-" + weekNum + " — " + new Date().getFullYear();
+
+        /* metrics */
+        document.getElementById("m-slide").textContent = t;
+        document.getElementById("m-nilai").textContent =
+          state.nilai !== "—" ? state.nilai : "—";
+        document.getElementById("m-reward-hdr").textContent =
+          r > 0 ? fmtRp(r) : "Rp 0";
+
+        /* reward cards */
+        [
+          ["rc-amount", "rc-note", "rc-bar", "rc-chip"],
+          ["rc-amount2", "rc-note2", "rc-bar2", "rc-chip2"],
+        ].forEach(([am, no, ba, ch]) => {
+          document.getElementById(am).textContent = fmtRp(r);
+          document.getElementById(ba).style.width = p + "%";
+          document.getElementById(ch).textContent = p + "%";
+          const sisa = state.target - t;
+          let note = "";
+          if (r === 100000) note = "Target tercapai! Reward penuh untukmu ✦";
+          else if (r === 50000)
+            note =
+              "Reward sebagian. Butuh " + sisa + " slide lagi untuk penuh.";
+          else
+            note =
+              "Butuh " +
+              (15 - t > 0 ? 15 - t : 0) +
+              " slide lagi untuk reward minimal.";
+          document.getElementById(no).textContent = note;
+        });
+
+        /* days grid */
+        const dg = document.getElementById("days-grid");
+        dg.innerHTML = "";
+        const todayDow = new Date().getDay();
+        const todayIdx = todayDow === 0 ? 6 : todayDow - 1;
+        DAYS.forEach((d, i) => {
+          const el = document.createElement("div");
+          const isSab = i === 5,
+            isMin = i === 6;
+          el.className =
+            "day" +
+            (i === todayIdx ? " today" : "") +
+            (isSab ? " reward-day" : "");
+          const s = state.slides[i];
+          let dc = "empty",
+            dc2 = "–";
+          if (isSab) {
+            dc = "reward";
+            dc2 = "✦";
+          } else if (isMin) {
+            dc = "rest";
+            dc2 = "~";
+          } else if (s > 0) {
+            dc = "done";
+            dc2 = s;
+          }
+          el.innerHTML =
+            '<div class="day-name">' +
+            d +
+            '</div><div class="day-dot ' +
+            dc +
+            '">' +
+            dc2 +
+            '</div><div class="day-pts">' +
+            (isSab
+              ? "reward"
+              : isMin
+                ? "istirahat"
+                : s > 0
+                  ? s + " slide"
+                  : "–") +
+            "</div>";
+          dg.appendChild(el);
+        });
+
+        /* settings fields */
+        document.getElementById("set-target").value = state.target;
+        document.getElementById("set-name").value = state.name;
+        if (document.getElementById("inp-nilai").value === "")
+          document.getElementById("inp-nilai").value =
+            state.nilai !== "—" ? state.nilai : "";
+      }
+
+      function getWeekNum() {
+        const d = new Date(),
+          startOfYear = new Date(d.getFullYear(), 0, 1);
+        return Math.ceil(
+          ((d - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7,
+        );
+      }
+
+      function addSlide() {
+        const v = parseInt(document.getElementById("inp-slide").value) || 0;
+        if (v < 0) return;
+        const dow = new Date().getDay(),
+          idx = dow === 0 ? 6 : dow - 1;
+        state.slides[idx] = v;
+        ss("rv_slides", state.slides);
+        render();
+        document.getElementById("inp-slide").value = "";
+        flash("save-msg-slide");
+      }
+
+      function saveNilai() {
+        const v = document.getElementById("inp-nilai").value.trim();
+        state.nilai = v !== "" ? v : "—";
+        ss("rv_nilai", state.nilai);
+        render();
+        flash("save-msg-nilai");
+      }
+
+      function saveSettings() {
+        state.target =
+          parseInt(document.getElementById("set-target").value) || 30;
+        state.name =
+          document.getElementById("set-name").value.trim() || "Revalina";
+        ss("rv_target", state.target);
+        ss("rv_name", state.name);
+        render();
+        flash("save-msg-set");
+      }
+
+      function resetWeek() {
+        if (!confirm("Reset semua data slide minggu ini?")) return;
+        state.slides = [0, 0, 0, 0, 0, 0, 0];
+        ss("rv_slides", state.slides);
+        render();
+      }
+
+      function flash(id) {
+        const el = document.getElementById(id);
+        el.style.display = "block";
+        setTimeout(() => (el.style.display = "none"), 2200);
+      }
+
+      function switchTab(id, btn) {
+        document
+          .querySelectorAll(".page")
+          .forEach((p) => p.classList.remove("active"));
+        document
+          .querySelectorAll(".tab")
+          .forEach((t) => t.classList.remove("active"));
+        document.getElementById("tab-" + id).classList.add("active");
+        btn.classList.add("active");
+      }
+
+      /* SPARKLES */
+      function createSparkles() {
+        const wrap = document.getElementById("sparkles");
+        for (let i = 0; i < 18; i++) {
+          const sp = document.createElement("div");
+          sp.className = "sp";
+          const size = Math.random() * 4 + 2;
+          const gold = Math.random() > 0.4;
+          sp.style.cssText = `
+      width:${size}px;height:${size}px;
+      left:${Math.random() * 100}%;
+      top:${Math.random() * 100}%;
+      background:${gold ? "#F5C842" : "#B8E06A"};
+      animation-duration:${2 + Math.random() * 4}s;
+      animation-delay:${Math.random() * 4}s;
+      box-shadow:0 0 ${size * 2}px ${gold ? "rgba(245,200,66,0.8)" : "rgba(184,224,106,0.6)"};
+    `;
+          wrap.appendChild(sp);
+        }
+      }
+
+      createSparkles();
+      render();
+      /* animate ring after paint */
+      setTimeout(() => {
+        const p = pct(),
+          offset = circ - (circ * p) / 100;
+        document.getElementById("ring-fill").style.strokeDashoffset = offset;
+        document.getElementById("ring-glow").style.strokeDashoffset = offset;
+        document.getElementById("prog-bar").style.width = p + "%";
+        document.getElementById("rc-bar").style.width = p + "%";
+        document.getElementById("rc-bar2").style.width = p + "%";
+      }, 120);
+    </script>
+  </body>
+</html>
