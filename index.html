@@ -19,20 +19,15 @@
         --sans: "Nunito", system-ui, sans-serif;
       }
       
-      /* Kursor Ajaib Utama (Peri Terbang Membawa Tongkat) */
+      /* Kursor Ajaib Utama */
       html, body { 
-        font-family: var(--sans); 
-        background: var(--cream); 
-        color: var(--text-dark); 
-        min-height: 100vh; 
-        overflow-x: hidden;
+        font-family: var(--sans); background: var(--cream); color: var(--text-dark); 
+        min-height: 100vh; overflow-x: hidden;
         cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M17,17 Q12,6 20,6 Q21,12 17,17' fill='%23ffe478' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M18,18 Q26,6 31,12 Q24,18 18,18' fill='%23fff' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M18,19 Q28,22 25,28 Q19,22 18,19' fill='%23fff' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M15,15 C15,15 20,20 16,28 C16,28 14,24 15,19 C15,19 12,23 9,25 C9,25 7,19 13,16 Z' fill='%238dc95a' stroke='%231a3a0f' stroke-width='1'/%3E%3Ccircle cx='16' cy='11' r='3.5' fill='%23fbdcb8' stroke='%233e2709' stroke-width='1'/%3E%3Ccircle cx='18' cy='8' r='1.5' fill='%23f5c842' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M15,16 L6,6' stroke='%23fbdcb8' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M8,8 L2,2' stroke='%23fff' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='2' cy='2' r='2' fill='%23f5c842'/%3E%3C/svg%3E") 2 2, auto;
       }
-
-      button, .tab, .day, .btn-save, .btn-reset, .rc-chip, label {
+      button, .tab, .day, .btn-save, .btn-reset, .rc-chip, label, summary {
         cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M17,17 Q12,6 20,6 Q21,12 17,17' fill='%23ffe478' stroke='%231a3a0f' stroke-width='1'/%3E%3Cpath d='M18,18 Q26,6 31,12 Q24,18 18,18' fill='%23e4f2d3' stroke='%231a3a0f' stroke-width='1'/%3E%3Cpath d='M18,19 Q28,22 25,28 Q19,22 18,19' fill='%23e4f2d3' stroke='%231a3a0f' stroke-width='1'/%3E%3Cpath d='M15,15 C15,15 20,20 16,28 C16,28 14,24 15,19 C15,19 12,23 9,25 C9,25 7,19 13,16 Z' fill='%234a9b28' stroke='%231a3a0f' stroke-width='1'/%3E%3Ccircle cx='16' cy='11' r='3.5' fill='%23fbdcb8' stroke='%231a3a0f' stroke-width='1'/%3E%3Ccircle cx='18' cy='8' r='1.5' fill='%23f5c842' stroke='%231a3a0f' stroke-width='1'/%3E%3Cpath d='M15,16 L6,6' stroke='%23fbdcb8' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M8,8 L2,2' stroke='%23fff' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='2' cy='2' r='4' fill='%238dc95a' opacity='0.8'/%3E%3Ccircle cx='2' cy='2' r='2' fill='%23fff'/%3E%3C/svg%3E") 2 2, pointer !important;
       }
-
       input, textarea, .field {
         cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 3L12 21M9 3L15 3M9 21L15 21' stroke='%233e2709' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M12 3L12 21M9 3L15 3M9 21L15 21' stroke='%23f5c842' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") 12 12, text !important;
       }
@@ -47,36 +42,25 @@
       }
 
       .sparkles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 2; mix-blend-mode: screen; }
-      .sp { 
-        position: absolute; border-radius: 50%; animation: sparkle-float linear infinite; opacity: 0; 
-        background: radial-gradient(circle, rgba(255, 240, 180, 1) 0%,  rgba(255, 220, 120, 0.8) 30%, rgba(255, 200, 80, 0.4) 60%, transparent 80%); 
-        box-shadow: 0 0 6px rgba(255, 220, 120, 0.8), 0 0 12px rgba(255, 200, 80, 0.6), 0 0 24px rgba(255, 200, 80, 0.4);
+      .sp { position: absolute; border-radius: 50%; animation: sparkle-float linear infinite; opacity: 0; background: radial-gradient(circle, rgba(255, 240, 180, 1) 0%, rgba(255, 220, 120, 0.8) 30%, rgba(255, 200, 80, 0.4) 60%, transparent 80%); box-shadow: 0 0 6px rgba(255, 220, 120, 0.8), 0 0 12px rgba(255, 200, 80, 0.6), 0 0 24px rgba(255, 200, 80, 0.4); }
+      @keyframes sparkle-float { 0% { opacity: 0; transform: translateY(15px) scale(0.4); } 15% { opacity: 0.8; } 40% { opacity: 0.4; } 75% { opacity: 0.1; } 100% { opacity: 0; transform: translateY(var(--float-dist, -250px)) scale(1.2); } }
+
+      .pixie-dust { position: absolute; pointer-events: none; width: 6px; height: 6px; background: #fff; border-radius: 50%; box-shadow: 0 0 8px var(--gold-light), 0 0 12px var(--gold); animation: dust-fade 1.2s forwards ease-out; z-index: 9999; mix-blend-mode: screen; }
+      @keyframes dust-fade { 0% { transform: scale(1) translateY(0); opacity: 1; } 100% { transform: scale(0) translateY(30px) translateX(var(--drift)); opacity: 0; } }
+
+      /* KLIK DUST ANIMATION */
+      .click-dust {
+        position: fixed; pointer-events: none; border-radius: 50%;
+        background: #fff; box-shadow: 0 0 8px var(--gold-light);
+        z-index: 10000; mix-blend-mode: screen;
+        animation: click-burst 0.8s forwards ease-out;
       }
-      @keyframes sparkle-float {
-        0% { opacity: 0; transform: translateY(15px) scale(0.4); }
-        15% { opacity: 0.8; }
-        40% { opacity: 0.4; } 
-        75% { opacity: 0.1; }
-        100% { opacity: 0; transform: translateY(var(--float-dist, -250px)) scale(1.2); }
+      @keyframes click-burst {
+        0% { transform: scale(1) translate(0, 0); opacity: 1; }
+        100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0; }
       }
 
-      .pixie-dust {
-        position: absolute; pointer-events: none; width: 6px; height: 6px;
-        background: #fff; border-radius: 50%;
-        box-shadow: 0 0 8px var(--gold-light), 0 0 12px var(--gold);
-        animation: dust-fade 1.2s forwards ease-out; z-index: 9999; mix-blend-mode: screen;
-      }
-      @keyframes dust-fade {
-        0% { transform: scale(1) translateY(0); opacity: 1; }
-        100% { transform: scale(0) translateY(30px) translateX(var(--drift)); opacity: 0; }
-      }
-
-      .header { 
-        background: linear-gradient(160deg, #0f2a06 0%, #1a4a0a 45%, #234f10 100%); 
-        padding: 28px 20px 22px; position: relative; overflow: hidden; z-index: 1; 
-        border-bottom: 2px solid rgba(245,200,66,0.2);
-        box-shadow: 0 4px 20px rgba(26, 74, 10, 0.2);
-      }
+      .header { background: linear-gradient(160deg, #0f2a06 0%, #1a4a0a 45%, #234f10 100%); padding: 28px 20px 22px; position: relative; overflow: hidden; z-index: 1; border-bottom: 2px solid rgba(245,200,66,0.2); box-shadow: 0 4px 20px rgba(26, 74, 10, 0.2); }
       .header-leaves { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
       .leaf { position: absolute; border-radius: 50% 0 50% 0; background: rgba(141, 201, 90, 0.15); box-shadow: inset 0 0 10px rgba(255,255,255,0.05); }
       .leaf1 { width: 120px; height: 80px; top: -20px; right: -25px; transform: rotate(35deg); }
@@ -84,10 +68,13 @@
       .leaf3 { width: 70px; height: 45px; top: 30px; left: -15px; transform: rotate(60deg); }
       .leaf4 { width: 40px; height: 25px; top: 10px; right: 40%; transform: rotate(120deg); background: rgba(245,200,66,0.08); }
 
-      .header-eyebrow { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 3px; font-weight: 400; text-shadow: 0 0 5px rgba(255,255,255,0.2); }
-      .header-name { font-family: var(--serif); font-size: 28px; color: #fff; line-height: 1.15; margin-bottom: 2px; }
-      .header-name span { color: var(--gold-light); font-style: italic; text-shadow: 0 0 15px rgba(245,200,66,0.4); }
-      .header-sub { font-size: 11px; color: rgba(255,255,255,0.45); margin-bottom: 18px; }
+      .header-eyebrow { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 3px; font-weight: 400; text-shadow: 0 0 5px rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: space-between; }
+      
+      .rank-badge { background: rgba(245,200,66,0.15); border: 1px solid rgba(245,200,66,0.3); padding: 3px 10px; border-radius: 12px; color: var(--gold-light); font-weight: 700; font-size: 11px; text-transform: none; letter-spacing: normal; display: inline-flex; align-items: center; gap: 4px; font-family: var(--sans); margin-left: 8px; vertical-align: middle; box-shadow: 0 0 10px rgba(245,200,66,0.15); }
+
+      .header-name { font-family: var(--serif); font-size: 28px; color: #fff; line-height: 1.15; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 2px; }
+      .header-name span.name-text { color: var(--gold-light); font-style: italic; text-shadow: 0 0 15px rgba(245,200,66,0.4); }
+      .header-sub { font-size: 11px; color: rgba(255,255,255,0.45); margin-bottom: 12px; margin-top: 4px;}
       
       .prog-wrap { display: flex; align-items: center; gap: 18px; }
       .ring-outer { position: relative; width: 80px; height: 80px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(245,200,66,0.6)); animation: breathing-glow 4s infinite alternate; }
@@ -106,8 +93,9 @@
       .prog-bar-fill { height: 5px; border-radius: 3px; background: linear-gradient(90deg,var(--gold-dark),var(--gold-light)); box-shadow: 0 0 8px rgba(245,200,66,0.8),0 0 16px rgba(245,200,66,0.4); transition: width 1.2s cubic-bezier(.4,0,.2,1); }
       .prog-nums { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.4); }
       .prog-nums strong { color: var(--gold-light); font-weight: 600; text-shadow: 0 0 5px rgba(245,200,66,0.3); }
-      .week-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(245,200,66,0.15); border: 1px solid rgba(245,200,66,0.3); border-radius: 20px; padding: 4px 12px; font-size: 10px; color: rgba(255,255,255,0.6); margin-bottom: 14px; backdrop-filter: blur(4px); }
-      .week-badge::before { content: '✦'; color: var(--gold); font-size: 9px; animation: star-twinkle 2s infinite alternate; }
+
+      .date-badge { background: rgba(245,200,66,0.15); border: 1px solid rgba(245,200,66,0.3); border-radius: 12px; padding: 3px 8px; font-size: 9px; font-weight: 700; color: var(--gold-light); display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 0 10px rgba(245,200,66,0.15); font-family: var(--sans); }
+      .date-badge::before { content: '✦'; color: var(--gold); font-size: 8px; animation: star-twinkle 2s infinite alternate; }
       @keyframes star-twinkle { 0% { opacity: 0.5; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
 
       .tab-bar { background: rgba(247, 241, 220, 0.85); backdrop-filter: blur(10px); padding: 10px 16px 0; border-bottom: 1px solid rgba(184, 144, 10, 0.1); display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; position: sticky; top: 0; z-index: 3; }
@@ -127,69 +115,51 @@
       @keyframes pulse { 0%,100% { opacity:1; transform: scale(1); } 50% { opacity:0.5; transform: scale(0.8); } }
       .error-box { background:#fdeded; border:1px solid #f7c1c1; border-radius:10px; padding:10px 14px; font-size:11px; color:var(--red-soft); margin:0 16px 10px; line-height:1.5; }
 
-      .main { padding: 16px 16px 32px; display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 1; flex-grow: 1; touch-action: pan-y; }
+      .main { padding: 16px 16px 32px; display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 1; flex-grow: 1; }
       .page { display: none; flex-direction: column; gap: 14px; }
       .page.active { display: flex; }
       .sec-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
       .sec-lbl::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg,rgba(184, 144, 10, 0.15),transparent); }
       
-      /* DASHBOARD NEW CARDS (QUOTES, COUNTDOWN, STREAK) */
-      .quote-card { background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,248,214,0.7)); border-radius: 14px; padding: 16px; border: 1px solid rgba(245,200,66,0.3); text-align: center; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(245,200,66,0.05); font-style: italic; }
-      .quote-card::before { content: '❝'; position: absolute; top: -10px; left: 10px; font-size: 50px; color: var(--gold); opacity: 0.2; font-family: var(--serif); }
-      .quote-txt { font-size: 13px; color: var(--text-dark); line-height: 1.5; margin-bottom: 8px; position: relative; z-index: 1; font-family: var(--serif); font-weight: 600; }
-      .quote-auth { font-size: 9px; color: var(--text-soft); font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
-
-      .dash-row { display: flex; gap: 10px; margin-bottom: 4px; }
-      .dash-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 14px; border: 1px solid rgba(245,200,66,0.15); padding: 16px 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; transition: all 0.3s; }
-      
-      .cd-val { font-family: var(--serif); font-size: 32px; font-weight: 700; line-height: 1; margin-bottom: 4px; text-shadow: 0 0 15px rgba(0,0,0,0.05); }
-      .cd-lbl { font-size: 9px; color: var(--text-soft); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
-      
-      .cd-safe .cd-val { color: var(--green-mid); }
-      
-      /* Animasi dipindahkan dari teks ke latar kotak (Background Box Animation) */
-      .dash-card.cd-warn { background: rgba(253, 246, 230, 0.8); border-color: rgba(232, 160, 32, 0.4); animation: warn-pulse 2s infinite alternate ease-in-out; }
-      .dash-card.cd-warn .cd-val { color: var(--amber); }
-      @keyframes warn-pulse {
-        0% { box-shadow: 0 4px 15px rgba(232, 160, 32, 0.05); }
-        100% { box-shadow: 0 4px 20px rgba(232, 160, 32, 0.3); background: rgba(253, 246, 230, 1); }
+      /* DASHBOARD FANCY CARDS (Glassmorphism & Glowing Icons) */
+      .fc-card { 
+        background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); 
+        border-radius: 18px; padding: 20px; position: relative; overflow: hidden; 
+        border: 1px solid rgba(245,200,66,0.3); box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+        display: flex; flex-direction: column; justify-content: center; transition: all 0.3s ease; 
       }
-
-      .dash-card.cd-crit { background: rgba(253, 237, 237, 0.8); border-color: rgba(232, 80, 80, 0.4); animation: crit-pulse 1s infinite alternate ease-in-out; }
-      .dash-card.cd-crit .cd-val { color: var(--red-soft); text-shadow: 0 0 10px rgba(232, 80, 80, 0.2); }
-      @keyframes crit-pulse {
-        0% { box-shadow: 0 4px 15px rgba(232, 80, 80, 0.1); }
-        100% { box-shadow: 0 4px 25px rgba(232, 80, 80, 0.4); background: rgba(253, 237, 237, 1); }
+      .fc-content { position: relative; z-index: 2; }
+      .fc-bg-icon { 
+        position: absolute; right: -5px; bottom: -15px; 
+        font-size: 75px; opacity: 0.15; pointer-events: none; z-index: 0; 
+        transition: all 0.4s ease;
       }
+      .fc-title { font-size: 10px; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+      .fc-val { font-family: var(--sans); font-size: 32px; color: var(--text-dark); line-height: 1; text-shadow: 0 0 15px rgba(245,200,66,0.2); display: flex; align-items: baseline; gap: 4px; font-weight: 800; }
+      .fc-sub { font-size: 11px; color: var(--text-mid); margin-top: 6px; font-weight: 600; line-height: 1.4; }
 
-      .str-val { font-family: var(--sans); font-size: 26px; font-weight: 700; line-height: 1; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 6px; }
-      .str-lbl { font-size: 9px; color: var(--text-soft); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
-      .str-low .str-val { color: var(--text-mid); }
-      .str-mid .str-val { color: var(--amber); text-shadow: 0 0 10px rgba(232, 160, 32, 0.4); }
-      .str-high .str-val { color: var(--gold-dark); text-shadow: 0 0 20px var(--gold); animation: float-magical 3s infinite alternate; }
+      .fc-half { padding: 16px; }
+      .fc-half .fc-title { font-size: 9px; }
+      .fc-half .fc-val { font-size: 26px; }
+      .fc-half .fc-bg-icon { font-size: 60px; right: -5px; bottom: -10px; }
 
-      .metrics { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
-      .metric { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(8px); border-radius: 14px; padding: 16px 10px; text-align: center; border: 1px solid rgba(245,200,66,0.15); box-shadow: 0 4px 15px rgba(0,0,0,0.02); position: relative; overflow: hidden; transition: transform 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-      .metric:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,200,66,0.1); }
-      .metric::before { content: ''; position: absolute; top: -12px; right: -12px; width: 40px; height: 40px; border-radius: 50%; background: var(--gold-pale); opacity: 0.5; }
-      .metric-icon { font-size: 20px; margin-bottom: 6px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
-      
-      /* Gaya Font Metrik Disesuaikan Menjadi Seperti Kartu Streak */
-      .metric-val { font-family: var(--sans); font-size: 24px; font-weight: 700; color: var(--text-dark); line-height: 1; margin-bottom: 4px; }
-      .metric-val.glow-val { color: var(--gold-dark); text-shadow: 0 0 12px rgba(245,180,10,0.4); }
-      .metric-val.green-val { color: var(--green-mid); text-shadow: 0 0 10px rgba(74, 155, 40, 0.3); }
-      .metric-lbl { font-size: 9px; color: var(--text-soft); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+      /* Icon Auras */
+      .aura-blue { filter: drop-shadow(0 0 15px #4a90e2); opacity: 0.2; animation: float-icon 4s infinite alternate; }
+      .aura-red { filter: drop-shadow(0 0 20px var(--red-soft)) drop-shadow(0 0 30px var(--red-soft)); opacity: 0.4; animation: fc-pulse-crit 1s infinite alternate; }
+      .aura-amber { filter: drop-shadow(0 0 15px var(--amber)); opacity: 0.25; animation: float-icon 3s infinite alternate; }
+      .aura-fire { filter: drop-shadow(0 0 20px #ff5722) drop-shadow(0 0 30px #ff5722); opacity: 0.4; animation: fire-shake 0.3s infinite alternate; }
+      .aura-green { filter: drop-shadow(0 0 15px var(--green-leaf)); opacity: 0.2; animation: float-icon 5s infinite alternate reverse; }
+      .aura-gold { filter: drop-shadow(0 0 15px var(--gold)); opacity: 0.25; animation: float-icon 4.5s infinite alternate; }
+
+      @keyframes fc-pulse-crit { 0% { transform: scale(1) translateY(0); opacity: 0.3; } 100% { transform: scale(1.05) translateY(-5px); opacity: 0.6; } }
+      @keyframes fire-shake { 0% { transform: translate(0, 0) scale(1) rotate(-3deg); } 100% { transform: translate(-2px, -3px) scale(1.05) rotate(3deg); } }
+      @keyframes float-icon { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(15deg); } }
+      @keyframes fairy-pulse { 0% { transform: translate(50%, -50%) scale(0.8); opacity: 0.7; } 100% { transform: translate(50%, -50%) scale(1.1); opacity: 0.9; } }
       
       .reward-card { background: linear-gradient(135deg,#1a4a0a 0%,#0f2a06 60%,#1a3a10 100%); border-radius: 18px; padding: 18px 18px 16px; position: relative; overflow: hidden; box-shadow: 0 6px 25px rgba(26,74,10,0.3), inset 0 0 20px rgba(245,200,66,0.05); }
       .reward-card::before { content: '✦'; position: absolute; right: 18px; top: 16px; font-size: 52px; opacity: 0.1; color: var(--gold); text-shadow: 0 0 30px var(--gold); animation: float-icon 6s ease-in-out infinite; }
       .reward-card::after { content: '✦'; position: absolute; right: 50px; bottom: 12px; font-size: 24px; opacity: 0.08; color: var(--gold); animation: float-icon 4s ease-in-out infinite reverse; }
-      @keyframes float-icon { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(15deg); } }
       
-      @keyframes fairy-pulse {
-        0% { transform: translate(50%, -50%) scale(0.8); opacity: 0.7; }
-        100% { transform: translate(50%, -50%) scale(1.1); opacity: 0.9; }
-      }
-
       .rc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
       .rc-title { font-family: var(--serif); font-size: 14px; color: rgba(255,255,255,0.9); font-style: italic; }
       .rc-chip { background: rgba(245,200,66,0.2); border: 1px solid rgba(245,200,66,0.4); border-radius: 20px; padding: 3px 10px; font-size: 10px; color: var(--gold-light); box-shadow: 0 0 10px rgba(245,200,66,0.2); }
@@ -197,15 +167,8 @@
       .rc-note { font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 12px; }
       .rc-bar { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); position: relative; }
       .rc-bar-fill { position: relative; height: 100%; border-radius: 2px; background: linear-gradient(90deg,var(--gold-dark),var(--gold-light), #fff); box-shadow: 0 0 10px rgba(245,200,66,0.8); transition: width 1.2s ease; }
+      .rc-bar-fill::after { content: ''; position: absolute; right: 0; top: 50%; width: 8px; height: 8px; background: #fff; border-radius: 50%; box-shadow: 0 0 6px 2px var(--gold-light), 0 0 12px 4px var(--gold), 0 0 20px 8px rgba(245, 200, 66, 0.3); animation: fairy-pulse 1.5s ease-in-out infinite alternate; z-index: 2; }
       
-      .rc-bar-fill::after {
-        content: ''; position: absolute; right: 0; top: 50%;
-        width: 8px; height: 8px; background: #fff; border-radius: 50%;
-        box-shadow: 0 0 6px 2px var(--gold-light), 0 0 12px 4px var(--gold), 0 0 20px 8px rgba(245, 200, 66, 0.3);
-        animation: fairy-pulse 1.5s ease-in-out infinite alternate; z-index: 2;
-      }
-      
-      /* BADGES / LENCANA KEAJAIBAN */
       .badge-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
       .badge-item { background: rgba(255,255,255,0.6); backdrop-filter: blur(5px); border-radius: 14px; border: 1px solid rgba(0,0,0,0.05); padding: 16px 12px; text-align: center; transition: all 0.5s; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0.5; filter: grayscale(1); }
       .badge-item.unlocked { opacity: 1; filter: grayscale(0); background: linear-gradient(145deg, #fff, var(--gold-pale)); border-color: rgba(245,200,66,0.4); box-shadow: 0 6px 20px rgba(245,200,66,0.15); transform: translateY(-3px); }
@@ -215,26 +178,16 @@
       .badge-item.unlocked .badge-title { color: var(--gold-dark); }
       .badge-desc { font-size: 9px; color: var(--text-soft); line-height: 1.3; }
 
-      .rules-card, .wishlist, .input-card, .settings-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 14px; border: 1px solid rgba(245,200,66,0.15); overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-      .rule-row, .wish-row { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-bottom: 1px solid rgba(0,0,0,0.03); }
-      .rule-row:last-child, .wish-row:last-child { border-bottom: none; }
+      .rules-card, .input-card, .settings-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 14px; border: 1px solid rgba(245,200,66,0.15); overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+      .rule-row { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-bottom: 1px solid rgba(0,0,0,0.03); }
+      .rule-row:last-child { border-bottom: none; }
       .rule-icon { font-size: 15px; flex-shrink: 0; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1)); }
       .rule-text { flex: 1; font-size: 12px; color: var(--text-mid); }
       .rule-val { font-size: 12px; font-weight: 700; }
       .rv-g { color: var(--green-mid); } .rv-a { color: var(--amber); } .rv-r { color: var(--red-soft); }
       
-      .wish-name { flex: 1; font-size: 13px; color: var(--text-mid); }
-      .wish-price { font-size: 12px; color: var(--text-soft); }
-      .wish-badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
-      .wb-h { background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: 1px solid rgba(232, 80, 80, 0.2); }
-      .wb-m { background: rgba(232, 160, 32, 0.1); color: var(--amber); border: 1px solid rgba(232, 160, 32, 0.2); }
-      .wb-l { background: rgba(74, 155, 40, 0.1); color: var(--green-mid); border: 1px solid rgba(74, 155, 40, 0.2); }
-      .wish-row.total-row { background: rgba(245, 200, 66, 0.1); border-top: 1px solid rgba(245,200,66,0.2); }
-      .wish-row.total-row .wish-name { font-weight: 700; color: var(--text-dark); }
-      .wish-row.total-row .wish-price { font-weight: 700; color: var(--gold-dark); }
-      
       .days-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; }
-      .day { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(5px); border-radius: 10px; padding: 8px 3px; text-align: center; border: 1px solid rgba(245,200,66,0.1); transition: all 0.2s; }
+      .day { position: relative; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(5px); border-radius: 10px; padding: 12px 3px 8px; text-align: center; border: 1px solid rgba(245,200,66,0.1); transition: all 0.2s; }
       .day:hover { transform: scale(1.05); background: rgba(255,255,255,0.9); box-shadow: 0 4px 10px rgba(245,200,66,0.1); z-index: 1; }
       .day.today { border-color: var(--gold); background: rgba(255, 248, 214, 0.8); box-shadow: 0 0 15px rgba(245,200,66,0.3); }
       .day.reward-day { background: #fff8e0; border-color: rgba(245,200,66,0.4); }
@@ -247,36 +200,40 @@
       .day-dot.rest { background: var(--green-pale); color: var(--green-mid); font-size: 10px; }
       .day-pts { font-size: 8px; color: var(--text-soft); }
       .day.today .day-pts { color: var(--gold-dark); }
+      .day-mood { position: absolute; top: -6px; right: -6px; background: #fff; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 12px; z-index: 4; }
       
+      .day.cp-pass { border-color: rgba(74, 155, 40, 0.5); }
+      .day.cp-fail { border-color: rgba(232, 80, 80, 0.5); border-style: dashed; }
+      .day.cp-future { border-color: rgba(232, 160, 32, 0.4); border-style: dashed; }
+
       .input-card { padding: 16px; }
-      .input-label { font-size: 11px; color: var(--text-soft); margin-bottom: 8px; font-weight: 600; letter-spacing: 0.04em; }
+      .input-label { font-size: 11px; color: var(--text-soft); margin-bottom: 8px; font-weight: 600; letter-spacing: 0.04em; line-height: 1.4; }
       .input-row { display: flex; gap: 8px; }
-      .field { flex: 1; border: 1.5px solid rgba(245,200,66,0.2); border-radius: 10px; padding: 9px 12px; font-size: 14px; font-family: var(--sans); background: rgba(255,255,255,0.8); color: var(--text-dark); outline: none; transition: all 0.2s; }
+      .field { flex: 1; border: 1.5px solid rgba(245,200,66,0.2); border-radius: 10px; padding: 9px 12px; font-size: 14px; font-family: var(--sans); background: rgba(255,255,255,0.8); color: var(--text-dark); outline: none; transition: all 0.2s; width: 100%; }
       .field:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(245,200,66,0.2); background: #fff; }
-      .btn-save { padding: 9px 18px; background: linear-gradient(135deg, var(--green-mid), var(--green-leaf)); color: #fff; border: none; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: var(--sans); white-space: nowrap; transition: all 0.2s; box-shadow: 0 4px 10px rgba(74, 155, 40, 0.3); }
+      .btn-save { padding: 9px 18px; background: linear-gradient(135deg, var(--green-mid), var(--green-leaf)); color: #fff; border: none; border-radius: 10px; font-size: 12px; font-weight: 700; font-family: var(--sans); white-space: nowrap; transition: all 0.2s; box-shadow: 0 4px 10px rgba(74, 155, 40, 0.3); }
       .btn-save:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
       .btn-save:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(74, 155, 40, 0.4); filter: brightness(1.1); }
       .save-msg { font-size: 11px; color: var(--green-leaf); margin-top: 6px; display: none; font-weight: 600; }
       .save-msg::before { content: "✦ "; }
+
+      /* MOOD SELECTOR */
+      .mood-wrap { display: flex; gap: 8px; margin-bottom: 12px; }
+      .mood-btn { background: transparent; border: 1px solid rgba(0,0,0,0.1); border-radius: 50%; width: 34px; height: 34px; font-size: 18px; transition: all 0.2s; display:flex; align-items:center; justify-content:center; padding: 0; }
+      .mood-btn.selected { background: var(--gold-pale); border-color: var(--gold); transform: scale(1.15); box-shadow: 0 0 12px rgba(245,200,66,0.4); }
       
       .notion-note { background: rgba(255, 248, 214, 0.7); backdrop-filter: blur(5px); border: 1px solid rgba(245,200,66,0.3); border-radius: 12px; padding: 12px 14px; font-size: 11px; color: var(--text-mid); line-height: 1.6; }
+      .notion-note summary { outline: none; }
       .notion-note strong { color: var(--gold-dark); }
       
       .settings-card { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
       .set-label { font-size: 11px; color: var(--text-soft); margin-bottom: 5px; font-weight: 600; }
-      .btn-reset { padding: 10px 18px; background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: 1px solid rgba(232, 80, 80, 0.3); border-radius: 10px; font-size: 12px; font-weight: 700; font-family: var(--sans); cursor: pointer; transition: all 0.2s; }
+      .btn-reset { padding: 10px 18px; background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: 1px solid rgba(232, 80, 80, 0.3); border-radius: 10px; font-size: 12px; font-weight: 700; font-family: var(--sans); transition: all 0.2s; }
       .btn-reset:hover { background: rgba(232, 80, 80, 0.2); }
       .btn-full { width: 100%; }
       
       .fairy-footer { text-align: center; padding: 10px 16px 24px; font-size: 10px; color: var(--text-soft); letter-spacing: 0.1em; }
       .fairy-footer span { color: var(--gold-dark); font-weight: 600; }
-      
-      .day.ujian-day { border-color: rgba(232, 80, 80, 0.3); background: rgba(232, 80, 80, 0.05); }
-      .day.ujian-day .day-name { color: var(--red-soft); }
-      .day.cp-pass { border-color: rgba(74, 155, 40, 0.5); }
-      .day.cp-fail { border-color: rgba(232, 80, 80, 0.5); border-style: dashed; }
-      .day.cp-future { border-color: rgba(232, 160, 32, 0.4); border-style: dashed; }
-      .day-dot.ujian { background: rgba(232, 80, 80, 0.1); color: var(--red-soft); font-size: 13px; }
       
       .page.active > * { animation: fadeUp 0.4s ease-out both; }
       @keyframes fadeUp { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
@@ -285,107 +242,38 @@
       .page.active > *:nth-child(3) { animation-delay: 0.15s; }
       .page.active > *:nth-child(4) { animation-delay: 0.2s; }
 
-      /* MODALS (WELCOME, EXAM, RESULT, APPRECIATION) */
-      .welcome-overlay {
-        position: fixed; inset: 0; background: rgba(26, 58, 15, 0.75); backdrop-filter: blur(12px);
-        z-index: 10000; display: flex; align-items: center; justify-content: center;
-        opacity: 0; pointer-events: none; transition: opacity 0.6s ease;
-      }
+      /* MODALS */
+      .welcome-overlay { position: fixed; inset: 0; background: rgba(26, 58, 15, 0.75); backdrop-filter: blur(12px); z-index: 10000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
       .welcome-overlay.show { opacity: 1; pointer-events: auto; }
-      .welcome-card {
-        background: rgba(255, 255, 255, 0.85); border-radius: 24px; padding: 36px 24px 24px;
-        text-align: center; border: 2px solid rgba(245,200,66,0.6);
-        box-shadow: 0 10px 40px rgba(0,0,0,0.3), inset 0 0 20px rgba(245,200,66,0.1);
-        transform: translateY(30px) scale(0.9); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        max-width: 320px; width: 85%; position: relative;
-      }
+      .welcome-card { background: rgba(255, 255, 255, 0.95); border-radius: 24px; padding: 36px 24px 24px; text-align: center; border: 2px solid rgba(245,200,66,0.6); box-shadow: 0 10px 40px rgba(0,0,0,0.3), inset 0 0 20px rgba(245,200,66,0.1); transform: translateY(30px) scale(0.9); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); max-width: 320px; width: 85%; position: relative; }
       .welcome-overlay.show .welcome-card { transform: translateY(0) scale(1); }
       .welcome-card::before { content: '✦'; position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-size: 46px; color: var(--gold); text-shadow: 0 0 20px var(--gold); animation: star-twinkle 2s infinite alternate; }
       .welcome-title { font-family: var(--serif); font-size: 26px; color: var(--green-deep); margin-bottom: 6px; font-style: italic; }
-      .welcome-subtitle { font-size: 12px; color: var(--text-mid); margin-bottom: 24px; }
-      .welcome-input { text-align: center; font-size: 18px; padding: 14px; margin-bottom: 20px; border-width: 2px; }
+      .welcome-subtitle { font-size: 12px; color: var(--text-mid); margin-bottom: 24px; line-height: 1.5; }
+      .welcome-input { text-align: center; font-size: 18px; padding: 14px; margin-bottom: 20px; border-width: 2px; width: 100%; }
       .welcome-btn { width: 100%; font-size: 14px; padding: 14px; border-radius: 14px; letter-spacing: 0.05em; }
 
-      .result-image {
-        width: 120px; height: 120px; border-radius: 50%; object-fit: cover; 
-        margin: -70px auto 16px; border: 4px solid #fff; 
-        box-shadow: 0 4px 15px rgba(0,0,0,0.15), 0 0 20px rgba(245,200,66,0.5);
-        background: var(--cream); display: none; position: relative; z-index: 2;
-      }
+      .result-image { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: -70px auto 16px; border: 4px solid #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.15), 0 0 20px rgba(245,200,66,0.5); background: var(--cream); display: none; position: relative; z-index: 2; }
       .result-image.show { display: block; animation: fadeUp 0.6s ease-out; }
       #result-modal.has-image .welcome-card::before { display: none; }
 
-      /* APPRECIATION FULLSCREEN MODAL (MILESTONE 25,50,75,100) */
-      .appreciation-overlay {
-        position: fixed; inset: 0; background: rgba(15, 30, 10, 0.85); backdrop-filter: blur(16px);
-        z-index: 20000; display: flex; align-items: center; justify-content: center; flex-direction: column;
-        opacity: 0; pointer-events: none; transition: opacity 0.8s ease;
-      }
+      /* APPRECIATION FULLSCREEN MODAL */
+      .appreciation-overlay { position: fixed; inset: 0; background: rgba(15, 30, 10, 0.85); backdrop-filter: blur(16px); z-index: 20000; display: flex; align-items: center; justify-content: center; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
       .appreciation-overlay.show { opacity: 1; pointer-events: auto; }
-      .appreciation-content {
-        text-align: center; transform: scale(0.8) translateY(30px); opacity: 0;
-        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); padding: 0 20px; position: relative;
-      }
-      .appreciation-overlay.show .appreciation-content { 
-        transform: scale(1) translateY(0); opacity: 1; 
-        animation: float-magical 4s ease-in-out infinite alternate;
-      }
-      @keyframes float-magical {
-        0% { transform: translateY(0px); }
-        100% { transform: translateY(-12px); }
-      }
-      .appreciation-title {
-        font-family: var(--serif); font-size: 42px; color: #fff; margin-bottom: 16px; font-style: italic;
-        text-shadow: 0 0 10px var(--gold-light), 0 0 20px var(--gold), 0 0 40px var(--gold-dark), 0 0 80px var(--gold-dark);
-        letter-spacing: 1px;
-      }
-      .appreciation-sub {
-        font-family: var(--sans); font-size: 16px; color: var(--green-pale); line-height: 1.6; max-width: 90%; margin: 0 auto;
-        text-shadow: 0 0 10px rgba(141, 201, 90, 0.8), 0 0 20px rgba(74, 155, 40, 0.6);
-        font-weight: 600; letter-spacing: 0.05em;
-      }
+      .appreciation-content { text-align: center; transform: scale(0.8) translateY(30px); opacity: 0; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); padding: 0 20px; position: relative; }
+      .appreciation-overlay.show .appreciation-content { transform: scale(1) translateY(0); opacity: 1; animation: float-magical 4s ease-in-out infinite alternate; }
+      @keyframes float-magical { 0% { transform: translateY(0px); } 100% { transform: translateY(-12px); } }
+      .appreciation-title { font-family: var(--serif); font-size: 42px; color: #fff; margin-bottom: 16px; font-style: italic; text-shadow: 0 0 10px var(--gold-light), 0 0 20px var(--gold), 0 0 40px var(--gold-dark), 0 0 80px var(--gold-dark); letter-spacing: 1px; }
+      .appreciation-sub { font-family: var(--sans); font-size: 16px; color: var(--green-pale); line-height: 1.6; max-width: 90%; margin: 0 auto; text-shadow: 0 0 10px rgba(141, 201, 90, 0.8), 0 0 20px rgba(74, 155, 40, 0.6); font-weight: 600; letter-spacing: 0.05em; }
       
-      /* BOLA PERI YANG MENGITARI TULISAN */
-      .app-fairy-orb {
-        position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%;
-        box-shadow: 0 0 10px 4px #ffe478, 0 0 20px 8px #f5c842, 0 0 40px 15px rgba(245, 200, 66, 0.6);
-        top: 50%; left: 50%; z-index: -1; opacity: 0; pointer-events: none; mix-blend-mode: screen;
-      }
-      .appreciation-overlay.show .app-fairy-orb {
-        animation: fairy-circle 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-        opacity: 1;
-      }
-      @keyframes fairy-circle {
-        0% { transform: translate(-50%, -50%) rotate(0deg) translateX(160px) rotate(0deg) scale(0.8); }
-        50% { transform: translate(-50%, -50%) rotate(180deg) translateX(90px) rotate(-180deg) scale(1.3); }
-        100% { transform: translate(-50%, -50%) rotate(360deg) translateX(160px) rotate(-360deg) scale(0.8); }
-      }
+      .app-fairy-orb { position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%; box-shadow: 0 0 10px 4px #ffe478, 0 0 20px 8px #f5c842, 0 0 40px 15px rgba(245, 200, 66, 0.6); top: 50%; left: 50%; z-index: -1; opacity: 0; pointer-events: none; mix-blend-mode: screen; }
+      .appreciation-overlay.show .app-fairy-orb { animation: fairy-circle 5s cubic-bezier(0.4, 0, 0.2, 1) infinite; opacity: 1; }
+      @keyframes fairy-circle { 0% { transform: translate(-50%, -50%) rotate(0deg) translateX(160px) rotate(0deg) scale(0.8); } 50% { transform: translate(-50%, -50%) rotate(180deg) translateX(90px) rotate(-180deg) scale(1.3); } 100% { transform: translate(-50%, -50%) rotate(360deg) translateX(160px) rotate(-360deg) scale(0.8); } }
 
-      /* KILAUAN SAAT APRESIASI MUNCUL */
-      .burst-sparkle {
-        position: fixed; pointer-events: none; width: 6px; height: 6px;
-        background: #fff; border-radius: 50%;
-        box-shadow: 0 0 12px 2px var(--gold-light), 0 0 20px 4px var(--gold);
-        z-index: 20001; mix-blend-mode: screen;
-        animation: burst-anim 2.5s forwards cubic-bezier(0.1, 0.8, 0.3, 1);
-      }
-      @keyframes burst-anim {
-        0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-        10% { transform: translate(calc(-50% + var(--tx)*0.1), calc(-50% + var(--ty)*0.1)) scale(1.5); opacity: 1; }
-        100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0) rotate(180deg); opacity: 0; }
-      }
-
-      /* KILAUAN MERIAH KHUSUS 100% (GRAND FIREWORKS) */
-      .grand-sparkle {
-        position: fixed; pointer-events: none; border-radius: 50%;
-        z-index: 20002; mix-blend-mode: screen;
-        animation: grand-fall forwards cubic-bezier(0.2, 0.8, 0.4, 1);
-      }
-      @keyframes grand-fall {
-        0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-        15% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(var(--s)); opacity: 1; }
-        100% { transform: translate(calc(-50% + var(--tx) + var(--drift)), calc(-50% + var(--ty) + 400px)) scale(0); opacity: 0; }
-      }
+      .burst-sparkle { position: fixed; pointer-events: none; width: 6px; height: 6px; background: #fff; border-radius: 50%; box-shadow: 0 0 12px 2px var(--gold-light), 0 0 20px 4px var(--gold); z-index: 20001; mix-blend-mode: screen; animation: burst-anim 2.5s forwards cubic-bezier(0.1, 0.8, 0.3, 1); }
+      @keyframes burst-anim { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 10% { transform: translate(calc(-50% + var(--tx)*0.1), calc(-50% + var(--ty)*0.1)) scale(1.5); opacity: 1; } 100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0) rotate(180deg); opacity: 0; } }
+      .grand-sparkle { position: fixed; pointer-events: none; border-radius: 50%; z-index: 20002; mix-blend-mode: screen; animation: grand-fall forwards cubic-bezier(0.2, 0.8, 0.4, 1); }
+      @keyframes grand-fall { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 15% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(var(--s)); opacity: 1; } 100% { transform: translate(calc(-50% + var(--tx) + var(--drift)), calc(-50% + var(--ty) + 400px)) scale(0); opacity: 0; } }
     </style>
   </head>
   <body>
@@ -396,21 +284,31 @@
         <div class="leaf leaf3"></div>
         <div class="leaf leaf4"></div>
       </div>
-      <div class="header-eyebrow">Study Journey</div>
-      <div class="header-name">
-        <span id="header-name">Revalina</span>,<br /><span id="greeting-line">semangat belajarnya!</span>
+      <div class="header-eyebrow">
+        <span>Study Journey</span>
       </div>
-      <div class="header-sub" id="date-line">—</div>
-      <div class="week-badge" id="week-badge-txt">Memuat data minggu ini...</div>
+      <div class="header-name">
+        <span class="name-text" id="header-name">Revalina,</span>
+        <span class="rank-badge" id="rank-badge">🌱 Peri Pemula</span>
+      </div>
+      
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: -4px;">
+        <div>
+          <div class="header-name" style="font-size: 24px; margin-top: 4px; margin-bottom: 2px;">
+            <span class="name-text" id="greeting-line">semangat belajarnya!</span>
+          </div>
+          <div class="header-sub" id="date-line" style="margin-top: 2px;">—</div>
+        </div>
+        <div id="quote-txt" style="font-family: var(--serif); font-size: 13px; color: #fff; font-style: italic; text-shadow: 0 0 12px rgba(255,255,255,0.8); line-height: 1.4; font-weight: 500; opacity: 0.95; max-width: 48%; text-align: right; margin-top: 8px;">
+          ❝ Memuat mantra ajaib... ❞
+        </div>
+      </div>
+
       <div class="prog-wrap">
         <div class="ring-outer">
           <svg width="80" height="80" viewBox="0 0 80 80">
             <defs>
-              <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#B8900A" />
-                <stop offset="60%" stop-color="#F5C842" />
-                <stop offset="100%" stop-color="#FFE478" />
-              </linearGradient>
+              <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#B8900A" /><stop offset="60%" stop-color="#F5C842" /><stop offset="100%" stop-color="#FFE478" /></linearGradient>
             </defs>
             <circle class="ring-bg" cx="40" cy="40" r="34" />
             <circle class="ring-track" cx="40" cy="40" r="34" />
@@ -423,10 +321,11 @@
           </div>
         </div>
         <div class="prog-info">
-          <div class="prog-label">Total PPT Blok ini</div>
-          <div class="prog-bar-track">
-            <div class="prog-bar-fill" id="prog-bar" style="width:0%"></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px;">
+            <div class="prog-label" style="margin-bottom: 0;">Total PPT Blok ini</div>
+            <div class="date-badge" id="week-badge-txt">Memuat data...</div>
           </div>
+          <div class="prog-bar-track"><div class="prog-bar-fill" id="prog-bar" style="width:0%"></div></div>
           <div class="prog-nums">
             <span><strong id="slide-done">0</strong> slide selesai</span>
             <span>target <strong id="slide-target-hdr">30</strong></span>
@@ -452,46 +351,44 @@
     <div class="main">
       <!-- DASHBOARD -->
       <div class="page active" id="tab-dashboard">
-        <div class="quote-card">
-          <div class="quote-txt" id="quote-txt">Memuat mantra ajaib...</div>
-          <div class="quote-auth">— Pixie Hollow</div>
-        </div>
-
-        <div class="dash-row">
-          <div class="dash-card" id="card-countdown">
-            <div class="cd-val" id="cd-val">-</div>
-            <div class="cd-lbl" id="cd-lbl">Hari Ujian</div>
-          </div>
-          <div class="dash-card" id="card-streak">
-            <div class="str-val"><span id="str-val">0</span> <span style="font-size: 20px;">🔥</span></div>
-            <div class="str-lbl">Hari Beruntun</div>
+        
+        <div class="fc-card">
+          <div class="fc-bg-icon aura-blue" id="cd-icon">⏳</div>
+          <div class="fc-content">
+            <div class="fc-title">⏳ Menuju Ujian</div>
+            <div class="fc-val" id="cd-val">-</div>
+            <div class="fc-sub" id="cd-lbl">Belum Diatur</div>
           </div>
         </div>
 
-        <div>
-          <div class="sec-lbl">Blok Recap</div>
-          <div class="metrics">
-            <div class="metric">
-              <div class="metric-icon">📖</div>
-              <div class="metric-val glow-val" id="m-slide">0</div>
-              <div class="metric-lbl">Slide dibaca</div>
+        <div style="display: flex; gap: 10px;">
+          <div class="fc-card fc-half" style="flex: 1;">
+            <div class="fc-bg-icon aura-gold">📖</div>
+            <div class="fc-content">
+              <div class="fc-title">📖 Slide Dibaca</div>
+              <div class="fc-val"><span id="m-slide">0</span></div>
+              <div class="fc-sub">Target: <span id="dash-target">30</span></div>
             </div>
-            <div class="metric">
-              <div class="metric-icon">💰</div>
-              <div class="metric-val glow-val" id="m-reward-hdr">Rp 0</div>
-              <div class="metric-lbl">Reward cair</div>
+          </div>
+          <div class="fc-card fc-half" style="flex: 1;">
+            <div class="fc-bg-icon aura-green" id="pacing-icon">🎯</div>
+            <div class="fc-content">
+              <div class="fc-title">🎯 Target Harian</div>
+              <div class="fc-val"><span id="pacing-val">-</span></div>
+              <div class="fc-sub" id="pacing-lbl">PPT / hari</div>
             </div>
           </div>
         </div>
-        <div class="reward-card">
-          <div class="rc-top">
-            <div class="rc-title">Reward Blok Ini</div>
-            <div class="rc-chip" id="rc-chip">0%</div>
+
+        <div class="fc-card">
+          <div class="fc-bg-icon" id="str-icon">🔥</div>
+          <div class="fc-content">
+            <div class="fc-title">🔥 Hari Beruntun</div>
+            <div class="fc-val"><span id="str-val">0</span> <span style="font-size: 20px; margin-left: 4px; color: var(--amber);">Hari</span></div>
+            <div class="fc-sub" id="str-sub">Belum ada api sihir berturut-turut</div>
           </div>
-          <div class="rc-amount" id="rc-amount">Rp 0</div>
-          <div class="rc-note" id="rc-note">Mulai tambahkan PPT untuk menghitung reward</div>
-          <div class="rc-bar"><div class="rc-bar-fill" id="rc-bar" style="width:0%"></div></div>
         </div>
+
       </div>
 
       <!-- TRACKER -->
@@ -511,30 +408,31 @@
             <div class="save-msg" id="save-msg-slide">Tersimpan ke Notion!</div>
           </div>
         </div>
-        <div>
-          <div class="sec-lbl">Ketentuan reward</div>
-          <div class="rules-card">
-            <div class="rule-row"><div class="rule-icon">✅</div><div class="rule-text">Target Belajar Terpenuhi</div><div class="rule-val rv-g">Rp 200.000</div></div>
-            <div class="rule-row"><div class="rule-icon">⚠️</div><div class="rule-text">>30% Target Belajar</div><div class="rule-val rv-a">Rp 100.000</div></div>
-            <div class="rule-row"><div class="rule-icon">❌</div><div class="rule-text">≤30% Target Belajar</div><div class="rule-val rv-r">No Reward</div></div>
-          </div>
-        </div>
-        <div class="notion-note">
-          <strong>✦ Tersinkron dengan Notion</strong><br />
-          Data slide harian otomatis disimpan ke database <em>Daily Log</em> dan target/nilai ke <em>Weekly Tracker</em> di Notion kamu.
-        </div>
       </div>
 
       <!-- REWARD -->
       <div class="page" id="tab-reward">
+        
+        <!-- CARD REWARD BLOK INI (DENGAN PENALTI) -->
         <div class="reward-card">
           <div class="rc-top">
-            <div class="rc-title">Reward yang akan cair</div>
-            <div class="rc-chip" id="rc-chip2">minggu ini</div>
+            <div class="rc-title">Reward Blok Ini</div>
+            <div class="rc-chip" id="rc-chip">0%</div>
           </div>
-          <div class="rc-amount" id="rc-amount2">Rp 0</div>
-          <div class="rc-note" id="rc-note2">Tambahkan progress slide untuk melihat reward</div>
-          <div class="rc-bar"><div class="rc-bar-fill" id="rc-bar2" style="width:0%"></div></div>
+          <div class="rc-amount" id="rc-amount">Rp 0</div>
+          <div class="rc-note" id="rc-note">Mulai tambahkan PPT untuk menghitung reward</div>
+          <div class="rc-bar"><div class="rc-bar-fill" id="rc-bar" style="width:0%"></div></div>
+        </div>
+
+        <div>
+          <div class="sec-lbl">Ketentuan Pencairan Reward</div>
+          <div class="rules-card">
+            <div class="rule-row"><div class="rule-icon">✅</div><div class="rule-text">Target Belajar Terpenuhi</div><div class="rule-val rv-g">Rp 200.000</div></div>
+            <div class="rule-row"><div class="rule-icon">⚠️</div><div class="rule-text">≥ 30% Target Belajar</div><div class="rule-val rv-a">Rp 150.000</div></div>
+            <div class="rule-row"><div class="rule-icon">❌</div><div class="rule-text">&lt; 30% Target Belajar</div><div class="rule-val rv-r">No Reward</div></div>
+            <div class="rule-row"><div class="rule-icon">🚩</div><div class="rule-text">Meleset Checkpoint (25, 50, 75%)</div><div class="rule-val rv-r">-Rp 10.000</div></div>
+            <div class="rule-row"><div class="rule-icon">📉</div><div class="rule-text">Nilai Ujian &lt; 60</div><div class="rule-val rv-r">-Rp 2k / poin</div></div>
+          </div>
         </div>
         
         <div>
@@ -579,7 +477,7 @@
             </div>
             <div>
               <div class="set-label">Target PPT Blok ini</div>
-              <input type="number" id="set-target" min="5" max="500" value="30" class="field" style="width:100%" />
+              <input type="number" id="set-target" min="5" max="500" placeholder="30" class="field" style="width:100%" />
             </div>
             <div>
               <div class="set-label">Nama kamu</div>
@@ -589,23 +487,18 @@
             <div class="save-msg" id="save-msg-set" style="text-align:center">Pengaturan tersimpan ke Notion!</div>
           </div>
         </div>
+        
         <div>
-          <div class="sec-lbl">Test & Reset</div>
-          <div class="input-card" style="display: flex; flex-direction: column; gap: 14px;">
-            <div>
-              <div class="input-label" style="margin-bottom:8px">Coba lihat pop-up ujian (Simulasi)</div>
-              <button class="btn-save btn-full" style="background: var(--amber);" onclick="testExamModal()">🪄 Test Pop-up Ujian</button>
-            </div>
-            <div style="height: 1px; background: rgba(0,0,0,0.05);"></div>
-            <div>
-              <div class="input-label" style="margin-bottom:8px">Gunakan setiap awal blok baru untuk memulai dari nol.</div>
-              <button class="btn-reset btn-full" onclick="resetBlok()">Reset Blok Baru</button>
-            </div>
+          <div class="sec-lbl">Sistem</div>
+          <div class="input-card">
+            <div class="input-label" style="margin-bottom:12px; line-height:1.5;">Gunakan tombol ini setiap awal blok baru untuk mengosongkan riwayat slide, lencana, dan ujian.</div>
+            <button class="btn-reset btn-full" onclick="resetBlok()">Reset Blok Baru</button>
           </div>
         </div>
-        <div>
-          <div class="sec-lbl">Panduan kolom Notion</div>
-          <div class="notion-note">
+
+        <details class="notion-note">
+          <summary style="font-weight:700; color:var(--gold-dark);">Panduan Integrasi Notion (Klik untuk buka)</summary>
+          <div style="margin-top: 10px; color: var(--text-dark);">
             <strong>📋 Weekly Tracker — kolom yang digunakan:</strong><br />
             • <strong>Name</strong> (Title) — diisi otomatis<br />
             • <strong>Range Date</strong> (Date) — rentang tanggal minggu ini<br />
@@ -617,13 +510,13 @@
             • <strong>Total Slide</strong> (Number) — jumlah slide harian<br />
             • <strong>Weekly Tracker</strong> (Relation ke Weekly Tracker)
           </div>
-        </div>
+        </details>
       </div>
     </div>
 
     <div class="fairy-footer">✦ <span id="footer-name">Revalina</span> — Pixie Dust Journey ✦</div>
 
-    <!-- WELCOME MODAL -->
+    <!-- WELCOME MODAL 1 (NAMA) -->
     <div class="welcome-overlay" id="welcome-modal">
       <div class="welcome-card">
         <h1 class="welcome-title">Pixie Hollow</h1>
@@ -634,11 +527,42 @@
       </div>
     </div>
 
+    <!-- WELCOME MODAL 2 (SETUP BLOK) -->
+    <div class="welcome-overlay" id="setup-modal">
+      <div class="welcome-card">
+        <h1 class="welcome-title" style="font-size: 22px;">Persiapan Blok</h1>
+        <p class="welcome-subtitle" style="margin-bottom: 16px;">Ayo atur misi belajarmu kali ini!</p>
+        <div style="text-align: left; margin-bottom: 16px;">
+          <label class="input-label">Mulai Blok:</label>
+          <input type="date" id="setup-start" class="field" style="width: 100%; margin-bottom: 8px;" />
+          <label class="input-label">Ujian Blok:</label>
+          <input type="date" id="setup-end" class="field" style="width: 100%; margin-bottom: 8px;" />
+          <label class="input-label">Target PPT:</label>
+          <input type="number" id="setup-target" class="field" style="width: 100%;" placeholder="Contoh: 30" />
+        </div>
+        <button class="btn-save welcome-btn" onclick="simpanSetupAwal()">Siap Terbang! ✦</button>
+      </div>
+    </div>
+
+    <!-- MOOD MODAL (SETELAH ISI PPT) -->
+    <div class="welcome-overlay" id="mood-modal">
+      <div class="welcome-card" style="padding-bottom: 30px;">
+        <h1 class="welcome-title" style="font-size: 24px;">Perasaanmu</h1>
+        <p class="welcome-subtitle">Kerja bagus! Bagaimana perasaanmu setelah belajar hari ini?</p>
+        <div class="mood-wrap" style="justify-content: center; transform: scale(1.2); margin-top: 10px;">
+          <button class="mood-btn" onclick="simpanMood('🤩', this)">🤩</button>
+          <button class="mood-btn" onclick="simpanMood('😌', this)">😌</button>
+          <button class="mood-btn" onclick="simpanMood('🥱', this)">🥱</button>
+          <button class="mood-btn" onclick="simpanMood('🤯', this)">🤯</button>
+        </div>
+      </div>
+    </div>
+
     <!-- EXAM MODAL -->
     <div class="welcome-overlay" id="exam-modal">
       <div class="welcome-card">
         <h1 class="welcome-title">Hari Ujian! 📝</h1>
-        <p class="welcome-subtitle">Selamat berjuang! Bagaimana hasil ujian Blok ini?</p>
+        <p class="welcome-subtitle">Bagaimana hasil ujian Blok ini?</p>
         <input type="number" id="exam-score-input" class="field welcome-input" placeholder="0 - 100" min="0" max="100" />
         <button class="btn-save welcome-btn" id="btn-submit-exam" onclick="submitExamScore()">Simpan Nilai ✦</button>
         <div class="save-msg" id="exam-error" style="color: var(--red-soft); margin-top: 10px;">Masukkan nilai yang valid ya (0-100)!</div>
@@ -664,28 +588,51 @@
       </div>
     </div>
 
+    <!-- BADGE UNLOCKED FULLSCREEN OVERLAY -->
+    <div class="appreciation-overlay" id="badge-anim-overlay">
+      <div class="appreciation-content">
+        <div class="app-fairy-orb"></div>
+        <div style="font-size: 12px; color: var(--gold-light); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 20px; font-weight: 800; text-shadow: 0 0 10px rgba(245,200,66,0.5);">Lencana Baru Terbuka!</div>
+        <div id="badge-anim-icon" style="font-size: 80px; margin-bottom: 10px; filter: drop-shadow(0 10px 20px rgba(245,200,66,0.5)); animation: float-magical 3s infinite alternate;">👑</div>
+        <h1 class="appreciation-title" id="badge-anim-title" style="font-size: 36px;">Peri Lulus</h1>
+        <p class="appreciation-sub" id="badge-anim-desc">Berhasil menyentuh target 100% belajar.</p>
+      </div>
+    </div>
+
     <script>
-      /* ── STATE ── */
-      function ls(k, d) { try { const v = localStorage.getItem(k); return v !== null ? JSON.parse(v) : d; } catch { return d; } }
-      function ss(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+      /* ── STATE & QUEUE SYSTEM ── */
+      function ls(k, d) { try { if (typeof window === 'undefined' || !window.localStorage) return d; const v = localStorage.getItem(k); return v !== null ? JSON.parse(v) : d; } catch { return d; } }
+      function ss(k, v) { try { if (typeof window !== 'undefined' && window.localStorage) localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 
       const MONTHS_ID = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des"];
       const DAYS_SHORT = ["Min","Sen","Sel","Rab","Kam","Jum","Sab"];
       const circ = 213.6;
 
       const MAGIC_QUOTES = [
-        "Semua keajaiban butuh sedikit waktu dan banyak usaha. ✨",
-        "Satu halaman lagi, satu kepakan sayap lebih tinggi. 🧚‍♀️",
-        "Jangan berhenti saat lelah, berhentilah saat selesai. 🌟",
-        "Fokus hari ini adalah keajaiban esok hari. 💫",
-        "Setiap hal besar dimulai dari satu langkah kecil peri. 🌱",
-        "Sihir terkuat adalah ketekunanmu sendiri. 🔮",
-        "Debu peri tidak bekerja jika kamu tidak percaya pada dirimu sendiri. 🪄",
-        "Belajar adalah cara kita menumbuhkan sayap untuk terbang. 🦋",
-        "Masa depan adalah milik mereka yang percaya pada keindahan mimpinya. 🌈",
-        "Sedikit kemajuan setiap hari menambah hasil yang sangat ajaib. 🍯"
+        "Semua keajaiban butuh sedikit waktu dan banyak usaha.",
+        "Satu halaman lagi, satu kepakan sayap lebih tinggi.",
+        "Jangan berhenti saat lelah, berhentilah saat selesai.",
+        "Fokus hari ini adalah keajaiban esok hari.",
+        "Setiap hal besar dimulai dari satu langkah kecil peri.",
+        "Sihir terkuat adalah ketekunanmu sendiri.",
+        "Debu peri tidak bekerja jika kamu tidak percaya pada dirimu sendiri.",
+        "Belajar adalah cara kita menumbuhkan sayap untuk terbang.",
+        "Masa depan adalah milik mereka yang percaya pada keindahan mimpinya.",
+        "Sedikit kemajuan setiap hari menambah hasil yang sangat ajaib."
       ];
       let currentQuote = "";
+      let audioCtx = null;
+      let tempSlideCount = 0; 
+
+      let popupQueue = [];
+      let isPopupShowing = false;
+
+      function playNextPopup() {
+        if (popupQueue.length === 0 || isPopupShowing) return;
+        isPopupShowing = true;
+        const nextPopup = popupQueue.shift();
+        nextPopup();
+      }
 
       const state = {
         slides: ls("rv_slides", {}),
@@ -695,23 +642,73 @@
         blockStart: ls("rv_block_start", null),
         blockEnd: ls("rv_block_end", null),
         milestones: ls("rv_milestones", {25: false, 50: false, 75: false, 100: false}),
+        badges: ls("rv_badges", {1: false, 2: false, 3: false, 4: false}),
+        moods: ls("rv_moods", {}) 
       };
       let pageId = null;
 
-      /* ── PIXIE DUST CURSOR TRAIL ── */
-      document.addEventListener('mousemove', function(e) {
-        if(Math.random() > 0.4) return; 
-        const dust = document.createElement('div');
-        dust.className = 'pixie-dust';
-        dust.style.left = e.pageX + 'px';
-        dust.style.top = e.pageY + 'px';
-        const drift = (Math.random() - 0.5) * 40; 
-        dust.style.setProperty('--drift', drift + 'px');
-        const size = Math.random() * 4 + 2;
-        dust.style.width = size + 'px';
-        dust.style.height = size + 'px';
-        document.body.appendChild(dust);
-        setTimeout(() => { if(document.body.contains(dust)) document.body.removeChild(dust); }, 1200);
+      /* ── AUDIO SYSTEM (Sihir Suara) ── */
+      function initAudio() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+      }
+
+      function playChime() {
+        try {
+          initAudio();
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(880, audioCtx.currentTime); 
+          osc.frequency.exponentialRampToValueAtTime(1760, audioCtx.currentTime + 0.1); 
+          gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 1);
+        } catch(e) {}
+      }
+
+      function playGrandChime() {
+        try {
+          initAudio();
+          const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98]; 
+          notes.forEach((freq, i) => {
+            setTimeout(() => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 1.5);
+            }, i * 80);
+          });
+        } catch(e) {}
+      }
+
+      /* ── CLICK PIXIE DUST ── */
+      document.addEventListener('click', function(e) {
+        if(e.target.tagName === 'INPUT' || e.target.tagName === 'SUMMARY' || e.target.tagName === 'BUTTON') return;
+        for (let i = 0; i < 4; i++) {
+          const dust = document.createElement('div');
+          dust.className = 'click-dust';
+          dust.style.left = e.pageX + 'px';
+          dust.style.top = e.pageY + 'px';
+          const angle = Math.random() * Math.PI * 2;
+          const distance = Math.random() * 30 + 10; 
+          dust.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
+          dust.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
+          const size = Math.random() * 4 + 2;
+          dust.style.width = size + 'px'; dust.style.height = size + 'px';
+          document.body.appendChild(dust);
+          setTimeout(() => { if(document.body.contains(dust)) document.body.removeChild(dust); }, 800);
+        }
       });
 
       /* ── DATE HELPERS ── */
@@ -762,50 +759,15 @@
       }
       function rewardBlok() {
         const t = total(), tgt = state.target;
+        if (tgt <= 0) return 0;
         if (t >= tgt) return 200000;
-        if (pct() >= 30) return 150000;
+        if (pct() >= 30) return 150000; 
         return 0;
       }
       function rewardCair() { return Math.max(0, rewardBlok() - nilaiPenalty() - checkpointPenalty()); }
       function fmtRp(n) { return "Rp " + (n / 1000).toFixed(0) + ".000"; }
 
-      /* ── SYNC STATUS ── */
-      function setSyncStatus(status, msg) {
-        const bar = document.getElementById("sync-bar");
-        bar.className = "sync-bar " + status;
-        document.getElementById("sync-txt").textContent = msg;
-      }
-      function showError(msg) {
-        const box = document.getElementById("error-box");
-        if (msg) { box.textContent = msg; box.style.display = "block"; }
-        else { box.style.display = "none"; }
-      }
-
-      /* ── RENDER ── */
-      function render() {
-        const p = pct(), t = total(), rBlok = rewardBlok(), rCair = rewardCair();
-        const offset = circ - (circ * p) / 100;
-        document.getElementById("ring-fill").style.strokeDashoffset = offset;
-        document.getElementById("ring-glow").style.strokeDashoffset = offset;
-        document.getElementById("ring-pct").textContent = p + "%";
-        document.getElementById("prog-bar").style.width = p + "%";
-        document.getElementById("slide-done").textContent = t;
-        document.getElementById("slide-target-hdr").textContent = state.target;
-        document.getElementById("header-name").textContent = state.name || "Peri Kecil";
-        document.getElementById("footer-name").textContent = state.name || "Peri Kecil";
-        const h = new Date().getHours();
-        const greet = h < 11 ? "Semangat paginya, Fairy!" : h < 15 ? "Terus semangat mengepak sayap!" : h < 18 ? "Sore yang indah untuk belajar!" : "Semangat malam harinya, peri!";
-        document.getElementById("greeting-line").textContent = greet;
-        document.getElementById("date-line").textContent = new Date().toLocaleDateString("id-ID", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
-        document.getElementById("week-badge-txt").textContent = blockLabel();
-        document.getElementById("m-slide").textContent = t;
-        document.getElementById("m-reward-hdr").textContent = rCair > 0 ? fmtRp(rCair) : "Rp 0";
-
-        /* LOGIKA QUOTES (Hanya set 1x per muat ulang) */
-        if (!currentQuote) currentQuote = MAGIC_QUOTES[Math.floor(Math.random() * MAGIC_QUOTES.length)];
-        document.getElementById("quote-txt").textContent = currentQuote;
-
-        /* LOGIKA STREAK (Hari Beruntun) */
+      function calculateStreak() {
         let streak = 0;
         let d = new Date();
         let todayStr = fmtISO(d);
@@ -821,58 +783,170 @@
                 } else { break; }
             }
         }
-        document.getElementById("str-val").textContent = streak;
-        document.getElementById("card-streak").className = "dash-card " + (streak >= 5 ? "str-high" : streak >= 3 ? "str-mid" : "str-low");
+        return streak;
+      }
 
-        /* LOGIKA COUNTDOWN UJIAN */
+      /* ── SYNC STATUS ── */
+      function setSyncStatus(status, msg) {
+        const bar = document.getElementById("sync-bar");
+        if (bar) bar.className = "sync-bar " + status;
+        const syncTxt = document.getElementById("sync-txt");
+        if (syncTxt) syncTxt.textContent = msg;
+      }
+      function showError(msg) {
+        const box = document.getElementById("error-box");
+        if (!box) return;
+        if (msg) { box.textContent = msg; box.style.display = "block"; }
+        else { box.style.display = "none"; }
+      }
+
+      /* ── RENDER ── */
+      function render() {
+        const p = pct(), t = total(), rCair = rewardCair();
+        const offset = circ - (circ * p) / 100;
+        
+        const ringFill = document.getElementById("ring-fill");
+        if (ringFill) ringFill.style.strokeDashoffset = offset;
+        const ringGlow = document.getElementById("ring-glow");
+        if (ringGlow) ringGlow.style.strokeDashoffset = offset;
+        const ringPct = document.getElementById("ring-pct");
+        if (ringPct) ringPct.textContent = p + "%";
+        const progBar = document.getElementById("prog-bar");
+        if (progBar) progBar.style.width = p + "%";
+        const slideDone = document.getElementById("slide-done");
+        if (slideDone) slideDone.textContent = t;
+        const slideTargetHdr = document.getElementById("slide-target-hdr");
+        if (slideTargetHdr) slideTargetHdr.textContent = state.target;
+        const dashTarget = document.getElementById("dash-target");
+        if (dashTarget) dashTarget.textContent = state.target;
+        const headerName = document.getElementById("header-name");
+        if (headerName) headerName.textContent = (state.name || "Peri Kecil") + ",";
+        const footerName = document.getElementById("footer-name");
+        if (footerName) footerName.textContent = state.name || "Peri Kecil";
+        
+        /* UPDATE GELAR PERI DINAMIS */
+        let rankStr = "🌱 Peri Pemula";
+        if(p >= 100) rankStr = "👑 Ratu Pixie";
+        else if(p >= 75) rankStr = "🌿 Peri Penjaga";
+        else if(p >= 50) rankStr = "✨ Peri Cahaya";
+        else if(p >= 25) rankStr = "🔨 Peri Pekerja";
+        const rankBadge = document.getElementById("rank-badge");
+        if (rankBadge) rankBadge.innerHTML = rankStr;
+
+        const h = new Date().getHours();
+        const greet = h < 11 ? "Semangat memulai hari cantik!" : h < 15 ? "Ayo, jangan menyerah!" : h < 18 ? "Sore yang indah untuk belajar!" : "Ingat untuk tetap beristirahat ya!";
+        const greetingLine = document.getElementById("greeting-line");
+        if (greetingLine) greetingLine.textContent = greet;
+
+        const todayStr = fmtISO(new Date());
+        const dateLine = document.getElementById("date-line");
+        if (dateLine) dateLine.textContent = new Date().toLocaleDateString("id-ID", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
+        
+        const weekBadgeTxt = document.getElementById("week-badge-txt");
+        if (weekBadgeTxt) weekBadgeTxt.textContent = blockLabel();
+        
+        const mSlide = document.getElementById("m-slide");
+        if (mSlide) mSlide.textContent = t;
+        
+        const mRewardHdr = document.getElementById("m-reward-hdr");
+        if (mRewardHdr) mRewardHdr.textContent = rCair > 0 ? fmtRp(rCair) : "Rp 0";
+
+        /* LOGIKA QUOTES */
+        if (!currentQuote) currentQuote = MAGIC_QUOTES[Math.floor(Math.random() * MAGIC_QUOTES.length)];
+        const quoteTxt = document.getElementById("quote-txt");
+        if (quoteTxt) quoteTxt.textContent = "❝ " + currentQuote + " ❞";
+
+        /* LOGIKA STREAK */
+        let streak = calculateStreak();
+        const strVal = document.getElementById("str-val");
+        const strSub = document.getElementById("str-sub");
+        const strIcon = document.getElementById("str-icon");
+        const cardStreak = document.getElementById("card-streak");
+        
+        if (strVal) strVal.textContent = streak;
+        if(streak >= 5) {
+            if (strIcon) strIcon.className = "fc-bg-icon aura-fire";
+            if (cardStreak) cardStreak.className = "fc-card bg-orange glow-streak";
+            if (strSub) strSub.textContent = "Api sihirmu membara! Luar biasa! ✨";
+        } else if(streak >= 3) {
+            if (strIcon) strIcon.className = "fc-bg-icon aura-amber";
+            if (cardStreak) cardStreak.className = "fc-card bg-amber pulse-warn";
+            if (strSub) strSub.textContent = "Hebat! Terus pertahankan apimu 🔥";
+        } else if (streak > 0) {
+            if (strIcon) strIcon.className = "fc-bg-icon aura-blue";
+            if (cardStreak) cardStreak.className = "fc-card bg-amber";
+            if (strSub) strSub.textContent = "Langkah awal yang bagus!";
+        } else {
+            if (strIcon) strIcon.className = "fc-bg-icon";
+            if (cardStreak) cardStreak.className = "fc-card bg-blue";
+            if (strSub) strSub.textContent = "Belum ada api sihir berturut-turut";
+        }
+
+        /* LOGIKA COUNTDOWN UJIAN & PACING GUIDE */
         const cdCard = document.getElementById("card-countdown");
         const cdVal = document.getElementById("cd-val");
         const cdLbl = document.getElementById("cd-lbl");
+        const cdIcon = document.getElementById("cd-icon");
         
+        let pacingText = "Selesai!";
+        let pacingSub = "Bagus sekali!";
+        const sisaSlide = Math.max(0, state.target - t);
+
         if (state.blockEnd) {
             let examD = new Date(state.blockEnd + "T00:00:00");
             let diffDays = Math.ceil((examD - new Date(todayStr + "T00:00:00")) / (1000 * 60 * 60 * 24));
             
             if (diffDays > 0) {
-                cdVal.textContent = "H-" + diffDays;
-                cdLbl.textContent = "Menuju Ujian";
-                cdCard.className = "dash-card " + (diffDays > 7 ? "cd-safe" : diffDays > 3 ? "cd-warn" : "cd-crit");
+                if (cdVal) { cdVal.textContent = diffDays + " Hari"; cdVal.style.color = diffDays > 3 ? "var(--text-dark)" : "var(--amber)"; }
+                if (cdLbl) cdLbl.textContent = "Menuju Ujian";
+                if (cdCard) cdCard.className = "fc-card " + (diffDays > 7 ? "bg-blue" : diffDays > 3 ? "bg-amber pulse-warn" : "bg-red pulse-crit");
+                if (cdIcon) cdIcon.className = "fc-bg-icon " + (diffDays > 7 ? "aura-blue" : diffDays > 3 ? "aura-amber" : "aura-red");
+                
+                if (sisaSlide > 0) {
+                    let perDay = Math.ceil(sisaSlide / diffDays);
+                    pacingText = perDay;
+                    pacingSub = "PPT / hari";
+                }
             } else if (diffDays === 0) {
-                cdVal.textContent = "Hari Ini!";
-                cdLbl.textContent = "Semoga Berhasil";
-                cdCard.className = "dash-card cd-crit";
+                if (cdVal) { cdVal.textContent = "Hari Ini!"; cdVal.style.color = "var(--red-soft)"; }
+                if (cdLbl) cdLbl.textContent = "Semoga Berhasil!";
+                if (cdCard) cdCard.className = "fc-card bg-red pulse-crit";
+                if (cdIcon) cdIcon.className = "fc-bg-icon aura-red";
+                if (sisaSlide > 0) {
+                    pacingText = sisaSlide;
+                    pacingSub = "PPT lagi!";
+                }
             } else {
-                cdVal.textContent = "Selesai";
-                cdLbl.textContent = "Ujian Berlalu";
-                cdCard.className = "dash-card cd-safe";
+                if (cdVal) { cdVal.textContent = "Selesai"; cdVal.style.color = "var(--text-dark)"; }
+                if (cdLbl) cdLbl.textContent = "Ujian Berlalu";
+                if (cdCard) cdCard.className = "fc-card bg-blue";
+                if (cdIcon) cdIcon.className = "fc-bg-icon aura-blue";
             }
         } else {
-            cdVal.textContent = "-";
-            cdLbl.textContent = "Belum Diatur";
-            cdCard.className = "dash-card";
+            if (cdVal) { cdVal.textContent = "-"; cdVal.style.color = "var(--text-dark)"; }
+            if (cdLbl) cdLbl.textContent = "Belum Diatur";
+            if (cdCard) cdCard.className = "fc-card bg-blue";
+            if (cdIcon) cdIcon.className = "fc-bg-icon";
+            if (sisaSlide > 0) {
+                pacingText = "-";
+                pacingSub = "Atur Ujian";
+            }
         }
+        
+        const pacingEl = document.getElementById('pacing-val');
+        const pacingLblEl = document.getElementById('pacing-lbl');
+        if (pacingEl) pacingEl.textContent = pacingText;
+        if (pacingLblEl) pacingLblEl.textContent = pacingSub;
 
-        /* LOGIKA BUKA LENCANA (BADGES) */
-        if(t > 0) document.getElementById("badge-1").classList.add("unlocked"); else document.getElementById("badge-1").classList.remove("unlocked");
-        if(streak >= 3) document.getElementById("badge-2").classList.add("unlocked"); else document.getElementById("badge-2").classList.remove("unlocked");
-        if(p >= 50) document.getElementById("badge-3").classList.add("unlocked"); else document.getElementById("badge-3").classList.remove("unlocked");
-        if(p >= 100) document.getElementById("badge-4").classList.add("unlocked"); else document.getElementById("badge-4").classList.remove("unlocked");
+        /* LOGIKA BUKA LENCANA (BADGES) UI */
+        const b1 = document.getElementById("badge-1"); if (b1) { if(t > 0) b1.classList.add("unlocked"); else b1.classList.remove("unlocked"); }
+        const b2 = document.getElementById("badge-2"); if (b2) { if(streak >= 3) b2.classList.add("unlocked"); else b2.classList.remove("unlocked"); }
+        const b3 = document.getElementById("badge-3"); if (b3) { if(p >= 50) b3.classList.add("unlocked"); else b3.classList.remove("unlocked"); }
+        const b4 = document.getElementById("badge-4"); if (b4) { if(p >= 100) b4.classList.add("unlocked"); else b4.classList.remove("unlocked"); }
 
-        const sisaFull = state.target - t;
-        const minTarget = Math.ceil(state.target * 0.3);
-        const sisaMin = minTarget - t;
         const nPenalty = nilaiPenalty();
         const cpPenalty = checkpointPenalty();
         const totalPenalty = nPenalty + cpPenalty;
-
-        const noteBlok = t >= state.target
-          ? "Reward blok terpenuhi! ✦"
-          : pct() >= 30 ? "Butuh " + (sisaFull > 0 ? sisaFull : 0) + " slide lagi untuk reward penuh."
-          : "Butuh " + (sisaMin > 0 ? sisaMin : 0) + " slide lagi untuk reward minimal.";
-        document.getElementById("rc-amount").textContent = fmtRp(rBlok);
-        document.getElementById("rc-bar").style.width = p + "%";
-        document.getElementById("rc-chip").textContent = p + "%";
-        document.getElementById("rc-note").textContent = noteBlok;
 
         const penaltyParts = [];
         if (nPenalty > 0) penaltyParts.push("nilai " + state.nilaiUjian + " (−" + fmtRp(nPenalty) + ")");
@@ -881,90 +955,121 @@
         const noteCair = t >= state.target ? "Terbang tinggi! Target tercapai!" + penaltyNote
           : pct() >= 30 ? "Reward sebagian tercapai." + penaltyNote
           : "Belum memenuhi syarat sihir reward." + penaltyNote;
-        document.getElementById("rc-amount2").textContent = fmtRp(rCair);
-        document.getElementById("rc-bar2").style.width = p + "%";
-        document.getElementById("rc-chip2").textContent = totalPenalty > 0 ? "−" + fmtRp(totalPenalty) : "blok ini";
-        document.getElementById("rc-note2").textContent = noteCair;
-
-        /* ── GRID TRACKER ── */
-        const dg = document.getElementById("days-grid");
-        dg.innerHTML = "";
-        const dates = getBlockDates();
+          
+        const rcAmount = document.getElementById("rc-amount");
+        if (rcAmount) rcAmount.textContent = fmtRp(rCair);
+        const rcBar = document.getElementById("rc-bar");
+        if (rcBar) rcBar.style.width = p + "%";
         
-        const CP_RATIOS = [0.25, 0.5, 0.75];
-        const cpDates = new Set(CP_RATIOS.map(r => dates[Math.floor(dates.length * r)]));
-
-        if (dates.length === 0) {
-          dg.innerHTML = '<div style="grid-column:1/-1;text-align:center;font-size:12px;color:var(--text-soft);padding:16px">Atur tanggal blok di tab Pengaturan</div>';
-        } else {
-          dates.forEach(ds => {
-            const d = new Date(ds + "T00:00:00");
-            const isToday = ds === todayStr;
-            const isUjian = ds === state.blockEnd;
-            const isCP = cpDates.has(ds) && !isUjian;
-            const s = state.slides[ds] || 0;
-
-            let cpStatus = "";
-            if (isCP && todayStr > ds) {
-              const r = CP_RATIOS[Array.from(cpDates).indexOf(ds)];
-              let cum = 0;
-              for (const x of dates) { cum += state.slides[x] || 0; if (x === ds) break; }
-              cpStatus = cum >= Math.ceil(state.target * r) ? "cp-pass" : "cp-fail";
-            } else if (isCP) {
-              cpStatus = "cp-future";
+        const rcChip = document.getElementById("rc-chip");
+        if (rcChip) {
+            if (totalPenalty > 0) {
+                rcChip.textContent = "−" + fmtRp(totalPenalty);
+                rcChip.style.background = "rgba(232, 80, 80, 0.2)";
+                rcChip.style.borderColor = "rgba(232, 80, 80, 0.4)";
+                rcChip.style.color = "var(--gold-light)";
+            } else {
+                rcChip.textContent = p + "%";
+                rcChip.style.background = "";
+                rcChip.style.borderColor = "";
+                rcChip.style.color = "";
             }
+        }
+        
+        const rcNote = document.getElementById("rc-note");
+        if (rcNote) rcNote.textContent = noteCair;
 
-            const el = document.createElement("div");
-            el.className = "day" + (isToday ? " today" : "") + (isUjian ? " ujian-day" : "");
-            if (cpStatus) el.classList.add(cpStatus);
+        /* ── GRID TRACKER DENGAN MOOD & CHECKPOINT FLAGS ── */
+        const dg = document.getElementById("days-grid");
+        if (dg) {
+            dg.innerHTML = "";
+            const dates = getBlockDates();
+            
+            const CP_RATIOS = [0.25, 0.5, 0.75];
+            const cpDates = new Set(dates.length > 1 ? CP_RATIOS.map(r => dates[Math.floor(dates.length * r)]) : []);
 
-            let dotClass = "empty", dotVal = "–";
-            if (isUjian) { dotClass = "ujian"; dotVal = "📝"; }
-            else if (s > 0) { dotClass = "done"; dotVal = s; }
+            if (dates.length === 0) {
+              dg.innerHTML = '<div style="grid-column:1/-1;text-align:center;font-size:12px;color:var(--text-soft);padding:16px">Atur tanggal blok di tab Pengaturan</div>';
+            } else {
+              dates.forEach(ds => {
+                const d = new Date(ds + "T00:00:00");
+                const isToday = ds === todayStr;
+                const isUjian = ds === state.blockEnd;
+                const isCP = cpDates.has(ds) && !isUjian;
+                const s = state.slides[ds] || 0;
+                const m = state.moods[ds] ? `<div class="day-mood">${state.moods[ds]}</div>` : "";
 
-            el.innerHTML =
-              '<div class="day-name">' + fmtLabel(d) + '</div>' +
-              '<div class="day-dot ' + dotClass + '">' + dotVal + '</div>' +
-              '<div class="day-pts">' + (isUjian ? "ujian" : s > 0 ? s + " slide" : "–") + '</div>';
-            dg.appendChild(el);
-          });
+                let cpStatus = "";
+                let cpLabel = "";
+                
+                if (isCP) {
+                  const cpIndex = Array.from(cpDates).indexOf(ds) + 1;
+                  cpLabel = `<div style="position: absolute; top: -6px; left: -6px; background: var(--amber); color: #fff; font-size: 8px; padding: 2px 5px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-weight: bold;">CP${cpIndex}</div>`;
+                  
+                  if (todayStr > ds) {
+                    const r = CP_RATIOS[cpIndex - 1];
+                    let cum = 0;
+                    for (const x of dates) { cum += state.slides[x] || 0; if (x === ds) break; }
+                    cpStatus = cum >= Math.ceil(state.target * r) ? "cp-pass" : "cp-fail";
+                  } else {
+                    cpStatus = "cp-future";
+                  }
+                }
+
+                const el = document.createElement("div");
+                el.className = "day" + (isToday ? " today" : "") + (isUjian ? " ujian-day" : "");
+                if (cpStatus) el.classList.add(cpStatus);
+
+                let dotClass = "empty", dotVal = "–";
+                if (isUjian) { dotClass = "ujian"; dotVal = "📝"; }
+                else if (s > 0) { dotClass = "done"; dotVal = s; }
+
+                el.innerHTML = m + cpLabel + 
+                  '<div class="day-name">' + fmtLabel(d) + '</div>' +
+                  '<div class="day-dot ' + dotClass + '">' + dotVal + '</div>' +
+                  '<div class="day-pts">' + (isUjian ? "ujian" : s > 0 ? s + " slide" : "–") + '</div>';
+                dg.appendChild(el);
+              });
+            }
         }
 
-        document.getElementById("set-target").value = state.target;
-        document.getElementById("set-name").value = state.name;
-        if (state.blockStart) document.getElementById("set-block-start").value = state.blockStart;
-        if (state.blockEnd) document.getElementById("set-block-end").value = state.blockEnd;
+        /* Assign ke Input secara aman */
+        const setTarget = document.getElementById("set-target");
+        if (setTarget) setTarget.value = state.target;
+        const setName = document.getElementById("set-name");
+        if (setName) setName.value = state.name;
+        const setBlockStart = document.getElementById("set-block-start");
+        if (setBlockStart) setBlockStart.value = state.blockStart || "";
+        const setBlockEnd = document.getElementById("set-block-end");
+        if (setBlockEnd) setBlockEnd.value = state.blockEnd || "";
+        
+        const setupTarget = document.getElementById("setup-target");
+        if (setupTarget && state.target) setupTarget.value = state.target;
+        const setupStart = document.getElementById("setup-start");
+        if (setupStart && state.blockStart) setupStart.value = state.blockStart;
+        const setupEnd = document.getElementById("setup-end");
+        if (setupEnd && state.blockEnd) setupEnd.value = state.blockEnd;
       }
 
       /* ── NOTION API ── */
       async function loadFromNotion() {
         setSyncStatus("syncing", "Memuat data sihir dari Notion...");
         try {
-          const params = state.blockStart && state.blockEnd
-            ? "?start=" + state.blockStart + "&end=" + state.blockEnd : "";
+          const params = state.blockStart && state.blockEnd ? "?start=" + state.blockStart + "&end=" + state.blockEnd : "";
           const res = await fetch("/api/notion" + params);
           const json = await res.json();
-          if (!res.ok) {
-            setSyncStatus("error", "Gagal terhubung ke Notion");
-            showError(json.error);
-            return;
-          }
+          if (!res.ok) { setSyncStatus("error", "Gagal terhubung ke Notion"); showError(json.error); return; }
           if (json.data) {
             const d = json.data;
-            state.slides = d.slides ?? {};
-            state.target = d.target ?? 30;
-            state.nilaiUjian = d.nilaiUjian ?? 0;
-            pageId = json.pageId ?? null;
-            ss("rv_target", state.target);
-            ss("rv_slides", state.slides);
-            ss("rv_nilai", state.nilaiUjian);
+            state.slides = d.slides || {};
+            state.target = d.target || 30;
+            state.nilaiUjian = d.nilaiUjian || 0;
+            pageId = json.pageId || null;
+            ss("rv_target", state.target); ss("rv_slides", state.slides); ss("rv_nilai", state.nilaiUjian);
           }
-          setSyncStatus("ok", "✦ Tersinkron dengan Notion");
-          showError(null);
-          render();
+          setSyncStatus("ok", "✦ Tersinkron dengan Notion"); showError(null); render();
         } catch (err) {
-          setSyncStatus("error", "Mode Offline");
-          showError("Aplikasi berjalan secara lokal tanpa koneksi Notion.");
+          setSyncStatus("error", "Mode Offline"); showError("Aplikasi berjalan secara lokal tanpa koneksi Notion.");
         }
       }
 
@@ -972,31 +1077,15 @@
         setSyncStatus("syncing", "Menyimpan ke Notion...");
         try {
           const res = await fetch("/api/notion", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              slides: state.slides,
-              target: state.target,
-              nilaiUjian: state.nilaiUjian,
-              blockStart: state.blockStart,
-              blockEnd: state.blockEnd,
-              pageId: pageId,
-              slideDate: slideDate,
-            }),
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ slides: state.slides, target: state.target, nilaiUjian: state.nilaiUjian, blockStart: state.blockStart, blockEnd: state.blockEnd, pageId: pageId, slideDate: slideDate }),
           });
           const json = await res.json();
-          if (!res.ok) {
-            setSyncStatus("error", "Gagal menyimpan");
-            showError(json.error);
-            return false;
-          }
+          if (!res.ok) { setSyncStatus("error", "Gagal menyimpan"); showError(json.error); return false; }
           if (json.pageId) pageId = json.pageId;
-          setSyncStatus("ok", "✦ Tersinkron dengan Notion");
-          showError(null);
-          return true;
+          setSyncStatus("ok", "✦ Tersinkron dengan Notion"); showError(null); return true;
         } catch (err) {
-          setSyncStatus("error", "Tersimpan Lokal");
-          return false;
+          setSyncStatus("error", "Tersimpan Lokal"); return false;
         }
       }
 
@@ -1006,23 +1095,55 @@
         if (btn) btn.disabled = loading;
       }
 
-      async function addSlide() {
-        const v = parseInt(document.getElementById("inp-slide").value) || 0;
-        if (v < 0) return;
+      function addSlide() {
+        const inpSlide = document.getElementById("inp-slide");
+        if (!inpSlide) return;
+        const v = parseInt(inpSlide.value) || 0;
+        if (v < 0 || inpSlide.value === "") return;
+        
+        initAudio(); 
+        tempSlideCount = v; 
+        
+        // Memunculkan Mood Modal
+        const moodModal = document.getElementById("mood-modal");
+        if (moodModal) moodModal.classList.add("show");
+      }
+
+      async function simpanMood(moodIcon, btnEl) {
+        if (btnEl) {
+            document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+            btnEl.classList.add('selected');
+        }
+        
+        const moodModal = document.getElementById("mood-modal");
+        if (moodModal) moodModal.classList.remove("show");
         
         const todayStr = fmtISO(new Date());
-        state.slides[todayStr] = v;
+        state.slides[todayStr] = tempSlideCount;
+        state.moods[todayStr] = moodIcon; 
         ss("rv_slides", state.slides);
+        ss("rv_moods", state.moods);
+        
         render();
         
+        const currentStreak = calculateStreak();
         checkMilestoneAppreciation();
+        checkBadgeUnlocks(total(), pct(), currentStreak);
+        
+        playNextPopup();
 
-        document.getElementById("inp-slide").value = "";
+        const inpSlide = document.getElementById("inp-slide");
+        if (inpSlide) inpSlide.value = "";
+        
         setButtonLoading("btn-slide", true);
         const ok = await saveToNotion(todayStr);
         setButtonLoading("btn-slide", false);
         if (ok) flash("save-msg-slide");
-        else { document.getElementById("save-msg-slide").textContent = "✦ Tersimpan Lokal!"; flash("save-msg-slide"); }
+        else { 
+            const msgEl = document.getElementById("save-msg-slide");
+            if (msgEl) msgEl.textContent = "✦ Tersimpan Lokal!"; 
+            flash("save-msg-slide"); 
+        }
       }
 
       /* FUNGSI PENGECEK DAN PEMANGGIL ANIMASI APRESIASI */
@@ -1042,42 +1163,94 @@
           if (highestMilestone >= 100) state.milestones[100] = true;
           ss("rv_milestones", state.milestones);
 
-          setTimeout(() => {
+          popupQueue.push(() => {
             if (highestMilestone === 100) showAppreciation("Kamu Berhasil! 🧚‍♀️✨", "Target 100% selesai! Terimakasih sudah bekerja keras, mari rayakan pencapaian sihirmu!", true);
             else if (highestMilestone === 75) showAppreciation("Hebat Sekali! 💫", "Progresmu sudah mencapai 75%. Terimakasih sudah bekerja keras! Sedikit lagi!");
             else if (highestMilestone === 50) showAppreciation("Luar Biasa! 🌟", "Separuh perjalanan (50%) sudah terlewati. Kamu pasti bisa!");
             else if (highestMilestone === 25) showAppreciation("Awal yang Indah! ✨", "Kamu sudah mencapai 25%. Langkah pertamamu sangat berarti!");
-          }, 400);
+          });
+        }
+      }
+
+      /* FUNGSI PENGECEK LENCANA BARU */
+      function checkBadgeUnlocks(t, p, streak) {
+        let newlyUnlocked = [];
+        
+        if (t > 0 && !state.badges[1]) { state.badges[1] = true; newlyUnlocked.push(1); }
+        if (streak >= 3 && !state.badges[2]) { state.badges[2] = true; newlyUnlocked.push(2); }
+        if (p >= 50 && !state.badges[3]) { state.badges[3] = true; newlyUnlocked.push(3); }
+        if (p >= 100 && !state.badges[4]) { state.badges[4] = true; newlyUnlocked.push(4); }
+
+        if (newlyUnlocked.length > 0) {
+          ss("rv_badges", state.badges);
+          newlyUnlocked.forEach(badgeId => {
+            popupQueue.push(() => showBadgeAnim(badgeId));
+          });
         }
       }
 
       function showAppreciation(title, subtitle, isMax = false) {
         const overlay = document.getElementById("appreciation-overlay");
         const titleEl = document.getElementById("app-title");
-        titleEl.textContent = title;
-        document.getElementById("app-sub").textContent = subtitle;
+        if (titleEl) titleEl.textContent = title;
+        const subEl = document.getElementById("app-sub");
+        if (subEl) subEl.textContent = subtitle;
         
-        if(isMax) {
-            titleEl.style.transform = "scale(1.2)";
-            titleEl.style.textShadow = "0 0 20px #fff, 0 0 40px var(--gold-light), 0 0 80px var(--gold-dark)";
-        } else {
-            titleEl.style.transform = "scale(1)";
-            titleEl.style.textShadow = "0 0 10px var(--gold-light), 0 0 20px var(--gold), 0 0 40px var(--gold-dark), 0 0 80px var(--gold-dark)";
+        if (titleEl) {
+            if(isMax) {
+                titleEl.style.transform = "scale(1.2)";
+                titleEl.style.textShadow = "0 0 20px #fff, 0 0 40px var(--gold-light), 0 0 80px var(--gold-dark)";
+            } else {
+                titleEl.style.transform = "scale(1)";
+                titleEl.style.textShadow = "0 0 10px var(--gold-light), 0 0 20px var(--gold), 0 0 40px var(--gold-dark), 0 0 80px var(--gold-dark)";
+            }
         }
 
-        overlay.classList.add("show");
+        if (overlay) overlay.classList.add("show");
         
         if (isMax) {
+            playGrandChime();
             grandFireworks();
             setTimeout(grandFireworks, 500);
             setTimeout(grandFireworks, 1100);
         } else {
+            playChime();
             burstSparkles(); 
         }
 
         setTimeout(() => {
-          overlay.classList.remove("show");
+          if (overlay) overlay.classList.remove("show");
+          isPopupShowing = false;
+          setTimeout(playNextPopup, 800); 
         }, isMax ? 6000 : 4500); 
+      }
+
+      function showBadgeAnim(id) {
+        const badgeData = {
+            1: { icon: "🌱", title: "Awal Sihir", desc: "Membaca slide pertamamu di blok ini." },
+            2: { icon: "🔥", title: "Api Semangat", desc: "Belajar 3 hari secara berturut-turut." },
+            3: { icon: "✨", title: "Sayap Bersinar", desc: "Mencapai separuh (50%) dari target blok." },
+            4: { icon: "👑", title: "Peri Lulus", desc: "Berhasil menyentuh target 100% belajar." }
+        };
+        const bd = badgeData[id];
+        
+        const iconEl = document.getElementById("badge-anim-icon");
+        if (iconEl) iconEl.textContent = bd.icon;
+        const titleEl = document.getElementById("badge-anim-title");
+        if (titleEl) titleEl.textContent = bd.title;
+        const descEl = document.getElementById("badge-anim-desc");
+        if (descEl) descEl.textContent = bd.desc;
+        
+        const overlay = document.getElementById("badge-anim-overlay");
+        if (overlay) overlay.classList.add("show");
+        playChime();
+        burstSparkles(); 
+
+        setTimeout(() => {
+            if (overlay) overlay.classList.remove("show");
+            isPopupShowing = false;
+            setTimeout(playNextPopup, 800);
+        }, 4500);
       }
 
       /* KEMBANG API PERI (KHUSUS 100%) */
@@ -1100,21 +1273,14 @@
           dust.style.setProperty('--s', (Math.random() * 1.3 + 0.6));
           
           const size = Math.random() * 8 + 4;
-          dust.style.width = size + 'px';
-          dust.style.height = size + 'px';
-          
+          dust.style.width = size + 'px'; dust.style.height = size + 'px';
           const color = colors[Math.floor(Math.random() * colors.length)];
-          dust.style.background = color;
-          dust.style.boxShadow = `0 0 15px ${color}, 0 0 25px ${color}`;
-          
+          dust.style.background = color; dust.style.boxShadow = `0 0 15px ${color}, 0 0 25px ${color}`;
           dust.style.animationDuration = (2.5 + Math.random() * 2) + 's';
           dust.style.animationDelay = (Math.random() * 0.2) + 's';
-          
           document.body.appendChild(dust);
           
-          setTimeout(() => {
-            if (document.body.contains(dust)) document.body.removeChild(dust);
-          }, 5000);
+          setTimeout(() => { if (document.body.contains(dust)) document.body.removeChild(dust); }, 5000);
         }
       }
 
@@ -1122,45 +1288,35 @@
         for (let i = 0; i < 40; i++) {
           const dust = document.createElement('div');
           dust.className = 'burst-sparkle';
-          dust.style.left = '50%';
-          dust.style.top = '50%';
-          
+          dust.style.left = '50%'; dust.style.top = '50%';
           const angle = Math.random() * Math.PI * 2;
           const distance = Math.random() * 250 + 50; 
-          const tx = Math.cos(angle) * distance;
-          const ty = Math.sin(angle) * distance;
-          
-          dust.style.setProperty('--tx', tx + 'px');
-          dust.style.setProperty('--ty', ty + 'px');
-          
+          dust.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
+          dust.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
           const size = Math.random() * 6 + 3;
-          dust.style.width = size + 'px';
-          dust.style.height = size + 'px';
+          dust.style.width = size + 'px'; dust.style.height = size + 'px';
           dust.style.background = Math.random() > 0.5 ? '#fff' : 'var(--gold-light)';
-          
           document.body.appendChild(dust);
-          
-          setTimeout(() => {
-            if (document.body.contains(dust)) document.body.removeChild(dust);
-          }, 2000);
+          setTimeout(() => { if (document.body.contains(dust)) document.body.removeChild(dust); }, 2000);
         }
       }
 
       async function submitExamScore() {
-        const inp = parseFloat(document.getElementById("exam-score-input").value);
-        if (isNaN(inp) || inp < 0 || inp > 100) {
-          flash("exam-error");
-          return;
-        }
-        state.nilaiUjian = inp;
-        ss("rv_nilai", state.nilaiUjian);
+        const examScoreInput = document.getElementById("exam-score-input");
+        if (!examScoreInput) return;
+        const inp = parseFloat(examScoreInput.value);
+        if (isNaN(inp) || inp < 0 || inp > 100) { flash("exam-error"); return; }
+        
+        initAudio();
+        state.nilaiUjian = inp; ss("rv_nilai", state.nilaiUjian);
         render();
         
         setButtonLoading("btn-submit-exam", true);
         await saveToNotion(undefined);
         setButtonLoading("btn-submit-exam", false);
         
-        document.getElementById("exam-modal").classList.remove("show");
+        const examModal = document.getElementById("exam-modal");
+        if (examModal) examModal.classList.remove("show");
         showResultModal(inp);
       }
 
@@ -1173,70 +1329,113 @@
         const LINK_GAMBAR_BAGUS = "https://lh3.googleusercontent.com/d/1O6YrTGBa0NBDdZ5IwCufLUP5pZ-2DjdY";
         const LINK_GAMBAR_SEMANGAT = "https://lh3.googleusercontent.com/d/1lJXQra0IbII_ppGIsfVsULGwSlNPpmVs"; 
 
-        img.classList.add("show");
-        modal.classList.add("has-image");
+        if (img) img.classList.add("show");
+        if (modal) modal.classList.add("has-image");
 
         if (score >= 60) {
-          img.src = LINK_GAMBAR_BAGUS;
-          title.textContent = "Kerja Luar Biasa! ✨";
-          title.style.color = "var(--green-mid)";
-          msg.textContent = `Selamat, Fairy ${state.name || ''}! Kamu berhasil menyelesaikan ujian dengan nilai yang mengagumkan. Silakan nikmati keajaiban reward-mu!`;
+          playGrandChime();
+          if (img) img.src = LINK_GAMBAR_BAGUS;
+          if (title) { title.textContent = "Kerja Luar Biasa! ✨"; title.style.color = "var(--green-mid)"; }
+          if (msg) msg.textContent = `Selamat, Fairy ${state.name || ''}! Kamu berhasil menyelesaikan ujian dengan nilai yang mengagumkan. Silakan nikmati keajaiban reward-mu!`;
         } else {
-          img.src = LINK_GAMBAR_SEMANGAT;
-          title.textContent = "Tetap Semangat! 🌟";
-          title.style.color = "var(--amber)";
-          msg.textContent = `Jangan bersedih, Fairy ${state.name || ''}! Setiap kepakan sayap membuatmu jauh lebih kuat. Teruslah belajar, keajaiban menantimu di blok berikutnya!`;
+          playChime();
+          if (img) img.src = LINK_GAMBAR_SEMANGAT;
+          if (title) { title.textContent = "Tetap Semangat! 🌟"; title.style.color = "var(--amber)"; }
+          if (msg) msg.textContent = `Jangan bersedih, Fairy ${state.name || ''}! Setiap kepakan sayap membuatmu jauh lebih kuat. Teruslah belajar, keajaiban menantimu di blok berikutnya!`;
         }
-        
-        modal.classList.add("show");
+        if (modal) modal.classList.add("show");
       }
 
       function closeResultModal() {
-        document.getElementById("result-modal").classList.remove("show");
+        const modal = document.getElementById("result-modal");
+        if (modal) modal.classList.remove("show");
         setTimeout(() => {
-          document.getElementById("result-image").classList.remove("show");
-          document.getElementById("result-modal").classList.remove("has-image");
+          const img = document.getElementById("result-image");
+          if (img) img.classList.remove("show");
+          if (modal) modal.classList.remove("has-image");
         }, 600);
       }
 
+      async function simpanSetupAwal() {
+          const targetEl = document.getElementById("setup-target");
+          if (targetEl && targetEl.value) state.target = parseInt(targetEl.value) || 30;
+          
+          const startEl = document.getElementById("setup-start");
+          const endEl = document.getElementById("setup-end");
+          
+          if (startEl && startEl.value) state.blockStart = startEl.value;
+          if (endEl && endEl.value) state.blockEnd = endEl.value;
+          
+          ss("rv_target", state.target);
+          ss("rv_block_start", state.blockStart);
+          ss("rv_block_end", state.blockEnd);
+          
+          const setupModal = document.getElementById("setup-modal");
+          if (setupModal) setupModal.classList.remove("show");
+          
+          render();
+          await saveToNotion(undefined);
+      }
+
       async function saveSettings() {
-        state.target = parseInt(document.getElementById("set-target").value) || 30;
-        state.name = document.getElementById("set-name").value.trim() || "Revalina";
-        const newStart = document.getElementById("set-block-start").value;
-        const newEnd = document.getElementById("set-block-end").value;
-        if (newStart) { state.blockStart = newStart; ss("rv_block_start", newStart); }
-        if (newEnd) { state.blockEnd = newEnd; ss("rv_block_end", newEnd); }
-        ss("rv_target", state.target);
+        const targetEl = document.getElementById("set-target");
+        if (targetEl) state.target = parseInt(targetEl.value) || 30;
+        
+        const nameEl = document.getElementById("set-name");
+        if (nameEl) state.name = nameEl.value.trim() || "Revalina";
+        
+        const startEl = document.getElementById("set-block-start");
+        const newStart = startEl ? startEl.value : null;
+        const endEl = document.getElementById("set-block-end");
+        const newEnd = endEl ? endEl.value : null;
+        
+        state.blockStart = newStart ? newStart : null;
+        ss("rv_block_start", state.blockStart);
+        
+        state.blockEnd = newEnd ? newEnd : null;
+        ss("rv_block_end", state.blockEnd);
+        
+        ss("rv_target", state.target); 
         ss("rv_name", state.name);
+        
         render();
         setButtonLoading("btn-set", true);
         const ok = await saveToNotion(undefined);
         setButtonLoading("btn-set", false);
-        if (ok) flash("save-msg-set");
-        else { document.getElementById("save-msg-set").textContent = "Pengaturan tersimpan lokal!"; flash("save-msg-set"); }
+        if (ok) flash("save-msg-set"); 
+        else { 
+            const msgEl = document.getElementById("save-msg-set");
+            if (msgEl) msgEl.textContent = "Pengaturan tersimpan lokal!"; 
+            flash("save-msg-set"); 
+        }
       }
 
       async function resetBlok() {
         if (!confirm("Reset semua data slide blok ini? Data tidak bisa dikembalikan.")) return;
-        state.slides = {};
-        state.nilaiUjian = 0;
+        state.slides = {}; state.moods = {}; state.nilaiUjian = 0;
         state.milestones = {25: false, 50: false, 75: false, 100: false};
-        pageId = null;
+        state.badges = {1: false, 2: false, 3: false, 4: false};
         
-        ss("rv_slides", state.slides);
-        ss("rv_nilai", 0);
-        ss("rv_milestones", state.milestones);
+        state.blockStart = null;
+        state.blockEnd = null;
+        
+        pageId = null;
+        ss("rv_slides", state.slides); ss("rv_moods", state.moods); ss("rv_nilai", 0);
+        ss("rv_milestones", state.milestones); ss("rv_badges", state.badges);
+        ss("rv_block_start", null); ss("rv_block_end", null);
+        
         render();
         await saveToNotion(undefined);
+        checkSetupModal(); 
       }
 
       function flash(id) {
         const el = document.getElementById(id);
-        el.style.display = "block";
-        setTimeout(() => el.style.display = "none", 2200);
+        if (!el) return;
+        el.style.display = "block"; setTimeout(() => el.style.display = "none", 2200);
       }
 
-      /* ── LOGIKA TAB & SWIPE DIPERBARUI ── */
+      /* ── LOGIKA TAB & SWIPE ── */
       const TABS_ORDER = ['dashboard', 'tracker', 'reward', 'setting'];
       let currentTabIndex = 0;
 
@@ -1244,101 +1443,99 @@
         currentTabIndex = TABS_ORDER.indexOf(id);
         document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
         document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-        
-        document.getElementById("tab-" + id).classList.add("active");
-        
+        const pageEl = document.getElementById("tab-" + id);
+        if (pageEl) pageEl.classList.add("active");
         const btn = document.querySelector(`.tab[onclick="switchTab('${id}')"]`);
-        if (btn) {
-          btn.classList.add("active");
-          btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }
+        if (btn) { btn.classList.add("active"); btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }
       }
 
-      let touchStartX = 0;
-      let touchEndX = 0;
+      let touchStartX = 0, touchEndX = 0;
       const mainEl = document.querySelector('.main');
-
-      mainEl.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-      }, {passive: true});
-
-      mainEl.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-      }, {passive: true});
-
+      if (mainEl) {
+          mainEl.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
+          mainEl.addEventListener('touchend', e => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); }, {passive: true});
+      }
       function handleSwipe() {
         if (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA") return;
-        
-        const swipeThreshold = 60;
         const diff = touchStartX - touchEndX;
+        if (diff > 60) { if (currentTabIndex < TABS_ORDER.length - 1) switchTab(TABS_ORDER[currentTabIndex + 1]); } 
+        else if (diff < -60) { if (currentTabIndex > 0) switchTab(TABS_ORDER[currentTabIndex - 1]); }
+      }
 
-        if (diff > swipeThreshold) {
-          if (currentTabIndex < TABS_ORDER.length - 1) {
-            switchTab(TABS_ORDER[currentTabIndex + 1]);
-          }
-        } else if (diff < -swipeThreshold) {
-          if (currentTabIndex > 0) {
-            switchTab(TABS_ORDER[currentTabIndex - 1]);
-          }
+      /* ── WELCOME & SETUP MODAL LOGIC ── */
+      function checkWelcomeModal() {
+        const modal = document.getElementById('welcome-modal');
+        if (!state.name && modal) { 
+            modal.classList.add('show'); 
+        } else {
+            checkSetupModal();
         }
       }
 
-      /* ── WELCOME MODAL LOGIC ── */
-      function checkWelcomeModal() {
-        if (!state.name) {
-          document.getElementById('welcome-modal').classList.add('show');
-          setTimeout(() => document.getElementById('welcome-name').focus(), 600);
-        }
+      function checkSetupModal() {
+          const modal = document.getElementById('setup-modal');
+          if (state.name && (!state.blockStart || !state.blockEnd) && modal) {
+              modal.classList.add('show');
+          } else {
+              checkExamModal();
+          }
       }
 
       function checkExamModal() {
         if (!state.blockEnd) return;
         const todayStr = fmtISO(new Date());
-        if (state.blockEnd === todayStr && state.nilaiUjian === 0) {
-          document.getElementById('exam-modal').classList.add('show');
-          setTimeout(() => document.getElementById('exam-score-input').focus(), 600);
-        }
+        const modal = document.getElementById('exam-modal');
+        if (state.blockEnd === todayStr && state.nilaiUjian === 0 && modal) { modal.classList.add('show'); }
       }
 
       function mulaiPetualangan() {
-        const inp = document.getElementById('welcome-name').value.trim();
-        if(!inp) {
-            flash('welcome-error');
-            return;
-        }
-        state.name = inp;
-        ss("rv_name", state.name);
-        document.getElementById('welcome-modal').classList.remove('show');
+        const nameEl = document.getElementById('welcome-name');
+        if (!nameEl) return;
+        const inp = nameEl.value.trim();
+        if(!inp) { flash('welcome-error'); return; }
+        state.name = inp; ss("rv_name", state.name);
+        const modal = document.getElementById('welcome-modal');
+        if (modal) modal.classList.remove('show');
         render();
+        checkSetupModal();
       }
 
-      /* FUNGSI TEST MANUAL */
-      function testExamModal() {
-        document.getElementById('exam-modal').classList.add('show');
-        setTimeout(() => document.getElementById('exam-score-input').focus(), 600);
-      }
+      /* KONTROL TOMBOL ENTER DI KEYBOARD */
+      document.addEventListener("DOMContentLoaded", () => {
+        const inpSlide = document.getElementById('inp-slide');
+        if (inpSlide) inpSlide.addEventListener('keydown', e => { if(e.key === 'Enter') addSlide(); });
+        
+        const welcomeName = document.getElementById('welcome-name');
+        if (welcomeName) welcomeName.addEventListener('keydown', e => { if(e.key === 'Enter') mulaiPetualangan(); });
+        
+        const examScore = document.getElementById('exam-score-input');
+        if (examScore) examScore.addEventListener('keydown', e => { if(e.key === 'Enter') submitExamScore(); });
+        
+        const setupInputs = ['setup-start', 'setup-end', 'setup-target'];
+        setupInputs.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('keydown', e => { if(e.key === 'Enter') simpanSetupAwal(); });
+        });
+
+        const setInputs = ['set-target', 'set-name', 'set-block-start', 'set-block-end'];
+        setInputs.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('keydown', e => { if(e.key === 'Enter') saveSettings(); });
+        });
+      });
 
       /* FUNGSI SPARKLES MENGAMBANG DARI BAWAH */
       function createSparkles() {
         const wrap = document.getElementById("sparkles");
+        if (!wrap) return;
         wrap.innerHTML = "";
         for (let i = 0; i < 50; i++) { 
-          const sp = document.createElement("div");
-          sp.className = "sp";
-          const size = Math.random() * 5 + 2; 
-          sp.style.width = size + "px";
-          sp.style.height = size + "px";
-          sp.style.left = Math.random() * 100 + "%";
-          sp.style.bottom = (Math.random() * -20) + "px"; 
-          
+          const sp = document.createElement("div"); sp.className = "sp";
+          const size = Math.random() * 5 + 2; sp.style.width = size + "px"; sp.style.height = size + "px";
+          sp.style.left = Math.random() * 100 + "%"; sp.style.bottom = (Math.random() * -20) + "px"; 
           sp.style.background = Math.random() > 0.5 ? "#f5c842" : "#8dc95a";
-          sp.style.animationDuration = (3 + Math.random() * 6) + "s";
-          sp.style.animationDelay = (Math.random() * 5) + "s";
-          
-          const dist = -(180 + Math.random() * 200);
-          sp.style.setProperty('--float-dist', dist + 'px');
-
+          sp.style.animationDuration = (3 + Math.random() * 6) + "s"; sp.style.animationDelay = (Math.random() * 5) + "s";
+          sp.style.setProperty('--float-dist', -(180 + Math.random() * 200) + 'px');
           wrap.appendChild(sp);
         }
       }
@@ -1346,7 +1543,6 @@
       /* ── INIT ── */
       createSparkles();
       checkWelcomeModal();
-      checkExamModal();
       render();
       loadFromNotion();
     </script>
