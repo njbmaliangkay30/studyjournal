@@ -598,14 +598,6 @@
         const delay = Math.random() * 5;
         const duration = 3 + Math.random() * 4;
 
-const wrap = document.getElementById("sparkles");
-wrap.innerHTML = "";
-for (let i = 0; i < 30; i++) {
-    const size = Math.random() * 6 + 2;
-    const left = Math.random() * 100;
-    const delay = Math.random() * 5;
-    const duration = 3 + Math.random() * 4;
-
     // Create the element and assign it to 'sp'
     const sp = document.createElement("div");
     sp.className = "sparkle"; // Optional: add a class for CSS styling
@@ -620,7 +612,8 @@ for (let i = 0; i < 30; i++) {
 
     // Append the newly created element to the wrapper
     wrap.appendChild(sp);
-}
+      }
+ }
           
       /* ── INIT ── */
       createSparkles();
