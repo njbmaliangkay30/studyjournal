@@ -388,7 +388,9 @@
       function reward() {
         const t = total(), tgt = state.target;
         if (t >= tgt) return 200000;
-        if (pctProgress >= 30) return 50000;
+        // Call the pct() function to get the current progress percentage
+        const pctProgress = pct(); 
+        if (pctProgress >= 30) return 150000;
         return 0;
       }
       function fmtRp(n) { return "Rp " + (n / 1000).toFixed(0) + ".000"; }
