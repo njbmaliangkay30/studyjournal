@@ -24,7 +24,7 @@
     radial-gradient(circle at 80% 20%, rgba(255,240,180,0.12), transparent 40%),
     radial-gradient(circle at 50% 80%, rgba(255,220,120,0.1), transparent 50%);
 }
-      .sparkles { position: absolute; left: 0; bottom: 0; width: 100%; pointer-events: none; overflow: hidden; z-index: 2; mix-blend-mode: screen; height: 140px; }
+      .sparkles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 2; mix-blend-mode: screen; }
       .sp { position: absolute; border-radius: 50%; animation: sparkle-float linear infinite; opacity: 0; background: radial-gradient(circle, rgba(255, 240, 180, 1) 0%,  rgba(255, 220, 120, 0.8) 30%,
     rgba(255, 200, 80, 0.4) 60%, transparent 80%); box-shadow: 0 0 6px rgba(255, 220, 120, 0.8), 0 0 12px rgba(255, 200, 80, 0.6),
     0 0 24px rgba(255, 200, 80, 0.4);
@@ -169,7 +169,6 @@
   </head>
   <body>
     <div class="header">
-      <div class="sparkles"></div>
       <div class="header-leaves">
         <div class="leaf leaf1"></div>
         <div class="leaf leaf2"></div>
@@ -212,6 +211,7 @@
           </div>
         </div>
       </div>
+      <div class="sparkles" id="sparkles"></div>
     </div>
 
     <div class="tab-bar">
