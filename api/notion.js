@@ -1,7 +1,7 @@
-const NOTION_TOKEN = process.env.NOTION_TOKEN;
-const WEEKLY_DB_ID = process.env.NOTION_WEEKLY_DB_ID;
-const DAILY_DB_ID  = process.env.NOTION_DAILY_DB_ID;
-const NOTION_VERSION = "2022-06-28";
+const NOTION_TOKEN    = process.env.NOTION_TOKEN;
+const WEEKLY_DB_ID    = process.env.NOTION_WEEKLY_DB_ID;   // rename jadi Block Tracker di Notion
+const DAILY_DB_ID     = process.env.NOTION_DAILY_DB_ID;
+const NOTION_VERSION  = "2022-06-28";
 
 function notionHeaders() {
   return {
@@ -15,64 +15,51 @@ function todayISO() {
   return new Date().toISOString().split("T")[0];
 }
 
-function getWeekBounds() {
-  const d = new Date();
-  const day = d.getDay();
-  const diff = day === 0 ? -6 : 1 - day;
-  const monday = new Date(d);
-  monday.setDate(d.getDate() + diff);
-  const sunday = new Date(monday);
-  sunday.setDate(monday.getDate() + 6);
-  return {
-    monday: monday.toISOString().split("T")[0],
-    sunday: sunday.toISOString().split("T")[0],
-  };
-}
-
 function getNumber(props, key) {
   return props[key]?.number ?? 0;
 }
 
-function makeTitle(text) {
-  return { title: [{ text: { content: text } }] };
-}
-function makeNumber(n) {
-  return { number: n };
-}
-function makeDate(iso) {
-  return { date: { start: iso } };
-}
-function makeDateRange(start, end) {
-  return { date: { start, end } };
-}
-function makeRelation(pageId) {
-  return { relation: [{ id: pageId }] };
-}
+function makeTitle(text) { return { title: [{ text: { content: text } }] }; }
+function makeNumber(n)    { return { number: n }; }
+function makeDate(iso)    { return { date: { start: iso } }; }
+function makeDateRange(start, end) { return { date: { start, end } }; }
+function makeRelation(pageId)      { return { relation: [{ id: pageId }] }; }
 
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
+  if (req.method === "OPTIONS") return res.status(200).end();
 
   if (!NOTION_TOKEN || !WEEKLY_DB_ID) {
     const missing = [];
-    if (!NOTION_TOKEN) missing.push("NOTION_TOKEN");
-    if (!WEEKLY_DB_ID) missing.push("NOTION_WEEKLY_DB_ID");
+    if (!NOTION_TOKEN)   missing.push("NOTION_TOKEN");
+    if (!WEEKLY_DB_ID)   missing.push("NOTION_WEEKLY_DB_ID");
     return res.status(500).json({
-      error: `Environment variable tidak ditemukan: ${missing.join(", ")}. Pastikan sudah ditambahkan di Vercel → Settings → Environment Variables, lalu Redeploy.`,
+      error: `Environment variable tidak ditemukan: ${missing.join(", ")}. Tambahkan di Vercel → Settings → Environment Variables, lalu Redeploy.`,
     });
   }
 
-  /* ── GET: fetch current week data ── */
+  /* ────────────────────────────────────────
+     GET  /api/notion?start=YYYY-MM-DD&end=YYYY-MM-DD
+     Ambil data blok berdasarkan rentang tanggal
+  ──────────────────────────────────────── */
   if (req.method === "GET") {
-    const { monday, sunday } = getWeekBounds();
+    const blockStart = req.query.start;
+    const blockEnd   = req.query.end;
+
+    if (!blockStart || !blockEnd) {
+      return res.json({
+        found: false,
+        pageId: null,
+        data: { slides: {}, target: 30, nilaiUjian: 0 },
+      });
+    }
 
     try {
-      const weeklyRes = await fetch(
+      /* 1. Cari halaman blok di Block Tracker */
+      const blockRes = await fetch(
         `https://api.notion.com/v1/databases/${WEEKLY_DB_ID}/query`,
         {
           method: "POST",
@@ -80,172 +67,144 @@ module.exports = async function handler(req, res) {
           body: JSON.stringify({
             filter: {
               and: [
-                { property: "Range Date", date: { on_or_after: monday } },
-                { property: "Range Date", date: { on_or_before: sunday } },
+                { property: "Range Date", date: { on_or_after:  blockStart } },
+                { property: "Range Date", date: { on_or_before: blockEnd   } },
               ],
             },
             page_size: 1,
           }),
         }
       );
-      const weeklyData = await weeklyRes.json();
+      const blockData = await blockRes.json();
 
-      if (!weeklyRes.ok) {
-        return res.status(weeklyRes.status).json({
-          error: weeklyData.message ?? "Notion API error",
-        });
+      if (!blockRes.ok) {
+        return res.status(blockRes.status).json({ error: blockData.message ?? "Notion API error" });
       }
 
-      let weeklyPage = weeklyData.results?.[0] ?? null;
-      let slides = [0, 0, 0, 0, 0, 0, 0];
-      let target = 30;
-      let nilaiUjian = 0;
+      let blockPage   = blockData.results?.[0] ?? null;
+      let slides      = {};   // { "YYYY-MM-DD": count }
+      let target      = 30;
+      let nilaiUjian  = 0;
 
-      if (weeklyPage) {
-        const p = weeklyPage.properties;
-        target = getNumber(p, "Weekly Target") || 30;
+      if (blockPage) {
+        const p = blockPage.properties;
+        target     = getNumber(p, "Weekly Target") || 30;
         nilaiUjian = getNumber(p, "Nilai Ujian");
       }
 
-      if (DAILY_DB_ID && weeklyPage) {
+      /* 2. Ambil Daily Log untuk blok ini */
+      if (DAILY_DB_ID) {
+        const filter = blockPage
+          ? { property: "Weekly Tracker", relation: { contains: blockPage.id } }
+          : {
+              and: [
+                { property: "Date", date: { on_or_after:  blockStart } },
+                { property: "Date", date: { on_or_before: blockEnd   } },
+              ],
+            };
+
         const dailyRes = await fetch(
           `https://api.notion.com/v1/databases/${DAILY_DB_ID}/query`,
           {
             method: "POST",
             headers: notionHeaders(),
-            body: JSON.stringify({
-              filter: {
-                property: "Weekly Tracker",
-                relation: { contains: weeklyPage.id },
-              },
-              page_size: 7,
-            }),
+            body: JSON.stringify({ filter, page_size: 100 }),
           }
         );
 
         if (dailyRes.ok) {
           const dailyData = await dailyRes.json();
           for (const page of dailyData.results ?? []) {
-            const dp = page.properties;
+            const dp      = page.properties;
             const dateStr = dp["Date"]?.date?.start ?? "";
-            if (dateStr) {
-              const dow = new Date(dateStr + "T12:00:00").getDay();
-              const idx = dow === 0 ? 6 : dow - 1;
-              const s = getNumber(dp, "Total Slide");
-              if (s > 0) slides[idx] = s;
-            }
-          }
-        }
-      } else if (DAILY_DB_ID && !weeklyPage) {
-        const dailyRes = await fetch(
-          `https://api.notion.com/v1/databases/${DAILY_DB_ID}/query`,
-          {
-            method: "POST",
-            headers: notionHeaders(),
-            body: JSON.stringify({
-              filter: {
-                and: [
-                  { property: "Date", date: { on_or_after: monday } },
-                  { property: "Date", date: { on_or_before: sunday } },
-                ],
-              },
-              page_size: 7,
-            }),
-          }
-        );
-        if (dailyRes.ok) {
-          const dailyData = await dailyRes.json();
-          for (const page of dailyData.results ?? []) {
-            const dp = page.properties;
-            const dateStr = dp["Date"]?.date?.start ?? "";
-            if (dateStr) {
-              const dow = new Date(dateStr + "T12:00:00").getDay();
-              const idx = dow === 0 ? 6 : dow - 1;
-              const s = getNumber(dp, "Total Slide");
-              if (s > 0) slides[idx] = s;
-            }
+            const count   = getNumber(dp, "Total Slide");
+            if (dateStr && count > 0) slides[dateStr] = count;
           }
         }
       }
 
       return res.json({
-        found: !!weeklyPage,
-        pageId: weeklyPage?.id ?? null,
-        weekBounds: { monday, sunday },
-        data: { slides, target, nilaiUjian },
+        found:  !!blockPage,
+        pageId: blockPage?.id ?? null,
+        data:   { slides, target, nilaiUjian },
       });
+
     } catch (err) {
-      return res
-        .status(500)
-        .json({ error: "Gagal mengambil data dari Notion: " + err.message });
+      return res.status(500).json({ error: "Gagal mengambil data dari Notion: " + err.message });
     }
   }
 
-  /* ── POST: save data ── */
+  /* ────────────────────────────────────────
+     POST /api/notion
+     Simpan/update data blok dan daily log
+  ──────────────────────────────────────── */
   if (req.method === "POST") {
-    const { slides, target, nilaiUjian, pageId, dayIndex } = req.body;
-    const { monday, sunday } = getWeekBounds();
-    const today = todayISO();
+    const {
+      slides      = {},
+      target      = 30,
+      nilaiUjian  = 0,
+      blockStart,
+      blockEnd,
+      pageId,
+      slideDate,      // ISO date string hari yang diinput, atau undefined
+    } = req.body;
+
+    if (!blockStart || !blockEnd) {
+      return res.status(400).json({ error: "blockStart dan blockEnd wajib diisi." });
+    }
 
     try {
-      const weeklyProps = {
-        "Weekly Target": makeNumber(target ?? 30),
-        "Nilai Ujian": makeNumber(nilaiUjian ?? 0),
+      /* 1. Upsert halaman blok di Block Tracker */
+      const blockProps = {
+        "Weekly Target": makeNumber(target),
+        "Nilai Ujian":   makeNumber(nilaiUjian),
       };
 
-      let weeklyResponse;
+      let blockResponse;
       if (pageId) {
-        weeklyResponse = await fetch(
-          `https://api.notion.com/v1/pages/${pageId}`,
-          {
-            method: "PATCH",
-            headers: notionHeaders(),
-            body: JSON.stringify({ properties: weeklyProps }),
-          }
-        );
-      } else {
-        weeklyResponse = await fetch("https://api.notion.com/v1/pages", {
-          method: "POST",
+        blockResponse = await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
+          method:  "PATCH",
           headers: notionHeaders(),
-          body: JSON.stringify({
-            parent: { database_id: WEEKLY_DB_ID },
+          body:    JSON.stringify({ properties: blockProps }),
+        });
+      } else {
+        blockResponse = await fetch("https://api.notion.com/v1/pages", {
+          method:  "POST",
+          headers: notionHeaders(),
+          body:    JSON.stringify({
+            parent:     { database_id: WEEKLY_DB_ID },
             properties: {
-              ...weeklyProps,
-              Name: makeTitle(`Week ${monday} – ${sunday}`),
-              "Range Date": makeDateRange(monday, sunday),
+              ...blockProps,
+              Name:         makeTitle(`Blok ${blockStart} – ${blockEnd}`),
+              "Range Date": makeDateRange(blockStart, blockEnd),
             },
           }),
         });
       }
 
-      const weeklyResult = await weeklyResponse.json();
-      if (!weeklyResponse.ok) {
-        return res.status(weeklyResponse.status).json({
-          error: weeklyResult.message ?? "Notion API error (weekly)",
+      const blockResult = await blockResponse.json();
+      if (!blockResponse.ok) {
+        return res.status(blockResponse.status).json({
+          error: blockResult.message ?? "Notion API error (block tracker)",
         });
       }
-      const weeklyPageId = weeklyResult.id;
+      const blockPageId = blockResult.id;
 
-      if (DAILY_DB_ID && typeof dayIndex === "number") {
-        const dayNames = [
-          "Senin","Selasa","Rabu","Kamis","Jumat","Sabtu","Minggu",
-        ];
-        const dayName = dayNames[dayIndex] ?? "Senin";
-        const slideCount = (slides ?? [])[dayIndex] ?? 0;
+      /* 2. Upsert Daily Log untuk tanggal yang diinput hari ini */
+      if (DAILY_DB_ID && slideDate) {
+        const slideCount = slides[slideDate] ?? 0;
 
+        /* Cek apakah entry tanggal ini sudah ada */
         const existingRes = await fetch(
           `https://api.notion.com/v1/databases/${DAILY_DB_ID}/query`,
           {
-            method: "POST",
+            method:  "POST",
             headers: notionHeaders(),
-            body: JSON.stringify({
+            body:    JSON.stringify({
               filter: {
                 and: [
-                  {
-                    property: "Weekly Tracker",
-                    relation: { contains: weeklyPageId },
-                  },
-                  { property: "Date", date: { equals: today } },
+                  { property: "Weekly Tracker", relation: { contains: blockPageId } },
+                  { property: "Date",           date:     { equals: slideDate }     },
                 ],
               },
               page_size: 1,
@@ -260,37 +219,38 @@ module.exports = async function handler(req, res) {
         }
 
         const dailyProps = {
-          "Total Slide": makeNumber(slideCount),
-          Date: makeDate(today),
-          "Weekly Tracker": makeRelation(weeklyPageId),
+          "Total Slide":    makeNumber(slideCount),
+          Date:             makeDate(slideDate),
+          "Weekly Tracker": makeRelation(blockPageId),
         };
 
         if (dailyPageId) {
           await fetch(`https://api.notion.com/v1/pages/${dailyPageId}`, {
-            method: "PATCH",
+            method:  "PATCH",
             headers: notionHeaders(),
-            body: JSON.stringify({ properties: dailyProps }),
+            body:    JSON.stringify({ properties: dailyProps }),
           });
         } else {
+          const dayLabel = new Date(slideDate + "T12:00:00")
+            .toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long" });
           await fetch("https://api.notion.com/v1/pages", {
-            method: "POST",
+            method:  "POST",
             headers: notionHeaders(),
-            body: JSON.stringify({
-              parent: { database_id: DAILY_DB_ID },
+            body:    JSON.stringify({
+              parent:     { database_id: DAILY_DB_ID },
               properties: {
                 ...dailyProps,
-                Name: makeTitle(`${dayName}, ${today}`),
+                Name: makeTitle(`${dayLabel}, ${slideDate}`),
               },
             }),
           });
         }
       }
 
-      return res.json({ success: true, pageId: weeklyPageId });
+      return res.json({ success: true, pageId: blockPageId });
+
     } catch (err) {
-      return res
-        .status(500)
-        .json({ error: "Gagal menyimpan ke Notion: " + err.message });
+      return res.status(500).json({ error: "Gagal menyimpan ke Notion: " + err.message });
     }
   }
 
