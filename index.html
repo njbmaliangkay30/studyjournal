@@ -598,14 +598,28 @@
         const delay = Math.random() * 5;
         const duration = 3 + Math.random() * 4;
 
-        sp.style.width = size + "px";
-        sp.style.height = size + "px";
-        sp.style.left = left + "%";
-        sp.style.bottom = "-10px"; // mulai dari bawah
-        sp.style.animationDuration = duration + "s";
-        sp.style.animationDelay = delay + "s";
+const wrap = document.getElementById("sparkles");
+wrap.innerHTML = "";
+for (let i = 0; i < 30; i++) {
+    const size = Math.random() * 6 + 2;
+    const left = Math.random() * 100;
+    const delay = Math.random() * 5;
+    const duration = 3 + Math.random() * 4;
+
+    // Create the element and assign it to 'sp'
+    const sp = document.createElement("div");
+    sp.className = "sparkle"; // Optional: add a class for CSS styling
+
+    sp.style.width = size + "px";
+    sp.style.height = size + "px";
+    sp.style.left = left + "%";
+    sp.style.bottom = "-10px";
+    sp.style.animationDuration = duration + "s";
+    sp.style.animationDelay = delay + "s";
+    sp.style.position = "absolute"; // Ensure it can be positioned
+
+    // Append the newly created element to the wrapper
     wrap.appendChild(sp);
-  }
 }
           
       /* ── INIT ── */
