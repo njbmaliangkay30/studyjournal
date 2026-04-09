@@ -241,7 +241,7 @@
         </div>
         <div class="reward-card">
           <div class="rc-top">
-            <div class="rc-title">Reward minggu ini</div>
+            <div class="rc-title">Reward Blok Ini</div>
             <div class="rc-chip" id="rc-chip">0%</div>
           </div>
           <div class="rc-amount" id="rc-amount">Rp 0</div>
@@ -385,13 +385,20 @@
 
       function total() { return state.slides.slice(0, 5).reduce((a, b) => a + b, 0); }
       function pct() { return Math.min(Math.round((total() / state.target) * 100), 100); }
-      function reward() {
+      function nilaiPenalty() {
+        if (state.nilaiUjian > 0 && state.nilaiUjian < 60) {
+          return (60 - state.nilaiUjian) * 2000;
+        }
+        return 0;
+      }
+      function rewardBlok() {
         const t = total(), tgt = state.target;
         if (t >= tgt) return 200000;
-        // Call the pct() function to get the current progress percentage
-        const pctProgress = pct(); 
-        if (pctProgress >= 30) return 150000;
+        if (pct() >= 30) return 150000;
         return 0;
+      }
+      function rewardCair() {
+        return Math.max(0, rewardBlok() - nilaiPenalty());
       }
       function fmtRp(n) { return "Rp " + (n / 1000).toFixed(0) + ".000"; }
       function getWeekNum() {
@@ -413,7 +420,7 @@
 
       /* ── RENDER ── */
       function render() {
-        const p = pct(), t = total(), r = reward();
+        const p = pct(), t = total(), rBlok = rewardBlok(), rCair = rewardCair();
         const offset = circ - (circ * p) / 100;
         document.getElementById("ring-fill").style.strokeDashoffset = offset;
         document.getElementById("ring-glow").style.strokeDashoffset = offset;
@@ -436,19 +443,34 @@
         } else {
           nilaiEl.style.color = "";
         }
-        document.getElementById("m-reward-hdr").textContent = r > 0 ? fmtRp(r) : "Rp 0";
-        [["rc-amount","rc-note","rc-bar","rc-chip"],["rc-amount2","rc-note2","rc-bar2","rc-chip2"]].forEach(([am,no,ba,ch]) => {
-          document.getElementById(am).textContent = fmtRp(r);
-          document.getElementById(ba).style.width = p + "%";
-          document.getElementById(ch).textContent = p + "%";
-          const sisaFull = state.target - t;
-          const minTarget = Math.ceil(state.target * 0.3); // 30% dari target
-          const sisaMin = minTarget - t;
-          let note = r === 200000 ? "Target tercapai! Reward penuh untukmu ✦"
-            : r === 150000 ? "Reward sebagian. Butuh " + (sisaFull > 0 ? sisaFull : 0) + " slide lagi untuk penuh."
-            : "Butuh " + (sisaMin > 0 ? sisaMin : 0) + " slide lagi untuk reward minimal.";
-          document.getElementById(no).textContent = note;
-        });
+        document.getElementById("m-reward-hdr").textContent = rCair > 0 ? fmtRp(rCair) : "Rp 0";
+        const sisaFull = state.target - t;
+        const minTarget = Math.ceil(state.target * 0.3);
+        const sisaMin = minTarget - t;
+        const penalty = nilaiPenalty();
+
+        // Dashboard card → Reward Blok Ini (base, tanpa penalty)
+        const noteBlok = t >= state.target
+          ? "Reward blok terpenuhi! ✦"
+          : pct() >= 30 ? "Butuh " + (sisaFull > 0 ? sisaFull : 0) + " slide lagi untuk reward penuh."
+          : "Butuh " + (sisaMin > 0 ? sisaMin : 0) + " slide lagi untuk reward minimal.";
+        document.getElementById("rc-amount").textContent = fmtRp(rBlok);
+        document.getElementById("rc-bar").style.width = p + "%";
+        document.getElementById("rc-chip").textContent = p + "%";
+        document.getElementById("rc-note").textContent = noteBlok;
+
+        // Reward tab card → Reward Cair (setelah penalty nilai)
+        const penaltyNote = penalty > 0
+          ? " Potongan nilai " + state.nilaiUjian + ": −" + fmtRp(penalty) + "."
+          : state.nilaiUjian === 0 ? " Belum ada nilai ujian." : "";
+        const noteCair = t >= state.target
+          ? "Target tercapai!" + penaltyNote
+          : pct() >= 30 ? "Reward sebagian." + penaltyNote
+          : "Belum memenuhi syarat reward." + penaltyNote;
+        document.getElementById("rc-amount2").textContent = fmtRp(rCair);
+        document.getElementById("rc-bar2").style.width = p + "%";
+        document.getElementById("rc-chip2").textContent = penalty > 0 ? "−" + fmtRp(penalty) : "blok ini";
+        document.getElementById("rc-note2").textContent = noteCair;
         const dg = document.getElementById("days-grid");
         dg.innerHTML = "";
         const todayDow = new Date().getDay(), todayIdx = todayDow === 0 ? 6 : todayDow - 1;
@@ -598,22 +620,15 @@
         const delay = Math.random() * 5;
         const duration = 3 + Math.random() * 4;
 
-    // Create the element and assign it to 'sp'
-    const sp = document.createElement("div");
-    sp.className = "sparkle"; // Optional: add a class for CSS styling
-
-    sp.style.width = size + "px";
-    sp.style.height = size + "px";
-    sp.style.left = left + "%";
-    sp.style.bottom = "-10px";
-    sp.style.animationDuration = duration + "s";
-    sp.style.animationDelay = delay + "s";
-    sp.style.position = "absolute"; // Ensure it can be positioned
-
-    // Append the newly created element to the wrapper
+        sp.style.width = size + "px";
+        sp.style.height = size + "px";
+        sp.style.left = left + "%";
+        sp.style.bottom = "-10px"; // mulai dari bawah
+        sp.style.animationDuration = duration + "s";
+        sp.style.animationDelay = delay + "s";
     wrap.appendChild(sp);
-      }
- }
+  }
+}
           
       /* ── INIT ── */
       createSparkles();
