@@ -2,7 +2,7 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <title>Revalina — Study Journey</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;500;600&display=swap"
@@ -98,10 +98,11 @@
       .date-badge::before { content: '✦'; color: var(--gold); font-size: 8px; animation: star-twinkle 2s infinite alternate; }
       @keyframes star-twinkle { 0% { opacity: 0.5; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
 
-      .tab-bar { background: rgba(247, 241, 220, 0.85); backdrop-filter: blur(10px); padding: 10px 16px 0; border-bottom: 1px solid rgba(184, 144, 10, 0.1); display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; position: sticky; top: 0; z-index: 3; }
+      .tab-bar { background: rgba(247, 241, 220, 0.85); backdrop-filter: blur(10px); padding: 10px 16px 0; border-bottom: 1px solid rgba(184, 144, 10, 0.1); display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; position: sticky; top: 0; z-index: 3; position: relative; }
       .tab-bar::-webkit-scrollbar { display: none; }
-      .tab { flex: 1; padding: 8px 0; text-align: center; border-radius: 12px 12px 0 0; font-size: 12px; font-weight: 600; border: none; background: transparent; color: var(--text-soft); cursor: pointer; transition: all 0.3s; letter-spacing: 0.02em; font-family: var(--sans); }
-      .tab.active { background: rgba(253, 250, 240, 0.9); color: var(--green-deep); border-bottom: 2px solid var(--gold); box-shadow: 0 -4px 10px rgba(245,200,66,0.05); }
+      .tab-indicator { position: absolute; bottom: 0; height: 2px; background: var(--gold); border-radius: 2px 2px 0 0; box-shadow: 0 0 8px rgba(245,200,66,0.6); transition: left 0.32s cubic-bezier(.4,0,.2,1), width 0.32s cubic-bezier(.4,0,.2,1); pointer-events: none; z-index: 4; }
+      .tab { flex: 1; padding: 8px 0; text-align: center; border-radius: 12px 12px 0 0; font-size: 12px; font-weight: 600; border: none; background: transparent; color: var(--text-soft); cursor: pointer; transition: color 0.3s, background 0.3s; letter-spacing: 0.02em; font-family: var(--sans); }
+      .tab.active { background: rgba(253, 250, 240, 0.9); color: var(--green-deep); box-shadow: 0 -4px 10px rgba(245,200,66,0.05); }
       .tab:hover:not(.active) { color: var(--text-mid); background: rgba(255,255,255,0.3); }
 
       .sync-bar { padding: 6px 16px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
@@ -116,8 +117,13 @@
       .error-box { background:#fdeded; border:1px solid #f7c1c1; border-radius:10px; padding:10px 14px; font-size:11px; color:var(--red-soft); margin:0 16px 10px; line-height:1.5; }
 
       .main { padding: 16px 16px 32px; display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 1; flex-grow: 1; }
-      .page { display: none; flex-direction: column; gap: 14px; }
-      .page.active { display: flex; }
+      .pages-wrapper { position: relative; overflow: hidden; }
+      .page { display: flex; flex-direction: column; gap: 14px; position: absolute; top: 0; left: 0; width: 100%; opacity: 0; pointer-events: none; transform: translateX(40px); transition: transform 0.32s cubic-bezier(.4,0,.2,1), opacity 0.32s ease; }
+      .page.active { opacity: 1; pointer-events: auto; transform: translateX(0); position: relative; }
+      .page.slide-out-left  { transform: translateX(-40px); opacity: 0; }
+      .page.slide-out-right { transform: translateX(40px);  opacity: 0; }
+      .page.slide-in-left   { transform: translateX(-40px); }
+      .page.slide-in-right  { transform: translateX(40px);  }
       .sec-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
       .sec-lbl::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg,rgba(184, 144, 10, 0.15),transparent); }
       
@@ -209,7 +215,7 @@
       .input-card { padding: 16px; }
       .input-label { font-size: 11px; color: var(--text-soft); margin-bottom: 8px; font-weight: 600; letter-spacing: 0.04em; line-height: 1.4; }
       .input-row { display: flex; gap: 8px; }
-      .field { flex: 1; border: 1.5px solid rgba(245,200,66,0.2); border-radius: 10px; padding: 9px 12px; font-size: 14px; font-family: var(--sans); background: rgba(255,255,255,0.8); color: var(--text-dark); outline: none; transition: all 0.2s; width: 100%; }
+      .field { flex: 1; border: 1.5px solid rgba(245,200,66,0.2); border-radius: 10px; padding: 9px 12px; font-size: 16px; font-family: var(--sans); background: rgba(255,255,255,0.8); color: var(--text-dark); outline: none; transition: all 0.2s; width: 100%; }
       .field:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(245,200,66,0.2); background: #fff; }
       .btn-save { padding: 9px 18px; background: linear-gradient(135deg, var(--green-mid), var(--green-leaf)); color: #fff; border: none; border-radius: 10px; font-size: 12px; font-weight: 700; font-family: var(--sans); white-space: nowrap; transition: all 0.2s; box-shadow: 0 4px 10px rgba(74, 155, 40, 0.3); }
       .btn-save:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
@@ -340,6 +346,7 @@
       <button class="tab" onclick="switchTab('tracker')">Tracker</button>
       <button class="tab" onclick="switchTab('reward')">Reward</button>
       <button class="tab" onclick="switchTab('setting')">Pengaturan</button>
+      <div class="tab-indicator" id="tab-indicator"></div>
     </div>
 
     <div class="sync-bar syncing" id="sync-bar">
@@ -349,6 +356,7 @@
     <div class="error-box" id="error-box" style="display:none"></div>
 
     <div class="main">
+      <div class="pages-wrapper">
       <!-- DASHBOARD -->
       <div class="page active" id="tab-dashboard">
         
@@ -512,6 +520,7 @@
           </div>
         </details>
       </div>
+      </div><!-- end pages-wrapper -->
     </div>
 
     <div class="fairy-footer">✦ <span id="footer-name">Revalina</span> — Pixie Dust Journey ✦</div>
@@ -1439,14 +1448,58 @@
       const TABS_ORDER = ['dashboard', 'tracker', 'reward', 'setting'];
       let currentTabIndex = 0;
 
+      function updateIndicator() {
+        const activeBtn = document.querySelector('.tab.active');
+        const indicator = document.getElementById('tab-indicator');
+        if (!activeBtn || !indicator) return;
+        const bar = document.querySelector('.tab-bar');
+        const barRect = bar.getBoundingClientRect();
+        const btnRect = activeBtn.getBoundingClientRect();
+        indicator.style.left  = (btnRect.left - barRect.left + bar.scrollLeft) + 'px';
+        indicator.style.width = btnRect.width + 'px';
+      }
+
       function switchTab(id) {
-        currentTabIndex = TABS_ORDER.indexOf(id);
-        document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-        const pageEl = document.getElementById("tab-" + id);
-        if (pageEl) pageEl.classList.add("active");
+        const prevIndex = currentTabIndex;
+        const nextIndex = TABS_ORDER.indexOf(id);
+        if (prevIndex === nextIndex) return;
+        const goingRight = nextIndex > prevIndex;
+        currentTabIndex = nextIndex;
+
+        const pages = document.querySelectorAll('.page');
+        const prevPage = document.querySelector('.page.active');
+        const nextPage = document.getElementById('tab-' + id);
+        if (!prevPage || !nextPage) return;
+
+        // Setup incoming page before showing
+        nextPage.style.display = 'flex';
+        nextPage.classList.remove('active', 'slide-in-left', 'slide-in-right');
+        nextPage.classList.add(goingRight ? 'slide-in-left' : 'slide-in-right');
+
+        // Force reflow
+        nextPage.getBoundingClientRect();
+
+        // Animate out
+        prevPage.classList.add(goingRight ? 'slide-out-left' : 'slide-out-right');
+        prevPage.classList.remove('active');
+
+        // Animate in
+        nextPage.classList.remove('slide-in-left', 'slide-in-right');
+        nextPage.classList.add('active');
+
+        // Cleanup after transition
+        setTimeout(() => {
+          prevPage.classList.remove('slide-out-left', 'slide-out-right');
+          prevPage.style.display = '';
+        }, 350);
+
+        // Update tab buttons
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         const btn = document.querySelector(`.tab[onclick="switchTab('${id}')"]`);
-        if (btn) { btn.classList.add("active"); btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }
+        if (btn) { btn.classList.add('active'); btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }
+
+        // Move indicator
+        requestAnimationFrame(updateIndicator);
       }
 
       let touchStartX = 0, touchEndX = 0;
@@ -1545,6 +1598,8 @@
       checkWelcomeModal();
       render();
       loadFromNotion();
+      requestAnimationFrame(updateIndicator);
+      window.addEventListener('resize', updateIndicator);
     </script>
   </body>
 </html>
