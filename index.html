@@ -119,7 +119,7 @@
       .day { background: #fff; border-radius: 10px; padding: 8px 3px; text-align: center; border: 1px solid rgba(0,0,0,0.06); }
       .day.today { border-color: var(--gold); background: var(--gold-pale); box-shadow: 0 0 10px rgba(245,200,66,0.2); }
       .day.reward-day { background: #fff8e0; border-color: rgba(245,200,66,0.4); }
-      .day-name { font-size: 9px; color: var(--text-soft); margin-bottom: 5px; font-weight: 600; }
+      .day-name { font-size: 8px; color: var(--text-soft); margin-bottom: 4px; font-weight: 600; line-height: 1.3; }
       .day.today .day-name { color: var(--gold-dark); }
       .day-dot { width: 22px; height: 22px; border-radius: 50%; margin: 0 auto 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
       .day-dot.done { background: var(--gold); color: var(--text-dark); box-shadow: 0 0 8px rgba(245,200,66,0.5); }
@@ -146,7 +146,12 @@
       .btn-full { width: 100%; }
       .fairy-footer { text-align: center; padding: 10px 16px 24px; font-size: 10px; color: var(--text-soft); letter-spacing: 0.1em; }
       .fairy-footer span { color: var(--gold); }
-      @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+      .day.ujian-day { border-color: var(--red-soft); background: #fdeded; }
+      .day.ujian-day .day-name { color: var(--red-soft); }
+      .day.cp-pass { border-color: var(--green-leaf); }
+      .day.cp-fail { border-color: var(--red-soft); border-style: dashed; }
+      .day.cp-future { border-color: var(--amber); border-style: dashed; }
+      .day-dot.ujian { background: #fdeded; color: var(--red-soft); font-size: 13px; }
       .page.active > * { animation: fadeUp 0.35s ease both; }
       .page.active > *:nth-child(1) { animation-delay: 0.03s; }
       .page.active > *:nth-child(2) { animation-delay: 0.08s; }
@@ -325,11 +330,19 @@
       <!-- SETTING -->
       <div class="page" id="tab-setting">
         <div>
-          <div class="sec-lbl">Pengaturan target</div>
+          <div class="sec-lbl">Pengaturan blok</div>
           <div class="settings-card">
             <div>
-              <div class="set-label">Target slide per minggu</div>
-              <input type="number" id="set-target" min="5" max="200" value="30" class="field" style="width:100%" />
+              <div class="set-label">Tanggal mulai blok</div>
+              <input type="date" id="set-block-start" class="field" style="width:100%" />
+            </div>
+            <div>
+              <div class="set-label">Tanggal ujian</div>
+              <input type="date" id="set-block-end" class="field" style="width:100%" />
+            </div>
+            <div>
+              <div class="set-label">Target slide (total blok)</div>
+              <input type="number" id="set-target" min="5" max="500" value="30" class="field" style="width:100%" />
             </div>
             <div>
               <div class="set-label">Nama kamu</div>
@@ -342,8 +355,8 @@
         <div>
           <div class="sec-lbl">Reset data</div>
           <div class="input-card">
-            <div class="input-label" style="margin-bottom:10px">Gunakan setiap awal minggu baru untuk memulai dari nol.</div>
-            <button class="btn-reset" onclick="resetWeek()">Reset Minggu Baru</button>
+            <div class="input-label" style="margin-bottom:10px">Gunakan setiap awal blok baru untuk memulai dari nol.</div>
+            <button class="btn-reset" onclick="resetBlok()">Reset Blok Baru</button>
           </div>
         </div>
         <div>
@@ -371,25 +384,70 @@
       function ls(k, d) { try { const v = localStorage.getItem(k); return v !== null ? JSON.parse(v) : d; } catch { return d; } }
       function ss(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 
-      const state = {
-        slides: [0, 0, 0, 0, 0, 0, 0],
-        target: ls("rv_target", 30),
-        name: ls("rv_name", "Revalina"),
-        nilaiUjian: 0,
-      };
-      let pageId = null;
-      let isSaving = false;
-
-      const DAYS = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
+      const MONTHS_ID = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Ags","Sep","Okt","Nov","Des"];
+      const DAYS_SHORT = ["Min","Sen","Sel","Rab","Kam","Jum","Sab"];
       const circ = 213.6;
 
-      function total() { return state.slides.slice(0, 5).reduce((a, b) => a + b, 0); }
+      const state = {
+        slides: ls("rv_slides", {}),
+        target: ls("rv_target", 30),
+        name: ls("rv_name", "Revalina"),
+        nilaiUjian: ls("rv_nilai", 0),
+        blockStart: ls("rv_block_start", null),
+        blockEnd: ls("rv_block_end", null),
+      };
+      let pageId = null;
+
+      /* ── DATE HELPERS ── */
+      function fmtISO(d) { return d.toISOString().split("T")[0]; }
+      function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate() + n); return r; }
+      function fmtLabel(d) {
+        return DAYS_SHORT[d.getDay()] + ", " + d.getDate() + " " + MONTHS_ID[d.getMonth()];
+      }
+      function getBlockDates() {
+        if (!state.blockStart || !state.blockEnd) return [];
+        const s = new Date(state.blockStart + "T00:00:00");
+        const e = new Date(state.blockEnd + "T00:00:00");
+        const dates = [];
+        for (let d = new Date(s); d <= e; d = addDays(d, 1)) dates.push(fmtISO(d));
+        return dates;
+      }
+      function blockLabel() {
+        if (!state.blockStart || !state.blockEnd) return "Blok belum diatur";
+        const s = new Date(state.blockStart + "T00:00:00");
+        const e = new Date(state.blockEnd + "T00:00:00");
+        return fmtLabel(s) + " – " + fmtLabel(e);
+      }
+
+      /* ── CALC HELPERS ── */
+      function total() {
+        return Object.values(state.slides).reduce((a, b) => a + b, 0);
+      }
       function pct() { return Math.min(Math.round((total() / state.target) * 100), 100); }
+
       function nilaiPenalty() {
-        if (state.nilaiUjian > 0 && state.nilaiUjian < 60) {
-          return (60 - state.nilaiUjian) * 2000;
-        }
+        if (state.nilaiUjian > 0 && state.nilaiUjian < 60) return (60 - state.nilaiUjian) * 2000;
         return 0;
+      }
+      function checkpointPenalty() {
+        const dates = getBlockDates();
+        if (dates.length < 2) return 0;
+        const today = fmtISO(new Date());
+        const ratios = [0.25, 0.5, 0.75];
+        let penalty = 0;
+        ratios.forEach(r => {
+          const cpDate = dates[Math.floor(dates.length * r)];
+          if (today > cpDate) {
+            const cpTarget = Math.ceil(state.target * r);
+            let cum = 0;
+            for (const ds of dates) {
+              cum += state.slides[ds] || 0;
+              if (ds === cpDate) break;
+            }
+            if (cum < cpTarget) penalty += 10000;
+          }
+        });
+        return penalty;
       }
       function rewardBlok() {
         const t = total(), tgt = state.target;
@@ -398,13 +456,9 @@
         return 0;
       }
       function rewardCair() {
-        return Math.max(0, rewardBlok() - nilaiPenalty());
+        return Math.max(0, rewardBlok() - nilaiPenalty() - checkpointPenalty());
       }
       function fmtRp(n) { return "Rp " + (n / 1000).toFixed(0) + ".000"; }
-      function getWeekNum() {
-        const d = new Date(), s = new Date(d.getFullYear(), 0, 1);
-        return Math.ceil(((d - s) / 86400000 + s.getDay() + 1) / 7);
-      }
 
       /* ── SYNC STATUS ── */
       function setSyncStatus(status, msg) {
@@ -434,7 +488,7 @@
         const greet = h < 11 ? "Semangat paginya!" : h < 15 ? "Terus semangat ya!" : h < 18 ? "Yuk lanjut belajarnya!" : "Semangat malam harinya!";
         document.getElementById("greeting-line").textContent = greet;
         document.getElementById("date-line").textContent = new Date().toLocaleDateString("id-ID", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
-        document.getElementById("week-badge-txt").textContent = "Minggu ke-" + getWeekNum() + " — " + new Date().getFullYear();
+        document.getElementById("week-badge-txt").textContent = blockLabel();
         document.getElementById("m-slide").textContent = t;
         const nilaiEl = document.getElementById("m-nilai");
         nilaiEl.textContent = state.nilaiUjian > 0 ? state.nilaiUjian : "—";
@@ -444,12 +498,14 @@
           nilaiEl.style.color = "";
         }
         document.getElementById("m-reward-hdr").textContent = rCair > 0 ? fmtRp(rCair) : "Rp 0";
+
         const sisaFull = state.target - t;
         const minTarget = Math.ceil(state.target * 0.3);
         const sisaMin = minTarget - t;
-        const penalty = nilaiPenalty();
+        const nPenalty = nilaiPenalty();
+        const cpPenalty = checkpointPenalty();
+        const totalPenalty = nPenalty + cpPenalty;
 
-        // Dashboard card → Reward Blok Ini (base, tanpa penalty)
         const noteBlok = t >= state.target
           ? "Reward blok terpenuhi! ✦"
           : pct() >= 30 ? "Butuh " + (sisaFull > 0 ? sisaFull : 0) + " slide lagi untuk reward penuh."
@@ -459,43 +515,77 @@
         document.getElementById("rc-chip").textContent = p + "%";
         document.getElementById("rc-note").textContent = noteBlok;
 
-        // Reward tab card → Reward Cair (setelah penalty nilai)
-        const penaltyNote = penalty > 0
-          ? " Potongan nilai " + state.nilaiUjian + ": −" + fmtRp(penalty) + "."
-          : state.nilaiUjian === 0 ? " Belum ada nilai ujian." : "";
-        const noteCair = t >= state.target
-          ? "Target tercapai!" + penaltyNote
+        const penaltyParts = [];
+        if (nPenalty > 0) penaltyParts.push("nilai " + state.nilaiUjian + " (−" + fmtRp(nPenalty) + ")");
+        if (cpPenalty > 0) penaltyParts.push("checkpoint (−" + fmtRp(cpPenalty) + ")");
+        const penaltyNote = penaltyParts.length > 0 ? " Potongan: " + penaltyParts.join(", ") + "." : state.nilaiUjian === 0 ? " Belum ada nilai ujian." : "";
+        const noteCair = t >= state.target ? "Target tercapai!" + penaltyNote
           : pct() >= 30 ? "Reward sebagian." + penaltyNote
           : "Belum memenuhi syarat reward." + penaltyNote;
         document.getElementById("rc-amount2").textContent = fmtRp(rCair);
         document.getElementById("rc-bar2").style.width = p + "%";
-        document.getElementById("rc-chip2").textContent = penalty > 0 ? "−" + fmtRp(penalty) : "blok ini";
+        document.getElementById("rc-chip2").textContent = totalPenalty > 0 ? "−" + fmtRp(totalPenalty) : "blok ini";
         document.getElementById("rc-note2").textContent = noteCair;
+
+        /* ── GRID TRACKER ── */
         const dg = document.getElementById("days-grid");
         dg.innerHTML = "";
-        const todayDow = new Date().getDay(), todayIdx = todayDow === 0 ? 6 : todayDow - 1;
-        DAYS.forEach((d, i) => {
-          const el = document.createElement("div");
-          const isSab = i === 5, isMin = i === 6, isToday = i === todayIdx, s = state.slides[i];
-          let dc = "empty", dc2 = "–";
-          if (isSab) { dc = "reward"; dc2 = "✦"; }
-          else if (isMin) { dc = "rest"; dc2 = "~"; }
-          else if (s > 0) { dc = "done"; dc2 = s; }
-          el.className = "day" + (isToday ? " today" : "") + (isSab ? " reward-day" : "");
-          el.innerHTML = '<div class="day-name">' + d + '</div><div class="day-dot ' + dc + '">' + dc2 + '</div><div class="day-pts">' + (isSab ? "reward" : isMin ? "istirahat" : s > 0 ? s + " slide" : "–") + "</div>";
-          dg.appendChild(el);
-        });
+        const dates = getBlockDates();
+        const todayStr = fmtISO(new Date());
+        const CP_RATIOS = [0.25, 0.5, 0.75];
+        const cpDates = new Set(CP_RATIOS.map(r => dates[Math.floor(dates.length * r)]));
+
+        if (dates.length === 0) {
+          dg.innerHTML = '<div style="grid-column:1/-1;text-align:center;font-size:12px;color:var(--text-soft);padding:16px">Atur tanggal blok di tab Pengaturan</div>';
+        } else {
+          dates.forEach(ds => {
+            const d = new Date(ds + "T00:00:00");
+            const isToday = ds === todayStr;
+            const isUjian = ds === state.blockEnd;
+            const isCP = cpDates.has(ds) && !isUjian;
+            const s = state.slides[ds] || 0;
+
+            let cpStatus = "";
+            if (isCP && todayStr > ds) {
+              const r = CP_RATIOS[Array.from(cpDates).indexOf(ds)];
+              let cum = 0;
+              for (const x of dates) { cum += state.slides[x] || 0; if (x === ds) break; }
+              cpStatus = cum >= Math.ceil(state.target * r) ? "cp-pass" : "cp-fail";
+            } else if (isCP) {
+              cpStatus = "cp-future";
+            }
+
+            const el = document.createElement("div");
+            el.className = "day" + (isToday ? " today" : "") + (isUjian ? " ujian-day" : "");
+            if (cpStatus) el.classList.add(cpStatus);
+
+            let dotClass = "empty", dotVal = "–";
+            if (isUjian) { dotClass = "ujian"; dotVal = "📝"; }
+            else if (s > 0) { dotClass = "done"; dotVal = s; }
+
+            el.innerHTML =
+              '<div class="day-name">' + fmtLabel(d) + '</div>' +
+              '<div class="day-dot ' + dotClass + '">' + dotVal + '</div>' +
+              '<div class="day-pts">' + (isUjian ? "ujian" : s > 0 ? s + " slide" : "–") + '</div>';
+            dg.appendChild(el);
+          });
+        }
+
         if (document.getElementById("inp-nilai").value === "" && state.nilaiUjian > 0)
           document.getElementById("inp-nilai").value = state.nilaiUjian;
         document.getElementById("set-target").value = state.target;
         document.getElementById("set-name").value = state.name;
+        if (state.blockStart) document.getElementById("set-block-start").value = state.blockStart;
+        if (state.blockEnd) document.getElementById("set-block-end").value = state.blockEnd;
       }
 
       /* ── NOTION API ── */
       async function loadFromNotion() {
         setSyncStatus("syncing", "Memuat data dari Notion...");
         try {
-          const res = await fetch("/api/notion");
+          const params = state.blockStart && state.blockEnd
+            ? "?start=" + state.blockStart + "&end=" + state.blockEnd : "";
+          const res = await fetch("/api/notion" + params);
           const json = await res.json();
           if (!res.ok) {
             setSyncStatus("error", "Gagal terhubung ke Notion");
@@ -504,12 +594,13 @@
           }
           if (json.data) {
             const d = json.data;
-            state.slides = d.slides ?? [0,0,0,0,0,0,0];
+            state.slides = d.slides ?? {};
             state.target = d.target ?? 30;
             state.nilaiUjian = d.nilaiUjian ?? 0;
-            if (d.name && d.name !== "Week") state.name = ls("rv_name", "Revalina");
             pageId = json.pageId ?? null;
             ss("rv_target", state.target);
+            ss("rv_slides", state.slides);
+            ss("rv_nilai", state.nilaiUjian);
           }
           setSyncStatus("ok", "✦ Tersinkron dengan Notion");
           showError(null);
@@ -520,7 +611,7 @@
         }
       }
 
-      async function saveToNotion(dayIndex) {
+      async function saveToNotion(slideDate) {
         setSyncStatus("syncing", "Menyimpan ke Notion...");
         try {
           const res = await fetch("/api/notion", {
@@ -530,8 +621,10 @@
               slides: state.slides,
               target: state.target,
               nilaiUjian: state.nilaiUjian,
+              blockStart: state.blockStart,
+              blockEnd: state.blockEnd,
               pageId: pageId,
-              dayIndex: dayIndex,
+              slideDate: slideDate,
             }),
           });
           const json = await res.json();
@@ -559,19 +652,21 @@
       async function addSlide() {
         const v = parseInt(document.getElementById("inp-slide").value) || 0;
         if (v < 0) return;
-        const dow = new Date().getDay(), idx = dow === 0 ? 6 : dow - 1;
-        state.slides[idx] = v;
+        const todayStr = fmtISO(new Date());
+        state.slides[todayStr] = v;
+        ss("rv_slides", state.slides);
         render();
         document.getElementById("inp-slide").value = "";
         setButtonLoading("btn-slide", true);
-        const ok = await saveToNotion(idx);
+        const ok = await saveToNotion(todayStr);
         setButtonLoading("btn-slide", false);
         if (ok) flash("save-msg-slide");
       }
 
       async function saveNilai() {
         const v = parseFloat(document.getElementById("inp-nilai").value) || 0;
-        state.nilaiUjian = v;
+        state.nilaiUjian = Math.min(100, Math.max(0, v));
+        ss("rv_nilai", state.nilaiUjian);
         render();
         setButtonLoading("btn-nilai", true);
         const ok = await saveToNotion(undefined);
@@ -582,6 +677,10 @@
       async function saveSettings() {
         state.target = parseInt(document.getElementById("set-target").value) || 30;
         state.name = document.getElementById("set-name").value.trim() || "Revalina";
+        const newStart = document.getElementById("set-block-start").value;
+        const newEnd = document.getElementById("set-block-end").value;
+        if (newStart) { state.blockStart = newStart; ss("rv_block_start", newStart); }
+        if (newEnd) { state.blockEnd = newEnd; ss("rv_block_end", newEnd); }
         ss("rv_target", state.target);
         ss("rv_name", state.name);
         render();
@@ -591,9 +690,13 @@
         if (ok) flash("save-msg-set");
       }
 
-      async function resetWeek() {
-        if (!confirm("Reset semua data slide minggu ini?")) return;
-        state.slides = [0, 0, 0, 0, 0, 0, 0];
+      async function resetBlok() {
+        if (!confirm("Reset semua data slide blok ini? Data tidak bisa dikembalikan.")) return;
+        state.slides = {};
+        state.nilaiUjian = 0;
+        pageId = null;
+        ss("rv_slides", state.slides);
+        ss("rv_nilai", 0);
         render();
         await saveToNotion(undefined);
       }
@@ -615,21 +718,20 @@
         const wrap = document.getElementById("sparkles");
         wrap.innerHTML = "";
         for (let i = 0; i < 30; i++) {
-        const size = Math.random() * 6 + 2;
-        const left = Math.random() * 100;
-        const delay = Math.random() * 5;
-        const duration = 3 + Math.random() * 4;
+          const sp = document.createElement("div");
+          sp.className = "sp";
+          const size = Math.random() * 6 + 2;
+          sp.style.width = size + "px";
+          sp.style.height = size + "px";
+          sp.style.left = Math.random() * 100 + "%";
+          sp.style.bottom = "-10px";
+          sp.style.background = Math.random() > 0.5 ? "#f5c842" : "#8dc95a";
+          sp.style.animationDuration = (3 + Math.random() * 4) + "s";
+          sp.style.animationDelay = (Math.random() * 5) + "s";
+          wrap.appendChild(sp);
+        }
+      }
 
-        sp.style.width = size + "px";
-        sp.style.height = size + "px";
-        sp.style.left = left + "%";
-        sp.style.bottom = "-10px"; // mulai dari bawah
-        sp.style.animationDuration = duration + "s";
-        sp.style.animationDelay = delay + "s";
-    wrap.appendChild(sp);
-  }
-}
-          
       /* ── INIT ── */
       createSparkles();
       render();
