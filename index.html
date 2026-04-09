@@ -25,16 +25,24 @@
     radial-gradient(circle at 50% 80%, rgba(255,220,120,0.1), transparent 50%);
 }
       .sparkles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 2; mix-blend-mode: screen; }
-      .sp { position: absolute; border-radius: 50%; animation: sparkle-float linear infinite; opacity: 0; background: radial-gradient(circle, rgba(255, 240, 180, 1) 0%,  rgba(255, 220, 120, 0.8) 30%,
-    rgba(255, 200, 80, 0.4) 60%, transparent 80%); box-shadow: 0 0 6px rgba(255, 220, 120, 0.8), 0 0 12px rgba(255, 200, 80, 0.6),
-    0 0 24px rgba(255, 200, 80, 0.4);
-}
-      @keyframes sparkle-float {
-        0% { opacity: 0; transform: translateY(20px) scale(0.4); }
-        20% { opacity: 1; }
-        60% { opacity: 0.9; }
-        100% { opacity: 0; transform: translateY(-120px) scale(1.2); }
+      .sp { 
+        position: absolute; 
+        border-radius: 50%; 
+        animation: sparkle-float linear infinite; 
+        opacity: 0; 
+        background: radial-gradient(circle, rgba(255, 240, 180, 1) 0%,  rgba(255, 220, 120, 0.8) 30%, rgba(255, 200, 80, 0.4) 60%, transparent 80%); 
+        box-shadow: 0 0 6px rgba(255, 220, 120, 0.8), 0 0 12px rgba(255, 200, 80, 0.6), 0 0 24px rgba(255, 200, 80, 0.4);
       }
+      
+      /* KEYFRAME DIPERBARUI: Fade out lebih awal dan terbang lebih tinggi */
+      @keyframes sparkle-float {
+        0% { opacity: 0; transform: translateY(15px) scale(0.4); }
+        15% { opacity: 0.8; }
+        40% { opacity: 0.4; } /* Mulai memudar lebih natural di tengah jalan */
+        75% { opacity: 0.1; }
+        100% { opacity: 0; transform: translateY(var(--float-dist, -250px)) scale(1.2); } /* Menggunakan variabel jarak */
+      }
+
       .header { background: linear-gradient(160deg, #0f2a06 0%, #1a4a0a 45%, #234f10 100%); padding: 28px 20px 22px; position: relative; overflow: hidden; z-index: 1; position: relative; }
       .header-leaves { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
       .leaf { position: absolute; border-radius: 50% 0 50% 0; background: rgba(74,155,40,0.12); }
@@ -721,20 +729,30 @@
         btn.classList.add("active");
       }
 
+      /* FUNGSI SPARKLES DIPERBARUI */
       function createSparkles() {
         const wrap = document.getElementById("sparkles");
         wrap.innerHTML = "";
-        for (let i = 0; i < 70; i++) {
+        for (let i = 0; i < 60; i++) { // Jumlah dikurangi sedikit agar clean
           const sp = document.createElement("div");
           sp.className = "sp";
-          const size = Math.random() * 6 + 2;
+          const size = Math.random() * 5 + 2; 
           sp.style.width = size + "px";
           sp.style.height = size + "px";
           sp.style.left = Math.random() * 100 + "%";
-          sp.style.bottom = "0px";
+          
+          // Mulai dari titik acak di sekitar batas bawah
+          sp.style.bottom = (Math.random() * -20) + "px"; 
+          
           sp.style.background = Math.random() > 0.5 ? "#f5c842" : "#8dc95a";
-          sp.style.animationDuration = (3 + Math.random() * 4) + "s";
+          sp.style.animationDuration = (3 + Math.random() * 5) + "s";
           sp.style.animationDelay = (Math.random() * 5) + "s";
+          
+          // Memberi variabel custom ke CSS agar gliter bisa terbang ke ketinggian berbeda
+          // (Terbang lebih tinggi, antara -180px hingga -360px ke atas)
+          const dist = -(180 + Math.random() * 180);
+          sp.style.setProperty('--float-dist', dist + 'px');
+
           wrap.appendChild(sp);
         }
       }
