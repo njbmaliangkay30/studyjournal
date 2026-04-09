@@ -436,8 +436,8 @@
           document.getElementById(ba).style.width = p + "%";
           document.getElementById(ch).textContent = p + "%";
           const sisa = state.target - t;
-          let note = r === 100000 ? "Target tercapai! Reward penuh untukmu ✦"
-            : r === 50000 ? "Reward sebagian. Butuh " + sisa + " slide lagi untuk penuh."
+          let note = r === 200000 ? "Target tercapai! Reward penuh untukmu ✦"
+            : r === 150000 ? "Reward sebagian. Butuh " + sisa + " slide lagi untuk penuh."
             : "Butuh " + (15 - t > 0 ? 15 - t : 0) + " slide lagi untuk reward minimal.";
           document.getElementById(no).textContent = note;
         });
