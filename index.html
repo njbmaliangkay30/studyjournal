@@ -195,7 +195,7 @@
           </div>
         </div>
         <div class="prog-info">
-          <div class="prog-label">Slide PPT minggu ini</div>
+          <div class="prog-label">Total PPT Blok ini</div>
           <div class="prog-bar-track">
             <div class="prog-bar-fill" id="prog-bar" style="width:0%"></div>
           </div>
@@ -225,7 +225,7 @@
       <!-- DASHBOARD -->
       <div class="page active" id="tab-dashboard">
         <div>
-          <div class="sec-lbl">Weekly Recap</div>
+          <div class="sec-lbl">Blok Recap</div>
           <div class="metrics">
             <div class="metric">
               <div class="metric-icon">📖</div>
@@ -250,7 +250,7 @@
             <div class="rc-chip" id="rc-chip">0%</div>
           </div>
           <div class="rc-amount" id="rc-amount">Rp 0</div>
-          <div class="rc-note" id="rc-note">Mulai tambahkan slide untuk menghitung reward</div>
+          <div class="rc-note" id="rc-note">Mulai tambahkan PPT untuk menghitung reward</div>
           <div class="rc-bar"><div class="rc-bar-fill" id="rc-bar" style="width:0%"></div></div>
         </div>
       </div>
@@ -258,13 +258,13 @@
       <!-- TRACKER -->
       <div class="page" id="tab-tracker">
         <div>
-          <div class="sec-lbl">Slide per hari — minggu ini</div>
+          <div class="sec-lbl">PPT per hari — Blok ini</div>
           <div class="days-grid" id="days-grid"></div>
         </div>
         <div>
-          <div class="sec-lbl">Input slide hari ini</div>
+          <div class="sec-lbl">Perjuanganku hari ini</div>
           <div class="input-card">
-            <div class="input-label">Berapa slide yang kamu baca hari ini?</div>
+            <div class="input-label">Berapa PPT yang kamu baca hari ini?</div>
             <div class="input-row">
               <input type="number" id="inp-slide" min="0" max="99" placeholder="0" class="field" />
               <button class="btn-save" id="btn-slide" onclick="addSlide()">Simpan</button>
@@ -275,7 +275,7 @@
         <div>
           <div class="sec-lbl">Input nilai ujian</div>
           <div class="input-card">
-            <div class="input-label">Nilai ujian terakhir (0–100)</div>
+            <div class="input-label">Nilai ujian Blok ini (0–100)</div>
             <div class="input-row">
               <input type="number" id="inp-nilai" min="0" max="100" placeholder="–" class="field" />
               <button class="btn-save" id="btn-nilai" onclick="saveNilai()">Simpan</button>
@@ -341,12 +341,12 @@
               <input type="date" id="set-block-end" class="field" style="width:100%" />
             </div>
             <div>
-              <div class="set-label">Target slide (total blok)</div>
+              <div class="set-label">Target PPT Blok ini</div>
               <input type="number" id="set-target" min="5" max="500" value="30" class="field" style="width:100%" />
             </div>
             <div>
               <div class="set-label">Nama kamu</div>
-              <input type="text" id="set-name" placeholder="Revalina" class="field" style="width:100%" />
+              <input type="text" id="set-name" placeholder="Ketik nama kamu disini" class="field" style="width:100%" />
             </div>
             <button class="btn-save btn-full" id="btn-set" onclick="saveSettings()">Simpan Pengaturan</button>
             <div class="save-msg" id="save-msg-set" style="text-align:center">Pengaturan tersimpan ke Notion!</div>
