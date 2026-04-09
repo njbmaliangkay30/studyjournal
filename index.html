@@ -585,15 +585,23 @@
 
       function createSparkles() {
         const wrap = document.getElementById("sparkles");
-        for (let i = 0; i < 18; i++) {
-          const sp = document.createElement("div");
-          sp.className = "sp";
-          const size = Math.random() * 4 + 2, gold = Math.random() > 0.4;
-          sp.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:${gold?"#F5C842":"#B8E06A"};animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s;box-shadow:0 0 ${size*2}px ${gold?"rgba(245,200,66,0.8)":"rgba(184,224,106,0.6)"};`;
-          wrap.appendChild(sp);
-        }
-      }
+        wrap.innerHTML = "";
+        for (let i = 0; i < 30; i++) {
+        const size = Math.random() * 6 + 2;
+        const left = Math.random() * 100;
+        const delay = Math.random() * 5;
+        const duration = 3 + Math.random() * 4;
 
+        sp.style.width = size + "px";
+        sp.style.height = size + "px";
+        sp.style.left = left + "%";
+        sp.style.bottom = "-10px"; // mulai dari bawah
+        sp.style.animationDuration = duration + "s";
+        sp.style.animationDelay = delay + "s";
+    wrap.appendChild(sp);
+  }
+}
+          
       /* ── INIT ── */
       createSparkles();
       render();
