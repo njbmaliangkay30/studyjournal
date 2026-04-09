@@ -429,7 +429,13 @@
         document.getElementById("date-line").textContent = new Date().toLocaleDateString("id-ID", { weekday:"long", day:"numeric", month:"long", year:"numeric" });
         document.getElementById("week-badge-txt").textContent = "Minggu ke-" + getWeekNum() + " — " + new Date().getFullYear();
         document.getElementById("m-slide").textContent = t;
-        document.getElementById("m-nilai").textContent = state.nilaiUjian > 0 ? state.nilaiUjian : "—";
+        const nilaiEl = document.getElementById("m-nilai");
+        nilaiEl.textContent = state.nilaiUjian > 0 ? state.nilaiUjian : "—";
+        if (state.nilaiUjian > 0) {
+          nilaiEl.style.color = state.nilaiUjian >= 60 ? "var(--green-mid)" : "var(--red-soft)";
+        } else {
+          nilaiEl.style.color = "";
+        }
         document.getElementById("m-reward-hdr").textContent = r > 0 ? fmtRp(r) : "Rp 0";
         [["rc-amount","rc-note","rc-bar","rc-chip"],["rc-amount2","rc-note2","rc-bar2","rc-chip2"]].forEach(([am,no,ba,ch]) => {
           document.getElementById(am).textContent = fmtRp(r);
