@@ -25,7 +25,7 @@
         min-height: 100vh; overflow-x: hidden;
         cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M17,17 Q12,6 20,6 Q21,12 17,17' fill='%23ffe478' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M18,18 Q26,6 31,12 Q24,18 18,18' fill='%23fff' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M18,19 Q28,22 25,28 Q19,22 18,19' fill='%23fff' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M15,15 C15,15 20,20 16,28 C16,28 14,24 15,19 C15,19 12,23 9,25 C9,25 7,19 13,16 Z' fill='%238dc95a' stroke='%231a3a0f' stroke-width='1'/%3E%3Ccircle cx='16' cy='11' r='3.5' fill='%23fbdcb8' stroke='%233e2709' stroke-width='1'/%3E%3Ccircle cx='18' cy='8' r='1.5' fill='%23f5c842' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M15,16 L6,6' stroke='%23fbdcb8' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M8,8 L2,2' stroke='%23fff' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='2' cy='2' r='2' fill='%23f5c842'/%3E%3C/svg%3E") 2 2, auto;
       }
-      button, .tab, .day, .btn-save, .btn-reset, .rc-chip, label, summary {
+      button, .tab, .day, .btn-save, .btn-reset, .rc-chip, label, summary, .float-timer-btn {
         cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M17,17 Q12,6 20,6 Q21,12 17,17' fill='%23ffe478' stroke='%231a3a0f' stroke-width='1'/%3E%3Cpath d='M18,18 Q26,6 31,12 Q24,18 18,18' fill='%23e4f2d3' stroke='%231a3a0f' stroke-width='1'/%3E%3Cpath d='M18,19 Q28,22 25,28 Q19,22 18,19' fill='%23e4f2d3' stroke='%231a3a0f' stroke-width='1'/%3E%3Cpath d='M15,15 C15,15 20,20 16,28 C16,28 14,24 15,19 C15,19 12,23 9,25 C9,25 7,19 13,16 Z' fill='%234a9b28' stroke='%231a3a0f' stroke-width='1'/%3E%3Ccircle cx='16' cy='11' r='3.5' fill='%23fbdcb8' stroke='%231a3a0f' stroke-width='1'/%3E%3Ccircle cx='18' cy='8' r='1.5' fill='%23f5c842' stroke='%231a3a0f' stroke-width='1'/%3E%3Cpath d='M15,16 L6,6' stroke='%23fbdcb8' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M8,8 L2,2' stroke='%23fff' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='2' cy='2' r='4' fill='%238dc95a' opacity='0.8'/%3E%3Ccircle cx='2' cy='2' r='2' fill='%23fff'/%3E%3C/svg%3E") 2 2, pointer !important;
       }
       input, textarea, .field {
@@ -127,7 +127,7 @@
       .sec-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
       .sec-lbl::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg,rgba(184, 144, 10, 0.15),transparent); }
       
-      /* DASHBOARD FANCY CARDS (Glassmorphism & Glowing Icons) */
+      /* DASHBOARD FANCY CARDS */
       .fc-card { 
         background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); 
         border-radius: 18px; padding: 20px; position: relative; overflow: hidden; 
@@ -196,14 +196,12 @@
       .day { position: relative; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(5px); border-radius: 10px; padding: 12px 3px 8px; text-align: center; border: 1px solid rgba(245,200,66,0.1); transition: all 0.2s; }
       .day:hover { transform: scale(1.05); background: rgba(255,255,255,0.9); box-shadow: 0 4px 10px rgba(245,200,66,0.1); z-index: 1; }
       .day.today { border-color: var(--gold); background: rgba(255, 248, 214, 0.8); box-shadow: 0 0 15px rgba(245,200,66,0.3); }
-      .day.reward-day { background: #fff8e0; border-color: rgba(245,200,66,0.4); }
       .day-name { font-size: 8px; color: var(--text-soft); margin-bottom: 4px; font-weight: 600; line-height: 1.3; }
       .day.today .day-name { color: var(--gold-dark); }
       .day-dot { width: 22px; height: 22px; border-radius: 50%; margin: 0 auto 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; transition: all 0.3s; }
       .day-dot.done { background: var(--gold); color: var(--text-dark); box-shadow: 0 0 10px rgba(245,200,66,0.6); }
       .day-dot.empty { background: rgba(0,0,0,0.04); color: var(--text-soft); font-size: 9px; }
-      .day-dot.reward { background: var(--gold-pale); color: var(--gold-dark); font-size: 12px; }
-      .day-dot.rest { background: var(--green-pale); color: var(--green-mid); font-size: 10px; }
+      .day-dot.ujian { background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: 1px dashed rgba(232, 80, 80, 0.4); font-size: 10px; }
       .day-pts { font-size: 8px; color: var(--text-soft); }
       .day.today .day-pts { color: var(--gold-dark); }
       .day-mood { position: absolute; top: -6px; right: -6px; background: #fff; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 12px; z-index: 4; }
@@ -280,6 +278,128 @@
       @keyframes burst-anim { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 10% { transform: translate(calc(-50% + var(--tx)*0.1), calc(-50% + var(--ty)*0.1)) scale(1.5); opacity: 1; } 100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0) rotate(180deg); opacity: 0; } }
       .grand-sparkle { position: fixed; pointer-events: none; border-radius: 50%; z-index: 20002; mix-blend-mode: screen; animation: grand-fall forwards cubic-bezier(0.2, 0.8, 0.4, 1); }
       @keyframes grand-fall { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 15% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(var(--s)); opacity: 1; } 100% { transform: translate(calc(-50% + var(--tx) + var(--drift)), calc(-50% + var(--ty) + 400px)) scale(0); opacity: 0; } }
+
+      /* --- TIMER STYLES (RANDOM THEMES) --- */
+      .float-timer-btn {
+        position: fixed; bottom: 25px; right: 25px;
+        width: 60px; height: 60px; border-radius: 50%;
+        background: linear-gradient(135deg, #a5f3fc, #0ea5e9);
+        border: 2px solid #fff; box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3), inset 0 0 10px rgba(255,255,255,0.5);
+        z-index: 999; display: flex; align-items: center; justify-content: center; font-size: 26px;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      .float-timer-btn:hover { transform: scale(1.1) translateY(-5px); }
+      .float-timer-btn.active { animation: float-glow 2s infinite alternate; }
+      @keyframes float-glow { 0% { box-shadow: 0 0 10px #0ea5e9; } 100% { box-shadow: 0 0 25px #0ea5e9, 0 0 40px rgba(14, 165, 233, 0.4); } }
+
+      .focus-stage {
+        height: 220px; width: 100%; margin: 10px auto; 
+        display: flex; align-items: flex-end; justify-content: center;
+        position: relative;
+      }
+      .theme-wrap {
+        display: flex; flex-direction: column; align-items: center; justify-content: flex-end; 
+        width: 100%; height: 100%; position: absolute; bottom: 0; left: 0;
+      }
+
+      /* THEME 1: 3D CRYSTAL ICE */
+      .ice-3d {
+        width: 110px; height: 110px;
+        background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(140,230,255,0.7) 100%);
+        border: 2px solid rgba(255,255,255,0.9);
+        border-radius: 15px;
+        position: relative; z-index: 2;
+        transform-origin: bottom center;
+        transform: perspective(400px) rotateX(30deg) rotateY(-20deg) scale(1);
+        box-shadow:
+            -15px 20px 25px rgba(14, 165, 233, 0.3),
+            inset 15px 15px 20px rgba(255, 255, 255, 1),
+            inset -15px -15px 25px rgba(14, 165, 233, 0.5);
+        transition: transform 1s linear, opacity 1s linear, border-radius 1s linear;
+      }
+      .ice-3d::after { 
+        content: ''; position: absolute;
+        top: 15%; left: 15%; width: 70%; height: 70%;
+        border: 2px solid rgba(255,255,255,0.7);
+        border-radius: 8px;
+        box-shadow: inset 0 0 10px rgba(255,255,255,0.5);
+      }
+      .ice-puddle {
+        width: 40px; height: 12px;
+        background: rgba(14, 165, 233, 0.5);
+        border-radius: 50%; filter: blur(3px);
+        margin-top: -10px; transition: all 1s linear;
+        box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+        z-index: 1;
+      }
+
+      /* THEME 2: MAGICAL CANDLE */
+      .candle-body {
+        width: 60px; height: 140px;
+        background: linear-gradient(to right, #fbdcb8 0%, #f5c842 50%, #b8900a 100%);
+        border-radius: 8px 8px 3px 3px;
+        position: relative; z-index: 2;
+        box-shadow: inset -5px 0 15px rgba(0,0,0,0.15), 0 10px 20px rgba(245, 200, 66, 0.3);
+        transition: height 1s linear;
+      }
+      .candle-flame {
+        position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
+        width: 20px; height: 35px;
+        background: radial-gradient(ellipse at bottom, #fff 10%, #ffe478 40%, #ff5722 80%, transparent 100%);
+        border-radius: 50% 50% 20% 20%;
+        animation: flicker 0.4s infinite alternate;
+        box-shadow: 0 -10px 25px #ff5722, 0 0 40px #ffe478;
+        transition: opacity 0.5s;
+      }
+      .candle-melt-drops {
+        position: absolute; top: 10px; left: 5px; width: 8px; height: 25px;
+        background: #fbdcb8; border-radius: 10px;
+        box-shadow: 40px 10px 0 -2px #fbdcb8;
+      }
+      .candle-puddle {
+        width: 70px; height: 15px;
+        background: #f5c842; border-radius: 50%;
+        margin-top: -8px; transition: all 1s linear;
+        box-shadow: 0 5px 15px rgba(184, 144, 10, 0.4); z-index: 1;
+      }
+
+      /* THEME 3: POTION FLASK */
+      .potion-flask {
+        width: 90px; height: 110px;
+        border: 4px solid rgba(255,255,255,0.9);
+        background: rgba(255,255,255,0.2);
+        border-radius: 50% 50% 30% 30% / 60% 60% 40% 40%;
+        position: relative; overflow: hidden;
+        box-shadow: 0 15px 30px rgba(74, 155, 40, 0.2), inset 10px 10px 20px rgba(255,255,255,0.5);
+        z-index: 2;
+      }
+      .potion-flask::before { 
+        content: ''; position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+        width: 30px; height: 25px; border: 4px solid rgba(255,255,255,0.9);
+        border-bottom: none; border-radius: 5px 5px 0 0; background: rgba(255,255,255,0.2);
+      }
+      .potion-flask::after { 
+        content: ''; position: absolute; top: 10%; left: 15%; width: 20px; height: 40px;
+        background: rgba(255,255,255,0.6); border-radius: 50%; transform: rotate(-20deg); filter: blur(2px);
+      }
+      .potion-liquid {
+        position: absolute; bottom: 0; left: 0; width: 100%; height: 90%;
+        background: linear-gradient(180deg, #8dc95a 0%, #2e6b1a 100%);
+        transition: height 1s linear;
+        box-shadow: inset 0 5px 10px rgba(255,255,255,0.4);
+      }
+      .potion-bubbles {
+        position: absolute; bottom: 10px; left: 20px; width: 10px; height: 10px;
+        background: rgba(255,255,255,0.5); border-radius: 50%;
+        box-shadow: 30px -15px 0 -2px rgba(255,255,255,0.5), 15px -30px 0 -3px rgba(255,255,255,0.5);
+        animation: bubble-rise 2s infinite linear;
+      }
+      @keyframes bubble-rise { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-30px); opacity: 0; } }
+      .potion-shadow {
+        width: 80px; height: 12px; background: rgba(74, 155, 40, 0.3);
+        border-radius: 50%; margin-top: 5px; filter: blur(3px); z-index: 1;
+      }
+      #timer-modal.has-image .welcome-card::before { display: none; }
     </style>
   </head>
   <body>
@@ -504,6 +624,14 @@
           </div>
         </div>
 
+        <div>
+          <div class="sec-lbl">Notifikasi</div>
+          <div class="input-card">
+            <div class="input-label" style="margin-bottom:12px; line-height:1.5;">Uji coba sistem notifikasi pengingat peri. Pastikan izin notifikasi browser diizinkan (Allow).</div>
+            <button class="btn-reset btn-full" style="background: rgba(74, 155, 40, 0.1); color: var(--green-leaf); border-color: rgba(74, 155, 40, 0.3);" onclick="testNotification()">Uji Notifikasi ✦</button>
+          </div>
+        </div>
+
         <details class="notion-note">
           <summary style="font-weight:700; color:var(--gold-dark);">Panduan Integrasi Notion (Klik untuk buka)</summary>
           <div style="margin-top: 10px; color: var(--text-dark);">
@@ -524,6 +652,48 @@
     </div>
 
     <div class="fairy-footer">✦ <span id="footer-name">Revalina</span> — Pixie Dust Journey ✦</div>
+
+    <!-- FLOATING TIMER BUTTON (FITUR BARU) -->
+    <button class="float-timer-btn" id="timer-btn" onclick="openTimerModal()">❄️</button>
+
+    <!-- TIMER MODAL (MULTI-THEME) -->
+    <div class="welcome-overlay" id="timer-modal">
+      <div class="welcome-card" style="padding-top: 40px; position: relative;">
+        <h2 id="timer-title" style="font-family:var(--serif); color:var(--green-deep); font-style:italic">Fokus Sihir</h2>
+        
+        <div class="focus-stage">
+          <!-- TEMA 1: ICE 3D -->
+          <div class="theme-wrap" id="wrap-ice" style="display:none;">
+            <div class="ice-3d" id="obj-ice"></div>
+            <div class="ice-puddle" id="obj-ice-puddle"></div>
+          </div>
+
+          <!-- TEMA 2: LILIN SEMANGAT -->
+          <div class="theme-wrap" id="wrap-candle" style="display:none;">
+            <div class="candle-body" id="obj-candle">
+              <div class="candle-flame" id="obj-candle-flame"></div>
+              <div class="candle-melt-drops"></div>
+            </div>
+            <div class="candle-puddle" id="obj-candle-puddle"></div>
+          </div>
+
+          <!-- TEMA 3: RAMUAN FOKUS -->
+          <div class="theme-wrap" id="wrap-potion" style="display:none;">
+            <div class="potion-flask" id="obj-potion">
+              <div class="potion-liquid" id="obj-potion-liquid"></div>
+              <div class="potion-bubbles"></div>
+            </div>
+            <div class="potion-shadow"></div>
+          </div>
+        </div>
+
+        <p id="timer-status" style="font-size:13px; color:var(--text-mid); margin-bottom:20px; margin-top:10px; min-height: 40px; display: flex; align-items: center; justify-content: center;">Siap memulai sesi fokus 25 menit?</p>
+        
+        <button class="btn-save welcome-btn" id="btn-timer-toggle" onclick="startTimer()">Mulai Sesi ✦</button>
+        <button class="btn-reset btn-full" id="btn-timer-preview" style="margin-top:10px; background:rgba(14, 165, 233, 0.1); border:1px solid rgba(14, 165, 233, 0.3); color:var(--text-mid);" onclick="previewMelt()">Lihat Animasi Habis 👀</button>
+        <button class="btn-reset btn-full" id="btn-timer-close" style="margin-top:10px; background:none; border:none; color:var(--text-soft);" onclick="closeTimerModal()">Tutup</button>
+      </div>
+    </div>
 
     <!-- WELCOME MODAL 1 (NAMA) -->
     <div class="welcome-overlay" id="welcome-modal">
@@ -643,6 +813,7 @@
         nextPopup();
       }
 
+      /* ── STATE APP & TIMER ── */
       const state = {
         slides: ls("rv_slides", {}),
         target: ls("rv_target", 30),
@@ -652,9 +823,244 @@
         blockEnd: ls("rv_block_end", null),
         milestones: ls("rv_milestones", {25: false, 50: false, 75: false, 100: false}),
         badges: ls("rv_badges", {1: false, 2: false, 3: false, 4: false}),
-        moods: ls("rv_moods", {}) 
+        moods: ls("rv_moods", {}),
+        focusTime: ls("rv_focus", 0) 
       };
+      
       let pageId = null;
+      let isFocusActive = false;
+      let timerMode = 'focus'; 
+      let timeLeft = 25 * 60;
+      let totalSession = 25 * 60;
+      let timerInterval = null;
+
+      // 3 Tema Ajaib untuk Timer
+      const focusThemes = ['ice', 'candle', 'potion'];
+      let currentTheme = 'ice';
+
+      /* ── SISTEM NOTIFIKASI PENGINGAT ── */
+      function requestNotifPermission() {
+        if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
+          Notification.requestPermission();
+        }
+      }
+
+      function sendNotif(title, body) {
+        if ("Notification" in window && Notification.permission === "granted") {
+          try {
+            new Notification(title, { body, icon: "https://cdn-icons-png.flaticon.com/512/2917/2917242.png" });
+          } catch (e) {
+            console.log("Notifikasi diblokir oleh sistem:", e);
+          }
+        }
+      }
+
+      function testNotification() {
+        if (!("Notification" in window)) {
+          alert("Yah, browser kamu sepertinya tidak mendukung notifikasi peri ini.");
+          return;
+        }
+        
+        if (Notification.permission === "granted") {
+          sendNotif("Keajaiban Bekerja! ✨", "Halo Peri Revalina, notifikasimu sudah berhasil diaktifkan.");
+        } else if (Notification.permission !== "denied") {
+          Notification.requestPermission().then(permission => {
+            if (permission === "granted") sendNotif("Keajaiban Bekerja! ✨", "Halo Peri Revalina, izin berhasil diberikan!");
+            else alert("Izin notifikasi ditolak. Cek pengaturan browser ya!");
+          });
+        } else {
+          alert("Kamu sebelumnya menolak notifikasi. Klik ikon gembok 🔒 di sebelah kiri alamat web (URL) browser kamu, lalu ubah izin Notifikasi menjadi izinkan (Allow).");
+        }
+      }
+
+      function setupReminders() {
+        setInterval(() => {
+          const now = new Date();
+          const hour = now.getHours();
+          const min = now.getMinutes();
+
+          if (hour === 12 && min < 30) sendNotif("Waktunya Makan Siang!", "Ayo isi energi dulu agar sihir belajarmu tetap kuat 🍎");
+          if (hour === 19 && min < 30) sendNotif("Waktunya Makan Malam!", "Jangan lupa makan malam ya, Peri Revalina 🌙");
+          if (hour === 22 && min < 30) sendNotif("Waktunya Istirahat!", "Sayapmu butuh istirahat. Tidur yang nyenyak ya 💤");
+        }, 1000 * 60 * 30);
+      }
+
+      /* ── FUNGSI TIMER POMODORO (MULTI TEMA) ── */
+      function openTimerModal() {
+        // Pilih Tema secara Acak setiap kali dibuka
+        currentTheme = focusThemes[Math.floor(Math.random() * focusThemes.length)];
+        
+        document.getElementById('wrap-ice').style.display = 'none';
+        document.getElementById('wrap-candle').style.display = 'none';
+        document.getElementById('wrap-potion').style.display = 'none';
+        document.getElementById(`wrap-${currentTheme}`).style.display = 'flex';
+
+        const titles = { 'ice': 'Fokus Es Kristal 3D', 'candle': 'Lilin Semangat Peri', 'potion': 'Ramuan Fokus Sihir' };
+        document.getElementById('timer-title').textContent = titles[currentTheme];
+        
+        const floatBtn = document.getElementById('timer-btn');
+        if(currentTheme === 'candle') floatBtn.textContent = '🕯️';
+        else if (currentTheme === 'potion') floatBtn.textContent = '🧪';
+        else floatBtn.textContent = '❄️';
+
+        resetFocusVisuals();
+        document.getElementById('timer-modal').classList.add('show');
+      }
+
+      function closeTimerModal() {
+        document.getElementById('timer-modal').classList.remove('show');
+      }
+
+      function startTimer() {
+        initAudio();
+        isFocusActive = true;
+        timerMode = 'focus';
+        timeLeft = 25 * 60;
+        totalSession = 25 * 60;
+        
+        // Sembunyikan tombol agar terkunci dan tak bisa dibatalkan
+        document.getElementById('btn-timer-toggle').style.display = 'none';
+        document.getElementById('btn-timer-close').style.display = 'none';
+        document.getElementById('btn-timer-preview').style.display = 'none';
+        
+        const statusEl = document.getElementById('timer-status');
+        statusEl.textContent = "Fokus terkunci! Jangan keluar aplikasi ✨";
+        statusEl.style.color = "var(--text-mid)";
+        document.getElementById('timer-btn').classList.add('active');
+        
+        // Coba aktifkan mode layar penuh
+        const elem = document.documentElement;
+        if (elem.requestFullscreen) elem.requestFullscreen().catch(e => console.log(e));
+
+        timerInterval = setInterval(updateTimer, 1000);
+      }
+
+      function stopTimer() {
+        clearInterval(timerInterval);
+        isFocusActive = false;
+        
+        // Tampilkan kembali tombol
+        const toggleBtn = document.getElementById('btn-timer-toggle');
+        toggleBtn.style.display = 'block';
+        toggleBtn.textContent = "Mulai Sesi Baru ✦";
+        document.getElementById('btn-timer-close').style.display = 'block';
+        document.getElementById('btn-timer-preview').style.display = 'block';
+        
+        document.getElementById('timer-status').textContent = "Sesi Selesai.";
+        document.getElementById('timer-btn').classList.remove('active');
+        
+        if (document.fullscreenElement) document.exitFullscreen().catch(e => console.log(e));
+        resetFocusVisuals();
+      }
+
+      function updateTimer() {
+        timeLeft--;
+        const pct = timeLeft / totalSession;
+        updateFocusVisuals(pct);
+
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          if (timerMode === 'focus') {
+            state.focusTime += 25;
+            ss("rv_focus", state.focusTime);
+            
+            const msgs = {
+                'ice': 'Es sudah mencair sempurna!',
+                'candle': 'Lilin semangatmu sudah meleleh!',
+                'potion': 'Ramuan fokusmu sudah habis diminum!'
+            };
+            sendNotif("Fokus Selesai! 💧", `${msgs[currentTheme]} Waktunya istirahat 5 menit dan jangan lupa MINUM AIR PUTIH ya 🧚‍♀️`);
+            playGrandChime();
+            startBreak();
+          } else {
+            sendNotif("Istirahat Selesai!", "Siap untuk kembali terbang? Sesi baru menantimu ✨");
+            playChime();
+            stopTimer();
+          }
+          render();
+        }
+      }
+
+      function startBreak() {
+        timerMode = 'break';
+        timeLeft = 5 * 60;
+        totalSession = 5 * 60;
+        document.getElementById('timer-status').textContent = "Waktunya Istirahat (5 Menit) 💧";
+        timerInterval = setInterval(updateTimer, 1000);
+      }
+
+      function updateFocusVisuals(pct) {
+        if (currentTheme === 'ice') {
+            const ice = document.getElementById('obj-ice');
+            const puddle = document.getElementById('obj-ice-puddle');
+            
+            if (pct <= 0) {
+                ice.style.transform = "perspective(400px) rotateX(30deg) rotateY(-20deg) scale(0)";
+                ice.style.opacity = "0";
+                puddle.style.width = "140px";
+                puddle.style.height = "20px";
+                puddle.style.opacity = "0.8";
+            } else {
+                ice.style.transform = `perspective(400px) rotateX(30deg) rotateY(-20deg) scale(${0.3 + pct*0.7})`;
+                ice.style.opacity = Math.max(0.3, 0.3 + (pct * 0.7));
+                ice.style.borderRadius = `${40 - pct*25}% ${30 - pct*10}% ${35 - pct*10}% ${50 - pct*25}%`;
+                puddle.style.width = (40 + (1 - pct) * 100) + "px";
+                puddle.style.height = (12 + (1 - pct) * 8) + "px";
+                puddle.style.opacity = 0.4 + ((1 - pct) * 0.4);
+            }
+        } 
+        else if (currentTheme === 'candle') {
+            const candle = document.getElementById('obj-candle');
+            const puddle = document.getElementById('obj-candle-puddle');
+            const flame = document.getElementById('obj-candle-flame');
+            
+            if (pct <= 0) {
+                candle.style.height = "15px";
+                flame.style.opacity = "0";
+                puddle.style.width = "110px";
+                puddle.style.opacity = "0.9";
+            } else {
+                candle.style.height = (25 + pct * 115) + "px"; 
+                flame.style.opacity = "1";
+                puddle.style.width = (70 + (1 - pct) * 40) + "px";
+                puddle.style.opacity = 0.5 + ((1 - pct) * 0.4);
+            }
+        } 
+        else if (currentTheme === 'potion') {
+            const liquid = document.getElementById('obj-potion-liquid');
+            if (pct <= 0) liquid.style.height = "0%";
+            else liquid.style.height = (pct * 90) + "%"; 
+        }
+      }
+
+      function resetFocusVisuals() { updateFocusVisuals(1); }
+
+      function previewMelt() {
+        updateFocusVisuals(0);
+        document.getElementById('timer-status').textContent = "Seperti ini saat fokusmu berhasil diselesaikan! 💧";
+        document.getElementById('btn-timer-preview').disabled = true;
+        
+        setTimeout(() => {
+            if (!isFocusActive) {
+                resetFocusVisuals();
+                document.getElementById('timer-status').textContent = "Siap memulai sesi fokus 25 menit?";
+                document.getElementById('btn-timer-preview').disabled = false;
+            }
+        }, 3000);
+      }
+
+      /* DETEKSI KELUAR APLIKASI SAAT FOKUS */
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden && isFocusActive && timerMode === 'focus') {
+           playChime();
+           const statusEl = document.getElementById('timer-status');
+           if (statusEl) {
+               const noun = currentTheme === 'ice' ? 'Es-nya' : currentTheme === 'candle' ? 'Lilinnya' : 'Ramuannya';
+               statusEl.textContent = `⚠️ Kembalilah fokus! ${noun} bisa rusak jika kamu pergi!`;
+               statusEl.style.color = "var(--red-soft)";
+           }
+        }
+      });
 
       /* ── AUDIO SYSTEM (Sihir Suara) ── */
       function initAudio() {
@@ -859,6 +1265,9 @@
         
         const mRewardHdr = document.getElementById("m-reward-hdr");
         if (mRewardHdr) mRewardHdr.textContent = rCair > 0 ? fmtRp(rCair) : "Rp 0";
+        
+        const dashFocus = document.getElementById("dash-focus-time");
+        if (dashFocus) dashFocus.textContent = state.focusTime + " Menit";
 
         /* LOGIKA QUOTES */
         if (!currentQuote) currentQuote = MAGIC_QUOTES[Math.floor(Math.random() * MAGIC_QUOTES.length)];
@@ -875,19 +1284,15 @@
         if (strVal) strVal.textContent = streak;
         if(streak >= 5) {
             if (strIcon) strIcon.className = "fc-bg-icon aura-fire";
-            if (cardStreak) cardStreak.className = "fc-card bg-orange glow-streak";
             if (strSub) strSub.textContent = "Api sihirmu membara! Luar biasa! ✨";
         } else if(streak >= 3) {
             if (strIcon) strIcon.className = "fc-bg-icon aura-amber";
-            if (cardStreak) cardStreak.className = "fc-card bg-amber pulse-warn";
             if (strSub) strSub.textContent = "Hebat! Terus pertahankan apimu 🔥";
         } else if (streak > 0) {
             if (strIcon) strIcon.className = "fc-bg-icon aura-blue";
-            if (cardStreak) cardStreak.className = "fc-card bg-amber";
             if (strSub) strSub.textContent = "Langkah awal yang bagus!";
         } else {
             if (strIcon) strIcon.className = "fc-bg-icon";
-            if (cardStreak) cardStreak.className = "fc-card bg-blue";
             if (strSub) strSub.textContent = "Belum ada api sihir berturut-turut";
         }
 
@@ -908,7 +1313,6 @@
             if (diffDays > 0) {
                 if (cdVal) { cdVal.textContent = diffDays + " Hari"; cdVal.style.color = diffDays > 3 ? "var(--text-dark)" : "var(--amber)"; }
                 if (cdLbl) cdLbl.textContent = "Menuju Ujian";
-                if (cdCard) cdCard.className = "fc-card " + (diffDays > 7 ? "bg-blue" : diffDays > 3 ? "bg-amber pulse-warn" : "bg-red pulse-crit");
                 if (cdIcon) cdIcon.className = "fc-bg-icon " + (diffDays > 7 ? "aura-blue" : diffDays > 3 ? "aura-amber" : "aura-red");
                 
                 if (sisaSlide > 0) {
@@ -919,7 +1323,6 @@
             } else if (diffDays === 0) {
                 if (cdVal) { cdVal.textContent = "Hari Ini!"; cdVal.style.color = "var(--red-soft)"; }
                 if (cdLbl) cdLbl.textContent = "Semoga Berhasil!";
-                if (cdCard) cdCard.className = "fc-card bg-red pulse-crit";
                 if (cdIcon) cdIcon.className = "fc-bg-icon aura-red";
                 if (sisaSlide > 0) {
                     pacingText = sisaSlide;
@@ -928,13 +1331,11 @@
             } else {
                 if (cdVal) { cdVal.textContent = "Selesai"; cdVal.style.color = "var(--text-dark)"; }
                 if (cdLbl) cdLbl.textContent = "Ujian Berlalu";
-                if (cdCard) cdCard.className = "fc-card bg-blue";
                 if (cdIcon) cdIcon.className = "fc-bg-icon aura-blue";
             }
         } else {
             if (cdVal) { cdVal.textContent = "-"; cdVal.style.color = "var(--text-dark)"; }
             if (cdLbl) cdLbl.textContent = "Belum Diatur";
-            if (cdCard) cdCard.className = "fc-card bg-blue";
             if (cdIcon) cdIcon.className = "fc-bg-icon";
             if (sisaSlide > 0) {
                 pacingText = "-";
@@ -1064,8 +1465,6 @@
       async function loadFromNotion() {
         setSyncStatus("syncing", "Memuat data sihir dari Notion...");
         try {
-          /* Selalu query tanpa param dulu → ambil blok terbaru dari Notion
-             sebagai single source of truth, tidak peduli isi localStorage */
           const res  = await fetch("/api/notion");
           const json = await res.json();
           if (!res.ok) {
@@ -1076,19 +1475,14 @@
 
           if (json.found && json.data) {
             const d = json.data;
-
-            /* Override semua state dari Notion */
             state.slides     = d.slides     || {};
             state.target     = d.target     || 30;
             state.nilaiUjian = d.nilaiUjian || 0;
-            if (d.userName && d.userName.trim()) {
-              state.name = d.userName.trim();
-            }
+            if (d.userName && d.userName.trim()) state.name = d.userName.trim();
             if (json.blockStart) state.blockStart = json.blockStart;
             if (json.blockEnd)   state.blockEnd   = json.blockEnd;
             pageId = json.pageId || null;
 
-            /* Update localStorage sebagai cache offline */
             ss("rv_slides",      state.slides);
             ss("rv_target",      state.target);
             ss("rv_nilai",       state.nilaiUjian);
@@ -1096,13 +1490,11 @@
             ss("rv_block_start", state.blockStart);
             ss("rv_block_end",   state.blockEnd);
           }
-          /* json.found === false → Notion kosong, biarkan state dari localStorage */
 
           setSyncStatus("ok", "✦ Tersinkron dengan Notion");
           showError(null);
           render();
         } catch (err) {
-          /* Offline → tetap pakai localStorage, tidak reset apapun */
           setSyncStatus("error", "Mode Offline");
           showError("Tidak bisa terhubung ke Notion. Data ditampilkan dari cache lokal.");
           render();
@@ -1140,7 +1532,6 @@
         initAudio(); 
         tempSlideCount = v; 
         
-        // Memunculkan Mood Modal
         const moodModal = document.getElementById("mood-modal");
         if (moodModal) moodModal.classList.add("show");
       }
@@ -1471,6 +1862,19 @@
         el.style.display = "block"; setTimeout(() => el.style.display = "none", 2200);
       }
 
+      /* DETEKSI KELUAR APLIKASI SAAT FOKUS */
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden && isFocusActive && timerMode === 'focus') {
+           playChime();
+           const statusEl = document.getElementById('timer-status');
+           if (statusEl) {
+               const noun = currentTheme === 'ice' ? 'Es-nya' : currentTheme === 'candle' ? 'Lilinnya' : 'Ramuannya';
+               statusEl.textContent = `⚠️ Kembalilah fokus! ${noun} bisa rusak jika kamu pergi!`;
+               statusEl.style.color = "var(--red-soft)";
+           }
+        }
+      });
+
       /* ── LOGIKA TAB & SWIPE ── */
       const TABS_ORDER = ['dashboard', 'tracker', 'reward', 'setting'];
       let currentTabIndex = 0;
@@ -1576,6 +1980,9 @@
         state.name = inp; ss("rv_name", state.name);
         const modal = document.getElementById('welcome-modal');
         if (modal) modal.classList.remove('show');
+        
+        requestNotifPermission(); // Meminta izin notifikasi
+        
         render();
         checkSetupModal();
       }
@@ -1623,6 +2030,7 @@
       /* ── INIT ── */
       createSparkles();
       checkWelcomeModal();
+      setupReminders();
       render();
       loadFromNotion();
       requestAnimationFrame(updateIndicator);
