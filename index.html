@@ -1469,7 +1469,7 @@
           const parts = line.split(sep);
           const q = parts[0].trim();
           const a = parts.slice(1).join(sep).trim();
-          if (q && a) { state.flashcards.push({q, a}); added++; }
+           if (q && a) { state.flashcards.push({ id: 'fc_' + Date.now() + Math.random() + i, q, a }); added++; }
         });
         if (added) {
           ss("rv_flashcards", state.flashcards);
@@ -1484,7 +1484,7 @@
         const q = document.getElementById('fc-q').value.trim();
         const a = document.getElementById('fc-a').value.trim();
         if(!q || !a) return;
-        state.flashcards.push({q, a});
+        state.flashcards.push({ id: 'fc_' + Date.now() + Math.random(), q, a });
         ss("rv_flashcards", state.flashcards);
         document.getElementById('fc-q').value = '';
         document.getElementById('fc-a').value = '';
@@ -1550,7 +1550,127 @@
         document.getElementById('active-flashcard').classList.remove('is-flipped');
         document.getElementById('fc-btn-prev').disabled = currentFcIdx === 0;
         document.getElementById('fc-btn-next').disabled = currentFcIdx === state.flashcards.length-1;
+      };
+            /* ---------- FLASHCARD TEST MODE ---------- */
+      window.switchFcMainTab = function(tab, btn) {
+        document.getElementById('fc-main-list').style.display = tab === 'list' ? 'block' : 'none';
+        document.getElementById('fc-main-test').style.display = tab === 'test' ? 'block' : 'none';
+        const tabs = btn.parentElement.querySelectorAll('.fc-tab-btn');
+        tabs.forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        if (tab === 'test') updateDifficultCount();
+      };
+
+      function updateDifficultCount() {
+        document.getElementById('difficult-count').textContent = state.difficultCards.length;
+        document.getElementById('best-record-display').textContent = state.fcBestTime ? state.fcBestTime+' detik' : '-';
       }
+
+      window.startFcTest = function(mode) {
+        // Generate ID jika kartu belum punya
+        state.flashcards = state.flashcards.map(c => c.id ? c : { ...c, id: 'fc_' + Date.now() + Math.random() });
+        let pool = mode === 'all' ? state.flashcards : state.flashcards.filter(c => state.difficultCards.includes(c.id));
+        if (!pool.length) { alert('Tidak ada kartu untuk diuji!'); return; }
+        if (pool.length < 2 && mode === 'all') { alert('Minimal 2 kartu untuk mode uji!'); return; }
+        fcTestCards = shuffleArray(pool);
+        fcTestAnswers = {}; fcTestCurrentIdx = 0;
+        fcTestStartTime = Date.now();
+        if (fcTestTimerInterval) clearInterval(fcTestTimerInterval);
+        fcTestTimerInterval = setInterval(() => {
+          const elapsed = Math.floor((Date.now() - fcTestStartTime) / 1000);
+          document.getElementById('fc-test-timer').textContent = new Date(elapsed * 1000).toISOString().substr(14, 5);
+        }, 200);
+        document.getElementById('fc-test-setup').style.display = 'none';
+        document.getElementById('fc-test-play').style.display = 'block';
+        renderFcTestItem();
+      };
+
+      function renderFcTestItem() {
+        const card = fcTestCards[fcTestCurrentIdx];
+        document.getElementById('fc-test-question').textContent = card.q;
+        document.getElementById('fc-test-progress').textContent = `${fcTestCurrentIdx+1}/${fcTestCards.length}`;
+        let options = [card.a];
+        const otherAnswers = fcTestCards.filter(c => c.id !== card.id).map(c => c.a);
+        while (options.length < 4 && otherAnswers.length) {
+          const rand = otherAnswers.splice(Math.floor(Math.random() * otherAnswers.length), 1)[0];
+          if (!options.includes(rand)) options.push(rand);
+        }
+        fcTestOptions = shuffleArray(options);
+        const container = document.getElementById('fc-test-options');
+        container.innerHTML = fcTestOptions.map(opt => `<button class="fc-test-option" onclick="selectFcTestAnswer('${opt}')">${opt}</button>`).join('');
+        const selected = fcTestAnswers[card.id];
+        if (selected) {
+          document.querySelectorAll('#fc-test-options .fc-test-option').forEach(btn => {
+            if (btn.textContent === selected) btn.classList.add('selected');
+          });
+        }
+        document.getElementById('fc-test-next').textContent = fcTestCurrentIdx === fcTestCards.length-1 ? 'Review Hasil' : 'Selanjutnya ❯';
+      }
+
+      window.selectFcTestAnswer = function(ans) {
+        const card = fcTestCards[fcTestCurrentIdx];
+        fcTestAnswers[card.id] = ans;
+        renderFcTestItem();
+      };
+
+      window.navFcTest = function(dir) {
+        if (dir === 1 && fcTestCurrentIdx === fcTestCards.length-1) {
+          if (fcTestTimerInterval) clearInterval(fcTestTimerInterval);
+          const elapsed = Math.floor((Date.now() - fcTestStartTime) / 1000);
+          let correct = 0;
+          fcTestCards.forEach(card => { if (fcTestAnswers[card.id] === card.a) correct++; });
+          if (correct === fcTestCards.length) {
+            if (!state.fcBestTime || elapsed < state.fcBestTime) { state.fcBestTime = elapsed; ss('fcBestTime', elapsed); }
+          }
+          fcTestCards.forEach(card => {
+            if (!fcTestAnswers[card.id] || fcTestAnswers[card.id] !== card.a) {
+              if (!state.difficultCards.includes(card.id)) state.difficultCards.push(card.id);
+            }
+          });
+          ss('difficultCards', state.difficultCards);
+          updateDifficultCount();
+          showFcTestReview();
+        } else {
+          fcTestCurrentIdx += dir;
+          renderFcTestItem();
+        }
+      };
+
+      function showFcTestReview() {
+        fcReviewIdx = 0;
+        document.getElementById('fc-test-play').style.display = 'none';
+        document.getElementById('fc-test-review').style.display = 'block';
+        renderFcReviewItem();
+      }
+
+      function renderFcReviewItem() {
+        const card = fcTestCards[fcReviewIdx];
+        const ans = fcTestAnswers[card.id];
+        const isCorrect = ans === card.a;
+        const container = document.getElementById('fc-review-detail');
+        container.innerHTML = `
+          <div class="fc-test-review-item" style="border-left:6px solid ${isCorrect ? 'var(--green-leaf)' : 'var(--red-soft)'};">
+            <div style="font-size:24px; margin-right:15px;">${isCorrect ? '✅' : '❌'}</div>
+            <div style="flex:1;"><strong>${card.q}</strong><br>Jawaban kamu: ${ans || '-'}<br>${!isCorrect ? 'Benar: '+card.a : ''}</div>
+          </div>
+        `;
+        document.getElementById('fc-review-page').textContent = `${fcReviewIdx+1}/${fcTestCards.length}`;
+      }
+
+      window.navFcReview = function(dir) {
+        fcReviewIdx = Math.min(fcTestCards.length-1, Math.max(0, fcReviewIdx + dir));
+        renderFcReviewItem();
+      };
+
+      window.finishFcTest = function() {
+        document.getElementById('fc-test-review').style.display = 'none';
+        document.getElementById('fc-test-setup').style.display = 'block';
+        // Kembali ke tab daftar
+        document.querySelector('#fc-main-list').style.display = 'block';
+        document.querySelector('#fc-main-test').style.display = 'none';
+        document.querySelectorAll('.fc-tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelector('.fc-tab-btn[onclick*="list"]').classList.add('active');
+      };
 
       /* ---------- RENDER UTAMA ---------- */
       function render() {
@@ -1682,6 +1802,8 @@
             state.slides = d.slides || {};
             state.target = d.target || 30;
             state.nilaiUjian = d.nilaiUjian || 0;
+            // Di dalam loadFromNotion atau setelah state didefinisikan
+            state.flashcards = state.flashcards.map(c => c.id ? c : { ...c, id: 'fc_' + Date.now() + Math.random() });
             if(d.userName) state.name = d.userName;
             if(json.blockStart) state.blockStart = json.blockStart;
             if(json.blockEnd) state.blockEnd = json.blockEnd;
