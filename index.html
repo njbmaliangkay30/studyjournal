@@ -32,6 +32,17 @@
         cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 3L12 21M9 3L15 3M9 21L15 21' stroke='%233e2709' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M12 3L12 21M9 3L15 3M9 21L15 21' stroke='%23f5c842' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") 12 12, text !important;
       }
       
+      /* LAYAR MENGGELAP (DIM OVERLAY) SAAT FOKUS */
+      #dim-overlay {
+        position: fixed; inset: 0;
+        background: rgba(10, 20, 5, 0.65);
+        backdrop-filter: blur(3px);
+        z-index: 9990; /* Berada di bawah timer modal, tapi di atas segalanya */
+        opacity: 0; pointer-events: none;
+        transition: opacity 1.5s ease;
+      }
+      #dim-overlay.active { opacity: 1; pointer-events: auto; } /* MENGUNCI KLIK */
+
       body::before { 
         content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; 
         background: radial-gradient(circle at 20% 30%, rgba(255,230,150,0.15), transparent 40%),
@@ -285,7 +296,7 @@
         width: 60px; height: 60px; border-radius: 50%;
         background: linear-gradient(135deg, #a5f3fc, #0ea5e9);
         border: 2px solid #fff; box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3), inset 0 0 10px rgba(255,255,255,0.5);
-        z-index: 999; display: flex; align-items: center; justify-content: center; font-size: 26px;
+        z-index: 9999; display: flex; align-items: center; justify-content: center; font-size: 26px;
         transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       }
       .float-timer-btn:hover { transform: scale(1.1) translateY(-5px); }
@@ -400,9 +411,18 @@
         border-radius: 50%; margin-top: 5px; filter: blur(3px); z-index: 1;
       }
       #timer-modal.has-image .welcome-card::before { display: none; }
+
+      /* --- TIMER SPLIT VIEW --- */
+      #timer-modal .welcome-card { max-width: 640px; width: 90%; }
+      .timer-split-view { display: flex; align-items: center; justify-content: center; gap: 25px; flex-wrap: wrap; margin-top: 15px; }
+      .timer-anim-col { flex: 1; min-width: 220px; display: flex; flex-direction: column; align-items: center; }
+      .timer-music-col { flex: 1; min-width: 280px; width: 100%; }
     </style>
   </head>
   <body>
+    
+    <div id="dim-overlay"></div>
+
     <div class="header">
       <div class="header-leaves">
         <div class="leaf leaf1"></div>
@@ -477,7 +497,6 @@
 
     <div class="main">
       <div class="pages-wrapper">
-      <!-- DASHBOARD -->
       <div class="page active" id="tab-dashboard">
         
         <div class="fc-card">
@@ -519,7 +538,6 @@
 
       </div>
 
-      <!-- TRACKER -->
       <div class="page" id="tab-tracker">
         <div>
           <div class="sec-lbl">PPT per hari — Blok ini</div>
@@ -538,10 +556,8 @@
         </div>
       </div>
 
-      <!-- REWARD -->
       <div class="page" id="tab-reward">
         
-        <!-- CARD REWARD BLOK INI (DENGAN PENALTI) -->
         <div class="reward-card">
           <div class="rc-top">
             <div class="rc-title">Reward Blok Ini</div>
@@ -557,9 +573,9 @@
           <div class="rules-card">
             <div class="rule-row"><div class="rule-icon">✅</div><div class="rule-text">Target Belajar Terpenuhi</div><div class="rule-val rv-g">Rp 200.000</div></div>
             <div class="rule-row"><div class="rule-icon">⚠️</div><div class="rule-text">≥ 30% Target Belajar</div><div class="rule-val rv-a">Rp 150.000</div></div>
-            <div class="rule-row"><div class="rule-icon">❌</div><div class="rule-text">&lt; 30% Target Belajar</div><div class="rule-val rv-r">No Reward</div></div>
+            <div class="rule-row"><div class="rule-icon">❌</div><div class="rule-text">< 30% Target Belajar</div><div class="rule-val rv-r">No Reward</div></div>
             <div class="rule-row"><div class="rule-icon">🚩</div><div class="rule-text">Meleset Checkpoint (25, 50, 75%)</div><div class="rule-val rv-r">-Rp 10.000</div></div>
-            <div class="rule-row"><div class="rule-icon">📉</div><div class="rule-text">Nilai Ujian &lt; 60</div><div class="rule-val rv-r">-Rp 2k / poin</div></div>
+            <div class="rule-row"><div class="rule-icon">📉</div><div class="rule-text">Nilai Ujian < 60</div><div class="rule-val rv-r">-Rp 2k / poin</div></div>
           </div>
         </div>
         
@@ -590,7 +606,6 @@
         </div>
       </div>
 
-      <!-- SETTING -->
       <div class="page" id="tab-setting">
         <div>
           <div class="sec-lbl">Pengaturan blok</div>
@@ -624,14 +639,6 @@
           </div>
         </div>
 
-        <div>
-          <div class="sec-lbl">Notifikasi</div>
-          <div class="input-card">
-            <div class="input-label" style="margin-bottom:12px; line-height:1.5;">Uji coba sistem notifikasi pengingat peri. Pastikan izin notifikasi browser diizinkan (Allow).</div>
-            <button class="btn-reset btn-full" style="background: rgba(74, 155, 40, 0.1); color: var(--green-leaf); border-color: rgba(74, 155, 40, 0.3);" onclick="testNotification()">Uji Notifikasi ✦</button>
-          </div>
-        </div>
-
         <details class="notion-note">
           <summary style="font-weight:700; color:var(--gold-dark);">Panduan Integrasi Notion (Klik untuk buka)</summary>
           <div style="margin-top: 10px; color: var(--text-dark);">
@@ -648,54 +655,63 @@
           </div>
         </details>
       </div>
-      </div><!-- end pages-wrapper -->
-    </div>
+      </div></div>
 
     <div class="fairy-footer">✦ <span id="footer-name">Revalina</span> — Pixie Dust Journey ✦</div>
 
-    <!-- FLOATING TIMER BUTTON (FITUR BARU) -->
     <button class="float-timer-btn" id="timer-btn" onclick="openTimerModal()">❄️</button>
 
-    <!-- TIMER MODAL (MULTI-THEME) -->
     <div class="welcome-overlay" id="timer-modal">
       <div class="welcome-card" style="padding-top: 40px; position: relative;">
         <h2 id="timer-title" style="font-family:var(--serif); color:var(--green-deep); font-style:italic">Fokus Sihir</h2>
         
-        <div class="focus-stage">
-          <!-- TEMA 1: ICE 3D -->
-          <div class="theme-wrap" id="wrap-ice" style="display:none;">
-            <div class="ice-3d" id="obj-ice"></div>
-            <div class="ice-puddle" id="obj-ice-puddle"></div>
-          </div>
+        <div class="timer-split-view">
+          <div class="timer-anim-col">
+            <div class="focus-stage">
+              <div class="theme-wrap" id="wrap-ice" style="display:none;">
+                <div class="ice-3d" id="obj-ice"></div>
+                <div class="ice-puddle" id="obj-ice-puddle"></div>
+              </div>
 
-          <!-- TEMA 2: LILIN SEMANGAT -->
-          <div class="theme-wrap" id="wrap-candle" style="display:none;">
-            <div class="candle-body" id="obj-candle">
-              <div class="candle-flame" id="obj-candle-flame"></div>
-              <div class="candle-melt-drops"></div>
-            </div>
-            <div class="candle-puddle" id="obj-candle-puddle"></div>
-          </div>
+              <div class="theme-wrap" id="wrap-candle" style="display:none;">
+                <div class="candle-body" id="obj-candle">
+                  <div class="candle-flame" id="obj-candle-flame"></div>
+                  <div class="candle-melt-drops"></div>
+                </div>
+                <div class="candle-puddle" id="obj-candle-puddle"></div>
+              </div>
 
-          <!-- TEMA 3: RAMUAN FOKUS -->
-          <div class="theme-wrap" id="wrap-potion" style="display:none;">
-            <div class="potion-flask" id="obj-potion">
-              <div class="potion-liquid" id="obj-potion-liquid"></div>
-              <div class="potion-bubbles"></div>
+              <div class="theme-wrap" id="wrap-potion" style="display:none;">
+                <div class="potion-flask" id="obj-potion">
+                  <div class="potion-liquid" id="obj-potion-liquid"></div>
+                  <div class="potion-bubbles"></div>
+                </div>
+                <div class="potion-shadow"></div>
+              </div>
             </div>
-            <div class="potion-shadow"></div>
+
+            <p id="timer-status" style="font-size:13px; color:var(--text-mid); margin-bottom:15px; margin-top:10px; min-height: 40px; display: flex; align-items: center; justify-content: center; text-align: center;">Siap memulai sesi fokus 25 menit?</p>
+          </div>
+          
+          <div class="timer-music-col" id="music-container">
+            <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/1e6YJipVpYh8ZQDUrFHBv6?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
           </div>
         </div>
 
-        <p id="timer-status" style="font-size:13px; color:var(--text-mid); margin-bottom:20px; margin-top:10px; min-height: 40px; display: flex; align-items: center; justify-content: center;">Siap memulai sesi fokus 25 menit?</p>
-        
+        <div id="extra-time-options" style="display:none; margin-bottom: 15px;">
+            <p style="font-size:11px; color:var(--text-mid); margin-bottom:10px; font-weight:700;">Masih tanggung? Tambah waktu:</p>
+            <div style="display:flex; gap:10px;">
+                <button class="btn-save" style="flex:1; background:var(--amber);" onclick="addExtraTime(5)">+ 5 Menit</button>
+                <button class="btn-save" style="flex:1; background:var(--amber);" onclick="addExtraTime(10)">+ 10 Menit</button>
+            </div>
+            <button class="btn-reset btn-full" style="margin-top:10px;" onclick="finishFocusAndRest()">Cukup, Ayo Istirahat 💧</button>
+        </div>
+
         <button class="btn-save welcome-btn" id="btn-timer-toggle" onclick="startTimer()">Mulai Sesi ✦</button>
-        <button class="btn-reset btn-full" id="btn-timer-preview" style="margin-top:10px; background:rgba(14, 165, 233, 0.1); border:1px solid rgba(14, 165, 233, 0.3); color:var(--text-mid);" onclick="previewMelt()">Lihat Animasi Habis 👀</button>
         <button class="btn-reset btn-full" id="btn-timer-close" style="margin-top:10px; background:none; border:none; color:var(--text-soft);" onclick="closeTimerModal()">Tutup</button>
       </div>
     </div>
 
-    <!-- WELCOME MODAL 1 (NAMA) -->
     <div class="welcome-overlay" id="welcome-modal">
       <div class="welcome-card">
         <h1 class="welcome-title">Pixie Hollow</h1>
@@ -706,7 +722,6 @@
       </div>
     </div>
 
-    <!-- WELCOME MODAL 2 (SETUP BLOK) -->
     <div class="welcome-overlay" id="setup-modal">
       <div class="welcome-card">
         <h1 class="welcome-title" style="font-size: 22px;">Persiapan Blok</h1>
@@ -723,7 +738,6 @@
       </div>
     </div>
 
-    <!-- MOOD MODAL (SETELAH ISI PPT) -->
     <div class="welcome-overlay" id="mood-modal">
       <div class="welcome-card" style="padding-bottom: 30px;">
         <h1 class="welcome-title" style="font-size: 24px;">Perasaanmu</h1>
@@ -737,7 +751,6 @@
       </div>
     </div>
 
-    <!-- EXAM MODAL -->
     <div class="welcome-overlay" id="exam-modal">
       <div class="welcome-card">
         <h1 class="welcome-title">Hari Ujian! 📝</h1>
@@ -748,7 +761,6 @@
       </div>
     </div>
 
-    <!-- RESULT MODAL -->
     <div class="welcome-overlay" id="result-modal">
       <div class="welcome-card">
         <img src="" id="result-image" class="result-image" alt="Hasil Peri" />
@@ -758,7 +770,6 @@
       </div>
     </div>
 
-    <!-- APPRECIATION FULLSCREEN OVERLAY (MILESTONES) -->
     <div class="appreciation-overlay" id="appreciation-overlay">
       <div class="appreciation-content">
         <div class="app-fairy-orb"></div>
@@ -767,7 +778,6 @@
       </div>
     </div>
 
-    <!-- BADGE UNLOCKED FULLSCREEN OVERLAY -->
     <div class="appreciation-overlay" id="badge-anim-overlay">
       <div class="appreciation-content">
         <div class="app-fairy-orb"></div>
@@ -855,24 +865,6 @@
         }
       }
 
-      function testNotification() {
-        if (!("Notification" in window)) {
-          alert("Yah, browser kamu sepertinya tidak mendukung notifikasi peri ini.");
-          return;
-        }
-        
-        if (Notification.permission === "granted") {
-          sendNotif("Keajaiban Bekerja! ✨", "Halo Peri Revalina, notifikasimu sudah berhasil diaktifkan.");
-        } else if (Notification.permission !== "denied") {
-          Notification.requestPermission().then(permission => {
-            if (permission === "granted") sendNotif("Keajaiban Bekerja! ✨", "Halo Peri Revalina, izin berhasil diberikan!");
-            else alert("Izin notifikasi ditolak. Cek pengaturan browser ya!");
-          });
-        } else {
-          alert("Kamu sebelumnya menolak notifikasi. Klik ikon gembok 🔒 di sebelah kiri alamat web (URL) browser kamu, lalu ubah izin Notifikasi menjadi izinkan (Allow).");
-        }
-      }
-
       function setupReminders() {
         setInterval(() => {
           const now = new Date();
@@ -885,17 +877,20 @@
         }, 1000 * 60 * 30);
       }
 
-      /* ── FUNGSI TIMER POMODORO (MULTI TEMA) ── */
+      /* ── FUNGSI TIMER POMODORO (MULTI TEMA & EXTRA TIME) ── */
       function openTimerModal() {
-        // Pilih Tema secara Acak setiap kali dibuka
-        currentTheme = focusThemes[Math.floor(Math.random() * focusThemes.length)];
+        // Pilih Tema secara Acak setiap kali dibuka jika sedang tidak fokus
+        if(!isFocusActive) {
+            currentTheme = focusThemes[Math.floor(Math.random() * focusThemes.length)];
+            resetFocusVisuals();
+        }
         
         document.getElementById('wrap-ice').style.display = 'none';
         document.getElementById('wrap-candle').style.display = 'none';
         document.getElementById('wrap-potion').style.display = 'none';
         document.getElementById(`wrap-${currentTheme}`).style.display = 'flex';
 
-        const titles = { 'ice': 'Fokus Es Kristal 3D', 'candle': 'Lilin Semangat Peri', 'potion': 'Ramuan Fokus Sihir' };
+        const titles = { 'ice': 'Fokus Es Kristal', 'candle': 'Lilin Semangat Peri', 'potion': 'Ramuan Fokus Sihir' };
         document.getElementById('timer-title').textContent = titles[currentTheme];
         
         const floatBtn = document.getElementById('timer-btn');
@@ -903,7 +898,6 @@
         else if (currentTheme === 'potion') floatBtn.textContent = '🧪';
         else floatBtn.textContent = '❄️';
 
-        resetFocusVisuals();
         document.getElementById('timer-modal').classList.add('show');
       }
 
@@ -921,14 +915,17 @@
         // Sembunyikan tombol agar terkunci dan tak bisa dibatalkan
         document.getElementById('btn-timer-toggle').style.display = 'none';
         document.getElementById('btn-timer-close').style.display = 'none';
-        document.getElementById('btn-timer-preview').style.display = 'none';
+        document.getElementById('extra-time-options').style.display = 'none';
+        
+        // Aktifkan Efek Layar Meredup
+        document.getElementById('dim-overlay').classList.add('active');
         
         const statusEl = document.getElementById('timer-status');
-        statusEl.textContent = "Fokus terkunci! Jangan keluar aplikasi ✨";
+        statusEl.textContent = "Fokus terkunci! Ayo selesaikan misimu ✨";
         statusEl.style.color = "var(--text-mid)";
         document.getElementById('timer-btn').classList.add('active');
         
-        // Coba aktifkan mode layar penuh
+        // Coba aktifkan mode layar penuh (Opsional)
         const elem = document.documentElement;
         if (elem.requestFullscreen) elem.requestFullscreen().catch(e => console.log(e));
 
@@ -944,7 +941,10 @@
         toggleBtn.style.display = 'block';
         toggleBtn.textContent = "Mulai Sesi Baru ✦";
         document.getElementById('btn-timer-close').style.display = 'block';
-        document.getElementById('btn-timer-preview').style.display = 'block';
+        document.getElementById('extra-time-options').style.display = 'none';
+        
+        // Matikan Layar Meredup
+        document.getElementById('dim-overlay').classList.remove('active');
         
         document.getElementById('timer-status').textContent = "Sesi Selesai.";
         document.getElementById('timer-btn').classList.remove('active');
@@ -961,24 +961,45 @@
         if (timeLeft <= 0) {
           clearInterval(timerInterval);
           if (timerMode === 'focus') {
-            state.focusTime += 25;
-            ss("rv_focus", state.focusTime);
-            
+            // MUNCULKAN OPSI TAMBAH WAKTU
             const msgs = {
                 'ice': 'Es sudah mencair sempurna!',
                 'candle': 'Lilin semangatmu sudah meleleh!',
-                'potion': 'Ramuan fokusmu sudah habis diminum!'
+                'potion': 'Ramuan fokusmu sudah habis!'
             };
-            sendNotif("Fokus Selesai! 💧", `${msgs[currentTheme]} Waktunya istirahat 5 menit dan jangan lupa MINUM AIR PUTIH ya 🧚‍♀️`);
+            document.getElementById('timer-status').textContent = `${msgs[currentTheme]} Sesi selesai.`;
+            document.getElementById('extra-time-options').style.display = 'block';
             playGrandChime();
-            startBreak();
           } else {
+            // Jika istirahat selesai
             sendNotif("Istirahat Selesai!", "Siap untuk kembali terbang? Sesi baru menantimu ✨");
             playChime();
             stopTimer();
           }
           render();
         }
+      }
+      
+      // FUNGSI JIKA MEMILIH TAMBAH WAKTU 5/10 MENIT
+      function addExtraTime(mins) {
+          timeLeft = mins * 60;
+          totalSession = mins * 60; // Mereset animasi agar utuh kembali dan menyusut sesuai waktu tambahan
+          document.getElementById('extra-time-options').style.display = 'none';
+          document.getElementById('timer-status').textContent = `Tambahan waktu ${mins} menit. Semangat sedikit lagi! ✨`;
+          
+          // Lanjutkan Interval
+          timerInterval = setInterval(updateTimer, 1000);
+      }
+      
+      // FUNGSI JIKA MEMILIH CUKUP & ISTIRAHAT
+      function finishFocusAndRest() {
+          document.getElementById('extra-time-options').style.display = 'none';
+          
+          state.focusTime += 25; // Asumsi berhasil melewati target 25 menit
+          ss("rv_focus", state.focusTime);
+          
+          sendNotif("Waktunya Istirahat! 💧", `Kerja yang sangat bagus! Waktunya istirahat 5 menit dan jangan lupa MINUM AIR PUTIH ya 🧚‍♀️`);
+          startBreak();
       }
 
       function startBreak() {
@@ -1034,20 +1055,6 @@
       }
 
       function resetFocusVisuals() { updateFocusVisuals(1); }
-
-      function previewMelt() {
-        updateFocusVisuals(0);
-        document.getElementById('timer-status').textContent = "Seperti ini saat fokusmu berhasil diselesaikan! 💧";
-        document.getElementById('btn-timer-preview').disabled = true;
-        
-        setTimeout(() => {
-            if (!isFocusActive) {
-                resetFocusVisuals();
-                document.getElementById('timer-status').textContent = "Siap memulai sesi fokus 25 menit?";
-                document.getElementById('btn-timer-preview').disabled = false;
-            }
-        }, 3000);
-      }
 
       /* DETEKSI KELUAR APLIKASI SAAT FOKUS */
       document.addEventListener('visibilitychange', () => {
@@ -1861,19 +1868,6 @@
         if (!el) return;
         el.style.display = "block"; setTimeout(() => el.style.display = "none", 2200);
       }
-
-      /* DETEKSI KELUAR APLIKASI SAAT FOKUS */
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden && isFocusActive && timerMode === 'focus') {
-           playChime();
-           const statusEl = document.getElementById('timer-status');
-           if (statusEl) {
-               const noun = currentTheme === 'ice' ? 'Es-nya' : currentTheme === 'candle' ? 'Lilinnya' : 'Ramuannya';
-               statusEl.textContent = `⚠️ Kembalilah fokus! ${noun} bisa rusak jika kamu pergi!`;
-               statusEl.style.color = "var(--red-soft)";
-           }
-        }
-      });
 
       /* ── LOGIKA TAB & SWIPE ── */
       const TABS_ORDER = ['dashboard', 'tracker', 'reward', 'setting'];
