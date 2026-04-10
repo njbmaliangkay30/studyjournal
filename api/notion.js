@@ -1,7 +1,7 @@
-const NOTION_TOKEN    = process.env.NOTION_TOKEN;
-const WEEKLY_DB_ID    = process.env.NOTION_WEEKLY_DB_ID;   // rename jadi Block Tracker di Notion
-const DAILY_DB_ID     = process.env.NOTION_DAILY_DB_ID;
-const NOTION_VERSION  = "2022-06-28";
+const NOTION_TOKEN   = process.env.NOTION_TOKEN;
+const WEEKLY_DB_ID   = process.env.NOTION_WEEKLY_DB_ID;
+const DAILY_DB_ID    = process.env.NOTION_DAILY_DB_ID;
+const NOTION_VERSION = "2022-06-28";
 
 function notionHeaders() {
   return {
@@ -11,17 +11,16 @@ function notionHeaders() {
   };
 }
 
-function todayISO() {
-  return new Date().toISOString().split("T")[0];
+function getText(props, key) {
+  return props[key]?.rich_text?.[0]?.plain_text ?? "";
 }
-
 function getNumber(props, key) {
   return props[key]?.number ?? 0;
 }
-
-function makeTitle(text) { return { title: [{ text: { content: text } }] }; }
-function makeNumber(n)    { return { number: n }; }
-function makeDate(iso)    { return { date: { start: iso } }; }
+function makeTitle(text)           { return { title:     [{ text: { content: text } }] }; }
+function makeRichText(text)        { return { rich_text: [{ text: { content: text } }] }; }
+function makeNumber(n)             { return { number: n }; }
+function makeDate(iso)             { return { date: { start: iso } }; }
 function makeDateRange(start, end) { return { date: { start, end } }; }
 function makeRelation(pageId)      { return { relation: [{ id: pageId }] }; }
 
@@ -34,37 +33,25 @@ module.exports = async function handler(req, res) {
 
   if (!NOTION_TOKEN || !WEEKLY_DB_ID) {
     const missing = [];
-    if (!NOTION_TOKEN)   missing.push("NOTION_TOKEN");
-    if (!WEEKLY_DB_ID)   missing.push("NOTION_WEEKLY_DB_ID");
+    if (!NOTION_TOKEN)  missing.push("NOTION_TOKEN");
+    if (!WEEKLY_DB_ID)  missing.push("NOTION_WEEKLY_DB_ID");
     return res.status(500).json({
       error: `Environment variable tidak ditemukan: ${missing.join(", ")}. Tambahkan di Vercel → Settings → Environment Variables, lalu Redeploy.`,
     });
   }
 
-  /* ────────────────────────────────────────
-     GET  /api/notion?start=YYYY-MM-DD&end=YYYY-MM-DD
-     Ambil data blok berdasarkan rentang tanggal
-  ──────────────────────────────────────── */
+  /* ──────────────────────────────────────────────────
+     GET /api/notion
+     - Tanpa query param → ambil blok terbaru (first-load device baru)
+     - Dengan ?start=&end= → ambil blok spesifik
+  ────────────────────────────────────────────────── */
   if (req.method === "GET") {
     const blockStart = req.query.start;
     const blockEnd   = req.query.end;
 
-    if (!blockStart || !blockEnd) {
-      return res.json({
-        found: false,
-        pageId: null,
-        data: { slides: {}, target: 30, nilaiUjian: 0 },
-      });
-    }
-
     try {
-      /* 1. Cari halaman blok di Block Tracker */
-      const blockRes = await fetch(
-        `https://api.notion.com/v1/databases/${WEEKLY_DB_ID}/query`,
-        {
-          method: "POST",
-          headers: notionHeaders(),
-          body: JSON.stringify({
+      const queryBody = (blockStart && blockEnd)
+        ? {
             filter: {
               and: [
                 { property: "Range Date", date: { on_or_after:  blockStart } },
@@ -72,8 +59,15 @@ module.exports = async function handler(req, res) {
               ],
             },
             page_size: 1,
-          }),
-        }
+          }
+        : {
+            sorts: [{ property: "Range Date", direction: "descending" }],
+            page_size: 1,
+          };
+
+      const blockRes  = await fetch(
+        `https://api.notion.com/v1/databases/${WEEKLY_DB_ID}/query`,
+        { method: "POST", headers: notionHeaders(), body: JSON.stringify(queryBody) }
       );
       const blockData = await blockRes.json();
 
@@ -81,37 +75,43 @@ module.exports = async function handler(req, res) {
         return res.status(blockRes.status).json({ error: blockData.message ?? "Notion API error" });
       }
 
-      let blockPage   = blockData.results?.[0] ?? null;
-      let slides      = {};   // { "YYYY-MM-DD": count }
-      let target      = 30;
-      let nilaiUjian  = 0;
+      const blockPage    = blockData.results?.[0] ?? null;
+      let slides         = {};
+      let target         = 30;
+      let nilaiUjian     = 0;
+      let userName       = "";
+      let fetchedStart   = blockStart ?? "";
+      let fetchedEnd     = blockEnd   ?? "";
 
       if (blockPage) {
-        const p = blockPage.properties;
+        const p    = blockPage.properties;
         target     = getNumber(p, "Weekly Target") || 30;
         nilaiUjian = getNumber(p, "Nilai Ujian");
+        userName   = getText(p, "Username");
+
+        const rawStart = getText(p, "Block Start");
+        if (rawStart) fetchedStart = rawStart;
+
+        const rangeEnd = p["Range Date"]?.date?.end ?? p["Range Date"]?.date?.start ?? "";
+        if (rangeEnd) fetchedEnd = rangeEnd;
+        if (!fetchedStart && p["Range Date"]?.date?.start) {
+          fetchedStart = p["Range Date"].date.start;
+        }
       }
 
-      /* 2. Ambil Daily Log untuk blok ini */
-      if (DAILY_DB_ID) {
-        const filter = blockPage
-          ? { property: "Weekly Tracker", relation: { contains: blockPage.id } }
-          : {
-              and: [
-                { property: "Date", date: { on_or_after:  blockStart } },
-                { property: "Date", date: { on_or_before: blockEnd   } },
-              ],
-            };
-
+      /* Ambil Daily Log */
+      if (DAILY_DB_ID && blockPage) {
         const dailyRes = await fetch(
           `https://api.notion.com/v1/databases/${DAILY_DB_ID}/query`,
           {
-            method: "POST",
+            method:  "POST",
             headers: notionHeaders(),
-            body: JSON.stringify({ filter, page_size: 100 }),
+            body:    JSON.stringify({
+              filter:    { property: "Weekly Tracker", relation: { contains: blockPage.id } },
+              page_size: 100,
+            }),
           }
         );
-
         if (dailyRes.ok) {
           const dailyData = await dailyRes.json();
           for (const page of dailyData.results ?? []) {
@@ -124,9 +124,11 @@ module.exports = async function handler(req, res) {
       }
 
       return res.json({
-        found:  !!blockPage,
-        pageId: blockPage?.id ?? null,
-        data:   { slides, target, nilaiUjian },
+        found:      !!blockPage,
+        pageId:     blockPage?.id ?? null,
+        blockStart: fetchedStart,
+        blockEnd:   fetchedEnd,
+        data:       { slides, target, nilaiUjian, userName },
       });
 
     } catch (err) {
@@ -134,19 +136,19 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  /* ────────────────────────────────────────
-     POST /api/notion
-     Simpan/update data blok dan daily log
-  ──────────────────────────────────────── */
+  /* ──────────────────────────────────────────────────
+     POST /api/notion — simpan semua state ke Notion
+  ────────────────────────────────────────────────── */
   if (req.method === "POST") {
     const {
-      slides      = {},
-      target      = 30,
-      nilaiUjian  = 0,
+      slides     = {},
+      target     = 30,
+      nilaiUjian = 0,
+      name       = "",
       blockStart,
       blockEnd,
       pageId,
-      slideDate,      // ISO date string hari yang diinput, atau undefined
+      slideDate,
     } = req.body;
 
     if (!blockStart || !blockEnd) {
@@ -154,10 +156,11 @@ module.exports = async function handler(req, res) {
     }
 
     try {
-      /* 1. Upsert halaman blok di Block Tracker */
       const blockProps = {
         "Weekly Target": makeNumber(target),
         "Nilai Ujian":   makeNumber(nilaiUjian),
+        "Username":      makeRichText(name),
+        "Block Start":   makeRichText(blockStart),
       };
 
       let blockResponse;
@@ -190,11 +193,9 @@ module.exports = async function handler(req, res) {
       }
       const blockPageId = blockResult.id;
 
-      /* 2. Upsert Daily Log untuk tanggal yang diinput hari ini */
+      /* Upsert Daily Log */
       if (DAILY_DB_ID && slideDate) {
-        const slideCount = slides[slideDate] ?? 0;
-
-        /* Cek apakah entry tanggal ini sudah ada */
+        const slideCount  = slides[slideDate] ?? 0;
         const existingRes = await fetch(
           `https://api.notion.com/v1/databases/${DAILY_DB_ID}/query`,
           {
@@ -238,10 +239,7 @@ module.exports = async function handler(req, res) {
             headers: notionHeaders(),
             body:    JSON.stringify({
               parent:     { database_id: DAILY_DB_ID },
-              properties: {
-                ...dailyProps,
-                Name: makeTitle(`${dayLabel}, ${slideDate}`),
-              },
+              properties: { ...dailyProps, Name: makeTitle(`${dayLabel}, ${slideDate}`) },
             }),
           });
         }
