@@ -1064,47 +1064,48 @@
       async function loadFromNotion() {
         setSyncStatus("syncing", "Memuat data sihir dari Notion...");
         try {
-          /* Kalau blockStart/blockEnd sudah ada di local → query spesifik.
-             Kalau belum (device baru) → query tanpa param → Notion return blok terbaru */
-          const params = state.blockStart && state.blockEnd
-            ? "?start=" + state.blockStart + "&end=" + state.blockEnd
-            : "";
-          const res  = await fetch("/api/notion" + params);
+          /* Selalu query tanpa param dulu → ambil blok terbaru dari Notion
+             sebagai single source of truth, tidak peduli isi localStorage */
+          const res  = await fetch("/api/notion");
           const json = await res.json();
-          if (!res.ok) { setSyncStatus("error", "Gagal terhubung ke Notion"); showError(json.error); return; }
+          if (!res.ok) {
+            setSyncStatus("error", "Gagal terhubung ke Notion");
+            showError(json.error);
+            return;
+          }
 
-          if (json.data) {
+          if (json.found && json.data) {
             const d = json.data;
+
+            /* Override semua state dari Notion */
             state.slides     = d.slides     || {};
             state.target     = d.target     || 30;
             state.nilaiUjian = d.nilaiUjian || 0;
-
-            /* Sync name dari Notion — override localStorage kalau ada */
             if (d.userName && d.userName.trim()) {
               state.name = d.userName.trim();
-              ss("rv_name", state.name);
             }
-          }
+            if (json.blockStart) state.blockStart = json.blockStart;
+            if (json.blockEnd)   state.blockEnd   = json.blockEnd;
+            pageId = json.pageId || null;
 
-          /* Sync blockStart & blockEnd dari Notion — penting untuk device baru */
-          if (json.blockStart && json.blockEnd) {
-            state.blockStart = json.blockStart;
-            state.blockEnd   = json.blockEnd;
+            /* Update localStorage sebagai cache offline */
+            ss("rv_slides",      state.slides);
+            ss("rv_target",      state.target);
+            ss("rv_nilai",       state.nilaiUjian);
+            ss("rv_name",        state.name);
             ss("rv_block_start", state.blockStart);
             ss("rv_block_end",   state.blockEnd);
           }
-
-          pageId = json.pageId || null;
-          ss("rv_target", state.target);
-          ss("rv_slides", state.slides);
-          ss("rv_nilai",  state.nilaiUjian);
+          /* json.found === false → Notion kosong, biarkan state dari localStorage */
 
           setSyncStatus("ok", "✦ Tersinkron dengan Notion");
           showError(null);
           render();
         } catch (err) {
+          /* Offline → tetap pakai localStorage, tidak reset apapun */
           setSyncStatus("error", "Mode Offline");
-          showError("Aplikasi berjalan secara lokal tanpa koneksi Notion.");
+          showError("Tidak bisa terhubung ke Notion. Data ditampilkan dari cache lokal.");
+          render();
         }
       }
 
