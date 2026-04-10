@@ -1064,21 +1064,47 @@
       async function loadFromNotion() {
         setSyncStatus("syncing", "Memuat data sihir dari Notion...");
         try {
-          const params = state.blockStart && state.blockEnd ? "?start=" + state.blockStart + "&end=" + state.blockEnd : "";
-          const res = await fetch("/api/notion" + params);
+          /* Kalau blockStart/blockEnd sudah ada di local → query spesifik.
+             Kalau belum (device baru) → query tanpa param → Notion return blok terbaru */
+          const params = state.blockStart && state.blockEnd
+            ? "?start=" + state.blockStart + "&end=" + state.blockEnd
+            : "";
+          const res  = await fetch("/api/notion" + params);
           const json = await res.json();
           if (!res.ok) { setSyncStatus("error", "Gagal terhubung ke Notion"); showError(json.error); return; }
+
           if (json.data) {
             const d = json.data;
-            state.slides = d.slides || {};
-            state.target = d.target || 30;
+            state.slides     = d.slides     || {};
+            state.target     = d.target     || 30;
             state.nilaiUjian = d.nilaiUjian || 0;
-            pageId = json.pageId || null;
-            ss("rv_target", state.target); ss("rv_slides", state.slides); ss("rv_nilai", state.nilaiUjian);
+
+            /* Sync name dari Notion — override localStorage kalau ada */
+            if (d.userName && d.userName.trim()) {
+              state.name = d.userName.trim();
+              ss("rv_name", state.name);
+            }
           }
-          setSyncStatus("ok", "✦ Tersinkron dengan Notion"); showError(null); render();
+
+          /* Sync blockStart & blockEnd dari Notion — penting untuk device baru */
+          if (json.blockStart && json.blockEnd) {
+            state.blockStart = json.blockStart;
+            state.blockEnd   = json.blockEnd;
+            ss("rv_block_start", state.blockStart);
+            ss("rv_block_end",   state.blockEnd);
+          }
+
+          pageId = json.pageId || null;
+          ss("rv_target", state.target);
+          ss("rv_slides", state.slides);
+          ss("rv_nilai",  state.nilaiUjian);
+
+          setSyncStatus("ok", "✦ Tersinkron dengan Notion");
+          showError(null);
+          render();
         } catch (err) {
-          setSyncStatus("error", "Mode Offline"); showError("Aplikasi berjalan secara lokal tanpa koneksi Notion.");
+          setSyncStatus("error", "Mode Offline");
+          showError("Aplikasi berjalan secara lokal tanpa koneksi Notion.");
         }
       }
 
@@ -1087,7 +1113,7 @@
         try {
           const res = await fetch("/api/notion", {
             method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ slides: state.slides, target: state.target, nilaiUjian: state.nilaiUjian, blockStart: state.blockStart, blockEnd: state.blockEnd, pageId: pageId, slideDate: slideDate }),
+            body: JSON.stringify({ slides: state.slides, target: state.target, nilaiUjian: state.nilaiUjian, name: state.name, blockStart: state.blockStart, blockEnd: state.blockEnd, pageId: pageId, slideDate: slideDate }),
           });
           const json = await res.json();
           if (!res.ok) { setSyncStatus("error", "Gagal menyimpan"); showError(json.error); return false; }
