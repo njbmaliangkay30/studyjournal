@@ -137,9 +137,19 @@
       .sec-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
       .sec-lbl::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg,rgba(184, 144, 10, 0.15),transparent); }
       
-      .fc-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 18px; padding: 20px; position: relative; overflow: hidden; border: 1px solid rgba(245,200,66,0.3); box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: center; transition: all 0.3s ease; }
+      /* DASHBOARD FANCY CARDS */
+      .fc-card { 
+        background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); 
+        border-radius: 18px; padding: 20px; position: relative; overflow: hidden; 
+        border: 1px solid rgba(245,200,66,0.3); box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+        display: flex; flex-direction: column; justify-content: center; transition: all 0.3s ease; 
+      }
       .fc-content { position: relative; z-index: 2; }
-      .fc-bg-icon { position: absolute; right: -5px; bottom: -15px; font-size: 75px; opacity: 0.15; pointer-events: none; z-index: 0; transition: all 0.4s ease; }
+      .fc-bg-icon { 
+        position: absolute; right: -5px; bottom: -15px; 
+        font-size: 75px; opacity: 0.15; pointer-events: none; z-index: 0; 
+        transition: all 0.4s ease;
+      }
       .fc-title { font-size: 10px; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
       .fc-val { font-family: var(--sans); font-size: 32px; color: var(--text-dark); line-height: 1; text-shadow: 0 0 15px rgba(245,200,66,0.2); display: flex; align-items: baseline; gap: 4px; font-weight: 800; }
       .fc-sub { font-size: 11px; color: var(--text-mid); margin-top: 6px; font-weight: 600; line-height: 1.4; }
@@ -149,6 +159,7 @@
       .fc-half .fc-val { font-size: 26px; }
       .fc-half .fc-bg-icon { font-size: 60px; right: -5px; bottom: -10px; }
 
+      /* Icon Auras */
       .aura-blue { filter: drop-shadow(0 0 15px #4a90e2); opacity: 0.2; animation: float-icon 4s infinite alternate; }
       .aura-red { filter: drop-shadow(0 0 20px var(--red-soft)) drop-shadow(0 0 30px var(--red-soft)); opacity: 0.4; animation: fc-pulse-crit 1s infinite alternate; }
       .aura-amber { filter: drop-shadow(0 0 15px var(--amber)); opacity: 0.25; animation: float-icon 3s infinite alternate; }
@@ -225,6 +236,36 @@
       .mood-btn { background: transparent; border: 1px solid rgba(0,0,0,0.1); border-radius: 50%; width: 34px; height: 34px; font-size: 18px; transition: all 0.2s; display:flex; align-items:center; justify-content:center; padding: 0; }
       .mood-btn.selected { background: var(--gold-pale); border-color: var(--gold); transform: scale(1.15); box-shadow: 0 0 12px rgba(245,200,66,0.4); }
       
+      /* --- MATCH GAME STYLES (COCOKKAN GAMBAR) --- */
+      .match-list-item { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.8); padding: 10px; border-radius: 14px; margin-bottom: 10px; border: 1px solid rgba(245,200,66,0.3); transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+      .match-list-item:hover { transform: translateX(5px); box-shadow: 0 6px 15px rgba(245,200,66,0.15); }
+      .match-list-img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(0,0,0,0.05); }
+      .match-list-word { flex: 1; font-size: 13px; font-weight: 700; color: var(--text-dark); text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+      .crop-container { width: 100%; max-width: 320px; height: 250px; margin: 0 auto 15px; background: rgba(0,0,0,0.05); border-radius: 16px; position: relative; overflow: hidden; touch-action: none; border: 2px dashed rgba(245,200,66,0.5); box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
+      #crop-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; }
+
+      /* Play View Styles */
+      .match-play-img { width: 180px; height: 180px; object-fit: cover; border-radius: 20px; border: 4px solid #fff; box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin: 0 auto 20px; display: block; transition: all 0.3s; }
+      
+      .match-words-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 25px; }
+      .match-word-btn { padding: 10px 18px; background: #fff; border: 2px solid rgba(245,200,66,0.3); border-radius: 15px; font-size: 14px; font-weight: 700; color: var(--text-mid); cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-family: var(--sans); }
+      .match-word-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(245,200,66,0.2); }
+      .match-word-btn.selected { background: linear-gradient(135deg, var(--gold-dark), var(--gold-light)); color: #fff; border-color: var(--gold-dark); transform: scale(1.05); box-shadow: 0 6px 20px rgba(245,200,66,0.4); }
+      
+      .match-nav-controls { display: flex; justify-content: space-between; gap: 15px; }
+      
+      /* Review View Styles */
+      .match-review-item { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.9); padding: 12px; border-radius: 16px; margin-bottom: 12px; border: 1px solid rgba(245,200,66,0.3); cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+      .match-review-item:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(245,200,66,0.15); border-color: var(--gold); }
+      .match-review-img { width: 60px; height: 60px; border-radius: 12px; object-fit: cover; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+      .match-review-ans { flex: 1; text-align: left; }
+      .match-review-ans .lbl { font-size: 10px; color: var(--text-soft); font-weight: 700; letter-spacing: 0.05em; margin-bottom: 3px; }
+      .match-review-ans .val { font-size: 14px; font-weight: 700; color: var(--text-dark); }
+      .match-review-ans .val.empty { color: var(--red-soft); font-style: italic; }
+      .match-review-edit { font-size: 18px; color: rgba(0,0,0,0.1); padding-right: 10px; }
+      .match-review-item:hover .match-review-edit { color: var(--gold-dark); }
+
       /* --- FLASHCARD STYLES --- */
       .fc-list-item { background: rgba(255,255,255,0.8); border: 1px solid rgba(245,200,66,0.3); border-radius: 12px; padding: 12px 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; text-align: left; }
       .fc-list-item:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(245,200,66,0.15); }
@@ -262,6 +303,7 @@
         color: var(--text-dark); transform: rotateY(180deg); font-weight: 500; font-size: 16px; line-height: 1.6;
         box-shadow: inset 0 0 0 5px #fdfaf0, inset 0 0 0 6px var(--gold-light), 0 10px 30px rgba(0,0,0,0.1);
       }
+      
       /* Ornamen Bintang di 4 Sudut */
       .flashcard-front::before, .flashcard-back::before { content: '✦'; position: absolute; top: 12px; left: 12px; font-size: 22px; color: var(--gold-dark); opacity: 0.6; }
       .flashcard-front::after, .flashcard-back::after { content: '✦'; position: absolute; bottom: 12px; right: 12px; font-size: 22px; color: var(--gold-dark); opacity: 0.6; }
@@ -441,6 +483,7 @@
       <div class="sparkles" id="sparkles"></div>
     </div>
 
+    <!-- TAB BAR -->
     <div class="tab-bar">
       <button class="tab active" onclick="switchTab('dashboard')">Dashboard</button>
       <button class="tab" onclick="switchTab('tracker')">Tracker</button>
@@ -597,19 +640,94 @@
 
     <div class="fairy-footer">✦ <span id="footer-name">Revalina</span> — Pixie Dust Journey ✦</div>
 
+    <!-- FLOATING MENU & BUTTON -->
     <div class="float-container">
         <div class="float-menu" id="float-menu">
+            <button class="menu-btn" onclick="openMatchModal()">🧩 Cocokkan Gambar</button>
             <button class="menu-btn" onclick="openFcListModal()">🪄 Buka Kartu Mantra</button>
             <button class="menu-btn" onclick="openTimerModal()">⏳ Mulai Fokus Timer</button>
         </div>
         <button class="float-timer-btn" id="main-float-btn" onclick="toggleFloatMenu()">✨</button>
     </div>
 
+    <!-- MATCH MODAL (COCOKKAN GAMBAR) -->
+    <div class="welcome-overlay" id="match-modal">
+        <div class="welcome-card" style="max-height: 90vh; overflow-y: auto; padding: 30px 20px; width: 95%; max-width: 550px; position: relative;">
+            <button class="btn-close-top" onclick="closeMatchModal()">✖</button>
+            <h2 style="font-family:var(--serif); color:var(--gold-dark); font-style:italic; margin-bottom: 15px; margin-top: 10px;">Pecahan Memori</h2>
+
+            <!-- VIEW: LIST & SETUP -->
+            <div id="match-view-list">
+                <div id="match-items-container" style="margin-bottom: 15px; max-height: 250px; overflow-y: auto; padding-right: 5px;"></div>
+                
+                <div class="fc-card" style="padding: 18px; border: 1px dashed rgba(245,200,66,0.6); text-align: center; background: rgba(255,255,255,0.8); margin-bottom: 15px;">
+                    <div style="font-size: 11px; font-weight: 700; color: var(--text-soft); margin-bottom: 12px; letter-spacing: 0.1em;">TAMBAH KEPINGAN GAMBAR</div>
+                    <input type="file" id="match-file-input" accept="image/*" style="display: none;" onchange="handleMatchImageUpload(event)">
+                    <button class="btn-save btn-full" style="background: linear-gradient(135deg, var(--gold-dark), var(--gold-light)); border-radius: 12px; font-size: 13px; padding: 12px;" onclick="document.getElementById('match-file-input').click()">📁 Unggah Gambar</button>
+                    <p style="font-size: 10px; color: var(--text-soft); margin-top: 8px;">*Kamu bisa memotong bagian spesifik gambar nanti</p>
+                </div>
+                
+                <button class="btn-save btn-full" style="font-size: 14px; padding: 12px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 4px 15px rgba(74, 155, 40, 0.3);" onclick="startMatchPlay()">Mulai Bermain 🧩</button>
+                <button class="btn-reset btn-full" style="font-size: 12px; padding: 10px; border-radius: 12px; background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: none;" onclick="deleteAllMatchItems()">🗑️ Hapus Semua Kepingan</button>
+            </div>
+
+            <!-- VIEW: CROP IMAGE -->
+            <div id="match-view-crop" style="display: none;">
+                <p style="font-size: 12px; color: var(--text-mid); margin-bottom: 15px; font-weight: 600;">Sentuh dan tarik untuk memotong area gambar ✂️</p>
+                <div class="crop-container" id="crop-container">
+                    <canvas id="crop-canvas"></canvas>
+                </div>
+                <input type="text" id="match-word-input" class="field" placeholder="Masukkan kata kuncinya..." style="width: 100%; margin-bottom: 15px; text-align: center; border-radius: 12px; font-weight: 600;" autocomplete="off">
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-reset" style="flex: 1; border-radius: 12px; background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: none;" onclick="cancelCrop()">Batal</button>
+                    <button class="btn-save" style="flex: 2; border-radius: 12px;" onclick="saveCrop()">Simpan Potongan ✨</button>
+                </div>
+            </div>
+
+            <!-- VIEW: PLAY (SATU PER SATU) -->
+            <div id="match-view-play" style="display: none;">
+                <div style="font-size:11px; color:var(--text-soft); margin-bottom:15px; font-weight:700; letter-spacing: 0.1em; text-transform: uppercase;" id="match-play-counter">
+                  Gambar 1 dari 10
+                </div>
+                
+                <img id="match-play-current-img" class="match-play-img" src="">
+                
+                <div style="height: 1px; width: 60%; background: linear-gradient(90deg, transparent, rgba(245,200,66,0.3), transparent); margin: 0 auto 20px;"></div>
+                
+                <p style="font-size: 12px; color: var(--text-mid); margin-bottom: 15px; font-weight: 600;">Pilih kata yang tepat untuk gambar di atas:</p>
+                
+                <div class="match-words-grid" id="match-play-words"></div>
+
+                <div class="match-nav-controls">
+                    <button class="btn-reset" style="flex:1; border:none; background:rgba(0,0,0,0.05); color: var(--text-dark); border-radius: 12px;" onclick="navMatchPlay(-1)" id="btn-match-prev">❮ Sebelumnya</button>
+                    <button class="btn-save" style="flex:1; border-radius: 12px;" onclick="navMatchPlay(1)" id="btn-match-next">Selanjutnya ❯</button>
+                </div>
+            </div>
+
+            <!-- VIEW: REVIEW -->
+            <div id="match-view-review" style="display: none;">
+                <p style="font-size: 13px; color: var(--text-mid); margin-bottom: 20px; font-weight: 600;">Periksa kembali jawabanmu sebelum mengumpulkan. Klik pada baris untuk mengubah jawaban.</p>
+                
+                <div id="match-review-list" style="margin-bottom: 20px; max-height: 300px; overflow-y: auto; padding-right: 5px;"></div>
+                
+                <button class="btn-save btn-full" style="border-radius: 12px; padding: 12px; font-size: 14px; box-shadow: 0 4px 15px rgba(74, 155, 40, 0.3);" onclick="submitMatch()">✨ Kumpulkan & Cek Hasil</button>
+                <button class="btn-reset btn-full" style="margin-top: 10px; border: none; background: none; color: var(--text-soft);" onclick="switchMatchTab('list')">Kembali ke Daftar</button>
+            </div>
+            
+            <!-- RESULT OVERLAY -->
+            <div id="match-result-overlay" style="display: none; position: absolute; inset: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 100; border-radius: 24px; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
+                <div id="match-result-icon" style="font-size: 80px; margin-bottom: 10px; filter: drop-shadow(0 10px 20px rgba(245,200,66,0.4)); animation: float-magical 3s infinite alternate;">🎉</div>
+                <h3 id="match-result-title" style="font-family: var(--serif); color: var(--gold-dark); margin-bottom: 10px; font-size: 32px; font-style: italic;">Luar Biasa!</h3>
+                <p id="match-result-text" style="font-size: 15px; color: var(--text-dark); margin-bottom: 30px; text-align: center; line-height: 1.5; font-weight: 600;"></p>
+                <button class="btn-save" style="border-radius: 20px; padding: 12px 30px;" onclick="document.getElementById('match-result-overlay').style.display='none'; switchMatchTab('list');">Tutup Hasil</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL LIST MANTRA (POP UP DAFTAR KARTU) -->
     <div class="welcome-overlay" id="fc-list-modal">
         <div class="welcome-card" style="max-height: 85vh; overflow-y: auto; padding: 30px 20px; width: 95%; max-width: 500px; position: relative;">
-            
             <button class="btn-close-top" onclick="closeFcListModal()">✖</button>
-
             <h2 style="font-family:var(--serif); color:var(--gold-dark); font-style:italic; margin-bottom: 20px; margin-top: 10px;">Daftar Kartu Mantra</h2>
             
             <div id="fc-list-container" style="margin-bottom: 20px;"></div>
@@ -639,6 +757,7 @@
         </div>
     </div>
 
+    <!-- MODAL PRAKTEK KARTU MANTRA (POP UP 3D) -->
     <div class="welcome-overlay" id="fc-view-modal">
         <button class="btn-close-top" style="position: absolute; top: 20px; left: 20px; width: 45px; height: 45px; font-size: 22px; background: rgba(255,255,255,0.2); color: #fff;" onclick="closeFcViewModal()">❮</button>
 
@@ -667,6 +786,7 @@
         </div>
     </div>
 
+    <!-- TIMER MODAL -->
     <div class="welcome-overlay" id="timer-modal">
       <div class="welcome-card" style="padding-top: 40px; position: relative;">
         
@@ -720,6 +840,7 @@
       </div>
     </div>
 
+    <!-- WELCOME MODAL 1 (NAMA) -->
     <div class="welcome-overlay" id="welcome-modal">
       <div class="welcome-card">
         <h1 class="welcome-title">Pixie Hollow</h1>
@@ -730,6 +851,7 @@
       </div>
     </div>
 
+    <!-- WELCOME MODAL 2 (SETUP BLOK) -->
     <div class="welcome-overlay" id="setup-modal">
       <div class="welcome-card">
         <h1 class="welcome-title" style="font-size: 22px;">Persiapan Blok</h1>
@@ -746,6 +868,7 @@
       </div>
     </div>
 
+    <!-- MOOD MODAL (SETELAH ISI PPT) -->
     <div class="welcome-overlay" id="mood-modal">
       <div class="welcome-card" style="padding-bottom: 30px;">
         <h1 class="welcome-title" style="font-size: 24px;">Perasaanmu</h1>
@@ -759,6 +882,7 @@
       </div>
     </div>
 
+    <!-- EXAM MODAL -->
     <div class="welcome-overlay" id="exam-modal">
       <div class="welcome-card">
         <h1 class="welcome-title">Hari Ujian! 📝</h1>
@@ -769,6 +893,7 @@
       </div>
     </div>
 
+    <!-- RESULT MODAL -->
     <div class="welcome-overlay" id="result-modal">
       <div class="welcome-card">
         <img src="" id="result-image" class="result-image" alt="Hasil Peri" />
@@ -778,6 +903,7 @@
       </div>
     </div>
 
+    <!-- APPRECIATION FULLSCREEN OVERLAY (MILESTONES) -->
     <div class="appreciation-overlay" id="appreciation-overlay">
       <div class="appreciation-content">
         <div class="app-fairy-orb"></div>
@@ -786,6 +912,7 @@
       </div>
     </div>
 
+    <!-- BADGE UNLOCKED FULLSCREEN OVERLAY -->
     <div class="appreciation-overlay" id="badge-anim-overlay">
       <div class="appreciation-content">
         <div class="app-fairy-orb"></div>
@@ -841,7 +968,8 @@
         badges: ls("rv_badges", {1: false, 2: false, 3: false, 4: false}),
         moods: ls("rv_moods", {}),
         focusTime: ls("rv_focus", 0),
-        flashcards: ls("rv_flashcards", []) 
+        flashcards: ls("rv_flashcards", []),
+        matchItems: ls("rv_matchItems", []) 
       };
       
       let pageId = null;
@@ -1236,6 +1364,364 @@
         else { box.style.display = "none"; }
       }
 
+      /* ── MATCH GAME LOGIC (COCOKKAN GAMBAR) ── */
+      let cropImage = new Image();
+      let cropCtx = null;
+      let isCropping = false;
+      let cropStartX = 0, cropStartY = 0, cropEndX = 0, cropEndY = 0;
+      let imgScale = 1;
+      let imgOffsetX = 0, imgOffsetY = 0;
+
+      let playImages = [];
+      let playWords = [];
+      let userAnswers = {}; // Mapping imgId -> kata yang dipilih
+      let currentPlayIdx = 0; // Gambar mana yang sedang ditampilkan (mode kuis)
+
+      function openMatchModal() {
+          toggleFloatMenu();
+          document.getElementById('match-modal').classList.add('show');
+          document.getElementById('match-view-list').style.display = 'block';
+          document.getElementById('match-view-crop').style.display = 'none';
+          document.getElementById('match-view-play').style.display = 'none';
+          document.getElementById('match-view-review').style.display = 'none';
+          document.getElementById('match-result-overlay').style.display = 'none';
+          renderMatchList();
+      }
+
+      function closeMatchModal() {
+          document.getElementById('match-modal').classList.remove('show');
+          cancelCrop();
+      }
+
+      function handleMatchImageUpload(e) {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = function(event) {
+              cropImage.onload = function() { setupCropper(); }
+              cropImage.src = event.target.result;
+          };
+          reader.readAsDataURL(file);
+          e.target.value = ''; 
+      }
+
+      function setupCropper() {
+          document.getElementById('match-view-list').style.display = 'none';
+          document.getElementById('match-view-crop').style.display = 'block';
+          
+          const canvas = document.getElementById('crop-canvas');
+          const container = document.getElementById('crop-container');
+          cropCtx = canvas.getContext('2d');
+          
+          canvas.width = container.clientWidth;
+          canvas.height = container.clientHeight;
+          
+          const scaleX = canvas.width / cropImage.width;
+          const scaleY = canvas.height / cropImage.height;
+          imgScale = Math.min(scaleX, scaleY);
+          
+          const drawW = cropImage.width * imgScale;
+          const drawH = cropImage.height * imgScale;
+          imgOffsetX = (canvas.width - drawW) / 2;
+          imgOffsetY = (canvas.height - drawH) / 2;
+
+          cropStartX = imgOffsetX + (drawW * 0.2);
+          cropStartY = imgOffsetY + (drawH * 0.2);
+          cropEndX = imgOffsetX + (drawW * 0.8);
+          cropEndY = imgOffsetY + (drawH * 0.8);
+          
+          drawCropState();
+          setupCropEvents(canvas);
+      }
+
+      function drawCropState() {
+          if(!cropCtx) return;
+          const canvas = document.getElementById('crop-canvas');
+          cropCtx.clearRect(0,0, canvas.width, canvas.height);
+          
+          cropCtx.drawImage(cropImage, 0, 0, cropImage.width, cropImage.height, imgOffsetX, imgOffsetY, cropImage.width * imgScale, cropImage.height * imgScale);
+          
+          cropCtx.fillStyle = 'rgba(0,0,0,0.6)';
+          cropCtx.fillRect(0,0, canvas.width, canvas.height);
+          
+          let sx = Math.min(cropStartX, cropEndX);
+          let sy = Math.min(cropStartY, cropEndY);
+          let cw = Math.abs(cropEndX - cropStartX);
+          let ch = Math.abs(cropEndY - cropStartY);
+          
+          cropCtx.clearRect(sx, sy, cw, ch);
+          
+          if(cw > 0 && ch > 0) {
+            cropCtx.drawImage(cropImage, 
+                (sx - imgOffsetX) / imgScale, (sy - imgOffsetY) / imgScale, cw / imgScale, ch / imgScale,
+                sx, sy, cw, ch);
+            cropCtx.strokeStyle = '#f5c842';
+            cropCtx.lineWidth = 2;
+            cropCtx.setLineDash([5, 5]);
+            cropCtx.strokeRect(sx, sy, cw, ch);
+            cropCtx.setLineDash([]);
+          }
+      }
+
+      function setupCropEvents(canvas) {
+          canvas.onmousedown = (e) => startCropDraw(e.offsetX, e.offsetY);
+          canvas.onmousemove = (e) => moveCropDraw(e.offsetX, e.offsetY);
+          window.onmouseup = endCropDraw;
+          canvas.ontouchstart = (e) => {
+              e.preventDefault();
+              const rect = canvas.getBoundingClientRect();
+              startCropDraw(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
+          };
+          canvas.ontouchmove = (e) => {
+              e.preventDefault();
+              const rect = canvas.getBoundingClientRect();
+              moveCropDraw(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
+          };
+          window.ontouchend = endCropDraw;
+      }
+
+      function startCropDraw(x, y) {
+          isCropping = true;
+          cropStartX = Math.max(imgOffsetX, Math.min(x, imgOffsetX + cropImage.width * imgScale));
+          cropStartY = Math.max(imgOffsetY, Math.min(y, imgOffsetY + cropImage.height * imgScale));
+          cropEndX = cropStartX; cropEndY = cropStartY;
+      }
+
+      function moveCropDraw(x, y) {
+          if (!isCropping) return;
+          cropEndX = Math.max(imgOffsetX, Math.min(x, imgOffsetX + cropImage.width * imgScale));
+          cropEndY = Math.max(imgOffsetY, Math.min(y, imgOffsetY + cropImage.height * imgScale));
+          drawCropState();
+      }
+
+      function endCropDraw() {
+          isCropping = false;
+          if(cropStartX > cropEndX) { let t=cropStartX; cropStartX=cropEndX; cropEndX=t; }
+          if(cropStartY > cropEndY) { let t=cropStartY; cropStartY=cropEndY; cropEndY=t; }
+      }
+
+      function cancelCrop() {
+          document.getElementById('match-view-crop').style.display = 'none';
+          document.getElementById('match-view-list').style.display = 'block';
+          document.getElementById('match-word-input').value = '';
+      }
+
+      function saveCrop() {
+          const word = document.getElementById('match-word-input').value.trim();
+          if(!word) { alert('Masukkan kata kunci (jawaban) terlebih dahulu!'); return; }
+          
+          let cw = cropEndX - cropStartX;
+          let ch = cropEndY - cropStartY;
+          if(cw < 20 || ch < 20) { alert('Area potongan terlalu kecil!'); return; }
+
+          const finalW = 150; 
+          const finalH = (ch/cw) * finalW;
+          
+          const offCanvas = document.createElement('canvas');
+          offCanvas.width = finalW; offCanvas.height = finalH;
+          const offCtx = offCanvas.getContext('2d');
+          
+          offCtx.drawImage(cropImage, 
+              (cropStartX - imgOffsetX) / imgScale, (cropStartY - imgOffsetY) / imgScale, cw / imgScale, ch / imgScale,
+              0, 0, finalW, finalH);
+              
+          const base64Src = offCanvas.toDataURL('image/jpeg', 0.8);
+          
+          state.matchItems.push({ id: 'm_' + Date.now(), src: base64Src, word: word });
+          ss('rv_matchItems', state.matchItems);
+          
+          playChime();
+          cancelCrop();
+          renderMatchList();
+      }
+
+      function renderMatchList() {
+          const container = document.getElementById('match-items-container');
+          if(state.matchItems.length === 0) {
+              container.innerHTML = `<div style="text-align:center; padding: 30px; background: rgba(255,255,255,0.6); border-radius: 12px; border: 1px dashed rgba(245,200,66,0.5); color: var(--text-soft); font-size:12px;">Belum ada kepingan memori.<br>Unggah dan potong gambar pertamamu! ✨</div>`;
+              return;
+          }
+          
+          let html = '';
+          state.matchItems.forEach((item, idx) => {
+              html += `<div class="match-list-item">
+                  <img src="${item.src}" class="match-list-img">
+                  <div class="match-list-word">${item.word}</div>
+                  <button class="btn-reset" style="background:rgba(232, 80, 80, 0.1); border:none; border-radius: 8px; color:var(--red-soft); padding:8px 12px; font-size:14px;" onclick="deleteMatchItem(${idx})">🗑️</button>
+              </div>`;
+          });
+          container.innerHTML = html;
+      }
+
+      function deleteMatchItem(idx) {
+          state.matchItems.splice(idx, 1);
+          ss('rv_matchItems', state.matchItems);
+          renderMatchList();
+      }
+      
+      function deleteAllMatchItems() {
+          if(!confirm('Yakin ingin membakar semua kepingan memori ini?')) return;
+          state.matchItems = [];
+          ss('rv_matchItems', state.matchItems);
+          renderMatchList();
+      }
+
+      /* ── PLAY LOGIC (SATU PER SATU) ── */
+      function shuffleArray(array) {
+          let arr = [...array];
+          for (let i = arr.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [arr[i], arr[j]] = [arr[j], arr[i]];
+          }
+          return arr;
+      }
+
+      function startMatchPlay() {
+          if(state.matchItems.length < 2) {
+              alert('Tambahkan minimal 2 kepingan gambar & kata untuk bisa mulai bermain!');
+              return;
+          }
+          
+          document.getElementById('match-view-list').style.display = 'none';
+          document.getElementById('match-view-play').style.display = 'block';
+          document.getElementById('match-view-review').style.display = 'none';
+          
+          playImages = shuffleArray(state.matchItems);
+          playWords = shuffleArray(state.matchItems).map(item => item.word); // Hanya ambil katanya
+          userAnswers = {}; // Reset jawaban
+          currentPlayIdx = 0;
+          
+          renderMatchPlay();
+      }
+
+      function renderMatchPlay() {
+          const currentImgItem = playImages[currentPlayIdx];
+          
+          document.getElementById('match-play-counter').textContent = `Gambar ${currentPlayIdx + 1} dari ${playImages.length}`;
+          document.getElementById('match-play-current-img').src = currentImgItem.src;
+          
+          // Render kata
+          const wordContainer = document.getElementById('match-play-words');
+          let wordHtml = '';
+          const currentSelectedWord = userAnswers[currentImgItem.id];
+          
+          playWords.forEach(word => {
+              const isSelected = currentSelectedWord === word;
+              wordHtml += `<button class="match-word-btn ${isSelected ? 'selected' : ''}" onclick="selectMatchWord('${word}')">${word}</button>`;
+          });
+          wordContainer.innerHTML = wordHtml;
+          
+          // Atur Tombol Navigasi
+          const btnPrev = document.getElementById('btn-match-prev');
+          const btnNext = document.getElementById('btn-match-next');
+          
+          if(currentPlayIdx === 0) {
+              btnPrev.disabled = true;
+              btnPrev.style.opacity = '0.5';
+          } else {
+              btnPrev.disabled = false;
+              btnPrev.style.opacity = '1';
+          }
+          
+          if(currentPlayIdx === playImages.length - 1) {
+              btnNext.textContent = "Review Hasil 👀";
+              btnNext.style.background = "linear-gradient(135deg, var(--gold-dark), var(--amber))";
+          } else {
+              btnNext.textContent = currentSelectedWord ? "Selanjutnya ❯" : "Lewati ⏭️";
+              btnNext.style.background = "linear-gradient(135deg, var(--green-mid), var(--green-leaf))";
+          }
+      }
+
+      function selectMatchWord(word) {
+          const currentImgId = playImages[currentPlayIdx].id;
+          
+          // Toggle (klik kedua kali untuk batal)
+          if(userAnswers[currentImgId] === word) {
+              delete userAnswers[currentImgId];
+          } else {
+              userAnswers[currentImgId] = word;
+          }
+          
+          renderMatchPlay();
+          playChime();
+      }
+
+      function navMatchPlay(dir) {
+          if (dir === 1 && currentPlayIdx === playImages.length - 1) {
+              // Jika di gambar terakhir dan klik next -> Buka halaman Review
+              showMatchReview();
+          } else {
+              currentPlayIdx += dir;
+              renderMatchPlay();
+          }
+      }
+      
+      /* ── REVIEW LOGIC ── */
+      function showMatchReview() {
+          document.getElementById('match-view-play').style.display = 'none';
+          document.getElementById('match-view-review').style.display = 'block';
+          
+          const reviewContainer = document.getElementById('match-review-list');
+          let reviewHtml = '';
+          
+          playImages.forEach((imgItem, index) => {
+              const ans = userAnswers[imgItem.id];
+              const ansText = ans ? ans : 'Belum dijawab';
+              const emptyClass = ans ? '' : 'empty';
+              
+              reviewHtml += `
+                  <div class="match-review-item" onclick="jumpToMatchItem(${index})">
+                      <img src="${imgItem.src}" class="match-review-img">
+                      <div class="match-review-ans">
+                          <div class="lbl">GAMBAR ${index + 1}</div>
+                          <div class="val ${emptyClass}">${ansText}</div>
+                      </div>
+                      <div class="match-review-edit">✎</div>
+                  </div>
+              `;
+          });
+          reviewContainer.innerHTML = reviewHtml;
+      }
+      
+      function jumpToMatchItem(index) {
+          currentPlayIdx = index;
+          document.getElementById('match-view-review').style.display = 'none';
+          document.getElementById('match-view-play').style.display = 'block';
+          renderMatchPlay();
+      }
+
+      function submitMatch() {
+          let correct = 0;
+          let total = playImages.length;
+
+          // Hitung nilai
+          playImages.forEach(imgItem => {
+              if (userAnswers[imgItem.id] === imgItem.word) correct++;
+          });
+
+          const overlay = document.getElementById('match-result-overlay');
+          const title = document.getElementById('match-result-title');
+          const text = document.getElementById('match-result-text');
+          const icon = document.getElementById('match-result-icon');
+          
+          overlay.style.display = 'flex';
+          
+          if(correct === total) {
+              icon.textContent = '🎉';
+              title.textContent = 'Ingatan Sempurna!';
+              title.style.color = 'var(--green-mid)';
+              text.textContent = `Luar biasa! Kamu berhasil menjodohkan ${correct} dari ${total} gambar dengan tepat. Ingatanmu tajam layaknya panah peri!`;
+              playGrandChime();
+              burstSparkles();
+          } else {
+              icon.textContent = '🧐';
+              title.textContent = 'Hampir Tepat';
+              title.style.color = 'var(--amber)';
+              text.textContent = `Kamu berhasil menebak ${correct} benar dari total ${total}. Jangan menyerah, coba periksa kembali catatan dan pecahan memorimu!`;
+              playChime();
+          }
+      }
+
       /* ── FLASHCARD LOGIC ── */
       function openFcListModal() {
         toggleFloatMenu();
@@ -1321,8 +1807,8 @@
         playChime();
       }
 
-      function hapusFlashcard(idx) {
-        if(!confirm('Hapus kartu mantra ini?')) return;
+      function hapusFlashcard(idx, event) {
+        if(event) event.stopPropagation();
         state.flashcards.splice(idx, 1);
         ss("rv_flashcards", state.flashcards);
         
@@ -1331,7 +1817,6 @@
       }
 
       function resetSemuaKartu() {
-          if(!confirm("Yakin ingin membakar semua Kartu Mantra ini? Tindakan ini tidak bisa dikembalikan!")) return;
           state.flashcards = [];
           ss("rv_flashcards", state.flashcards);
           renderFcList();
@@ -1350,7 +1835,7 @@
         state.flashcards.forEach((card, idx) => {
             html += `<div class="fc-list-item" style="cursor: default;">
                         <div class="fc-list-q" style="flex: 1; padding-right: 10px; font-weight: 600;">${idx + 1}. ${card.q}</div>
-                        <button style="background: rgba(232, 80, 80, 0.1); border: none; border-radius: 8px; font-size: 14px; padding: 6px 10px; color: var(--red-soft); cursor: pointer;" onclick="event.stopPropagation(); hapusFlashcard(${idx})">🗑️</button>
+                        <button style="background: rgba(232, 80, 80, 0.1); border: none; border-radius: 8px; font-size: 14px; padding: 6px 10px; color: var(--red-soft); cursor: pointer;" onclick="hapusFlashcard(${idx}, event)">🗑️</button>
                      </div>`;
         });
         html += '</div>';
@@ -1417,6 +1902,353 @@
         const btnNext = document.getElementById('fc-btn-next');
         if(btnPrev) btnPrev.disabled = (currentFcIdx === 0);
         if(btnNext) btnNext.disabled = (currentFcIdx === state.flashcards.length - 1);
+      }
+
+      /* ── MATCH WORD & PICTURE LOGIC ── */
+      let cropImage = new Image();
+      let cropCtx = null;
+      let isCropping = false;
+      let cropStartX = 0, cropStartY = 0, cropEndX = 0, cropEndY = 0;
+      let imgScale = 1;
+      let imgOffsetX = 0, imgOffsetY = 0;
+
+      let playImages = [];
+      let playWords = [];
+      let currentPairs = {}; // imageId -> wordId
+      let selectedMatchImg = null;
+      let selectedMatchWord = null;
+
+      function openMatchModal() {
+          toggleFloatMenu();
+          document.getElementById('match-modal').classList.add('show');
+          switchMatchTab('list');
+      }
+
+      function closeMatchModal() {
+          document.getElementById('match-modal').classList.remove('show');
+          cancelCrop();
+      }
+
+      function switchMatchTab(tab) {
+          document.getElementById('tab-match-list').classList.toggle('active', tab === 'list');
+          document.getElementById('tab-match-play').classList.toggle('active', tab === 'play');
+          
+          document.getElementById('match-view-list').style.display = tab === 'list' ? 'block' : 'none';
+          document.getElementById('match-view-crop').style.display = 'none';
+          document.getElementById('match-view-play').style.display = tab === 'play' ? 'block' : 'none';
+          document.getElementById('match-result-overlay').style.display = 'none';
+
+          if (tab === 'list') renderMatchList();
+          if (tab === 'play') startMatchPlay();
+      }
+
+      function handleMatchImageUpload(e) {
+          const file = e.target.files[0];
+          if (!file) return;
+          
+          const reader = new FileReader();
+          reader.onload = function(event) {
+              cropImage.onload = function() {
+                  setupCropper();
+              }
+              cropImage.src = event.target.result;
+          };
+          reader.readAsDataURL(file);
+          e.target.value = ''; 
+      }
+
+      function setupCropper() {
+          document.getElementById('match-view-list').style.display = 'none';
+          document.getElementById('match-view-crop').style.display = 'block';
+          
+          const canvas = document.getElementById('crop-canvas');
+          const container = document.getElementById('crop-container');
+          cropCtx = canvas.getContext('2d');
+          
+          // Sesuaikan canvas dengan container
+          canvas.width = container.clientWidth;
+          canvas.height = container.clientHeight;
+          
+          // Hitung skala agar gambar pas di dalam canvas (object-fit contain behavior)
+          const scaleX = canvas.width / cropImage.width;
+          const scaleY = canvas.height / cropImage.height;
+          imgScale = Math.min(scaleX, scaleY);
+          
+          const drawW = cropImage.width * imgScale;
+          const drawH = cropImage.height * imgScale;
+          imgOffsetX = (canvas.width - drawW) / 2;
+          imgOffsetY = (canvas.height - drawH) / 2;
+
+          // Default crop area (tengah gambar)
+          cropStartX = imgOffsetX + (drawW * 0.2);
+          cropStartY = imgOffsetY + (drawH * 0.2);
+          cropEndX = imgOffsetX + (drawW * 0.8);
+          cropEndY = imgOffsetY + (drawH * 0.8);
+          
+          drawCropState();
+          setupCropEvents(canvas);
+      }
+
+      function drawCropState() {
+          if(!cropCtx) return;
+          const canvas = document.getElementById('crop-canvas');
+          cropCtx.clearRect(0,0, canvas.width, canvas.height);
+          
+          // Gambar background utuh
+          cropCtx.drawImage(cropImage, 0, 0, cropImage.width, cropImage.height, imgOffsetX, imgOffsetY, cropImage.width * imgScale, cropImage.height * imgScale);
+          
+          // Overlay redup
+          cropCtx.fillStyle = 'rgba(0,0,0,0.6)';
+          cropCtx.fillRect(0,0, canvas.width, canvas.height);
+          
+          // Hapus area kotak agar transparan
+          let sx = Math.min(cropStartX, cropEndX);
+          let sy = Math.min(cropStartY, cropEndY);
+          let cw = Math.abs(cropEndX - cropStartX);
+          let ch = Math.abs(cropEndY - cropStartY);
+          
+          cropCtx.clearRect(sx, sy, cw, ch);
+          
+          // Gambar ulang bagian kotak dengan terang
+          if(cw > 0 && ch > 0) {
+            cropCtx.drawImage(cropImage, 
+                (sx - imgOffsetX) / imgScale, (sy - imgOffsetY) / imgScale, cw / imgScale, ch / imgScale,
+                sx, sy, cw, ch);
+                
+            // Border emas
+            cropCtx.strokeStyle = '#f5c842';
+            cropCtx.lineWidth = 2;
+            cropCtx.setLineDash([5, 5]);
+            cropCtx.strokeRect(sx, sy, cw, ch);
+            cropCtx.setLineDash([]);
+          }
+      }
+
+      function setupCropEvents(canvas) {
+          canvas.onmousedown = (e) => startCropDraw(e.offsetX, e.offsetY);
+          canvas.onmousemove = (e) => moveCropDraw(e.offsetX, e.offsetY);
+          window.onmouseup = endCropDraw;
+          
+          canvas.ontouchstart = (e) => {
+              e.preventDefault();
+              const rect = canvas.getBoundingClientRect();
+              startCropDraw(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
+          };
+          canvas.ontouchmove = (e) => {
+              e.preventDefault();
+              const rect = canvas.getBoundingClientRect();
+              moveCropDraw(e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top);
+          };
+          window.ontouchend = endCropDraw;
+      }
+
+      function startCropDraw(x, y) {
+          isCropping = true;
+          cropStartX = Math.max(imgOffsetX, Math.min(x, imgOffsetX + cropImage.width * imgScale));
+          cropStartY = Math.max(imgOffsetY, Math.min(y, imgOffsetY + cropImage.height * imgScale));
+          cropEndX = cropStartX;
+          cropEndY = cropStartY;
+      }
+
+      function moveCropDraw(x, y) {
+          if (!isCropping) return;
+          cropEndX = Math.max(imgOffsetX, Math.min(x, imgOffsetX + cropImage.width * imgScale));
+          cropEndY = Math.max(imgOffsetY, Math.min(y, imgOffsetY + cropImage.height * imgScale));
+          drawCropState();
+      }
+
+      function endCropDraw() {
+          isCropping = false;
+          // Normalisasi koordinat agar startX selalu yg terkecil (kiri atas)
+          if(cropStartX > cropEndX) { let t=cropStartX; cropStartX=cropEndX; cropEndX=t; }
+          if(cropStartY > cropEndY) { let t=cropStartY; cropStartY=cropEndY; cropEndY=t; }
+      }
+
+      function cancelCrop() {
+          document.getElementById('match-view-crop').style.display = 'none';
+          document.getElementById('match-view-list').style.display = 'block';
+          document.getElementById('match-word-input').value = '';
+      }
+
+      function saveCrop() {
+          const word = document.getElementById('match-word-input').value.trim();
+          if(!word) { alert('Masukkan kata kunci (jawaban) terlebih dahulu!'); return; }
+          
+          let cw = cropEndX - cropStartX;
+          let ch = cropEndY - cropStartY;
+          if(cw < 20 || ch < 20) { alert('Area potongan terlalu kecil!'); return; }
+
+          // Resize hasil crop agar aman masuk ke localStorage (max 150px lebar)
+          const finalW = 150; 
+          const finalH = (ch/cw) * finalW;
+          
+          const offCanvas = document.createElement('canvas');
+          offCanvas.width = finalW;
+          offCanvas.height = finalH;
+          const offCtx = offCanvas.getContext('2d');
+          
+          offCtx.drawImage(cropImage, 
+              (cropStartX - imgOffsetX) / imgScale, (cropStartY - imgOffsetY) / imgScale, cw / imgScale, ch / imgScale,
+              0, 0, finalW, finalH);
+              
+          const base64Src = offCanvas.toDataURL('image/jpeg', 0.8);
+          
+          state.matchItems.push({
+              id: 'm_' + Date.now(),
+              src: base64Src,
+              word: word
+          });
+          ss('rv_matchItems', state.matchItems);
+          
+          playChime();
+          cancelCrop();
+          renderMatchList();
+      }
+
+      function renderMatchList() {
+          const container = document.getElementById('match-items-container');
+          if(state.matchItems.length === 0) {
+              container.innerHTML = `<div style="text-align:center; padding: 30px; background: rgba(255,255,255,0.6); border-radius: 12px; border: 1px dashed rgba(245,200,66,0.5); color: var(--text-soft); font-size:12px;">Belum ada kepingan memori.<br>Unggah dan potong gambar pertamamu! ✨</div>`;
+              return;
+          }
+          
+          let html = '';
+          state.matchItems.forEach((item, idx) => {
+              html += `<div class="match-list-item">
+                  <img src="${item.src}" class="match-list-img">
+                  <div class="match-list-word">${item.word}</div>
+                  <button class="btn-reset" style="background:rgba(232, 80, 80, 0.1); border:none; border-radius: 8px; color:var(--red-soft); padding:8px 12px; font-size:14px;" onclick="deleteMatchItem(${idx})">🗑️</button>
+              </div>`;
+          });
+          container.innerHTML = html;
+      }
+
+      function deleteMatchItem(idx) {
+          if(!confirm('Hapus kepingan memori ini?')) return;
+          state.matchItems.splice(idx, 1);
+          ss('rv_matchItems', state.matchItems);
+          renderMatchList();
+      }
+
+      /* ── PLAY LOGIC ── */
+      function shuffleArray(array) {
+          let arr = [...array];
+          for (let i = arr.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [arr[i], arr[j]] = [arr[j], arr[i]];
+          }
+          return arr;
+      }
+
+      function startMatchPlay() {
+          if(state.matchItems.length < 2) {
+              alert('Tambahkan minimal 2 kepingan gambar & kata untuk bisa mulai mencocokkan!');
+              switchMatchTab('list');
+              return;
+          }
+          resetMatchPlay();
+      }
+      
+      function resetMatchPlay() {
+          playImages = shuffleArray(state.matchItems);
+          playWords = shuffleArray(state.matchItems);
+          currentPairs = {};
+          selectedMatchImg = null;
+          selectedMatchWord = null;
+          renderMatchGame();
+      }
+
+      function renderMatchGame() {
+          const imgContainer = document.getElementById('match-play-imgs');
+          const wordContainer = document.getElementById('match-play-words');
+          
+          let imgHtml = '';
+          playImages.forEach(item => {
+              let isPaired = currentPairs[item.id] !== undefined;
+              let isSelected = selectedMatchImg === item.id;
+              let badge = isPaired ? `<div class="match-pair-badge">${getPairNumber(item.id)}</div>` : '';
+              imgHtml += `<div class="match-item-container" onclick="selectMatchItem('img', '${item.id}')">
+                  ${badge}
+                  <img src="${item.src}" class="match-item-img ${isSelected ? 'selected' : ''} ${isPaired ? 'paired' : ''}">
+              </div>`;
+          });
+          imgContainer.innerHTML = imgHtml;
+
+          let wordHtml = '';
+          playWords.forEach(item => {
+              let pairedImgId = Object.keys(currentPairs).find(k => currentPairs[k] === item.id);
+              let isPaired = pairedImgId !== undefined;
+              let isSelected = selectedMatchWord === item.id;
+              let badge = isPaired ? `<div class="match-pair-badge">${getPairNumber(pairedImgId)}</div>` : '';
+              wordHtml += `<div class="match-item-container" onclick="selectMatchItem('word', '${item.id}')">
+                  ${badge}
+                  <div class="match-item-word ${isSelected ? 'selected' : ''} ${isPaired ? 'paired' : ''}">${item.word}</div>
+              </div>`;
+          });
+          wordContainer.innerHTML = wordHtml;
+      }
+
+      function getPairNumber(imgId) {
+          let keys = Object.keys(currentPairs);
+          return keys.indexOf(imgId) + 1;
+      }
+
+      function selectMatchItem(type, id) {
+          if (type === 'img') {
+              if(currentPairs[id]) { delete currentPairs[id]; } // Batal jodohkan
+              else { selectedMatchImg = selectedMatchImg === id ? null : id; }
+          } else {
+              let pairedImgId = Object.keys(currentPairs).find(k => currentPairs[k] === id);
+              if(pairedImgId) { delete currentPairs[pairedImgId]; } // Batal jodohkan
+              else { selectedMatchWord = selectedMatchWord === id ? null : id; }
+          }
+          
+          // Jodohkan jika keduanya sudah dipilih
+          if(selectedMatchImg && selectedMatchWord) {
+              currentPairs[selectedMatchImg] = selectedMatchWord;
+              selectedMatchImg = null;
+              selectedMatchWord = null;
+              playChime();
+          }
+          
+          renderMatchGame();
+      }
+
+      function submitMatch() {
+          let correct = 0;
+          let total = playImages.length;
+          
+          if(Object.keys(currentPairs).length < total) {
+              alert('Kamu belum mencocokkan semua gambar dan kata! Pilih sisa yang ada.');
+              return;
+          }
+
+          // Cek kebenaran berdasarkan id yang sama
+          Object.keys(currentPairs).forEach(imgId => {
+              if (imgId === currentPairs[imgId]) correct++;
+          });
+
+          const overlay = document.getElementById('match-result-overlay');
+          const title = document.getElementById('match-result-title');
+          const text = document.getElementById('match-result-text');
+          const icon = document.getElementById('match-result-icon');
+          
+          overlay.style.display = 'flex';
+          
+          if(correct === total) {
+              icon.textContent = '🎉';
+              title.textContent = 'Ingatan Sempurna!';
+              title.style.color = 'var(--green-mid)';
+              text.textContent = `Luar biasa! Kamu berhasil menjodohkan ${correct} dari ${total} gambar tanpa ada yang salah satupun.`;
+              playGrandChime();
+              burstSparkles();
+          } else {
+              icon.textContent = '🧐';
+              title.textContent = 'Hampir Tepat';
+              title.style.color = 'var(--amber)';
+              text.textContent = `Kamu berhasil menebak ${correct} benar dari total ${total}. Jangan menyerah, coba periksa kembali pecahan memorimu!`;
+              playChime();
+          }
       }
 
       /* KONTROL KEYBOARD KARTU MANTRA */
