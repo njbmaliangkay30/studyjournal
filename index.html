@@ -3188,12 +3188,17 @@
         activeDotIdx = idx;
         const dot = state.pptDots[idx];
         const isDone = dot && dot.done;
+        
+        // Elemen-elemen modal
         document.getElementById('ppt-popup-num').textContent = idx + 1;
         document.getElementById('ppt-popup-input').value = isDone ? (dot.title || '') : '';
-        document.getElementById('ppt-popup-sub').textContent = isDone
-          ? 'Edit judul PPT atau batalkan tandai selesai.'
-          : 'Apa judul PPT yang sudah kamu baca?';
-        document.getElementById('ppt-popup-confirm-btn').textContent = isDone ? '✦ Simpan Perubahan' : '✦ Tandai Selesai';
+        
+        // PENTING: Bagian ini yang mengubah bahasa secara otomatis
+        document.getElementById('ppt-popup-input').placeholder = t('ppt_placeholder');
+        document.getElementById('ppt-popup-sub').textContent = isDone ? t('trk_ppt_popup_edit') : t('trk_ppt_popup_sub');
+        document.getElementById('ppt-popup-confirm-btn').textContent = isDone ? t('btn_save_set') : t('btn_mark_done');
+        document.getElementById('ppt-popup-unmark-btn').textContent = t('btn_unmark');
+
         document.getElementById('ppt-popup-unmark-btn').style.display = isDone ? 'block' : 'none';
         document.getElementById('ppt-dot-modal').classList.add('show');
         setTimeout(() => document.getElementById('ppt-popup-input').focus(), 200);
