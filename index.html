@@ -84,7 +84,7 @@
     .ppt-forest-deco { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
     .ppt-forest-deco svg { position: absolute; }
     /* Garis ular vertikal penghubung antar baris */
-    .ppt-snake-connector { display: flex; justify-content: flex-end; padding: 0 2px; position: relative; z-index: 1; }
+    .ppt-snake-connector { display: none; justify-content: flex-end; padding: 0 2px; position: relative; z-index: 1; }
     .ppt-snake-connector.to-left { justify-content: flex-start; }
     .ppt-snake-vline { width: 2px; height: 28px; background: rgba(141,201,90,0.18); border-radius: 2px; position: relative; overflow: visible; margin: 0 20px; }
     .ppt-snake-vline::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(180deg, transparent, transparent 3px, rgba(141,201,90,0.2) 3px, rgba(141,201,90,0.2) 6px); }
@@ -3190,26 +3190,6 @@
             ${lineHtml}`;
           });
           html += `</div>`;
-
-          // Garis vertikal penghubung antar baris (pola ular sambung ke bawah)
-          if (rowIdx < rawRows.length - 1) {
-            const lastDotThisRow = rawRow[rawRow.length - 1]; // dot terakhir berurutan (bukan display order)
-            const firstDotNextRow = rawRows[rowIdx + 1][0];   // dot pertama berurutan di baris berikutnya
-
-            // Titik ujung kanan baris ini adalah dot ke-(rowIdx*DOTS_PER_ROW + DOTS_PER_ROW - 1)
-            // Titik ujung kiri baris berikutnya adalah dot ke-((rowIdx+1)*DOTS_PER_ROW)
-            // Garis vertikal selalu ada di sisi kanan jika baris ini kiri→kanan (isReverse=false),
-            // atau di sisi kiri jika baris ini kanan→kiri (isReverse=true)
-            const vLineIsLit = lastDotThisRow && lastDotThisRow.dot.done && firstDotNextRow && firstDotNextRow.dot.done;
-
-            // Posisi garis: di sisi mana baris ini berakhir
-            // Jika isReverse=false, baris berakhir di kanan → connector di kanan
-            // Jika isReverse=true, baris berakhir di kiri → connector di kiri
-            const connectorSide = isReverse ? 'to-left' : '';
-            html += `<div class="ppt-snake-connector ${connectorSide}">
-              <div class="ppt-snake-vline${vLineIsLit ? ' lit' : ''}"></div>
-            </div>`;
-          }
         });
 
         container.innerHTML = html;
