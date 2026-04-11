@@ -190,12 +190,12 @@ module.exports = async function handler(req, res) {
         "Topik Blok":   makeRichText(blockName),
         "PPT Dots":      makeRichText(safeJson(pptDots)),
         "Moods":         makeRichText(safeJson(moods)),
+        "Range Date": makeDateRange(blockStart, blockEnd)
       };
 
       // Properti tambahan hanya saat CREATE (bukan PATCH)
       const createOnlyProps = {
-        Name:         makeTitle(`${username} — ${blockStart} s/d ${blockEnd}`),
-        "Range Date": makeDateRange(blockStart, blockEnd),
+        Name:         makeTitle(`${username} — ${blockName}`)
       };
 
       let blockPageId = pageId;
@@ -212,9 +212,16 @@ module.exports = async function handler(req, res) {
         const cr = await fetch(`https://api.notion.com/v1/databases/${WEEKLY_DB_ID}/query`, {
           method: "POST", headers: notionHeaders(),
           body: JSON.stringify({
-            filter: { property: "Username", rich_text: { equals: username } },
-            page_size: 1,
-          }),
+            filter: {
+              property: "Username",
+              rich_text: { equals: username }
+            },
+            // 👈 PASTIKAN BLOK SORTS INI TERTULIS PERSIS SEPERTI INI
+            sorts: [
+              { timestamp: "created_time", direction: "descending" }
+            ],
+            page_size: 1
+          })
         });
         const cd = await cr.json();
         const existing = cd.results?.[0] ?? null;
