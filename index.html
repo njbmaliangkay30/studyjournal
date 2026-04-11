@@ -118,7 +118,27 @@
     .ppt-dot-label-empty { font-size: 9px; color: rgba(141,201,90,0.35); min-height: 22px; margin-top: 0; }
 
     /* Connecting energy line */
-    .ppt-energy-line { flex-shrink: 0; width: 100%; max-width: 16px; height: 2px; background: rgba(141,201,90,0.18); border-radius: 2px; margin-top: 22px; transition: background 0.5s, box-shadow 0.5s; position: relative; overflow: visible; }
+    .ppt-energy-line {
+  flex-shrink: 0; width: 100%; height: 2px;
+  background: rgba(141,201,90,0.18); border-radius: 2px;
+  margin-top: 22px; position: relative;
+  margin-left: -6px; margin-right: -6px;
+}
+
+/* --- TAMPILAN LAPTOP (Garis untuk 8 Titik) --- */
+@media (min-width: 768px) {
+  .ppt-energy-line { max-width: 24px; }
+  .ppt-snake-connector { margin-top: -34px; }
+  .ppt-snake-vline { height: 48px; margin: 0 31px; } /* Pas di tengah titik ke-8 */
+}
+
+/* --- TAMPILAN HP (Garis untuk 6 Titik) --- */
+@media (max-width: 767px) {
+  .ppt-energy-line { max-width: 10px; margin-top: 20px; }
+  .ppt-snake-connector { margin-top: -33px; }
+  .ppt-snake-vline { height: 46px; margin: 0 25px; } /* Pas di tengah titik ke-6 */
+  .ppt-dot { width: 40px; height: 40px; font-size: 11px; }
+}
     .ppt-energy-line::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-50%); background: repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(141,201,90,0.2) 3px, rgba(141,201,90,0.2) 6px); }
     .ppt-energy-line.lit { background: linear-gradient(90deg, rgba(245,200,66,0.25) 0%, rgba(255,240,100,0.95) 30%, rgba(245,200,66,0.25) 60%, rgba(255,240,100,0.9) 90%, rgba(245,200,66,0.25) 100%); background-size: 200% 100%; box-shadow: 0 0 8px rgba(245,200,66,0.65), 0 0 16px rgba(245,200,66,0.3); animation: energy-flow-h 1.2s infinite linear; }
     .ppt-energy-line.lit::before { display: none; }
@@ -3111,7 +3131,10 @@
         ensurePptDots();
         const container = document.getElementById('ppt-dots-row');
         if (!container) return;
-
+        
+// DETEKSI JUMLAH KOLOM: 6 untuk HP, 8 untuk Laptop
+        const DOTS_PER_ROW = window.innerWidth < 768 ? 6 : 8;
+      
         const titleEl = document.querySelector('[data-i18n="trk_ppt_title"]');
     if(titleEl) titleEl.textContent = t('trk_ppt_title');
     const guideEl = document.querySelector('[data-i18n="trk_ppt_guide"]');
