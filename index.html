@@ -2821,34 +2821,44 @@
       // ── SYNC CORE: semua baca/tulis pakai username sebagai kunci ──────────────
 
       // Ambil semua data user dari Notion berdasarkan username
-      async function loadUserFromNotion(username) {
-        if (!username) return;
-        setSyncStatus("syncing", "Menarik ingatan dari Hutan Sihir...");
-        try {
-          const res = await fetch("/api/weekly-tracker?username=" + encodeURIComponent(username));
-          const json = await res.json();
-          if (json.found && json.data) {
-            const d = json.data;
-            // Data blok (tanggal, target, nilai)
-            if (d.target)     { state.target     = d.target;     ss("rv_target",     state.target); }
-            if (d.blockName)  { state.blockName  = d.blockName;  ss("rv_blockName",   state.blockName); }
-            if (d.nilaiUjian) { state.nilaiUjian = d.nilaiUjian; ss("rv_nilai",      state.nilaiUjian); }
-            if (d.blockStart) { state.blockStart = d.blockStart; ss("rv_block_start",state.blockStart); }
-            if (d.blockEnd)   { state.blockEnd   = d.blockEnd;   ss("rv_block_end",  state.blockEnd); }
-            if (d.pageId)     { state.blokPageId = d.pageId;     ss("rv_blokPageId", state.blokPageId); }
-            if (ed.found) {
-          // Selalu update state dengan data terbaru dari Notion
-          state.target = ed.target || state.target;
-          state.pptDots = ed.pptDots || [];
-          state.slides = ed.slides || {}; // Pastikan slides dari Daily Log ikut ter-update
-          
-          // Simpan hasil tarikan terbaru ini ke memori HP (localStorage)
-          ss('rv_target', state.target);
-          ss('rv_pptDots', state.pptDots);
-          ss('rv_slides', state.slides);
-          
-          render(); // Gambar ulang UI dengan data terbaru
-        }
+      async function loadUserFromNotion(username, blockName) {
+  if (!username || !blockName) return;
+  setSyncStatus("syncing", "Menarik data dari Hutan Sihir...");
+
+  try {
+    const res = await fetch(`/api/weekly-tracker?username=${encodeURIComponent(username)}&blockName=${encodeURIComponent(blockName)}`);
+    const ed = await res.json();
+
+    if (ed.found) {
+      // --- KUNCI SINKRONISASI: TIMPA DATA LOKAL DENGAN DATA NOTION ---
+      state.target = ed.target || state.target;
+      state.blockStart = ed.blockStart;
+      state.blockEnd = ed.blockEnd;
+      state.blokPageId = ed.pageId;
+      state.pptDots = Array.isArray(ed.pptDots) ? ed.pptDots : JSON.parse(ed.pptDots || "[]");
+      state.slides = ed.slides || {};
+
+      // Simpan ke localStorage agar HP ingat data terbaru ini
+      ss('rv_target', state.target);
+      ss('rv_block_start', state.blockStart);
+      ss('rv_block_end', state.blockEnd);
+      ss('rv_blokPageId', state.blokPageId);
+      ss('rv_pptDots', state.pptDots);
+      ss('rv_slides', state.slides);
+
+      setSyncStatus("ok", "Tersinkron Penuh");
+      render(); // Gambar ulang semua komponen di layar
+      if (typeof renderPptTrack === "function") renderPptTrack();
+    } else {
+      // Jika user/blok benar-benar belum ada di Notion
+      setSyncStatus("ok", "Siap");
+      checkSetupModal(); // Baru tampilkan modal setup jika data kosong
+    }
+  } catch (err) {
+    setSyncStatus("error", "Koneksi Sihir Terputus");
+    console.error(err);
+  }
+}
             // Data progress harian
             if (d.slides && Object.keys(d.slides).length > 0) {
               state.slides = d.slides; ss("rv_slides", state.slides);
@@ -3430,22 +3440,19 @@
 
       /* ===== END PPT DOT TRACKER ===== */
 
-      // Cek Notion otomatis setiap kali kamu kembali membuka tab web ini
+     // Setiap kali kamu membuka kembali tab web ini di HP/Laptop
 document.addEventListener("visibilitychange", function() {
-  if (document.visibilityState === "visible") {
-    if (state.syncCode && state.blockName) {
-      console.log("♻️ Menyinkronkan data terbaru dari Notion...");
-      loadUserFromNotion(state.syncCode, state.blockName);
-    }
-  }
-});
-      // Cek Notion otomatis setiap 2 menit agar antar device tetap sinkron
-setInterval(() => {
-  if (state.syncCode && state.blockName) {
-    // Hanya tarik data jika status saat ini sedang aman (tidak sedang error)
+  if (document.visibilityState === "visible" && state.syncCode && state.blockName) {
     loadUserFromNotion(state.syncCode, state.blockName);
   }
-}, 2 * 60 * 1000);
+});
+
+// Cek otomatis setiap 2 menit
+setInterval(() => {
+  if (state.syncCode && state.blockName) {
+    loadUserFromNotion(state.syncCode, state.blockName);
+  }
+}, 120000);
       /* INISIALISASI */
       createSparkles();
       applyTheme();    
