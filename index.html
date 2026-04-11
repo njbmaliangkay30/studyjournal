@@ -51,7 +51,7 @@
     html, body { 
       font-family: var(--sans); background: var(--bg-main); color: var(--text-dark); 
       min-height: 100vh; overflow-x: hidden; transition: background 0.5s ease, color 0.5s ease;
-      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M17,17 Q12,6 20,6 Q21,12 17,17' fill='%23ffe478' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M18,18 Q26,6 31,12 Q24,18 18,18' fill='%23fff' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M18,19 Q28,22 25,28 Q19,22 18,19' fill='%23fff' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M15,15 C15,15 20,20 16,28 C16,28 14,24 15,19 C15,19 12,23 9,25 C9,25 7,19 13,16 Z' fill='%238dc95a' stroke='%231a3a0f' stroke-width='1'/%3E%3Ccircle cx='16' cy='11' r='3.5' fill='%23fbdcb8' stroke='%233e2709' stroke-width='1'/%3E%3Ccircle cx='18' cy='8' r='1.5' fill='%23f5c842' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M15,16 L6,6' stroke='%23fbdcb8' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M8,8 L2,2' stroke='%23fff' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='2' cy='2' r='2' fill='%23f5c842'/%3E%3C/svg%3E") 2 2, auto;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M17,17 Q12,6 20,6 Q21,12 17,17' fill='%23ffe478' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M18,18 Q26,6 31,12 Q24,18 18,18' fill='%23fff' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M18,19 Q28,22 25,28 Q19,22 18,19' fill='%23fff' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M15,15 C15,15 20,20 16,28 C16,28 14,24 15,19 C15,19 12,23 9,25 C9,25 7,19 13,16 Z' fill='%238dc95a' stroke='%231a3a0f' stroke-width='1'/%3E%3Ccircle cx='16' cy='11' r='3.5' fill='%23fbdcb8' stroke='%233e2709' stroke-width='1'/%3E%3Ccircle cx='18' cy='8' r='1.5' fill='%23f5c842' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M15,16 L6,6' stroke='%23fbdcb8' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M8,8 L2,2' stroke='%23fff' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='2' cy='2' r='4' fill='%238dc95a' opacity='0.8'/%3E%3Ccircle cx='2' cy='2' r='2' fill='%23fff'/%3E%3C/svg%3E") 2 2, auto;
     }
     button, .tab, .day, .btn-save, .btn-reset, .rc-chip, label, summary, .float-timer-btn, .subtle-arrow, .btn-close-top {
       cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M17,17 Q12,6 20,6 Q21,12 17,17' fill='%23ffe478' stroke='%231a3a0f' stroke-width='1'/%3E%3Cpath d='M18,18 Q26,6 31,12 Q24,18 18,18' fill='%23e4f2d3' stroke='%231a3a0f' stroke-width='1'/%3E%3Cpath d='M18,19 Q28,22 25,28 Q19,22 18,19' fill='%23e4f2d3' stroke='%231a3a0f' stroke-width='1'/%3E%3Cpath d='M15,15 C15,15 20,20 16,28 C16,28 14,24 15,19 C15,19 12,23 9,25 C9,25 7,19 13,16 Z' fill='%234a9b28' stroke='%231a3a0f' stroke-width='1'/%3E%3Ccircle cx='16' cy='11' r='3.5' fill='%23fbdcb8' stroke='%231a3a0f' stroke-width='1'/%3E%3Ccircle cx='18' cy='8' r='1.5' fill='%23f5c842' stroke='%231a3a0f' stroke-width='1'/%3E%3Cpath d='M15,16 L6,6' stroke='%23fbdcb8' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M8,8 L2,2' stroke='%23fff' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='2' cy='2' r='4' fill='%238dc95a' opacity='0.8'/%3E%3Ccircle cx='2' cy='2' r='2' fill='%23fff'/%3E%3C/svg%3E") 2 2, pointer !important;
@@ -80,7 +80,14 @@
     .leaf2 { width: 80px; height: 50px; bottom: -10px; right: 25%; transform: rotate(-15deg); }
     .leaf3 { width: 70px; height: 45px; top: 30px; left: -15px; transform: rotate(60deg); }
     .leaf4 { width: 40px; height: 25px; top: 10px; right: 40%; transform: rotate(120deg); background: rgba(245,200,66,0.08); }
+    
+    .header-top-row { display: flex; justify-content: space-between; align-items: flex-start; }
     .header-eyebrow { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 3px; font-weight: 600; text-shadow: 0 0 5px rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: space-between; }
+    
+    .coin-badge { background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 4px 10px; color: var(--gold-light); font-weight: 700; font-size: 12px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s; }
+    .coin-badge.pulse { animation: coin-pulse 0.5s ease-out; }
+    @keyframes coin-pulse { 0% { transform: scale(1); filter: brightness(1); } 50% { transform: scale(1.2); filter: brightness(1.5); } 100% { transform: scale(1); filter: brightness(1); } }
+
     .rank-badge { background: rgba(245,200,66,0.15); border: 1px solid rgba(245,200,66,0.3); padding: 3px 10px; border-radius: 12px; color: var(--gold-light); font-weight: 700; font-size: 11px; text-transform: none; letter-spacing: normal; display: inline-flex; align-items: center; gap: 4px; font-family: var(--sans); margin-left: 8px; vertical-align: middle; box-shadow: 0 0 10px rgba(245,200,66,0.15); }
     .header-name { font-family: var(--serif); font-size: 30px; color: #fff; line-height: 1.15; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 2px; }
     .header-name span.name-text { color: var(--gold-light); text-shadow: 0 0 15px rgba(245,200,66,0.4); }
@@ -168,8 +175,7 @@
     .reward-card { background: linear-gradient(135deg,#1a4a0a 0%,#0f2a06 60%,#1a3a10 100%); border-radius: 18px; padding: 18px 18px 16px; position: relative; overflow: hidden; box-shadow: 0 6px 25px rgba(26,74,10,0.3); }
     .rc-glow { position: absolute; inset: 0; pointer-events: none; z-index: 0; background: radial-gradient(circle at 80% 20%, rgba(245,200,66,0.7) 0%, transparent 65%); opacity: 0; transition: opacity 1.5s ease; mix-blend-mode: screen; }
     .rc-particles { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
-    .rc-star { position: absolute; width: 3px; height: 3px; background: #fff; box-shadow: 0 0 6px 2px #ffe478, 0 0 12px 4px #f5c842; border-radius: 50%; animation: twinkle-star 2s infinite alternate; }
-    @keyframes twinkle-star { 0% { transform: scale(0.5); opacity: 0.2; } 100% { transform: scale(1.5); opacity: 1; } }
+    .rc-sparkle { position: absolute; color: var(--gold-light); text-shadow: 0 0 5px var(--gold); animation: float-magical 4s infinite alternate ease-in-out; }
     
     .reward-card::before { content: '✦'; position: absolute; right: 18px; top: 16px; font-size: 52px; opacity: 0.1; color: var(--gold); text-shadow: 0 0 30px var(--gold); animation: float-icon 6s ease-in-out infinite; z-index: 0; }
     .reward-card::after { content: '✦'; position: absolute; right: 50px; bottom: 12px; font-size: 24px; opacity: 0.08; color: var(--gold); animation: float-icon 4s ease-in-out infinite reverse; z-index: 0; }
@@ -248,7 +254,6 @@
     .match-list-img { width: 55px; height: 55px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(0,0,0,0.05); }
     .match-list-word { flex: 1; font-size: 14px; font-weight: 700; color: var(--text-dark); text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     
-    /* Area Penambahan Gambar - Drag & Drop / Paste */
     .dropzone { border: 2px dashed rgba(245,200,66,0.6); transition: all 0.3s; background: var(--bg-card); }
     .dropzone.dragover { background: rgba(245,200,66,0.2); border-color: var(--gold-dark); transform: scale(1.02); }
 
@@ -407,9 +412,17 @@
       <div class="leaf leaf3"></div>
       <div class="leaf leaf4"></div>
     </div>
-    <div class="header-eyebrow">
-      <span data-i18n="hdr_eyebrow">Study Journey</span>
+    
+    <!-- HEADER BAR: Eyebrow + Coin Badge -->
+    <div class="header-top-row">
+      <div class="header-eyebrow">
+        <span data-i18n="hdr_eyebrow">Study Journey</span>
+      </div>
+      <div class="coin-badge" id="coin-badge">
+        ✨ <span id="coin-val">0</span>
+      </div>
     </div>
+
     <div class="header-name">
       <span class="name-text" id="header-name">Revalina,</span>
       <span class="rank-badge" id="rank-badge">🌱 Peri Pemula</span>
@@ -539,6 +552,28 @@
           <div class="rc-note" id="rc-note" data-i18n="rew_note_card">Mulai tambah bacaanmu untuk menghitung reward</div>
           <div class="rc-bar"><div class="rc-bar-fill" id="rc-bar" style="width:0%"></div></div>
         </div>
+
+        <!-- NEW TOKO SIHIR (MAGIC SHOP) -->
+        <div>
+          <div class="sec-lbl" data-i18n="shop_title">Toko Sihir (Booster)</div>
+          <div class="badge-grid">
+            <div class="badge-item" style="opacity:1; filter:none;">
+               <div class="badge-icon">🛡️</div>
+               <div class="badge-title" data-i18n="shop_streak_title">Pelindung Api</div>
+               <div class="badge-desc" style="margin-bottom:8px; line-height:1.4;" data-i18n="shop_streak_desc">Menjaga streak tetap aman walau bolos 1 hari.</div>
+               <button class="btn-save" style="padding:6px 12px; font-size:11px; width: 100%; border-radius: 10px;" onclick="buyItem('streak', 500)">✨ 500</button>
+               <div style="font-size: 10px; margin-top: 6px; color: var(--text-soft);" id="inv-streak">Dimiliki: 0</div>
+            </div>
+            <div class="badge-item" style="opacity:1; filter:none;">
+               <div class="badge-icon">☕</div>
+               <div class="badge-title" data-i18n="shop_focus_title">Ramuan Energi</div>
+               <div class="badge-desc" style="margin-bottom:8px; line-height:1.4;" data-i18n="shop_focus_desc">Fitur misteri untuk petualangan berikutnya!</div>
+               <button class="btn-reset" disabled style="padding:6px 12px; font-size:11px; width: 100%; opacity:0.5; background:var(--bg-input); color:var(--text-soft); border:none; border-radius: 10px;" data-i18n="shop_coming_soon">Segera</button>
+               <div style="font-size: 10px; margin-top: 6px; color: transparent;">-</div>
+            </div>
+          </div>
+        </div>
+
         <div>
           <div class="sec-lbl" data-i18n="rew_title_rules">Ketentuan Pencairan Reward</div>
           <div class="rules-card">
@@ -802,7 +837,7 @@
   <div class="welcome-overlay" id="timer-modal">
     <div class="welcome-card" style="padding-top: 40px; position: relative;">
       <button class="btn-close-top" id="btn-timer-close-top" onclick="closeTimerModal()">✖</button>
-      <h2 id="timer-title" style="font-family:var(--serif); color:var(--green-deep); font-style:italic" data-i18n="timer_title">Fokus Sihir</h2>
+      <h2 id="timer-title" style="font-family:var(--serif); color:var(--green-deep); font-style:italic">Fokus Sihir</h2>
       <div class="timer-split-view">
         <div class="timer-anim-col">
           <div class="focus-stage">
@@ -825,7 +860,7 @@
               <div class="potion-shadow"></div>
             </div>
           </div>
-          <p id="timer-status" style="font-size:14px; color:var(--text-mid); margin-bottom:15px; margin-top:10px; min-height: 40px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight:600;">Siap memulai sesi fokus 25 menit?</p>
+          <p id="timer-status" style="font-size:14px; color:var(--text-mid); margin-bottom:15px; margin-top:10px; min-height: 40px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight:600;" data-i18n="timer_status_ready">Siap memulai sesi fokus 25 menit?</p>
         </div>
         <div class="timer-music-col" id="music-container">
           <p style="font-size: 11px; color: var(--text-soft); text-align: center; margin-bottom: 5px; font-style: italic;" data-i18n="timer_spotify">✦ Login ke akun Spotify-mu di browser ini agar lagu dapat berputar penuh ✦</p>
@@ -971,6 +1006,16 @@
           msg_saved: "Tersimpan ke Notion!",
           rew_title_card: "Reward Blok Ini",
           rew_note_card: "Mulai tambah bacaanmu untuk menghitung reward",
+          
+          shop_title: "Toko Sihir (Booster)",
+          shop_streak_title: "Pelindung Api",
+          shop_streak_desc: "Menjaga streak tetap aman walau bolos 1 hari.",
+          shop_focus_title: "Ramuan Energi",
+          shop_focus_desc: "Fitur misteri untuk petualangan berikutnya!",
+          shop_coming_soon: "Segera",
+          inv_streak_lbl: "Dimiliki: {1}",
+          msg_not_enough_coins: "Koin sihirmu belum cukup!",
+          
           rew_title_rules: "Ketentuan Pencairan Reward",
           rew_rule_1: "Target Belajar Terpenuhi",
           rew_rule_2: "≥ 30% Target Belajar",
@@ -1131,6 +1176,10 @@
           res_title_def: "Selamat!",
           res_msg_def: "Kerja bagus!",
           timer_title: "Fokus Sihir",
+          timer_status_ready: "Siap memulai sesi fokus 25 menit?",
+          theme_ice: "Fokus Es Kristal",
+          theme_candle: "Lilin Semangat",
+          theme_potion: "Ramuan Fokus Sihir",
           timer_spotify: "✦ Login ke akun Spotify-mu di browser ini agar lagu dapat berputar penuh ✦",
           timer_extra_desc: "Masih belum selesai? Tambah waktu:",
           btn_extra_5: "+ 5 Menit",
@@ -1163,6 +1212,16 @@
           msg_saved: "Saved to Notion!",
           rew_title_card: "Block Reward",
           rew_note_card: "Start adding progress to calculate rewards",
+          
+          shop_title: "Magic Shop (Boosters)",
+          shop_streak_title: "Flame Protector",
+          shop_streak_desc: "Keeps your streak safe even if you skip a day.",
+          shop_focus_title: "Energy Potion",
+          shop_focus_desc: "Mystery feature for your next adventure!",
+          shop_coming_soon: "Soon",
+          inv_streak_lbl: "Owned: {1}",
+          msg_not_enough_coins: "Not enough magic coins!",
+
           rew_title_rules: "Reward Rules",
           rew_rule_1: "Study Target Reached",
           rew_rule_2: "≥ 30% Study Target",
@@ -1323,6 +1382,10 @@
           res_title_def: "Congratulations!",
           res_msg_def: "Great job!",
           timer_title: "Magic Focus",
+          timer_status_ready: "Ready to start a 25-minute focus session?",
+          theme_ice: "Ice Crystal Focus",
+          theme_candle: "Flame of Spirit",
+          theme_potion: "Magic Focus Potion",
           timer_spotify: "✦ Log in to your Spotify account in this browser to play full songs ✦",
           timer_extra_desc: "Not done yet? Add more time:",
           btn_extra_5: "+ 5 Minutes",
@@ -1369,7 +1432,9 @@
         matchBestTime: ls('matchBestTime', null),
         fcBestTime: ls('fcBestTime', null),
         theme: ls('rv_theme', 'light'), 
-        lang: ls('rv_lang', 'id')       
+        lang: ls('rv_lang', 'id'),
+        coins: ls('rv_coins', 0),
+        inventory: ls('rv_inv', { streakFreeze: 0 })
       };
       
       let pageId = null;
@@ -1437,6 +1502,36 @@
         render(); 
       };
 
+      /* ---------- ADD COINS LOGIC ---------- */
+      window.addCoins = function(amount) {
+        if(amount <= 0) return;
+        state.coins += amount;
+        ss('rv_coins', state.coins);
+        
+        const badge = document.getElementById('coin-badge');
+        const valEl = document.getElementById('coin-val');
+        
+        if (valEl && badge) {
+          valEl.textContent = state.coins;
+          badge.classList.remove('pulse');
+          void badge.offsetWidth; 
+          badge.classList.add('pulse');
+        }
+      }
+
+      window.buyItem = function(item, price) {
+        if (state.coins >= price) {
+          state.coins -= price;
+          state.inventory.streakFreeze += 1;
+          ss('rv_coins', state.coins);
+          ss('rv_inv', state.inventory);
+          playChime();
+          render();
+        } else {
+          alert(t('msg_not_enough_coins'));
+        }
+      }
+
       /* ---------- FLOAT MENU ---------- */
       window.toggleFloatMenu = function() {
         const menu = document.getElementById('float-menu');
@@ -1481,6 +1576,16 @@
         document.getElementById('wrap-candle').style.display = 'none';
         document.getElementById('wrap-potion').style.display = 'none';
         document.getElementById(`wrap-${currentTheme}`).style.display = 'flex';
+        
+        const titles = { 'ice': t('theme_ice'), 'candle': t('theme_candle'), 'potion': t('theme_potion') };
+        document.getElementById('timer-title').textContent = titles[currentTheme];
+        
+        if(!isFocusActive) {
+          const statusEl = document.getElementById('timer-status');
+          statusEl.textContent = t('timer_status_ready');
+          statusEl.setAttribute('data-i18n', 'timer_status_ready');
+        }
+
         document.getElementById('timer-modal').classList.add('show');
       };
 
@@ -1545,6 +1650,7 @@
       window.finishFocusAndRest = function() {
         document.getElementById('extra-time-options').style.display = 'none';
         state.focusTime += 25; ss("rv_focus", state.focusTime);
+        addCoins(50); // Reward focus session
         sendNotif("Waktunya Istirahat! 💧", `Kerja yang baik! Mari istirahat 5 menit.`);
         checkBadgeUnlocks();
         startBreak();
@@ -2055,6 +2161,7 @@
         let correct = 0;
         playImages.forEach(img => { if (userAnswers[img.id] === img.word) correct++; });
         if (correct === playImages.length) {
+          addCoins(30); 
           if (!state.matchBestTime || elapsed < state.matchBestTime) {
             state.matchBestTime = elapsed;
             ss('matchBestTime', elapsed);
@@ -2206,6 +2313,12 @@
         const recText = state.fcBestTime ? `${state.fcBestTime}s` : '-';
         document.getElementById('best-record-wrapper').innerHTML = t('res_record', recText);
         document.getElementById('btn-test-difficult').innerHTML = t('btn_test_diff', state.difficultCards.length);
+        
+        const invStreak = document.getElementById('inv-streak');
+        if(invStreak) invStreak.textContent = t('inv_streak_lbl', state.inventory.streakFreeze);
+        
+        const coinVal = document.getElementById('coin-val');
+        if(coinVal) coinVal.textContent = state.coins;
       }
 
       window.startFcTest = function(mode) {
@@ -2262,6 +2375,7 @@
           let correct = 0;
           fcTestCards.forEach(card => { if (fcTestAnswers[card.id] === card.a) correct++; });
           if (correct === fcTestCards.length) {
+            addCoins(30);
             if (!state.fcBestTime || elapsed < state.fcBestTime) { state.fcBestTime = elapsed; ss('fcBestTime', elapsed); }
           }
           fcTestCards.forEach(card => {
@@ -2342,19 +2456,22 @@
         document.getElementById("header-name").textContent = (state.name || "Peri Kecil") + ",";
         document.getElementById("footer-name").textContent = state.name || "Peri Kecil";
         
-        // Glow Effect at Reward Card
+        // Glow Effect at Reward Card - Serpihan
         const rcGlow = document.getElementById("rc-glow");
         const rcParticles = document.getElementById("rc-particles");
         if(rcGlow && rcParticles) {
-          rcGlow.style.opacity = (p / 100).toFixed(2);
+          rcGlow.style.opacity = (p / 100 * 0.4).toFixed(2); 
           rcParticles.innerHTML = '';
-          const particleCount = Math.floor((p / 100) * 40); 
+          const particleCount = Math.floor((p / 100) * 12); // Jumlahnya jauh lebih sedikit
           for(let i=0; i<particleCount; i++) {
             const sp = document.createElement('div');
-            sp.className = 'rc-star';
+            sp.className = 'rc-sparkle';
+            sp.innerHTML = '✦'; 
             sp.style.left = Math.random()*100 + '%';
             sp.style.top = Math.random()*100 + '%';
-            sp.style.animationDelay = (Math.random()*2) + 's';
+            sp.style.fontSize = (Math.random() * 8 + 6) + 'px'; 
+            sp.style.animationDelay = (Math.random() * 3) + 's';
+            sp.style.opacity = (Math.random() * 0.4 + 0.1); 
             rcParticles.appendChild(sp);
           }
         }
@@ -2468,6 +2585,8 @@
         document.getElementById("set-name").value = state.name;
         document.getElementById("set-block-start").value = state.blockStart||"";
         document.getElementById("set-block-end").value = state.blockEnd||"";
+        
+        updateDifficultCount(); // Update inventory coins dan shop
       }
 
       /* ---------- NOTION (MOCK) ---------- */
@@ -2529,6 +2648,10 @@
         state.slides[todayStr] = tempSlideCount;
         state.moods[todayStr] = moodIcon;
         ss("rv_slides",state.slides); ss("rv_moods",state.moods);
+        
+        // Reward Koin: 10 koin per slide
+        addCoins(tempSlideCount * 10);
+
         render();
         checkMilestoneAppreciation();
         checkBadgeUnlocks();
@@ -2552,6 +2675,7 @@
         if(milestone){
           state.milestones[25]=true; if(milestone>=50)state.milestones[50]=true; if(milestone>=75)state.milestones[75]=true; if(milestone>=100)state.milestones[100]=true;
           ss("rv_milestones",state.milestones);
+          if (milestone===100) addCoins(100); // Ekstra reward
           popupQueue.push(()=>{
             if(milestone===100) showAppreciation(t('appr_title_100'), t('appr_sub_100'), true);
             else if(milestone===75) showAppreciation(t('appr_title_75'), t('appr_sub_75'));
@@ -2691,7 +2815,9 @@
       window.resetBlok = async function(){
         if(!confirm(t('confirm_reset'))) return;
         state.slides={}; state.moods={}; state.nilaiUjian=0; state.milestones={25:false,50:false,75:false,100:false}; state.badges={1:false,2:false,3:false,4:false, 5:false, 6:false, 7:false}; state.blockStart=null; state.blockEnd=null; pageId=null; state.focusTime=0; state.matchBestTime=null; state.fcBestTime=null;
+        state.coins = 0; state.inventory = { streakFreeze: 0 };
         ss("rv_slides",{}); ss("rv_moods",{}); ss("rv_nilai",0); ss("rv_milestones",state.milestones); ss("rv_badges",state.badges); ss("rv_block_start",null); ss("rv_block_end",null); ss("rv_focus",0); ss("matchBestTime",null); ss("fcBestTime",null);
+        ss("rv_coins", 0); ss("rv_inv", state.inventory);
         render(); await saveToNotion(); checkSetupModal();
       };
 
@@ -2793,8 +2919,8 @@
 
       /* INISIALISASI */
       createSparkles();
-      applyTheme();    // Set theme dari localStorage saat pertama load
-      applyLanguage(); // Set bahasa dari localStorage saat pertama load
+      applyTheme();    
+      applyLanguage(); 
       checkWelcomeModal();
       setupReminders();
       render();
