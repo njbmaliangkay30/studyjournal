@@ -1596,7 +1596,8 @@
         slides: ls("rv_slides", {}),
         target: ls("rv_target", 30),
         name: ls("rv_name", ""),
-        syncCode: ls("rv_syncCode", ""), 
+        syncCode: ls("rv_syncCode", ""),
+        blockName:  ls("rv_blockName") || "",
         blokPageId: ls("rv_blokPageId", null),
         nilaiUjian: ls("rv_nilai", 0),
         blockStart: ls("rv_block_start", null),
@@ -2816,6 +2817,7 @@
             const d = json.data;
             // Data blok (tanggal, target, nilai)
             if (d.target)     { state.target     = d.target;     ss("rv_target",     state.target); }
+            if (d.blockName)  { state.blockName  = d.blockName;  ss("rv_blockName",   state.blockName); }
             if (d.nilaiUjian) { state.nilaiUjian = d.nilaiUjian; ss("rv_nilai",      state.nilaiUjian); }
             if (d.blockStart) { state.blockStart = d.blockStart; ss("rv_block_start",state.blockStart); }
             if (d.blockEnd)   { state.blockEnd   = d.blockEnd;   ss("rv_block_end",  state.blockEnd); }
@@ -2869,7 +2871,7 @@
         try {
           const payload = {
             username:   state.syncCode,
-            blockName:  state.blockName
+            blockName:  state.blockName,
             target:     state.target,
             blockStart: state.blockStart,
             blockEnd:   state.blockEnd,
