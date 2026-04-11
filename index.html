@@ -2899,38 +2899,41 @@
       }
 
       // Simpan semua progress ke Notion, diidentifikasi oleh username
-      async function saveToNotion(slideDate) {
-        if (!state.syncCode) {
-          // Tidak ada username → simpan lokal saja
-          setSyncStatus("ok", t('txt_saved_local')); return true;
-        }
-        setSyncStatus("syncing", t('txt_saving'));
-        try {
-          const payload = {
-            username:   state.syncCode,
-            blockName:  state.blockName,
-            target:     state.target,
-            blockStart: state.blockStart,
-            blockEnd:   state.blockEnd,
-            nilaiUjian: state.nilaiUjian,
-            slides:     state.slides,
-            pptDots:    state.pptDots,
-            moods:      state.moods,
-            pageId:     state.blokPageId,
-            slideDate
-          };
-          const res = await fetch("/api/weekly-tracker", {
-            method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          });
-          const json = await res.json();
-          if (!res.ok) throw new Error(json.error);
-          if (json.pageId) { state.blokPageId = json.pageId; ss("rv_blokPageId", state.blokPageId); }
-          setSyncStatus("ok", "✦ Tersinkron"); showError(null); return true;
-        } catch(err) {
-          setSyncStatus("error", t('txt_saved_local')); return false;
-        }
-      }
+      async function saveToNotion(dateStr) {
+  // 1. Ambil tanggal hari ini jika dateStr tidak dikirim
+  const targetDate = dateStr || new Date().toISOString().split('T')[0];
+
+  // 2. PENGAMAN: Jangan kirim kalau data belum ditarik dari Notion
+  if (!state.syncCode || !state.blockName || !state.target || state.target === 0) {
+    console.warn("Sinkronisasi ditunda: Menunggu data dari Notion.");
+    return;
+  }
+
+  setSyncStatus("syncing", "Menyimpan...");
+
+  try {
+    const res = await fetch("/api/weekly-tracker", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: state.syncCode,
+        blockName: state.blockName,
+        target: state.target,
+        blockStart: state.blockStart,
+        blockEnd: state.blockEnd,
+        pptDots: state.pptDots,
+        moods: state.moods,
+        nilaiUjian: state.nilaiUjian,
+        pageId: state.blokPageId,
+        slideDate: targetDate, // 👈 dateStr masuk ke sini
+        slides: state.slides
+      })
+    });
+    if (res.ok) setSyncStatus("ok", "Tersinkron Penuh");
+  } catch (err) {
+    setSyncStatus("error", "Koneksi Terputus");
+  }
+}
 
       /* ---------- ACTIONS ---------- */
       function setButtonLoading(id, loading){ const el = document.getElementById(id); if(el) el.disabled = loading; }
