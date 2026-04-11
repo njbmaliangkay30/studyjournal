@@ -1045,6 +1045,10 @@
     <div class="welcome-card">
       <h1 class="welcome-title" style="font-size: 26px;" data-i18n="setup_title">Persiapan Misi</h1>
       <p class="welcome-subtitle" style="margin-bottom: 16px;" data-i18n="setup_sub">Ayo atur tujuan belajarmu kali ini!</p>
+     <div class="input-card">
+          <div class="input-label">Topik Blok Saat Ini:</div>
+          <input type="text" id="setup-block-name" class="field" placeholder="Contoh: Anatomi Reproduksi Pria" autocomplete="off" />
+        </div>
       <div style="text-align: left; margin-bottom: 16px;">
         <label class="input-label" data-i18n="setup_start_lbl">Mulai Belajar:</label>
         <input type="date" id="setup-start" class="field" style="width: 100%; margin-bottom: 10px;" />
@@ -2865,6 +2869,7 @@
         try {
           const payload = {
             username:   state.syncCode,
+            blockName:  state.blockName
             target:     state.target,
             blockStart: state.blockStart,
             blockEnd:   state.blockEnd,
