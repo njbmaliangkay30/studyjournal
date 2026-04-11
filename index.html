@@ -296,7 +296,7 @@
     [data-theme="dark"] .rv-g { color: var(--green-light); }
     
     .days-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; }
-    .day { padding: 12px 3px 8px; text-align: center; }
+    .day { padding: 12px 3px 8px; text-align: center; overflow: visible; }
     .day:hover { transform: scale(1.05); background: var(--bg-card-solid); box-shadow: 0 4px 10px rgba(245,200,66,0.1); z-index: 1; }
     .day.today { border-color: var(--gold); background: var(--bg-input); box-shadow: 0 0 15px rgba(245,200,66,0.3); }
     [data-theme="dark"] .day.today { background: rgba(245, 200, 66, 0.15); }
@@ -2811,14 +2811,20 @@
         if(btnEl){ document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('selected')); btnEl.classList.add('selected'); }
         document.getElementById("mood-modal").classList.remove("show");
         const todayStr = fmtISO(new Date());
-        state.slides[todayStr] = tempSlideCount;
         state.moods[todayStr] = moodIcon;
-        ss("rv_slides",state.slides); ss("rv_moods",state.moods);
+        ss("rv_moods", state.moods);
         
         // Reward Koin: 10 koin per slide
         addCoins(tempSlideCount * 10);
 
         render();
+        // Beritahu sistem bahwa popup sudah selesai agar antrean lencana/milestone bisa jalan
+  isPopupShowing = false;
+  playNextPopup();
+  
+  // Simpan ke Notion
+  await saveToNotion(todayStr);
+};
         checkMilestoneAppreciation();
         checkBadgeUnlocks();
         playNextPopup();
