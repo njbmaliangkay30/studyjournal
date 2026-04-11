@@ -115,14 +115,19 @@
 
 /* --- TAMPILAN LAPTOP (8 Titik) --- */
 @media (min-width: 768px) {
-  .ppt-energy-line { max-width: 40px; } /* Sesuaikan panjang garis laptop di sini */
-  .ppt-snake-vline { margin: 0 45px; } /* Jarak aman di laptop */
+  .ppt-energy-line { max-width: 32px; } /* Sesuaikan panjang garis laptop di sini */
+  .ppt-snake-connector {margin-top: -22px; margin-bottom: -22px;}
+  .ppt-snake-vline { margin: 0 42px; height: 66px; } /* Jarak aman di laptop */
+  .ppt-snake-vline::before, .ppt-snake-vline::after { width: 22px; }
 }
 
 /* --- TAMPILAN HP (6 Titik) --- */
 @media (max-width: 767px) {
-  .ppt-energy-line { max-width: 10px; }
-  .ppt-snake-vline { margin: 0 25px; } /* Jarak aman di HP */
+  .ppt-energy-line { max-width: 14px; margin-top: 20px; }
+  .ppt-snake-connector { margin-top: -20px; margin-bottom: -20px; }
+  .ppt-snake-vline { height: 62px; margin: 0 30px; } /* Jarak aman di HP */
+  .ppt-snake-vline::before, .ppt-snake-vline::after { width: 18px; }
+  .ppt-dot { width: 40px; height: 40px; font-size: 11px; }
 }
     @keyframes energy-flow-v { 0% { background-position: 0 0%; } 100% { background-position: 0 200%; } }
     .ppt-track-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; position: relative; z-index: 1; }
