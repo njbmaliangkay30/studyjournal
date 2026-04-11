@@ -144,10 +144,16 @@ module.exports = async function handler(req, res) {
       }
 
       return res.json({
-        found: true,
-        pageId: page.id,
-        data: { target, nilaiUjian, blockStart, blockEnd, slides, pptDots, moods, pageId: page.id },
-      });
+            found: true,
+            pageId: page.id,
+            target: getNumber(props, "Weekly Target"),
+            nilaiUjian: getNumber(props, "Nilai Ujian"),
+            blockStart: props["Range Date"]?.date?.start || "",
+            blockEnd: props["Range Date"]?.date?.end || "",
+            pptDots: getText(props, "PPT Dots"),
+            moods: getText(props, "Moods"),
+            blockName: getText(props, "Topik Blok") // 👈 TAMBAHKAN BARIS INI
+          });
 
     } catch (err) {
       return res.status(500).json({ error: "Gagal mengambil data: " + err.message });
@@ -195,6 +201,9 @@ module.exports = async function handler(req, res) {
       let blockPageId = pageId;
 
       if (blockPageId) {
+        payload.parent = { database_id: WEEKLY_DB_ID };
+      // 👈 UBAH blockStart menjadi blockName agar judul baris Notion menjadi "Reva - Anatomi Reproduksi Pria"
+      payload.properties.Name = makeTitle(`${username} - ${blockName}`); 
         // Sudah punya pageId → langsung PATCH
         const { ok, status, data } = await notionUpsert(blockPageId, coreProps, null);
         if (!ok) return res.status(status).json({ error: data.message ?? "Notion PATCH error" });
