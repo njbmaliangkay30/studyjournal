@@ -88,8 +88,9 @@
     .ppt-snake-connector.to-left { justify-content: flex-start; }
     .ppt-snake-vline { width: 2px; height: 28px; background: rgba(141,201,90,0.18); border-radius: 2px; position: relative; overflow: visible; margin: 0 20px; }
     .ppt-snake-vline::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(180deg, transparent, transparent 3px, rgba(141,201,90,0.2) 3px, rgba(141,201,90,0.2) 6px); }
-    .ppt-snake-vline.lit { background: linear-gradient(180deg, rgba(245,200,66,0.6), rgba(255,240,100,0.95), rgba(245,200,66,0.6)); box-shadow: 0 0 8px rgba(245,200,66,0.65), 0 0 16px rgba(245,200,66,0.3); }
+    .ppt-snake-vline.lit { background: linear-gradient(180deg, rgba(245,200,66,0.25) 0%, rgba(255,240,100,0.95) 30%, rgba(245,200,66,0.25) 60%, rgba(255,240,100,0.9) 90%, rgba(245,200,66,0.25) 100%); background-size: 100% 200%; box-shadow: 0 0 8px rgba(245,200,66,0.65), 0 0 16px rgba(245,200,66,0.3); animation: energy-flow-v 1.2s infinite linear; }
     .ppt-snake-vline.lit::before { display: none; }
+    @keyframes energy-flow-v { 0% { background-position: 0 0%; } 100% { background-position: 0 200%; } }
     .ppt-track-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; position: relative; z-index: 1; }
     .ppt-track-header-lbl { font-size: 12px; font-weight: 600; color: rgba(141,201,90,0.8); }
     .ppt-track-counter { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.25); border-radius: 10px; padding: 4px 10px; border: 1px solid rgba(141,201,90,0.2); }
@@ -119,9 +120,9 @@
     /* Connecting energy line */
     .ppt-energy-line { flex-shrink: 0; width: 100%; max-width: 16px; height: 2px; background: rgba(141,201,90,0.18); border-radius: 2px; margin-top: 22px; transition: background 0.5s, box-shadow 0.5s; position: relative; overflow: visible; }
     .ppt-energy-line::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-50%); background: repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(141,201,90,0.2) 3px, rgba(141,201,90,0.2) 6px); }
-    .ppt-energy-line.lit { background: linear-gradient(90deg, rgba(245,200,66,0.6), rgba(255,240,100,0.95), rgba(245,200,66,0.6)); box-shadow: 0 0 8px rgba(245,200,66,0.65), 0 0 16px rgba(245,200,66,0.3); animation: energy-flow 1.6s infinite linear; background-size: 200% 100%; }
+    .ppt-energy-line.lit { background: linear-gradient(90deg, rgba(245,200,66,0.25) 0%, rgba(255,240,100,0.95) 30%, rgba(245,200,66,0.25) 60%, rgba(255,240,100,0.9) 90%, rgba(245,200,66,0.25) 100%); background-size: 200% 100%; box-shadow: 0 0 8px rgba(245,200,66,0.65), 0 0 16px rgba(245,200,66,0.3); animation: energy-flow-h 1.2s infinite linear; }
     .ppt-energy-line.lit::before { display: none; }
-    @keyframes energy-flow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+    @keyframes energy-flow-h { 0% { background-position: 0% 0; } 100% { background-position: 200% 0; } }
 
     /* PPT dot popup */
     .ppt-popup-dot-preview { width: 58px; height: 58px; border-radius: 50%; border: 2.5px solid var(--gold); background: radial-gradient(circle, rgba(245,200,66,0.25), transparent 70%); display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 14px; box-shadow: 0 0 20px rgba(245,200,66,0.5); }
@@ -1562,7 +1563,8 @@
         lang: ls('rv_lang', 'id'),
         coins: ls('rv_coins', 0),
         inventory: ls('rv_inv', { streakFreeze: 0 }),
-        pptDots: ls('rv_pptDots', [])
+        pptDots: ls('rv_pptDots', []),
+        pptMigrated: ls('rv_pptMigrated', false)
       };
       
       let pageId = null;
@@ -3047,20 +3049,34 @@
       const DOTS_PER_ROW = 8;
       const SHORT_MONTHS_PPT = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
 
-      // MIGRATION: if pptDots is empty but slides has data, pre-fill dots from old data
+      // MIGRATION: konversi data lama (state.slides) ke dot tracker baru
+      // Berjalan tepat SATU KALI menggunakan flag rv_pptMigrated
+      // Jika user sudah punya dots baru, data lama tetap digabungkan di depan
       function migrateSlidesToDots() {
-        if (state.pptDots.length > 0) return;
+        if (state.pptMigrated) return; // sudah pernah migrasi, skip
         const entries = Object.entries(state.slides)
           .filter(([, v]) => v > 0)
           .sort(([a], [b]) => a < b ? -1 : 1);
-        if (!entries.length) return;
+        if (!entries.length) {
+          // Tidak ada data lama, tandai selesai agar tidak cek terus
+          state.pptMigrated = true;
+          ss('rv_pptMigrated', true);
+          return;
+        }
+        // Buat dot-dot dari data lama
+        const migratedDots = [];
         let idx = 0;
         for (const [date, count] of entries) {
           for (let i = 0; i < count; i++) {
-            state.pptDots.push({ done: true, title: `PPT ke-${idx + 1}`, date, migrated: true });
+            migratedDots.push({ done: true, title: `PPT ke-${idx + 1}`, date, migrated: true });
             idx++;
           }
         }
+        // Gabungkan: data lama di depan, data baru (non-migrated) di belakang
+        const existingNew = state.pptDots.filter(d => !d.migrated);
+        state.pptDots = [...migratedDots, ...existingNew];
+        state.pptMigrated = true;
+        ss('rv_pptMigrated', true);
         ss('rv_pptDots', state.pptDots);
       }
 
@@ -3092,7 +3108,9 @@
         let html = '';
         rawRows.forEach((rawRow, rowIdx) => {
           const isReverse = rowIdx % 2 === 1; // baris ganjil = kanan ke kiri (pola ular)
-          const displayRow = isReverse ? [...rawRow].reverse() : rawRow;
+          // Jangan reverse array — CSS flex-direction:row-reverse yang mengatur posisi visual
+          // Slot pertama di array (mis. slot 9) akan muncul di KANAN (di bawah slot 8)
+          const displayRow = rawRow;
 
           html += `<div class="ppt-row" style="${isReverse ? 'flex-direction:row-reverse;' : ''}">`;
           displayRow.forEach(({ dot, idx }, colIdx) => {
