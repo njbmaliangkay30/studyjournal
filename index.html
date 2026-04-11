@@ -1581,6 +1581,8 @@
         slides: ls("rv_slides", {}),
         target: ls("rv_target", 30),
         name: ls("rv_name", ""),
+        syncCode: ls("rv_syncCode", ""), 
+        blokPageId: ls("rv_blokPageId", null),
         nilaiUjian: ls("rv_nilai", 0),
         blockStart: ls("rv_block_start", null),
         blockEnd: ls("rv_block_end", null),
@@ -2958,10 +2960,27 @@
         const target = parseInt(document.getElementById("setup-target").value)||30;
         const start = document.getElementById("setup-start").value;
         const end = document.getElementById("setup-end").value;
+        if (!start || !end) {
+          alert("Tentukan tanggal mulai dan ujianmu terlebih dahulu!");
+          return; }
         state.target = target; state.blockStart = start; state.blockEnd = end;
         ss("rv_target",target); ss("rv_block_start",start); ss("rv_block_end",end);
         document.getElementById("setup-modal").classList.remove("show");
-        render(); await saveToNotion();
+        render(); 
+
+        setSyncStatus("syncing", "Menyiapkan misi...");
+        try {
+          const res = await fetch("/api/weekly-tracker", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: state.syncCode, target: state.target, blockStart: state.blockStart, blockEnd: state.blockEnd })
+          });
+          const json = await res.json();
+          if (json.pageId) {
+            state.blokPageId = json.pageId;
+            ss("rv_blokPageId", state.blokPageId);
+          }
+          setSyncStatus("ok", "✦ Misi siap");
+        } catch(e) { setSyncStatus("error", "Gagal menyiapkan misi"); }
       };
 
       window.saveSettings = async function(){
@@ -2972,11 +2991,20 @@
         ss("rv_target",state.target); ss("rv_name",state.name); ss("rv_block_start",state.blockStart); ss("rv_block_end",state.blockEnd);
         render();
         setButtonLoading("btn-set",true);
-        const ok = await saveToNotion();
+        
+        try {
+          const res = await fetch("/api/weekly-tracker", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username: state.syncCode, target: state.target, blockStart: state.blockStart, blockEnd: state.blockEnd })
+          });
+          const json = await res.json();
+          if (json.pageId) { state.blokPageId = json.pageId; ss("rv_blokPageId", state.blokPageId); }
+          
+          const msg = document.getElementById("save-msg-set");
+          msg.textContent = t('msg_set_saved');
+          msg.style.display="block"; setTimeout(()=>msg.style.display="none",2200);
+        } catch(e) {}
         setButtonLoading("btn-set",false);
-        const msg = document.getElementById("save-msg-set");
-        msg.textContent = ok ? t('msg_set_saved') : t('msg_set_local');
-        msg.style.display="block"; setTimeout(()=>msg.style.display="none",2200);
       };
 
       window.resetBlok = async function(){
@@ -3047,10 +3075,34 @@
       window.mulaiPetualangan = function(){
         const inp = document.getElementById('welcome-name').value.trim();
         if(!inp){ document.getElementById('welcome-error').style.display='block'; return; }
-        state.name = inp; ss("rv_name",inp);
-        document.getElementById('welcome-modal').classList.remove('show');
+        state.name = inp; state.syncCode = inp; ss("rv_name",inp); ss("rv_syncCode",inp);
+       document.getElementById('welcome-modal').classList.remove('show');
+        setSyncStatus("syncing", "Menarik ingatan lama...");
+        try {
+          const res = await fetch("/api/weekly-tracker?username=" + encodeURIComponent(state.syncCode));
+          const json = await res.json();
+          
+          if (json.found && json.data) {
+            // Jika user lama, masukkan data dari Notion ke state
+            state.target = json.data.target || state.target;
+            state.nilaiUjian = json.data.nilaiUjian || state.nilaiUjian;
+            state.blockStart = json.data.blockStart || state.blockStart;
+            state.blockEnd = json.data.blockEnd || state.blockEnd;
+            state.blokPageId = json.data.pageId || state.blokPageId;
+            
+            ss("rv_target", state.target); ss("rv_nilai", state.nilaiUjian);
+            ss("rv_block_start", state.blockStart); ss("rv_block_end", state.blockEnd);
+            ss("rv_blokPageId", state.blokPageId);
+            
+            setSyncStatus("ok", "✦ Ingatan lama dipulihkan");
+          } else {
+            setSyncStatus("ok", "✦ Petualang Baru"); }
+        } catch (error) {
+          setSyncStatus("error", "Gagal memulihkan ingatan"); }
+
         requestNotifPermission();
-        render(); checkSetupModal();
+        render(); 
+        checkSetupModal(); // Ini akan memunculkan popup setup jika tanggal masih kosong
       };
 
       /* ---------- KEYBOARD ---------- */
@@ -3252,24 +3304,28 @@
     checkMilestoneAppreciation();
     checkBadgeUnlocks();
     
-    // Jika ini PPT pertama hari ini, masukkan popup mood ke antrean
-    if (isFirstToday) {
-      popupQueue.push(() => {
-        document.getElementById('mood-modal').classList.add('show');
-      });
-    }
-    playNextPopup(); }
-        // JIKA bukan PPT pertama (popup mood tidak muncul), langsung simpan dan tampilkan pesan
-  if (!isFirstToday) {
-    const ok = await saveToNotion(todayStr);
-    const msg = document.getElementById("save-msg-slide");
-    if (msg) {
-      msg.textContent = ok ? t('txt_saved_cloud') : t('txt_saved_local');
-      msg.style.display = "block";
-      setTimeout(() => msg.style.display = "none", 2200);
-  await saveToNotion(todayStr);
-};
-  }
+    // Melempar data PPT harian ke Notion Daily Log yang berelasi
+        if (!isFirstToday || wasAlreadyDone) {
+          try {
+            await fetch("/api/daily-log", {
+              method: "POST", headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                kategori: "Study Tracker",
+                judulPpt: title,
+                tanggal: todayStr,
+                weeklyTrackerPageId: state.blokPageId
+              })
+            });
+            const msg = document.getElementById("save-msg-slide");
+            if (msg) {
+              msg.textContent = t('txt_saved_cloud');
+              msg.style.display = "block";
+              setTimeout(() => msg.style.display = "none", 2200);
+            }
+          } catch(e) {
+            console.error("Gagal mengirim ke Daily Log", e);
+          }
+        }
       };
       window.unmarkDot = async function() {
         if (activeDotIdx < 0 || activeDotIdx >= state.pptDots.length) return;
@@ -3305,7 +3361,6 @@
       checkWelcomeModal();
       setupReminders();
       render();
-      loadFromNotion();
       requestAnimationFrame(updateIndicator);
       window.addEventListener('resize',updateIndicator);
     })();
