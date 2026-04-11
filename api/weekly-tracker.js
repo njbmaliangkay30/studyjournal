@@ -94,14 +94,20 @@ module.exports = async function handler(req, res) {
   // ══════════════════════════════════════════════════════════════════════════
   if (req.method === "GET") {
     const username = (req.query.username ?? "").trim();
+    const blockName = (req.query.blockName ?? "").trim(); // Ambil parameter blockName
+
     if (!username) return res.status(400).json({ error: "Parameter ?username= wajib diisi." });
 
     try {
       const qr = await fetch(`https://api.notion.com/v1/databases/${WEEKLY_DB_ID}/query`, {
         method: "POST", headers: notionHeaders(),
         body: JSON.stringify({
-          filter: { property: "Username", rich_text: { equals: username } },
-          sorts:  [{ property: "Range Date", direction: "descending" }],
+          filter: {
+            and: [
+              { property: "Username", rich_text: { equals: username } },
+              { property: "Topik Blok", rich_text: { equals: blockName } }
+            ]
+          },
           page_size: 1,
         }),
       });
@@ -111,38 +117,30 @@ module.exports = async function handler(req, res) {
       const page = qd.results?.[0] ?? null;
       if (!page) return res.json({ found: false, data: null });
 
-      const p          = page.properties;
-      const target     = getNumber(p, "Weekly Target") || 30;
-      const nilaiUjian = getNumber(p, "Nilai Ujian");
-      const blockStart = getText(p, "Block Start") || p["Range Date"]?.date?.start || "";
-      const blockEnd   = p["Range Date"]?.date?.end || p["Range Date"]?.date?.start || "";
-
-      // Kolom opsional — kalau tidak ada cukup kembalikan array/object kosong
-      let pptDots = [], moods = {};
-      try { const raw = getText(p, "PPT Dots"); if (raw) pptDots = JSON.parse(raw); } catch {}
-      try { const raw = getText(p, "Moods");    if (raw) moods   = JSON.parse(raw); } catch {}
+      const p = page.properties; // Variabel 'p' sebagai sumber data
 
       // Ambil slides dari Daily Log
       let slides = {};
-      if (DAILY_DB_ID && page.id) {
+      if (DAILY_DB_ID) {
         const dr = await fetch(`https://api.notion.com/v1/databases/${DAILY_DB_ID}/query`, {
           method: "POST", headers: notionHeaders(),
           body: JSON.stringify({
-            filter:    { property: "Weekly Tracker", relation: { contains: page.id } },
+            filter: { property: "Weekly Tracker", relation: { contains: page.id } },
             page_size: 100,
           }),
         });
         if (dr.ok) {
           const dd = await dr.json();
           for (const e of dd.results ?? []) {
-            const dp  = e.properties;
-            const dt  = dp["Date"]?.date?.start ?? "";
+            const dp = e.properties;
+            const dt = dp["Date"]?.date?.start ?? "";
             const cnt = getNumber(dp, "Total Slide");
             if (dt && cnt > 0) slides[dt] = cnt;
           }
         }
       }
 
+      // Pastikan semua properti menggunakan variabel 'p'
       return res.json({
         found: true,
         pageId: page.id,
@@ -152,11 +150,12 @@ module.exports = async function handler(req, res) {
         blockEnd: p["Range Date"]?.date?.end || "",
         pptDots: getText(p, "PPT Dots"),
         moods: getText(p, "Moods"),
-        blockName: getText(p, "Topik Blok")
+        blockName: getText(p, "Topik Blok"),
+        slides: slides // Kirim data slides harian agar muncul di HP
       });
 
     } catch (err) {
-      return res.status(500).json({ error: "Gagal mengambil data: " + err.message });
+      return res.status(500).json({ error: "Gagal: " + err.message });
     }
   }
 
