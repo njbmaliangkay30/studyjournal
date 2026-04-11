@@ -3417,6 +3417,16 @@
 
       /* ===== END PPT DOT TRACKER ===== */
 
+      // Mantra agar data selalu segar saat berpindah device
+document.addEventListener("visibilitychange", function() {
+  if (document.visibilityState === "visible") {
+    // Saat kamu membuka kembali layar HP atau pindah tab ke web ini
+    console.log("Menyinkronkan ulang ingatan dari Hutan Sihir...");
+    if (typeof loadUserFromNotion === "function" && state.syncCode) {
+      loadUserFromNotion(state.syncCode, state.blockName);
+    }
+  }
+});
       /* INISIALISASI */
       createSparkles();
       applyTheme();    
