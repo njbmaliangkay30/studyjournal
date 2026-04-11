@@ -3227,29 +3227,38 @@
 
         const wasAlreadyDone = state.pptDots[activeDotIdx].done;
         const todayStr = fmtISO(new Date());
+        let isFirstToday = false;
 
         if (!wasAlreadyDone) {
+          // Cek apakah ini PPT pertama yang diselesaikan hari ini
+          isFirstToday = (state.slides[todayStr] || 0) === 0;
           // New completion — increment slides for today
           state.slides[todayStr] = (state.slides[todayStr] || 0) + 1;
           ss('rv_slides', state.slides);
           addCoins(10);
         }
-        // Update dot (preserve original date if editing)
-        const origDate = state.pptDots[activeDotIdx].date || todayStr;
-        state.pptDots[activeDotIdx] = { done: true, title, date: wasAlreadyDone ? origDate : todayStr };
-        ss('rv_pptDots', state.pptDots);
+        // Perbarui data dot
+  const origDate = state.pptDots[activeDotIdx].date || todayStr;
+  state.pptDots[activeDotIdx] = { done: true, title, date: wasAlreadyDone ? origDate : todayStr };
+  ss('rv_pptDots', state.pptDots);
 
-        closeDotModal();
-        playChime();
-        render();
-        if (!wasAlreadyDone) {
-          checkMilestoneAppreciation();
-          checkBadgeUnlocks();
-          playNextPopup();
-        }
-        await saveToNotion(todayStr);
-      };
-
+  closeDotModal();
+  playChime();
+  render();
+  
+  if (!wasAlreadyDone) {
+    checkMilestoneAppreciation();
+    checkBadgeUnlocks();
+    
+    // Jika ini PPT pertama hari ini, masukkan popup mood ke antrean
+    if (isFirstToday) {
+      popupQueue.push(() => {
+        document.getElementById('mood-modal').classList.add('show');
+      });
+    }
+    playNextPopup(); }
+  await saveToNotion(todayStr);
+};
       window.unmarkDot = async function() {
         if (activeDotIdx < 0 || activeDotIdx >= state.pptDots.length) return;
         const dot = state.pptDots[activeDotIdx];
