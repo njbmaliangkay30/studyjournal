@@ -178,48 +178,42 @@ module.exports = async function handler(req, res) {
       slideDate  = null,
     } = req.body ?? {};
 
-    if (!username)               return res.status(400).json({ error: "Field 'username' wajib diisi." });
-    if (!blockStart || !blockEnd) return res.status(400).json({ error: "Field 'blockStart' dan 'blockEnd' wajib diisi." });
+    if (!username) return res.status(400).json({ error: "Field 'username' wajib diisi." });
 
     try {
-      // Kolom inti (selalu ada)
+      // 1. Susun data inti (Termasuk mengupdate Judul/Name secara otomatis)
       const coreProps = {
+        "Name":          makeTitle(`${username} — ${blockName}`),
         "Weekly Target": makeNumber(target),
         "Nilai Ujian":   makeNumber(nilaiUjian),
         "Username":      makeRichText(username),
-        "Topik Blok":   makeRichText(blockName),
+        "Topik Blok":    makeRichText(blockName),
         "PPT Dots":      makeRichText(safeJson(pptDots)),
-        "Moods":         makeRichText(safeJson(moods)),
-        "Range Date": makeDateRange(blockStart, blockEnd)
+        "Moods":         makeRichText(safeJson(moods))
       };
 
-      // Properti tambahan hanya saat CREATE (bukan PATCH)
-      const createOnlyProps = {
-        Name:         makeTitle(`${username} — ${blockName}`)
-      };
+      // Cegah error Notion dengan hanya memasukkan Range Date jika tanggalnya ada
+      if (blockStart && blockEnd) {
+        coreProps["Range Date"] = makeDateRange(blockStart, blockEnd);
+      }
 
       let blockPageId = pageId;
 
       if (blockPageId) {
-        payload.parent = { database_id: WEEKLY_DB_ID };
-      // 👈 UBAH blockStart menjadi blockName agar judul baris Notion menjadi "Reva - Anatomi Reproduksi Pria"
-      payload.properties.Name = makeTitle(`${username} - ${blockName}`); 
-        // Sudah punya pageId → langsung PATCH
+        // Jika sudah punya ID, langsung update baris tersebut
         const { ok, status, data } = await notionUpsert(blockPageId, coreProps, null);
         if (!ok) return res.status(status).json({ error: data.message ?? "Notion PATCH error" });
       } else {
-        // Cek dulu apakah username sudah punya baris
+        // 2. KUNCI PENTING: Cari baris berdasarkan Username DAN Topik Blok
         const cr = await fetch(`https://api.notion.com/v1/databases/${WEEKLY_DB_ID}/query`, {
           method: "POST", headers: notionHeaders(),
           body: JSON.stringify({
             filter: {
-              property: "Username",
-              rich_text: { equals: username }
+              and: [
+                { property: "Username", rich_text: { equals: username } },
+                { property: "Topik Blok", rich_text: { equals: blockName } }
+              ]
             },
-            // 👈 PASTIKAN BLOK SORTS INI TERTULIS PERSIS SEPERTI INI
-            sorts: [
-              { timestamp: "created_time", direction: "descending" }
-            ],
             page_size: 1
           })
         });
@@ -227,17 +221,19 @@ module.exports = async function handler(req, res) {
         const existing = cd.results?.[0] ?? null;
 
         if (existing) {
+          // Jika topik sudah ada, update baris tersebut
           blockPageId = existing.id;
           const { ok, status, data } = await notionUpsert(blockPageId, coreProps, null);
           if (!ok) return res.status(status).json({ error: data.message ?? "Notion PATCH error" });
         } else {
-          const { ok, status, data } = await notionUpsert(null, coreProps, createOnlyProps);
+          // Jika topik belum ada, BUAT BARIS BARU!
+          const { ok, status, data } = await notionUpsert(null, coreProps, {});
           if (!ok) return res.status(status).json({ error: data.message ?? "Notion POST error" });
           blockPageId = data.id;
         }
       }
 
-      // Upsert Daily Log untuk hari ini (jika ada slideDate)
+      // 3. Upsert Daily Log (Otomatis jalan setelah Weekly Tracker sukses)
       if (DAILY_DB_ID && slideDate && blockPageId) {
         const slideCount = slides[slideDate] ?? 0;
 
