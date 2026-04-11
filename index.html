@@ -1581,6 +1581,8 @@
         slides: ls("rv_slides", {}),
         target: ls("rv_target", 30),
         name: ls("rv_name", ""),
+        syncCode: ls("rv_syncCode", ""), 
+        blokPageId: ls("rv_blokPageId", null),
         nilaiUjian: ls("rv_nilai", 0),
         blockStart: ls("rv_block_start", null),
         blockEnd: ls("rv_block_end", null),
@@ -2759,45 +2761,100 @@
       }
 
       /* ---------- NOTION (MOCK) ---------- */
+      // ── SYNC CORE: semua baca/tulis pakai username sebagai kunci ──────────────
+
+      // Ambil semua data user dari Notion berdasarkan username
+      async function loadUserFromNotion(username) {
+        if (!username) return;
+        setSyncStatus("syncing", "Menarik ingatan dari Hutan Sihir...");
+        try {
+          const res = await fetch("/api/weekly-tracker?username=" + encodeURIComponent(username));
+          const json = await res.json();
+          if (json.found && json.data) {
+            const d = json.data;
+            // Data blok (tanggal, target, nilai)
+            if (d.target)     { state.target     = d.target;     ss("rv_target",     state.target); }
+            if (d.nilaiUjian) { state.nilaiUjian = d.nilaiUjian; ss("rv_nilai",      state.nilaiUjian); }
+            if (d.blockStart) { state.blockStart = d.blockStart; ss("rv_block_start",state.blockStart); }
+            if (d.blockEnd)   { state.blockEnd   = d.blockEnd;   ss("rv_block_end",  state.blockEnd); }
+            if (d.pageId)     { state.blokPageId = d.pageId;     ss("rv_blokPageId", state.blokPageId); }
+            // Data progress harian
+            if (d.slides && Object.keys(d.slides).length > 0) {
+              state.slides = d.slides; ss("rv_slides", state.slides);
+            }
+            if (d.pptDots && d.pptDots.length > 0) {
+              state.pptDots = d.pptDots; ss("rv_pptDots", state.pptDots);
+            }
+            if (d.moods && Object.keys(d.moods).length > 0) {
+              state.moods = d.moods; ss("rv_moods", state.moods);
+            }
+            if (typeof d.nilaiUjian === 'number') {
+              state.nilaiUjian = d.nilaiUjian; ss("rv_nilai", state.nilaiUjian);
+            }
+            setSyncStatus("ok", "✦ Ingatan dipulihkan");
+            showError(null);
+            return true;
+          } else {
+            setSyncStatus("ok", "✦ Petualang Baru — siapkan misimu!");
+            return false; // new user — checkSetupModal will trigger
+          }
+        } catch(err) {
+          setSyncStatus("error", "Gagal terhubung ke Hutan Sihir");
+          showError(t('txt_sync_err_desc'));
+          return false;
+        }
+      }
+
+      // Auto-load saat startup jika username sudah disimpan di localStorage
       async function loadFromNotion() {
-        setSyncStatus("syncing", t('txt_syncing'));
+        if (state.syncCode) {
+          const ok = await loadUserFromNotion(state.syncCode);
+          if (ok) { render(); return; }
+        }
+        // Fallback: coba endpoint lama (backward compat, tidak blok UI)
         try {
           const res = await fetch("/api/notion");
+          if (!res.ok) return;
           const json = await res.json();
-          if(!res.ok) throw new Error(json.error);
-          if(json.found && json.data){
+          if (json.found && json.data) {
             const d = json.data;
-            state.slides = d.slides || {};
-            state.target = d.target || 30;
-            state.nilaiUjian = d.nilaiUjian || 0;
-            state.flashcards = state.flashcards.map(c => c.id ? c : { ...c, id: 'fc_' + Date.now() + Math.random() });
-            if(d.userName) state.name = d.userName;
-            if(json.blockStart) state.blockStart = json.blockStart;
-            if(json.blockEnd) state.blockEnd = json.blockEnd;
-            pageId = json.pageId;
-            ss("rv_slides",state.slides); ss("rv_target",state.target); ss("rv_nilai",state.nilaiUjian); ss("rv_name",state.name); ss("rv_block_start",state.blockStart); ss("rv_block_end",state.blockEnd);
+            if (!state.slides || !Object.keys(state.slides).length) { state.slides = d.slides || {}; ss("rv_slides", state.slides); }
+            if (!state.target || state.target === 30) { state.target = d.target || 30; ss("rv_target", state.target); }
           }
-          setSyncStatus("ok", t('txt_sync_ok'));
-          showError(null);
-        } catch(err){
-          setSyncStatus("error", t('txt_sync_err'));
-          showError(t('txt_sync_err_desc'));
-        }
+          setSyncStatus("ok", t('txt_sync_ok')); showError(null);
+        } catch(e) { /* silent */ }
         render();
       }
 
-      async function saveToNotion(slideDate){
+      // Simpan semua progress ke Notion, diidentifikasi oleh username
+      async function saveToNotion(slideDate) {
+        if (!state.syncCode) {
+          // Tidak ada username → simpan lokal saja
+          setSyncStatus("ok", t('txt_saved_local')); return true;
+        }
         setSyncStatus("syncing", t('txt_saving'));
-        try{
-          const res = await fetch("/api/notion",{
-            method:"POST",headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({slides:state.slides,target:state.target,nilaiUjian:state.nilaiUjian,name:state.name,blockStart:state.blockStart,blockEnd:state.blockEnd,pageId,slideDate})
+        try {
+          const payload = {
+            username:   state.syncCode,
+            target:     state.target,
+            blockStart: state.blockStart,
+            blockEnd:   state.blockEnd,
+            nilaiUjian: state.nilaiUjian,
+            slides:     state.slides,
+            pptDots:    state.pptDots,
+            moods:      state.moods,
+            pageId:     state.blokPageId,
+            slideDate
+          };
+          const res = await fetch("/api/weekly-tracker", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
           });
           const json = await res.json();
-          if(!res.ok) throw new Error(json.error);
-          if(json.pageId) pageId = json.pageId;
-          setSyncStatus("ok","✦ Tersinkron"); showError(null); return true;
-        }catch(err){
+          if (!res.ok) throw new Error(json.error);
+          if (json.pageId) { state.blokPageId = json.pageId; ss("rv_blokPageId", state.blokPageId); }
+          setSyncStatus("ok", "✦ Tersinkron"); showError(null); return true;
+        } catch(err) {
           setSyncStatus("error", t('txt_saved_local')); return false;
         }
       }
@@ -2958,10 +3015,15 @@
         const target = parseInt(document.getElementById("setup-target").value)||30;
         const start = document.getElementById("setup-start").value;
         const end = document.getElementById("setup-end").value;
+        if (!start || !end) {
+          alert("Tentukan tanggal mulai dan ujianmu terlebih dahulu!");
+          return; }
         state.target = target; state.blockStart = start; state.blockEnd = end;
         ss("rv_target",target); ss("rv_block_start",start); ss("rv_block_end",end);
         document.getElementById("setup-modal").classList.remove("show");
-        render(); await saveToNotion();
+        render(); 
+
+        await saveToNotion();
       };
 
       window.saveSettings = async function(){
@@ -2972,11 +3034,12 @@
         ss("rv_target",state.target); ss("rv_name",state.name); ss("rv_block_start",state.blockStart); ss("rv_block_end",state.blockEnd);
         render();
         setButtonLoading("btn-set",true);
+        
         const ok = await saveToNotion();
-        setButtonLoading("btn-set",false);
         const msg = document.getElementById("save-msg-set");
         msg.textContent = ok ? t('msg_set_saved') : t('msg_set_local');
         msg.style.display="block"; setTimeout(()=>msg.style.display="none",2200);
+        setButtonLoading("btn-set",false);
       };
 
       window.resetBlok = async function(){
@@ -3044,13 +3107,16 @@
       function checkExamModal(){
         if(state.blockEnd && state.blockEnd===fmtISO(new Date()) && state.nilaiUjian===0) document.getElementById('exam-modal').classList.add('show');
       }
-      window.mulaiPetualangan = function(){
+      window.mulaiPetualangan = async function(){
         const inp = document.getElementById('welcome-name').value.trim();
         if(!inp){ document.getElementById('welcome-error').style.display='block'; return; }
-        state.name = inp; ss("rv_name",inp);
+        state.name = inp; state.syncCode = inp;
+        ss("rv_name", inp); ss("rv_syncCode", inp);
         document.getElementById('welcome-modal').classList.remove('show');
+        await loadUserFromNotion(inp);
         requestNotifPermission();
-        render(); checkSetupModal();
+        render();
+        checkSetupModal();
       };
 
       /* ---------- KEYBOARD ---------- */
@@ -3229,47 +3295,35 @@
 
         const wasAlreadyDone = state.pptDots[activeDotIdx].done;
         const todayStr = fmtISO(new Date());
-        let isFirstToday = false;
 
         if (!wasAlreadyDone) {
-          // Cek apakah ini PPT pertama yang diselesaikan hari ini
-          isFirstToday = (state.slides[todayStr] || 0) === 0;
-          // New completion — increment slides for today
           state.slides[todayStr] = (state.slides[todayStr] || 0) + 1;
           ss('rv_slides', state.slides);
           addCoins(10);
         }
-        // Perbarui data dot
-  const origDate = state.pptDots[activeDotIdx].date || todayStr;
-  state.pptDots[activeDotIdx] = { done: true, title, date: wasAlreadyDone ? origDate : todayStr };
-  ss('rv_pptDots', state.pptDots);
 
-  closeDotModal();
-  playChime();
-  render();
-  
-  if (!wasAlreadyDone) {
-    checkMilestoneAppreciation();
-    checkBadgeUnlocks();
-    
-    // Jika ini PPT pertama hari ini, masukkan popup mood ke antrean
-    if (isFirstToday) {
-      popupQueue.push(() => {
-        document.getElementById('mood-modal').classList.add('show');
-      });
-    }
-    playNextPopup(); }
-        // JIKA bukan PPT pertama (popup mood tidak muncul), langsung simpan dan tampilkan pesan
-  if (!isFirstToday) {
-    const ok = await saveToNotion(todayStr);
-    const msg = document.getElementById("save-msg-slide");
-    if (msg) {
-      msg.textContent = ok ? t('txt_saved_cloud') : t('txt_saved_local');
-      msg.style.display = "block";
-      setTimeout(() => msg.style.display = "none", 2200);
-  await saveToNotion(todayStr);
-};
-  }
+        const origDate = state.pptDots[activeDotIdx].date || todayStr;
+        state.pptDots[activeDotIdx] = { done: true, title, date: wasAlreadyDone ? origDate : todayStr };
+        ss('rv_pptDots', state.pptDots);
+
+        closeDotModal();
+        playChime();
+        render();
+
+        if (!wasAlreadyDone) {
+          checkMilestoneAppreciation();
+          checkBadgeUnlocks();
+          playNextPopup();
+        }
+
+        // Simpan semua ke Notion via weekly-tracker (username-based)
+        const ok = await saveToNotion(todayStr);
+        const msg = document.getElementById("save-msg-slide");
+        if (msg) {
+          msg.textContent = ok ? t('txt_saved_cloud') : t('txt_saved_local');
+          msg.style.display = "block";
+          setTimeout(() => msg.style.display = "none", 2200);
+        }
       };
       window.unmarkDot = async function() {
         if (activeDotIdx < 0 || activeDotIdx >= state.pptDots.length) return;
@@ -3305,7 +3359,6 @@
       checkWelcomeModal();
       setupReminders();
       render();
-      loadFromNotion();
       requestAnimationFrame(updateIndicator);
       window.addEventListener('resize',updateIndicator);
     })();
