@@ -562,9 +562,9 @@
     <div class="tab-indicator" id="tab-indicator"></div>
   </div>
 
-  <div class="sync-bar ok" id="sync-bar">
+ <div class="sync-bar ok" id="sync-bar">
     <div class="sync-dot"></div>
-    <span id="sync-txt" data-i18n="sync_conn">Menghubungkan ke Notion...</span>
+    <span id="sync-txt">Menghubungkan ke Notion...</span>
   </div>
   <div class="error-box" id="error-box" style="display:none"></div>
 
@@ -809,8 +809,8 @@
             <div class="input-label" style="margin-bottom:12px; line-height:1.5;" data-i18n="set_reset_desc">Gunakan tombol ini setiap awal blok baru untuk mengosongkan riwayat, lencana, dan nilai.</div>
             <button class="btn-reset btn-full" onclick="resetBlok()" data-i18n="btn_reset">Reset Blok Baru</button>
             <div style="height: 1px; background: rgba(0,0,0,0.1); margin: 16px 0;"></div>
-            <div class="input-label" style="margin-bottom:12px; line-height:1.5;">Ingin berganti identitas atau memindahkan jurnal ini untuk orang lain?</div>
-            <button class="btn-reset btn-full" style="background: rgba(232, 160, 32, 0.1); border-color: rgba(232, 160, 32, 0.3); color: var(--amber);" onclick="logoutAjaib()">🚪 Ganti Akun (Log Out)</button>
+            <div class="input-label" style="margin-bottom:12px; line-height:1.5;" data-i18n="set_logout_desc">Ingin berganti identitas atau memindahkan jurnal ini untuk orang lain?</div>
+            <button class="btn-reset btn-full" style="background: rgba(232, 160, 32, 0.1); border-color: rgba(232, 160, 32, 0.3); color: var(--amber);" onclick="logoutAjaib()" data-i18n="btn_logout">🚪 Ganti Akun (Log Out)</button>
           </div>
         </div>
       </div>
@@ -1343,7 +1343,11 @@
     trk_ppt_popup_edit: "Edit judul PPT atau batalkan tandai selesai.",
     trk_ppt_placeholder: "Tulis judul PPT di sini...",
     btn_mark_done: "✦ Tandai Selesai",
-    btn_unmark: "✕ Batalkan Tandai"
+    btn_unmark: "✕ Batalkan Tandai",
+          set_logout_desc: "Ingin berganti identitas atau memindahkan jurnal ini untuk orang lain?",
+          btn_logout: "🚪 Ganti Akun (Log Out)",
+          confirm_logout: "Apakah kamu yakin ingin keluar? Pastikan indikator koneksi di atas bertuliskan 'Tersinkron Penuh' ya!",
+          txt_ready: "✦ Siap"
         },
         en: {
           hdr_eyebrow: "Study Journey",
@@ -1556,7 +1560,11 @@
     trk_ppt_popup_edit: "Edit title or unmark as completed.",
     trk_ppt_placeholder: "Type PPT title here...",
     btn_mark_done: "✦ Mark as Done",
-    btn_unmark: "✕ Unmark"
+    btn_unmark: "✕ Unmark",
+          set_logout_desc: "Want to switch identities or pass this journal to someone else?",
+          btn_logout: "🚪 Switch Account (Log Out)",
+          confirm_logout: "Are you sure you want to log out? Make sure the connection indicator above says 'Fully Synced'!",
+          txt_ready: "✦ Ready"
         }
       };
 
@@ -1661,9 +1669,21 @@
         });
         document.getElementById('lang-select').value = state.lang;
         
-        // Tambahkan baris ini agar PPT Tracker di-render ulang dengan bahasa baru
-        renderPptTrack(); 
+        // --- PERBAIKAN BUG TEKS SINKRONISASI ---
+        const syncBar = document.getElementById('sync-bar');
+        const syncTxt = document.getElementById('sync-txt');
+        if (syncBar && syncTxt) {
+          if (syncBar.classList.contains('ok')) {
+            syncTxt.textContent = state.syncCode ? t('txt_sync_ok') : t('txt_ready');
+          } else if (syncBar.classList.contains('error')) {
+            syncTxt.textContent = t('txt_sync_err');
+          } else {
+            syncTxt.textContent = t('sync_conn');
+          }
+        }
+        // ---------------------------------------
         
+        renderPptTrack(); 
         updateDifficultCount(); 
         applyTheme(); 
       };
@@ -1674,12 +1694,11 @@
         applyLanguage();
         render(); 
       };
-      /* ---------- FUNGSI LOGOUT BARU ---------- */
+     /* ---------- FUNGSI LOGOUT BARU ---------- */
       window.logoutAjaib = function() {
-        // Minta konfirmasi sebelum keluar agar tidak tidak sengaja terpencet
-        if(!confirm("Apakah kamu yakin ingin keluar? Pastikan indikator koneksi di atas bertuliskan 'Tersinkron Penuh' ya!")) return;
+        // Menggunakan t() untuk translasi pesan konfirmasi
+        if(!confirm(t('confirm_logout'))) return;
 
-        // Daftar semua kunci ingatan (localStorage) yang harus dihapus
         const keysToRemove = [
           "rv_slides", "rv_target", "rv_name", "rv_syncCode", "rv_blokPageId", 
           "rv_nilai", "rv_block_start", "rv_block_end", "rv_milestones", "rv_badges", 
@@ -1687,10 +1706,7 @@
           "matchBestTime", "fcBestTime", "rv_coins", "rv_inv", "rv_pptDots", "rv_pptMigrated"
         ];
 
-        // Hapus satu per satu ingatan dari browser
         keysToRemove.forEach(k => localStorage.removeItem(k));
-
-        // Muat ulang halaman (Refresh) agar kembali ke layar "Pixie Hollow"
         window.location.reload();
       };
 
