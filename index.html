@@ -84,73 +84,12 @@
     .ppt-forest-deco { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
     .ppt-forest-deco svg { position: absolute; }
     /* Garis ular vertikal penghubung antar baris */
-    .ppt-snake-connector { display: flex; justify-content: flex-end; padding: 0px; position: relative; z-index: 1; margin-top: -34px; margin-bottom: -0px; height: 0; }
+    .ppt-snake-connector { display: flex; justify-content: flex-end; padding: 0 2px; position: relative; z-index: 1; }
     .ppt-snake-connector.to-left { justify-content: flex-start; }
-    .ppt-snake-vline { width: 2px; top: 12px; background: rgba(141,201,90,0.18); border-radius: 2px; position: absolute; }
-    /* Sayap Atas dan Bawah untuk membentuk siku */
-.ppt-snake-vline::before,
-.ppt-snake-vline::after {
-  content: '';
-  position: absolute;
-  height: 2px;
-  background: rgba(141,201,90,0.18);
-}
-
-/* Siku di kanan (Baris genap ke ganjil) */
-.ppt-snake-connector:not(.to-left) .ppt-snake-vline::before { top: 0; right: 0; }
-.ppt-snake-connector:not(.to-left) .ppt-snake-vline::after { bottom: 0; right: 0; }
-
-/* Siku di kiri (Baris ganjil ke genap) */
-.ppt-snake-connector.to-left .ppt-snake-vline::before { top: 0; left: 0; }
-.ppt-snake-connector.to-left .ppt-snake-vline::after { bottom: 0; left: 0; }
-
-/* Efek Cahaya jika sudah selesai */
-.ppt-snake-vline.lit,
-.ppt-snake-vline.lit::before,
-.ppt-snake-vline.lit::after {
-  background: linear-gradient(90deg, #f5c842, #ffe478);
-  box-shadow: 0 0 8px #f5c842;
-}
-
-/* --- TAMPILAN LAPTOP (8 Titik) --- */
-@media (min-width: 768px) {
-  .ppt-energy-line {
-  flex-shrink: 0; 
-  width: 100%; 
-  height: 2px;
-  background: rgba(141,201,90,0.18); 
-  border-radius: 2px;
-  margin-top: 22px; 
-  position: relative;
-  margin-left: -6px; 
-  margin-right: -6px;
-}
-
-.ppt-energy-line.lit {
-  background: linear-gradient(90deg, #f5c842, #ffe478, #f5c842);
-  box-shadow: 0 0 8px rgba(245, 200, 66, 0.4);
-}
-
-/* --- TAMPILAN LAPTOP --- */
-@media (min-width: 768px) {
-  .ppt-energy-line { max-width: 28px; } /* Jarak antar titik di laptop */
-  .ppt-row { margin-bottom: 40px; } /* Beri jarak antar baris agar tidak rapat */
-}
-
-/* --- TAMPILAN HP --- */
-@media (max-width: 767px) {
-  .ppt-energy-line { 
-    max-width: 12px; 
-    margin-top: 20px; 
-  }
-  .ppt-row { margin-bottom: 35px; } 
-  .ppt-dot { width: 40px; height: 40px; font-size: 11px; }
-}
-  .ppt-snake-vline::before, .ppt-snake-vline::after { width: 18px; }
-  /* Siku Atas ke kiri, Siku Bawah ke kiri */
-  .ppt-snake-connector.to-left .ppt-snake-vline::before { top: 0; left: 0; }
-  .ppt-snake-connector.to-left .ppt-snake-vline::after { bottom: 0; left: 0; }
-}
+    .ppt-snake-vline { width: 2px; height: 28px; background: rgba(141,201,90,0.18); border-radius: 2px; position: relative; overflow: visible; margin: 0 20px; }
+    .ppt-snake-vline::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(180deg, transparent, transparent 3px, rgba(141,201,90,0.2) 3px, rgba(141,201,90,0.2) 6px); }
+    .ppt-snake-vline.lit { background: linear-gradient(180deg, rgba(245,200,66,0.25) 0%, rgba(255,240,100,0.95) 30%, rgba(245,200,66,0.25) 60%, rgba(255,240,100,0.9) 90%, rgba(245,200,66,0.25) 100%); background-size: 100% 200%; box-shadow: 0 0 8px rgba(245,200,66,0.65), 0 0 16px rgba(245,200,66,0.3); animation: energy-flow-v 1.2s infinite linear; }
+    .ppt-snake-vline.lit::before { display: none; }
     @keyframes energy-flow-v { 0% { background-position: 0 0%; } 100% { background-position: 0 200%; } }
     .ppt-track-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; position: relative; z-index: 1; }
     .ppt-track-header-lbl { font-size: 12px; font-weight: 600; color: rgba(141,201,90,0.8); }
@@ -179,27 +118,7 @@
     .ppt-dot-label-empty { font-size: 9px; color: rgba(141,201,90,0.35); min-height: 22px; margin-top: 0; }
 
     /* Connecting energy line */
-    .ppt-energy-line {
-  flex-shrink: 0; width: 100%; height: 2px;
-  background: rgba(141,201,90,0.18); border-radius: 2px;
-  margin-top: 22px; position: relative;
-  margin-left: -6px; margin-right: -6px;
-}
-
-/* --- TAMPILAN LAPTOP (Garis untuk 8 Titik) --- */
-@media (min-width: 768px) {
-  .ppt-energy-line { max-width: 24px; }
-  .ppt-snake-connector { margin-top: -34px; }
-  .ppt-snake-vline { height: 48px; margin: 0 31px; } /* Pas di tengah titik ke-8 */
-}
-
-/* --- TAMPILAN HP (Garis untuk 6 Titik) --- */
-@media (max-width: 767px) {
-  .ppt-energy-line { max-width: 10px; margin-top: 20px; }
-  .ppt-snake-connector { margin-top: -33px; }
-  .ppt-snake-vline { height: 46px; margin: 0 25px; } /* Pas di tengah titik ke-6 */
-  .ppt-dot { width: 40px; height: 40px; font-size: 11px; }
-}
+    .ppt-energy-line { flex-shrink: 0; width: 100%; max-width: 16px; height: 2px; background: rgba(141,201,90,0.18); border-radius: 2px; margin-top: 22px; transition: background 0.5s, box-shadow 0.5s; position: relative; overflow: visible; }
     .ppt-energy-line::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-50%); background: repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(141,201,90,0.2) 3px, rgba(141,201,90,0.2) 6px); }
     .ppt-energy-line.lit { background: linear-gradient(90deg, rgba(245,200,66,0.25) 0%, rgba(255,240,100,0.95) 30%, rgba(245,200,66,0.25) 60%, rgba(255,240,100,0.9) 90%, rgba(245,200,66,0.25) 100%); background-size: 200% 100%; box-shadow: 0 0 8px rgba(245,200,66,0.65), 0 0 16px rgba(245,200,66,0.3); animation: energy-flow-h 1.2s infinite linear; }
     .ppt-energy-line.lit::before { display: none; }
@@ -3192,10 +3111,7 @@
         ensurePptDots();
         const container = document.getElementById('ppt-dots-row');
         if (!container) return;
-        
-// DETEKSI JUMLAH KOLOM: 6 untuk HP, 8 untuk Laptop
-        const DOTS_PER_ROW = window.innerWidth < 768 ? 6 : 8;
-      
+
         const titleEl = document.querySelector('[data-i18n="trk_ppt_title"]');
     if(titleEl) titleEl.textContent = t('trk_ppt_title');
     const guideEl = document.querySelector('[data-i18n="trk_ppt_guide"]');
