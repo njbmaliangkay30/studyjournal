@@ -70,6 +70,35 @@
     .sp { position: absolute; border-radius: 50%; animation: sparkle-float linear infinite; opacity: 0; background: radial-gradient(circle, rgba(255, 240, 180, 1) 0%, rgba(255, 220, 120, 0.8) 30%, rgba(255, 200, 80, 0.4) 60%, transparent 80%); box-shadow: 0 0 6px rgba(255, 220, 120, 0.8), 0 0 12px rgba(255, 200, 80, 0.6), 0 0 24px rgba(255, 200, 80, 0.4); }
     @keyframes sparkle-float { 0% { opacity: 0; transform: translateY(15px) scale(0.4); } 15% { opacity: 0.8; } 40% { opacity: 0.4; } 75% { opacity: 0.1; } 100% { opacity: 0; transform: translateY(var(--float-dist, -250px)) scale(1.2); } }
     .pixie-dust { position: absolute; pointer-events: none; width: 6px; height: 6px; background: #fff; border-radius: 50%; box-shadow: 0 0 8px var(--gold-light), 0 0 12px var(--gold); animation: dust-fade 1.2s forwards ease-out; z-index: 9999; mix-blend-mode: screen; }
+
+    /* ===== PPT DOT TRACKER ===== */
+    .ppt-track-wrap { background: var(--bg-card); backdrop-filter: blur(10px); border-radius: 18px; border: 1px solid var(--border-card); padding: 18px 16px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .ppt-track-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .ppt-track-counter { font-size: 12px; font-weight: 700; color: var(--text-soft); background: var(--bg-input); border-radius: 10px; padding: 4px 10px; border: 1px solid var(--border-card); }
+    .ppt-track-counter span { color: var(--gold); }
+    .ppt-dots-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0; }
+    .ppt-dot-unit { display: flex; align-items: center; }
+    .ppt-dot { width: 34px; height: 34px; border-radius: 50%; border: 2px dashed rgba(184,144,10,0.35); background: var(--bg-input); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--text-soft); transition: all 0.3s ease; position: relative; flex-shrink: 0; }
+    .ppt-dot:hover:not(.done) { border-color: var(--gold); border-style: solid; color: var(--gold); transform: scale(1.08); box-shadow: 0 0 8px rgba(245,200,66,0.3); }
+    .ppt-dot.done { border: 2px solid var(--gold); border-style: solid; background: radial-gradient(circle, rgba(245,200,66,0.25) 0%, rgba(245,200,66,0.08) 70%); color: var(--gold-dark); box-shadow: 0 0 10px rgba(245,200,66,0.5), inset 0 0 8px rgba(245,200,66,0.15); animation: dot-glow-pulse 2.5s infinite alternate; }
+    @keyframes dot-glow-pulse { 0% { box-shadow: 0 0 8px rgba(245,200,66,0.4), inset 0 0 6px rgba(245,200,66,0.1); } 100% { box-shadow: 0 0 18px rgba(245,200,66,0.7), inset 0 0 12px rgba(245,200,66,0.2); } }
+    .ppt-dot.done::after { content: '✦'; position: absolute; top: -6px; right: -5px; font-size: 9px; color: var(--gold); text-shadow: 0 0 5px var(--gold); animation: star-twinkle 1.5s infinite alternate; }
+    .ppt-dot-date { position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); font-size: 8px; font-weight: 700; color: var(--text-soft); white-space: nowrap; letter-spacing: 0; }
+    .ppt-line { flex: 1; min-width: 6px; max-width: 14px; height: 1px; border-top: 1.5px dashed rgba(184,144,10,0.25); }
+    .ppt-line.lit { border-top: 1.5px solid rgba(245,200,66,0.55); box-shadow: 0 0 4px rgba(245,200,66,0.3); }
+    .ppt-dot-num { font-size: 10px; font-weight: 800; }
+
+    /* PPT dot popup */
+    #ppt-dot-modal .modal-box { max-width: 320px; }
+    .ppt-popup-dot-preview { width: 54px; height: 54px; border-radius: 50%; border: 2.5px solid var(--gold); background: radial-gradient(circle, rgba(245,200,66,0.25), transparent 70%); display: flex; align-items: center; justify-content: center; font-size: 22px; margin: 0 auto 14px; box-shadow: 0 0 18px rgba(245,200,66,0.5); }
+    .ppt-popup-title { font-family: var(--serif); font-size: 17px; color: var(--text-dark); text-align: center; margin-bottom: 4px; }
+    .ppt-popup-sub { font-size: 12px; color: var(--text-soft); text-align: center; margin-bottom: 16px; font-weight: 500; }
+    .ppt-popup-input { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--border-card); background: var(--bg-input); color: var(--text-dark); font-size: 14px; font-family: var(--sans); font-weight: 600; outline: none; transition: border-color 0.2s; }
+    .ppt-popup-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245,200,66,0.15); }
+    .ppt-popup-btn { width: 100%; margin-top: 12px; padding: 13px; border-radius: 12px; border: none; background: linear-gradient(135deg, var(--gold-dark), var(--gold)); color: #fff; font-size: 14px; font-weight: 700; font-family: var(--sans); letter-spacing: 0.03em; box-shadow: 0 4px 14px rgba(245,200,66,0.35); transition: all 0.2s; }
+    .ppt-popup-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(245,200,66,0.45); }
+    .ppt-dot-tooltip { position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); background: var(--bg-card-solid); border: 1px solid var(--border-card); border-radius: 10px; padding: 6px 10px; font-size: 10px; font-weight: 600; color: var(--text-dark); white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.1); pointer-events: none; z-index: 10; opacity: 0; transition: opacity 0.2s; max-width: 160px; white-space: normal; text-align: center; line-height: 1.4; }
+    .ppt-dot:hover .ppt-dot-tooltip { opacity: 1; }
     @keyframes dust-fade { 0% { transform: scale(1) translateY(0); opacity: 1; } 100% { transform: scale(0) translateY(30px) translateX(var(--drift)); opacity: 0; } }
     .click-dust { position: fixed; pointer-events: none; border-radius: 50%; background: #fff; box-shadow: 0 0 8px var(--gold-light); z-index: 10000; mix-blend-mode: screen; animation: click-burst 0.8s forwards ease-out; }
     @keyframes click-burst { 0% { transform: scale(1) translate(0, 0); opacity: 1; } 100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0; } }
@@ -528,17 +557,21 @@
           <div class="sec-lbl" data-i18n="trk_title_grid">Gulungan Slide per hari</div>
           <div class="days-grid" id="days-grid"></div>
         </div>
+
+        <!-- PPT DOT TRACKER (replaces manual input) -->
         <div>
-          <div class="sec-lbl" data-i18n="trk_title_input">Catatan Perjalananmu Hari Ini</div>
-          <div class="input-card">
-            <div class="input-label" data-i18n="trk_lbl_input">Berapa banyak gulungan slide yang berhasil kamu pelajari hari ini?</div>
-            <div class="input-row">
-              <input type="number" id="inp-slide" min="0" max="99" placeholder="0" class="field" />
-              <button class="btn-save" id="btn-slide" onclick="addSlide()" data-i18n="btn_save">Simpan</button>
+          <div class="sec-lbl">✦ Petak PPT — Tandai yang Sudah Dibaca</div>
+          <div class="ppt-track-wrap">
+            <div class="ppt-track-header">
+              <div style="font-size:12px;font-weight:600;color:var(--text-mid);">Klik titik untuk mencatat PPT yang selesai dibaca</div>
+              <div class="ppt-track-counter"><span id="ppt-done-count">0</span> / <span id="ppt-total-count">0</span></div>
             </div>
-            <div class="save-msg" id="save-msg-slide" data-i18n="msg_saved">Tersimpan ke Notion!</div>
+            <div class="ppt-dots-row" id="ppt-dots-row" style="padding-bottom: 22px;"></div>
           </div>
         </div>
+        <!-- Hidden legacy input for compatibility -->
+        <input type="hidden" id="inp-slide" value="0" />
+        <div id="save-msg-slide" style="display:none;"></div>
       </div>
       
       <div class="page" id="tab-reward">
@@ -831,6 +864,18 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- PPT DOT POPUP MODAL -->
+  <div class="welcome-overlay" id="ppt-dot-modal" style="z-index:9995;">
+    <div class="welcome-card" style="max-width:320px; padding:28px 24px 24px;">
+      <div class="ppt-popup-dot-preview" id="ppt-popup-dot-icon">📖</div>
+      <div class="ppt-popup-title" id="ppt-popup-title">PPT ke-<span id="ppt-popup-num">1</span></div>
+      <div class="ppt-popup-sub">Apa judul PPT yang sudah kamu baca?</div>
+      <input type="text" id="ppt-popup-input" class="ppt-popup-input" placeholder="Tulis judul PPT di sini..." autocomplete="off" />
+      <button class="ppt-popup-btn" onclick="confirmDot()">✦ Tandai Selesai</button>
+      <button onclick="closeDotModal()" style="width:100%; margin-top:8px; background:none; border:none; color:var(--text-soft); font-size:13px; font-weight:600; padding:8px;">Batal</button>
     </div>
   </div>
 
@@ -1435,7 +1480,8 @@
         theme: ls('rv_theme', 'light'), 
         lang: ls('rv_lang', 'id'),
         coins: ls('rv_coins', 0),
-        inventory: ls('rv_inv', { streakFreeze: 0 })
+        inventory: ls('rv_inv', { streakFreeze: 0 }),
+        pptDots: ls('rv_pptDots', [])
       };
       
       let pageId = null;
@@ -1779,7 +1825,7 @@
       }
 
       /* ---------- CALC HELPERS ---------- */
-      function total() { return Object.values(state.slides).reduce((a, b) => a + b, 0); }
+      function total() { return state.pptDots.filter(d=>d.done).length; }
       function pct() { return Math.min(Math.round((total() / state.target) * 100), 100); }
       function nilaiPenalty() {
         if (state.nilaiUjian > 0 && state.nilaiUjian < 60) return (60 - state.nilaiUjian) * 2000;
@@ -2588,6 +2634,7 @@
         document.getElementById("set-block-end").value = state.blockEnd||"";
         
         updateDifficultCount(); // Update inventory coins dan shop
+        renderPptTrack(); // PPT dot tracker
       }
 
       /* ---------- NOTION (MOCK) ---------- */
@@ -2635,12 +2682,9 @@
       }
 
       /* ---------- ACTIONS ---------- */
-      function setButtonLoading(id, loading){ document.getElementById(id).disabled = loading; }
+      function setButtonLoading(id, loading){ const el = document.getElementById(id); if(el) el.disabled = loading; }
       window.addSlide = function(){
-        const v = parseInt(document.getElementById("inp-slide").value)||0;
-        if(v<0) return;
-        initAudio(); tempSlideCount = v;
-        document.getElementById("mood-modal").classList.add("show");
+        // Replaced by PPT dot tracker — no-op kept for compatibility
       };
       window.simpanMood = async function(moodIcon, btnEl){
         if(btnEl){ document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('selected')); btnEl.classList.add('selected'); }
@@ -2657,7 +2701,6 @@
         checkMilestoneAppreciation();
         checkBadgeUnlocks();
         playNextPopup();
-        document.getElementById("inp-slide").value = "";
         setButtonLoading("btn-slide",true);
         const ok = await saveToNotion(todayStr);
         setButtonLoading("btn-slide",false);
@@ -2917,6 +2960,94 @@
           wrap.appendChild(sp);
         }
       }
+
+      /* ===== PPT DOT TRACKER ===== */
+      let activeDotIdx = -1;
+
+      function ensurePptDots() {
+        const t = state.target;
+        // Grow if needed
+        while (state.pptDots.length < t) state.pptDots.push({ done: false, title: '', date: '' });
+        // Shrink only undone tail entries
+        while (state.pptDots.length > t && !state.pptDots[state.pptDots.length - 1].done) state.pptDots.pop();
+        ss('rv_pptDots', state.pptDots);
+      }
+
+      function renderPptTrack() {
+        ensurePptDots();
+        const row = document.getElementById('ppt-dots-row');
+        if (!row) return;
+        const dots = state.pptDots;
+        const doneCount = dots.filter(d => d.done).length;
+        const totalCount = dots.length;
+        document.getElementById('ppt-done-count').textContent = doneCount;
+        document.getElementById('ppt-total-count').textContent = totalCount;
+
+        let html = '';
+        const SHORT_MONTHS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+        dots.forEach((dot, i) => {
+          const isDone = dot.done;
+          const dateLbl = isDone && dot.date ? (() => {
+            const d = new Date(dot.date + 'T00:00:00');
+            return d.getDate() + ' ' + SHORT_MONTHS[d.getMonth()];
+          })() : '';
+          const tooltip = isDone ? `<div class="ppt-dot-tooltip">${dot.title || 'PPT ke-'+(i+1)}<br><span style="color:var(--gold);font-size:9px;">${dateLbl}</span></div>` : `<div class="ppt-dot-tooltip">PPT ke-${i+1}<br><span style="font-size:9px;color:var(--text-soft);">Klik untuk mencatat</span></div>`;
+          const lineClass = isDone ? 'ppt-line lit' : 'ppt-line';
+          html += `<div class="ppt-dot-unit">
+            <div class="ppt-dot ${isDone ? 'done' : ''}" onclick="${isDone ? '' : 'openDotModal(' + i + ')'}" style="${isDone ? 'cursor:default;' : ''}">
+              <span class="ppt-dot-num">${isDone ? '✓' : (i + 1)}</span>
+              ${dateLbl ? `<div class="ppt-dot-date">${dateLbl}</div>` : ''}
+              ${tooltip}
+            </div>
+            ${i < dots.length - 1 ? `<div class="${lineClass}"></div>` : ''}
+          </div>`;
+        });
+        row.innerHTML = html;
+      }
+
+      window.openDotModal = function(idx) {
+        activeDotIdx = idx;
+        document.getElementById('ppt-popup-num').textContent = idx + 1;
+        document.getElementById('ppt-popup-input').value = '';
+        document.getElementById('ppt-dot-modal').classList.add('show');
+        setTimeout(() => document.getElementById('ppt-popup-input').focus(), 200);
+      };
+
+      window.closeDotModal = function() {
+        document.getElementById('ppt-dot-modal').classList.remove('show');
+        activeDotIdx = -1;
+      };
+
+      window.confirmDot = async function() {
+        const title = document.getElementById('ppt-popup-input').value.trim();
+        if (!title) { document.getElementById('ppt-popup-input').focus(); return; }
+        if (activeDotIdx < 0 || activeDotIdx >= state.pptDots.length) return;
+        
+        const todayStr = fmtISO(new Date());
+        state.pptDots[activeDotIdx] = { done: true, title, date: todayStr };
+        ss('rv_pptDots', state.pptDots);
+
+        // Also update slides per day (for calendar & streak)
+        state.slides[todayStr] = (state.slides[todayStr] || 0) + 1;
+        ss('rv_slides', state.slides);
+
+        addCoins(10);
+        closeDotModal();
+        playChime();
+        render();
+        checkMilestoneAppreciation();
+        checkBadgeUnlocks();
+        playNextPopup();
+        await saveToNotion(todayStr);
+      };
+
+      // Enter key on dot popup
+      document.addEventListener('DOMContentLoaded', () => {
+        const inp = document.getElementById('ppt-popup-input');
+        if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') confirmDot(); });
+      });
+
+      /* ===== END PPT DOT TRACKER ===== */
 
       /* INISIALISASI */
       createSparkles();
