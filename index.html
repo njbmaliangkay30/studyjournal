@@ -84,12 +84,46 @@
     .ppt-forest-deco { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
     .ppt-forest-deco svg { position: absolute; }
     /* Garis ular vertikal penghubung antar baris */
-    .ppt-snake-connector { display: flex; justify-content: flex-end; padding: 0 2px; position: relative; z-index: 1; }
+    .ppt-snake-connector { display: flex; justify-content: flex-end; padding: 0px; position: relative; z-index: 1; margin-top: -12px; margin-bottom: -12px; }
     .ppt-snake-connector.to-left { justify-content: flex-start; }
-    .ppt-snake-vline { width: 2px; height: 28px; background: rgba(141,201,90,0.18); border-radius: 2px; position: relative; overflow: visible; margin: 0 20px; }
-    .ppt-snake-vline::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(180deg, transparent, transparent 3px, rgba(141,201,90,0.2) 3px, rgba(141,201,90,0.2) 6px); }
-    .ppt-snake-vline.lit { background: linear-gradient(180deg, rgba(245,200,66,0.25) 0%, rgba(255,240,100,0.95) 30%, rgba(245,200,66,0.25) 60%, rgba(255,240,100,0.9) 90%, rgba(245,200,66,0.25) 100%); background-size: 100% 200%; box-shadow: 0 0 8px rgba(245,200,66,0.65), 0 0 16px rgba(245,200,66,0.3); animation: energy-flow-v 1.2s infinite linear; }
-    .ppt-snake-vline.lit::before { display: none; }
+    .ppt-snake-vline { width: 2px; height: 24px; background: rgba(141,201,90,0.18); border-radius: 2px; position: relative; overflow: visible; margin: 0 15px; }
+    /* Sayap Atas dan Bawah untuk membentuk siku */
+.ppt-snake-vline::before,
+.ppt-snake-vline::after {
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 20px; /* Lebar sayap siku ke arah dalam */
+  background: rgba(141,201,90,0.18);
+}
+
+/* Siku di kanan (Baris genap ke ganjil) */
+.ppt-snake-connector:not(.to-left) .ppt-snake-vline::before { top: 0; right: 0; }
+.ppt-snake-connector:not(.to-left) .ppt-snake-vline::after { bottom: 0; right: 0; }
+
+/* Siku di kiri (Baris ganjil ke genap) */
+.ppt-snake-connector.to-left .ppt-snake-vline::before { top: 0; left: 0; }
+.ppt-snake-connector.to-left .ppt-snake-vline::after { bottom: 0; left: 0; }
+
+/* Efek Cahaya jika sudah selesai */
+.ppt-snake-vline.lit,
+.ppt-snake-vline.lit::before,
+.ppt-snake-vline.lit::after {
+  background: linear-gradient(90deg, #f5c842, #ffe478);
+  box-shadow: 0 0 8px #f5c842;
+}
+
+/* --- TAMPILAN LAPTOP (8 Titik) --- */
+@media (min-width: 768px) {
+  .ppt-energy-line { max-width: 40px; } /* Sesuaikan panjang garis laptop di sini */
+  .ppt-snake-vline { margin: 0 45px; } /* Jarak aman di laptop */
+}
+
+/* --- TAMPILAN HP (6 Titik) --- */
+@media (max-width: 767px) {
+  .ppt-energy-line { max-width: 10px; }
+  .ppt-snake-vline { margin: 0 25px; } /* Jarak aman di HP */
+}
     @keyframes energy-flow-v { 0% { background-position: 0 0%; } 100% { background-position: 0 200%; } }
     .ppt-track-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; position: relative; z-index: 1; }
     .ppt-track-header-lbl { font-size: 12px; font-weight: 600; color: rgba(141,201,90,0.8); }
