@@ -84,16 +84,15 @@
     .ppt-forest-deco { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
     .ppt-forest-deco svg { position: absolute; }
     /* Garis ular vertikal penghubung antar baris */
-    .ppt-snake-connector { display: flex; justify-content: flex-end; padding: 0px; position: relative; z-index: 1; margin-top: -12px; margin-bottom: -12px; }
+    .ppt-snake-connector { display: flex; justify-content: flex-end; padding: 0px; position: relative; z-index: 1; margin-top: -34px; margin-bottom: -0px; height: 0; }
     .ppt-snake-connector.to-left { justify-content: flex-start; }
-    .ppt-snake-vline { width: 2px; height: 24px; background: rgba(141,201,90,0.18); border-radius: 2px; position: relative; overflow: visible; margin: 0 15px; }
+    .ppt-snake-vline { width: 2px; top: 12px; background: rgba(141,201,90,0.18); border-radius: 2px; position: absolute; }
     /* Sayap Atas dan Bawah untuk membentuk siku */
 .ppt-snake-vline::before,
 .ppt-snake-vline::after {
   content: '';
   position: absolute;
   height: 2px;
-  width: 20px; /* Lebar sayap siku ke arah dalam */
   background: rgba(141,201,90,0.18);
 }
 
@@ -115,19 +114,29 @@
 
 /* --- TAMPILAN LAPTOP (8 Titik) --- */
 @media (min-width: 768px) {
-  .ppt-energy-line { max-width: 32px; } /* Sesuaikan panjang garis laptop di sini */
-  .ppt-snake-connector {margin-top: -22px; margin-bottom: -22px;}
-  .ppt-snake-vline { margin: 0 42px; height: 66px; } /* Jarak aman di laptop */
+  .ppt-energy-line { max-width: 32px; } 
+  .ppt-snake-vline { 
+    height: 76px; /* Tinggi total dari pusat ke pusat + gap baris */
+    margin: 0 42px; 
+  }
   .ppt-snake-vline::before, .ppt-snake-vline::after { width: 22px; }
+  /* Siku Atas ke kanan, Siku Bawah ke kanan */
+  .ppt-snake-connector:not(.to-left) .ppt-snake-vline::before { top: 0; right: 0; }
+  .ppt-snake-connector:not(.to-left) .ppt-snake-vline::after { bottom: 0; right: 0; }
 }
 
 /* --- TAMPILAN HP (6 Titik) --- */
 @media (max-width: 767px) {
   .ppt-energy-line { max-width: 14px; margin-top: 20px; }
-  .ppt-snake-connector { margin-top: -20px; margin-bottom: -20px; }
-  .ppt-snake-vline { height: 62px; margin: 0 30px; } /* Jarak aman di HP */
+  .ppt-snake-vline { 
+    height: 72px; 
+    margin: 0 28px; 
+    top: 10px; /* Menyesuaikan diameter lingkaran HP yang 40px */
+  }
   .ppt-snake-vline::before, .ppt-snake-vline::after { width: 18px; }
-  .ppt-dot { width: 40px; height: 40px; font-size: 11px; }
+  /* Siku Atas ke kiri, Siku Bawah ke kiri */
+  .ppt-snake-connector.to-left .ppt-snake-vline::before { top: 0; left: 0; }
+  .ppt-snake-connector.to-left .ppt-snake-vline::after { bottom: 0; left: 0; }
 }
     @keyframes energy-flow-v { 0% { background-position: 0 0%; } 100% { background-position: 0 200%; } }
     .ppt-track-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; position: relative; z-index: 1; }
