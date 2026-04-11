@@ -72,33 +72,67 @@
     .pixie-dust { position: absolute; pointer-events: none; width: 6px; height: 6px; background: #fff; border-radius: 50%; box-shadow: 0 0 8px var(--gold-light), 0 0 12px var(--gold); animation: dust-fade 1.2s forwards ease-out; z-index: 9999; mix-blend-mode: screen; }
 
     /* ===== PPT DOT TRACKER ===== */
-    .ppt-track-wrap { background: var(--bg-card); backdrop-filter: blur(10px); border-radius: 18px; border: 1px solid var(--border-card); padding: 18px 16px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
-    .ppt-track-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-    .ppt-track-counter { font-size: 12px; font-weight: 700; color: var(--text-soft); background: var(--bg-input); border-radius: 10px; padding: 4px 10px; border: 1px solid var(--border-card); }
-    .ppt-track-counter span { color: var(--gold); }
-    .ppt-dots-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0; }
-    .ppt-dot-unit { display: flex; align-items: center; }
-    .ppt-dot { width: 34px; height: 34px; border-radius: 50%; border: 2px dashed rgba(184,144,10,0.35); background: var(--bg-input); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--text-soft); transition: all 0.3s ease; position: relative; flex-shrink: 0; }
-    .ppt-dot:hover:not(.done) { border-color: var(--gold); border-style: solid; color: var(--gold); transform: scale(1.08); box-shadow: 0 0 8px rgba(245,200,66,0.3); }
-    .ppt-dot.done { border: 2px solid var(--gold); border-style: solid; background: radial-gradient(circle, rgba(245,200,66,0.25) 0%, rgba(245,200,66,0.08) 70%); color: var(--gold-dark); box-shadow: 0 0 10px rgba(245,200,66,0.5), inset 0 0 8px rgba(245,200,66,0.15); animation: dot-glow-pulse 2.5s infinite alternate; }
-    @keyframes dot-glow-pulse { 0% { box-shadow: 0 0 8px rgba(245,200,66,0.4), inset 0 0 6px rgba(245,200,66,0.1); } 100% { box-shadow: 0 0 18px rgba(245,200,66,0.7), inset 0 0 12px rgba(245,200,66,0.2); } }
-    .ppt-dot.done::after { content: '✦'; position: absolute; top: -6px; right: -5px; font-size: 9px; color: var(--gold); text-shadow: 0 0 5px var(--gold); animation: star-twinkle 1.5s infinite alternate; }
-    .ppt-dot-date { position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); font-size: 8px; font-weight: 700; color: var(--text-soft); white-space: nowrap; letter-spacing: 0; }
-    .ppt-line { flex: 1; min-width: 6px; max-width: 14px; height: 1px; border-top: 1.5px dashed rgba(184,144,10,0.25); }
-    .ppt-line.lit { border-top: 1.5px solid rgba(245,200,66,0.55); box-shadow: 0 0 4px rgba(245,200,66,0.3); }
-    .ppt-dot-num { font-size: 10px; font-weight: 800; }
+    .ppt-track-wrap { background: linear-gradient(160deg, #071a08 0%, #0e2e10 40%, #0b2810 70%, #091e0b 100%); border-radius: 18px; border: 1px solid rgba(141,201,90,0.2); padding: 18px 14px 22px; box-shadow: 0 6px 24px rgba(10,40,10,0.35), inset 0 1px 0 rgba(141,201,90,0.1); position: relative; overflow: hidden; }
+    .ppt-track-wrap::before { content: ''; position: absolute; inset: 0; pointer-events: none; background:
+      radial-gradient(ellipse at 15% 10%, rgba(141,201,90,0.12) 0%, transparent 45%),
+      radial-gradient(ellipse at 85% 90%, rgba(74,155,40,0.10) 0%, transparent 45%),
+      radial-gradient(ellipse at 50% 50%, rgba(30,80,20,0.4) 0%, transparent 70%),
+      radial-gradient(circle at 5% 80%, rgba(141,201,90,0.07) 0%, transparent 30%),
+      radial-gradient(circle at 95% 20%, rgba(141,201,90,0.07) 0%, transparent 30%);
+    }
+    /* Daun dan tanaman magis di latar hutan */
+    .ppt-forest-deco { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .ppt-forest-deco svg { position: absolute; }
+    /* Garis ular vertikal penghubung antar baris */
+    .ppt-snake-connector { display: flex; justify-content: flex-end; padding: 0 2px; position: relative; z-index: 1; }
+    .ppt-snake-connector.to-left { justify-content: flex-start; }
+    .ppt-snake-vline { width: 2px; height: 28px; background: rgba(141,201,90,0.18); border-radius: 2px; position: relative; overflow: visible; margin: 0 20px; }
+    .ppt-snake-vline::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(180deg, transparent, transparent 3px, rgba(141,201,90,0.2) 3px, rgba(141,201,90,0.2) 6px); }
+    .ppt-snake-vline.lit { background: linear-gradient(180deg, rgba(245,200,66,0.6), rgba(255,240,100,0.95), rgba(245,200,66,0.6)); box-shadow: 0 0 8px rgba(245,200,66,0.65), 0 0 16px rgba(245,200,66,0.3); }
+    .ppt-snake-vline.lit::before { display: none; }
+    .ppt-track-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; position: relative; z-index: 1; }
+    .ppt-track-header-lbl { font-size: 12px; font-weight: 600; color: rgba(141,201,90,0.8); }
+    .ppt-track-counter { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5); background: rgba(0,0,0,0.25); border-radius: 10px; padding: 4px 10px; border: 1px solid rgba(141,201,90,0.2); }
+    .ppt-track-counter span { color: var(--gold-light); }
+
+    /* Each row of up to 8 dots */
+    .ppt-row { display: flex; align-items: flex-start; margin-bottom: 32px; position: relative; z-index: 1; }
+    .ppt-row:last-child { margin-bottom: 0; }
+
+    /* Dot + label wrapper */
+    .ppt-dot-col { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 0; }
+
+    /* The circle */
+    .ppt-dot { width: 44px; height: 44px; border-radius: 50%; border: 2px dashed rgba(141,201,90,0.3); background: rgba(255,255,255,0.04); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: rgba(141,201,90,0.5); transition: all 0.3s ease; position: relative; flex-shrink: 0; }
+    .ppt-dot:hover:not(.done):not(.migrated) { border-color: var(--green-light); border-style: solid; color: var(--green-light); transform: scale(1.1); box-shadow: 0 0 12px rgba(141,201,90,0.4); }
+    .ppt-dot.done { border: 2px solid var(--gold); border-style: solid; background: radial-gradient(circle, rgba(245,200,66,0.28) 0%, rgba(245,200,66,0.08) 70%); color: var(--gold-light); box-shadow: 0 0 14px rgba(245,200,66,0.6), inset 0 0 8px rgba(245,200,66,0.18); animation: dot-glow-pulse 2.5s infinite alternate; }
+    .ppt-dot.migrated { border: 2px dashed rgba(245,200,66,0.45); background: rgba(245,200,66,0.05); color: rgba(245,200,66,0.6); box-shadow: 0 0 8px rgba(245,200,66,0.25); animation: dot-glow-pulse 2.5s infinite alternate; }
+    @keyframes dot-glow-pulse { 0% { box-shadow: 0 0 8px rgba(245,200,66,0.4), inset 0 0 6px rgba(245,200,66,0.1); } 100% { box-shadow: 0 0 22px rgba(245,200,66,0.8), inset 0 0 14px rgba(245,200,66,0.25); } }
+    .ppt-dot.done::after { content: '\2736'; position: absolute; top: -7px; right: -5px; font-size: 10px; color: var(--gold); text-shadow: 0 0 6px var(--gold); animation: star-twinkle 1.5s infinite alternate; }
+
+    /* Label below dot */
+    .ppt-dot-label { margin-top: 7px; text-align: center; width: 100%; padding: 0 1px; }
+    .ppt-dot-label-title { font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.75); line-height: 1.3; word-break: break-word; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 22px; }
+    .ppt-dot-label-date { font-size: 11px; font-weight: 800; color: var(--gold-light); margin-top: 3px; letter-spacing: 0.01em; text-shadow: 0 0 6px rgba(245,200,66,0.4); }
+    .ppt-dot-label-empty { font-size: 9px; color: rgba(141,201,90,0.35); min-height: 22px; margin-top: 0; }
+
+    /* Connecting energy line */
+    .ppt-energy-line { flex-shrink: 0; width: 100%; max-width: 16px; height: 2px; background: rgba(141,201,90,0.18); border-radius: 2px; margin-top: 22px; transition: background 0.5s, box-shadow 0.5s; position: relative; overflow: visible; }
+    .ppt-energy-line::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-50%); background: repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(141,201,90,0.2) 3px, rgba(141,201,90,0.2) 6px); }
+    .ppt-energy-line.lit { background: linear-gradient(90deg, rgba(245,200,66,0.6), rgba(255,240,100,0.95), rgba(245,200,66,0.6)); box-shadow: 0 0 8px rgba(245,200,66,0.65), 0 0 16px rgba(245,200,66,0.3); animation: energy-flow 1.6s infinite linear; background-size: 200% 100%; }
+    .ppt-energy-line.lit::before { display: none; }
+    @keyframes energy-flow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
 
     /* PPT dot popup */
-    #ppt-dot-modal .modal-box { max-width: 320px; }
-    .ppt-popup-dot-preview { width: 54px; height: 54px; border-radius: 50%; border: 2.5px solid var(--gold); background: radial-gradient(circle, rgba(245,200,66,0.25), transparent 70%); display: flex; align-items: center; justify-content: center; font-size: 22px; margin: 0 auto 14px; box-shadow: 0 0 18px rgba(245,200,66,0.5); }
+    .ppt-popup-dot-preview { width: 58px; height: 58px; border-radius: 50%; border: 2.5px solid var(--gold); background: radial-gradient(circle, rgba(245,200,66,0.25), transparent 70%); display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 14px; box-shadow: 0 0 20px rgba(245,200,66,0.5); }
     .ppt-popup-title { font-family: var(--serif); font-size: 17px; color: var(--text-dark); text-align: center; margin-bottom: 4px; }
     .ppt-popup-sub { font-size: 12px; color: var(--text-soft); text-align: center; margin-bottom: 16px; font-weight: 500; }
     .ppt-popup-input { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1.5px solid var(--border-card); background: var(--bg-input); color: var(--text-dark); font-size: 14px; font-family: var(--sans); font-weight: 600; outline: none; transition: border-color 0.2s; }
     .ppt-popup-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245,200,66,0.15); }
     .ppt-popup-btn { width: 100%; margin-top: 12px; padding: 13px; border-radius: 12px; border: none; background: linear-gradient(135deg, var(--gold-dark), var(--gold)); color: #fff; font-size: 14px; font-weight: 700; font-family: var(--sans); letter-spacing: 0.03em; box-shadow: 0 4px 14px rgba(245,200,66,0.35); transition: all 0.2s; }
     .ppt-popup-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(245,200,66,0.45); }
-    .ppt-dot-tooltip { position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); background: var(--bg-card-solid); border: 1px solid var(--border-card); border-radius: 10px; padding: 6px 10px; font-size: 10px; font-weight: 600; color: var(--text-dark); white-space: nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.1); pointer-events: none; z-index: 10; opacity: 0; transition: opacity 0.2s; max-width: 160px; white-space: normal; text-align: center; line-height: 1.4; }
-    .ppt-dot:hover .ppt-dot-tooltip { opacity: 1; }
+    .ppt-popup-btn-danger { width: 100%; margin-top: 8px; padding: 11px; border-radius: 12px; border: 1px solid rgba(232,80,80,0.3); background: rgba(232,80,80,0.08); color: #c0392b; font-size: 13px; font-weight: 700; font-family: var(--sans); transition: all 0.2s; }
+    .ppt-popup-btn-danger:hover { background: rgba(232,80,80,0.15); }
     @keyframes dust-fade { 0% { transform: scale(1) translateY(0); opacity: 1; } 100% { transform: scale(0) translateY(30px) translateX(var(--drift)); opacity: 0; } }
     .click-dust { position: fixed; pointer-events: none; border-radius: 50%; background: #fff; box-shadow: 0 0 8px var(--gold-light); z-index: 10000; mix-blend-mode: screen; animation: click-burst 0.8s forwards ease-out; }
     @keyframes click-burst { 0% { transform: scale(1) translate(0, 0); opacity: 1; } 100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0; } }
@@ -562,8 +596,54 @@
         <div>
           <div class="sec-lbl">✦ Petak PPT — Tandai yang Sudah Dibaca</div>
           <div class="ppt-track-wrap">
+            <!-- Dekorasi hutan magis -->
+            <div class="ppt-forest-deco" aria-hidden="true">
+              <!-- Daun kiri atas -->
+              <svg width="90" height="80" viewBox="0 0 90 80" style="top:-5px;left:-8px;opacity:0.18;">
+                <path d="M5,70 Q15,30 50,10 Q30,40 45,65 Z" fill="#4a9b28"/>
+                <path d="M5,70 Q20,50 45,65" stroke="#8dc95a" stroke-width="1.5" fill="none" opacity="0.6"/>
+                <path d="M20,70 Q35,20 70,5 Q45,35 60,62 Z" fill="#2e6b1a" opacity="0.8"/>
+                <path d="M20,70 Q42,45 60,62" stroke="#8dc95a" stroke-width="1" fill="none" opacity="0.5"/>
+              </svg>
+              <!-- Daun kanan atas -->
+              <svg width="90" height="75" viewBox="0 0 90 75" style="top:-5px;right:-8px;opacity:0.18;transform:scaleX(-1);">
+                <path d="M5,70 Q15,30 50,10 Q30,40 45,65 Z" fill="#4a9b28"/>
+                <path d="M5,70 Q20,50 45,65" stroke="#8dc95a" stroke-width="1.5" fill="none" opacity="0.6"/>
+                <path d="M20,70 Q35,20 70,5 Q45,35 60,62 Z" fill="#2e6b1a" opacity="0.8"/>
+              </svg>
+              <!-- Daun kiri bawah -->
+              <svg width="70" height="60" viewBox="0 0 70 60" style="bottom:-5px;left:10px;opacity:0.14;transform:rotate(30deg);">
+                <path d="M5,55 Q20,20 55,8 Q35,30 50,52 Z" fill="#4a9b28"/>
+                <path d="M5,55 Q25,38 50,52" stroke="#8dc95a" stroke-width="1.5" fill="none" opacity="0.5"/>
+              </svg>
+              <!-- Daun kanan bawah -->
+              <svg width="70" height="60" viewBox="0 0 70 60" style="bottom:-5px;right:15px;opacity:0.14;transform:rotate(-30deg) scaleX(-1);">
+                <path d="M5,55 Q20,20 55,8 Q35,30 50,52 Z" fill="#4a9b28"/>
+                <path d="M5,55 Q25,38 50,52" stroke="#8dc95a" stroke-width="1.5" fill="none" opacity="0.5"/>
+              </svg>
+              <!-- Bintang sihir kecil -->
+              <svg width="16" height="16" viewBox="0 0 16 16" style="top:20%;left:12%;opacity:0.25;">
+                <path d="M8,1 L9.2,5.8 L14,7 L9.2,8.2 L8,13 L6.8,8.2 L2,7 L6.8,5.8 Z" fill="#ffe478"/>
+              </svg>
+              <svg width="10" height="10" viewBox="0 0 10 10" style="top:30%;right:15%;opacity:0.2;">
+                <path d="M5,1 L5.8,3.8 L9,5 L5.8,6.2 L5,9 L4.2,6.2 L1,5 L4.2,3.8 Z" fill="#8dc95a"/>
+              </svg>
+              <svg width="12" height="12" viewBox="0 0 12 12" style="bottom:25%;left:20%;opacity:0.18;">
+                <path d="M6,1 L7,4.5 L11,6 L7,7.5 L6,11 L5,7.5 L1,6 L5,4.5 Z" fill="#ffe478"/>
+              </svg>
+              <!-- Titik spora -->
+              <div style="position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(141,201,90,0.3);top:15%;left:35%;"></div>
+              <div style="position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(141,201,90,0.25);top:55%;right:25%;"></div>
+              <div style="position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(245,200,66,0.15);bottom:30%;left:50%;"></div>
+              <!-- Jaring/sulur tipis -->
+              <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style="top:0;left:0;opacity:0.06;">
+                <path d="M0,25 Q25,20 50,28 Q75,36 100,25" stroke="#8dc95a" stroke-width="0.8" fill="none"/>
+                <path d="M0,60 Q30,55 60,63 Q80,68 100,60" stroke="#8dc95a" stroke-width="0.6" fill="none"/>
+                <path d="M0,85 Q40,80 70,88 Q85,92 100,85" stroke="#4a9b28" stroke-width="0.5" fill="none"/>
+              </svg>
+            </div>
             <div class="ppt-track-header">
-              <div style="font-size:12px;font-weight:600;color:var(--text-mid);">Klik titik untuk mencatat PPT yang selesai dibaca</div>
+              <div class="ppt-track-header-lbl">🌿 Klik titik untuk mencatat PPT selesai</div>
               <div class="ppt-track-counter"><span id="ppt-done-count">0</span> / <span id="ppt-total-count">0</span></div>
             </div>
             <div class="ppt-dots-row" id="ppt-dots-row" style="padding-bottom: 22px;"></div>
@@ -871,10 +951,11 @@
   <div class="welcome-overlay" id="ppt-dot-modal" style="z-index:9995;">
     <div class="welcome-card" style="max-width:320px; padding:28px 24px 24px;">
       <div class="ppt-popup-dot-preview" id="ppt-popup-dot-icon">📖</div>
-      <div class="ppt-popup-title" id="ppt-popup-title">PPT ke-<span id="ppt-popup-num">1</span></div>
-      <div class="ppt-popup-sub">Apa judul PPT yang sudah kamu baca?</div>
+      <div class="ppt-popup-title">PPT ke-<span id="ppt-popup-num">1</span></div>
+      <div class="ppt-popup-sub" id="ppt-popup-sub">Apa judul PPT yang sudah kamu baca?</div>
       <input type="text" id="ppt-popup-input" class="ppt-popup-input" placeholder="Tulis judul PPT di sini..." autocomplete="off" />
-      <button class="ppt-popup-btn" onclick="confirmDot()">✦ Tandai Selesai</button>
+      <button class="ppt-popup-btn" id="ppt-popup-confirm-btn" onclick="confirmDot()">✦ Tandai Selesai</button>
+      <button class="ppt-popup-btn-danger" id="ppt-popup-unmark-btn" onclick="unmarkDot()" style="display:none;">✕ Batalkan Tandai</button>
       <button onclick="closeDotModal()" style="width:100%; margin-top:8px; background:none; border:none; color:var(--text-soft); font-size:13px; font-weight:600; padding:8px;">Batal</button>
     </div>
   </div>
@@ -2963,52 +3044,125 @@
 
       /* ===== PPT DOT TRACKER ===== */
       let activeDotIdx = -1;
+      const DOTS_PER_ROW = 8;
+      const SHORT_MONTHS_PPT = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+
+      // MIGRATION: if pptDots is empty but slides has data, pre-fill dots from old data
+      function migrateSlidesToDots() {
+        if (state.pptDots.length > 0) return;
+        const entries = Object.entries(state.slides)
+          .filter(([, v]) => v > 0)
+          .sort(([a], [b]) => a < b ? -1 : 1);
+        if (!entries.length) return;
+        let idx = 0;
+        for (const [date, count] of entries) {
+          for (let i = 0; i < count; i++) {
+            state.pptDots.push({ done: true, title: `PPT ke-${idx + 1}`, date, migrated: true });
+            idx++;
+          }
+        }
+        ss('rv_pptDots', state.pptDots);
+      }
 
       function ensurePptDots() {
+        migrateSlidesToDots();
         const t = state.target;
-        // Grow if needed
         while (state.pptDots.length < t) state.pptDots.push({ done: false, title: '', date: '' });
-        // Shrink only undone tail entries
+        // Only trim undone tail entries if over target
         while (state.pptDots.length > t && !state.pptDots[state.pptDots.length - 1].done) state.pptDots.pop();
         ss('rv_pptDots', state.pptDots);
       }
 
       function renderPptTrack() {
         ensurePptDots();
-        const row = document.getElementById('ppt-dots-row');
-        if (!row) return;
+        const container = document.getElementById('ppt-dots-row');
+        if (!container) return;
+
         const dots = state.pptDots;
         const doneCount = dots.filter(d => d.done).length;
-        const totalCount = dots.length;
         document.getElementById('ppt-done-count').textContent = doneCount;
-        document.getElementById('ppt-total-count').textContent = totalCount;
+        document.getElementById('ppt-total-count').textContent = dots.length;
+
+        // Split into rows of DOTS_PER_ROW
+        const rawRows = [];
+        for (let i = 0; i < dots.length; i += DOTS_PER_ROW) {
+          rawRows.push(dots.slice(i, i + DOTS_PER_ROW).map((d, j) => ({ dot: d, idx: i + j })));
+        }
 
         let html = '';
-        const SHORT_MONTHS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-        dots.forEach((dot, i) => {
-          const isDone = dot.done;
-          const dateLbl = isDone && dot.date ? (() => {
-            const d = new Date(dot.date + 'T00:00:00');
-            return d.getDate() + ' ' + SHORT_MONTHS[d.getMonth()];
-          })() : '';
-          const tooltip = isDone ? `<div class="ppt-dot-tooltip">${dot.title || 'PPT ke-'+(i+1)}<br><span style="color:var(--gold);font-size:9px;">${dateLbl}</span></div>` : `<div class="ppt-dot-tooltip">PPT ke-${i+1}<br><span style="font-size:9px;color:var(--text-soft);">Klik untuk mencatat</span></div>`;
-          const lineClass = isDone ? 'ppt-line lit' : 'ppt-line';
-          html += `<div class="ppt-dot-unit">
-            <div class="ppt-dot ${isDone ? 'done' : ''}" onclick="${isDone ? '' : 'openDotModal(' + i + ')'}" style="${isDone ? 'cursor:default;' : ''}">
-              <span class="ppt-dot-num">${isDone ? '✓' : (i + 1)}</span>
-              ${dateLbl ? `<div class="ppt-dot-date">${dateLbl}</div>` : ''}
-              ${tooltip}
+        rawRows.forEach((rawRow, rowIdx) => {
+          const isReverse = rowIdx % 2 === 1; // baris ganjil = kanan ke kiri (pola ular)
+          const displayRow = isReverse ? [...rawRow].reverse() : rawRow;
+
+          html += `<div class="ppt-row" style="${isReverse ? 'flex-direction:row-reverse;' : ''}">`;
+          displayRow.forEach(({ dot, idx }, colIdx) => {
+            const isDone = dot.done;
+            const isMigrated = dot.migrated;
+            const dateLbl = isDone && dot.date ? (() => {
+              const d = new Date(dot.date + 'T00:00:00');
+              return d.getDate() + ' ' + SHORT_MONTHS_PPT[d.getMonth()];
+            })() : '';
+            const titleShort = isDone && dot.title ? dot.title : '';
+            const dotClass = isDone ? (isMigrated ? 'ppt-dot done migrated' : 'ppt-dot done') : 'ppt-dot';
+            const dotIcon = isDone ? '\u2713' : (idx + 1);
+
+            const labelHtml = isDone
+              ? `<div class="ppt-dot-label">
+                  <div class="ppt-dot-label-title">${titleShort}</div>
+                  <div class="ppt-dot-label-date">${dateLbl}</div>
+                 </div>`
+              : `<div class="ppt-dot-label"><div class="ppt-dot-label-empty">${idx + 1}</div></div>`;
+
+            // Garis horisontal antara titik dalam satu baris
+            const nextDisplay = displayRow[colIdx + 1];
+            const lineIsLit = isDone && nextDisplay && nextDisplay.dot.done;
+            const lineHtml = nextDisplay !== undefined
+              ? `<div class="ppt-energy-line${lineIsLit ? ' lit' : ''}"></div>`
+              : '';
+
+            html += `<div class="ppt-dot-col">
+              <div class="${dotClass}" onclick="openDotModal(${idx})">${dotIcon}</div>
+              ${labelHtml}
             </div>
-            ${i < dots.length - 1 ? `<div class="${lineClass}"></div>` : ''}
-          </div>`;
+            ${lineHtml}`;
+          });
+          html += `</div>`;
+
+          // Garis vertikal penghubung antar baris (pola ular sambung ke bawah)
+          if (rowIdx < rawRows.length - 1) {
+            const lastDotThisRow = rawRow[rawRow.length - 1]; // dot terakhir berurutan (bukan display order)
+            const firstDotNextRow = rawRows[rowIdx + 1][0];   // dot pertama berurutan di baris berikutnya
+
+            // Titik ujung kanan baris ini adalah dot ke-(rowIdx*DOTS_PER_ROW + DOTS_PER_ROW - 1)
+            // Titik ujung kiri baris berikutnya adalah dot ke-((rowIdx+1)*DOTS_PER_ROW)
+            // Garis vertikal selalu ada di sisi kanan jika baris ini kiri→kanan (isReverse=false),
+            // atau di sisi kiri jika baris ini kanan→kiri (isReverse=true)
+            const vLineIsLit = lastDotThisRow && lastDotThisRow.dot.done && firstDotNextRow && firstDotNextRow.dot.done;
+
+            // Posisi garis: di sisi mana baris ini berakhir
+            // Jika isReverse=false, baris berakhir di kanan → connector di kanan
+            // Jika isReverse=true, baris berakhir di kiri → connector di kiri
+            const connectorSide = isReverse ? 'to-left' : '';
+            html += `<div class="ppt-snake-connector ${connectorSide}">
+              <div class="ppt-snake-vline${vLineIsLit ? ' lit' : ''}"></div>
+            </div>`;
+          }
         });
-        row.innerHTML = html;
+
+        container.innerHTML = html;
       }
 
       window.openDotModal = function(idx) {
         activeDotIdx = idx;
+        const dot = state.pptDots[idx];
+        const isDone = dot && dot.done;
         document.getElementById('ppt-popup-num').textContent = idx + 1;
-        document.getElementById('ppt-popup-input').value = '';
+        document.getElementById('ppt-popup-input').value = isDone ? (dot.title || '') : '';
+        document.getElementById('ppt-popup-sub').textContent = isDone
+          ? 'Edit judul PPT atau batalkan tandai selesai.'
+          : 'Apa judul PPT yang sudah kamu baca?';
+        document.getElementById('ppt-popup-confirm-btn').textContent = isDone ? '✦ Simpan Perubahan' : '✦ Tandai Selesai';
+        document.getElementById('ppt-popup-unmark-btn').style.display = isDone ? 'block' : 'none';
         document.getElementById('ppt-dot-modal').classList.add('show');
         setTimeout(() => document.getElementById('ppt-popup-input').focus(), 200);
       };
@@ -3022,23 +3176,49 @@
         const title = document.getElementById('ppt-popup-input').value.trim();
         if (!title) { document.getElementById('ppt-popup-input').focus(); return; }
         if (activeDotIdx < 0 || activeDotIdx >= state.pptDots.length) return;
-        
+
+        const wasAlreadyDone = state.pptDots[activeDotIdx].done;
         const todayStr = fmtISO(new Date());
-        state.pptDots[activeDotIdx] = { done: true, title, date: todayStr };
+
+        if (!wasAlreadyDone) {
+          // New completion — increment slides for today
+          state.slides[todayStr] = (state.slides[todayStr] || 0) + 1;
+          ss('rv_slides', state.slides);
+          addCoins(10);
+        }
+        // Update dot (preserve original date if editing)
+        const origDate = state.pptDots[activeDotIdx].date || todayStr;
+        state.pptDots[activeDotIdx] = { done: true, title, date: wasAlreadyDone ? origDate : todayStr };
         ss('rv_pptDots', state.pptDots);
 
-        // Also update slides per day (for calendar & streak)
-        state.slides[todayStr] = (state.slides[todayStr] || 0) + 1;
-        ss('rv_slides', state.slides);
-
-        addCoins(10);
         closeDotModal();
         playChime();
         render();
-        checkMilestoneAppreciation();
-        checkBadgeUnlocks();
-        playNextPopup();
+        if (!wasAlreadyDone) {
+          checkMilestoneAppreciation();
+          checkBadgeUnlocks();
+          playNextPopup();
+        }
         await saveToNotion(todayStr);
+      };
+
+      window.unmarkDot = async function() {
+        if (activeDotIdx < 0 || activeDotIdx >= state.pptDots.length) return;
+        const dot = state.pptDots[activeDotIdx];
+        if (!dot.done) return;
+
+        // Decrement slides for the date of this dot
+        if (dot.date && state.slides[dot.date] > 0) {
+          state.slides[dot.date] = Math.max(0, (state.slides[dot.date] || 0) - 1);
+          if (state.slides[dot.date] === 0) delete state.slides[dot.date];
+          ss('rv_slides', state.slides);
+        }
+        state.pptDots[activeDotIdx] = { done: false, title: '', date: '' };
+        ss('rv_pptDots', state.pptDots);
+
+        closeDotModal();
+        render();
+        await saveToNotion(fmtISO(new Date()));
       };
 
       // Enter key on dot popup
