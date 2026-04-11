@@ -1045,9 +1045,11 @@
     <div class="welcome-card">
       <h1 class="welcome-title" style="font-size: 26px;" data-i18n="setup_title">Persiapan Misi</h1>
       <p class="welcome-subtitle" style="margin-bottom: 16px;" data-i18n="setup_sub">Ayo atur tujuan belajarmu kali ini!</p>
-     <div class="input-card">
-          <div class="input-label">Topik Blok Saat Ini:</div>
-          <input type="text" id="setup-block-name" class="field" placeholder="Contoh: Anatomi Reproduksi Pria" autocomplete="off" />
+    <div class="input-card">
+          <div class="input-label" data-i18n="setup_block_lbl">Topik Blok Saat Ini:</div>
+          <input type="text" id="setup-block-name" class="field" autocomplete="off" 
+                 placeholder="Contoh: Anatomi Reproduksi Pria" 
+                 data-i18n-ph="setup_block_ph" />
         </div>
       <div style="text-align: left; margin-bottom: 16px;">
         <label class="input-label" data-i18n="setup_start_lbl">Mulai Belajar:</label>
@@ -1351,7 +1353,8 @@
           set_logout_desc: "Ingin berganti identitas atau memindahkan jurnal ini untuk orang lain?",
           btn_logout: "🚪 Ganti Akun (Log Out)",
           confirm_logout: "Apakah kamu yakin ingin keluar? Pastikan indikator koneksi di atas bertuliskan 'Tersinkron Penuh' ya!",
-          txt_ready: "✦ Siap"
+          txt_ready: "✦ Siap",setup_block_lbl: "Topik Blok Saat Ini:",
+          setup_block_ph: "Contoh: Anatomi Reproduksi Pria"
         },
         en: {
           hdr_eyebrow: "Study Journey",
@@ -1568,7 +1571,9 @@
           set_logout_desc: "Want to switch identities or pass this journal to someone else?",
           btn_logout: "🚪 Switch Account (Log Out)",
           confirm_logout: "Are you sure you want to log out? Make sure the connection indicator above says 'Fully Synced'!",
-          txt_ready: "✦ Ready"
+          txt_ready: "✦ Ready",
+          setup_block_lbl: "Current Block Topic:",
+          setup_block_ph: "e.g., Male Reproductive Anatomy"
         }
       };
 
@@ -1668,10 +1673,19 @@
 
       window.applyLanguage = function() {
         const dict = i18n[state.lang];
+        
+        // Menerjemahkan teks biasa (Label, Paragraf, dll)
         document.querySelectorAll('[data-i18n]').forEach(el => {
           const key = el.getAttribute('data-i18n');
           if(dict[key]) el.innerHTML = dict[key];
         });
+
+        // TAMBAHAN BARU: Menerjemahkan teks bayangan di dalam kotak input (Placeholder)
+        document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+          const key = el.getAttribute('data-i18n-ph');
+          if(dict[key]) el.placeholder = dict[key];
+        });
+
         document.getElementById('lang-select').value = state.lang;
         
         // --- PERBAIKAN BUG TEKS SINKRONISASI ---
@@ -3048,20 +3062,35 @@
       };
 
       window.simpanSetupAwal = async function(){
-        const target = parseInt(document.getElementById("setup-target").value)||30;
-        const start = document.getElementById("setup-start").value;
-        const end = document.getElementById("setup-end").value;
-        if (!start || !end) {
-          alert("Tentukan tanggal mulai dan ujianmu terlebih dahulu!");
-          return; }
-        state.target = target; state.blockStart = start; state.blockEnd = end;
-        ss("rv_target",target); ss("rv_block_start",start); ss("rv_block_end",end);
-        document.getElementById("setup-modal").classList.remove("show");
-        render(); 
+        const bName = document.getElementById('setup-block-name')?.value.trim() || ""; // 👈 TANGKAP NAMA BLOK
+        const d1 = document.getElementById('setup-start').value;
+        const d2 = document.getElementById('setup-end').value;
+        const t  = parseInt(document.getElementById('setup-target').value);
 
-        await saveToNotion();
+        if(!bName || !d1 || !d2 || !t || t <= 0){
+          alert("Lengkapi Nama Blok, Tanggal, dan Target dengan benar ya!");
+          return;
+        }
+
+        state.blockName = bName; // 👈 SIMPAN KE STATE
+        state.blockStart = d1;
+        state.blockEnd = d2;
+        state.target = t;
+        state.slides = {};
+        state.pptDots = [];
+
+        ss('rv_blockName', bName); // 👈 SIMPAN KE LOCAL STORAGE
+        ss('rv_block_start', d1);
+        ss('rv_block_end', d2);
+        ss('rv_target', t);
+        ss('rv_slides', {});
+        ss('rv_pptDots', []);
+
+        document.getElementById('setup-modal').classList.remove('show');
+        
+        await saveToNotion(fmtISO(new Date())); 
+        render();
       };
-
       window.saveSettings = async function(){
         state.target = parseInt(document.getElementById("set-target").value)||30;
         state.name = document.getElementById("set-name").value.trim()||"Revalina";
