@@ -950,14 +950,14 @@
 
   <!-- PPT DOT POPUP MODAL -->
   <div class="welcome-overlay" id="ppt-dot-modal" style="z-index:9995;">
-    <div class="welcome-card" style="max-width:320px; padding:28px 24px 24px;">
+    <div class="welcome-card" style="max-width:320px; padding:40px 24px 24px; position: relative">
+      <button class="btn-close-top" onclick="closeDotModal()">✖</button>
       <div class="ppt-popup-dot-preview" id="ppt-popup-dot-icon">📖</div>
       <div class="ppt-popup-title">PPT ke-<span id="ppt-popup-num">1</span></div>
       <div class="ppt-popup-sub" id="ppt-popup-sub">Apa judul PPT yang sudah kamu baca?</div>
       <input type="text" id="ppt-popup-input" class="ppt-popup-input" placeholder="Tulis judul PPT di sini..." autocomplete="off" />
       <button class="ppt-popup-btn" id="ppt-popup-confirm-btn" onclick="confirmDot()">✦ Tandai Selesai</button>
       <button class="ppt-popup-btn-danger" id="ppt-popup-unmark-btn" onclick="unmarkDot()" style="display:none;">✕ Batalkan Tandai</button>
-      <button onclick="closeDotModal()" style="width:100%; margin-top:8px; background:none; border:none; color:var(--text-soft); font-size:13px; font-weight:600; padding:8px;">Batal</button>
     </div>
   </div>
 
