@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -9,32 +9,62 @@
   <link href="https://fonts.googleapis.com/css2?family=Alice&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    /* VARIABEL TEMA TERANG (Siang Hari) */
     :root {
       --gold: #f5c842; --gold-light: #ffe478; --gold-pale: #fff8d6; --gold-dark: #b8900a;
       --green-deep: #1a3a0f; --green-mid: #2e6b1a; --green-leaf: #4a9b28; --green-light: #8dc95a;
-      --green-pale: #e4f2d3; --cream: #fdfaf0; --cream2: #f7f1dc; --brown: #6b4c1e;
-      --amber: #e8a020; --red-soft: #e85050; --text-dark: #2a1f0a; --text-mid: #5a4a2a;
-      --text-soft: #9a8a6a; 
+      --green-pale: #e4f2d3; 
+      
+      --bg-main: #fdfaf0; 
+      --bg-card: rgba(255, 255, 255, 0.7);
+      --bg-card-solid: #ffffff;
+      --bg-tab: rgba(247, 241, 220, 0.85);
+      --bg-tab-active: rgba(253, 250, 240, 0.9);
+      --bg-input: rgba(255, 255, 255, 0.8);
+      
+      --text-dark: #2a1f0a; --text-mid: #5a4a2a; --text-soft: #9a8a6a; 
+      
+      --border-card: rgba(245,200,66,0.3);
+      
       --serif: "Alice", Georgia, serif;
       --sans: "Quicksand", system-ui, sans-serif;
     }
+
+    /* VARIABEL TEMA GELAP (Malam Ajaib / Enchanted Night) */
+    [data-theme="dark"] {
+      --bg-main: #0c120a; 
+      --bg-card: rgba(20, 30, 22, 0.7); 
+      --bg-card-solid: #141e16;
+      --bg-tab: rgba(15, 22, 14, 0.85);
+      --bg-tab-active: rgba(25, 38, 25, 0.9);
+      --bg-input: rgba(15, 22, 14, 0.8);
+      
+      --text-dark: #fdfaf0; 
+      --text-mid: #d4cbb8; 
+      --text-soft: #a8a090; 
+      
+      --border-card: rgba(245,200,66,0.15);
+      --green-deep: #8dc95a; 
+    }
     
     html, body { 
-      font-family: var(--sans); background: var(--cream); color: var(--text-dark); 
-      min-height: 100vh; overflow-x: hidden;
+      font-family: var(--sans); background: var(--bg-main); color: var(--text-dark); 
+      min-height: 100vh; overflow-x: hidden; transition: background 0.5s ease, color 0.5s ease;
       cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M17,17 Q12,6 20,6 Q21,12 17,17' fill='%23ffe478' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M18,18 Q26,6 31,12 Q24,18 18,18' fill='%23fff' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M18,19 Q28,22 25,28 Q19,22 18,19' fill='%23fff' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M15,15 C15,15 20,20 16,28 C16,28 14,24 15,19 C15,19 12,23 9,25 C9,25 7,19 13,16 Z' fill='%238dc95a' stroke='%231a3a0f' stroke-width='1'/%3E%3Ccircle cx='16' cy='11' r='3.5' fill='%23fbdcb8' stroke='%233e2709' stroke-width='1'/%3E%3Ccircle cx='18' cy='8' r='1.5' fill='%23f5c842' stroke='%233e2709' stroke-width='1'/%3E%3Cpath d='M15,16 L6,6' stroke='%23fbdcb8' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M8,8 L2,2' stroke='%23fff' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='2' cy='2' r='2' fill='%23f5c842'/%3E%3C/svg%3E") 2 2, auto;
     }
     button, .tab, .day, .btn-save, .btn-reset, .rc-chip, label, summary, .float-timer-btn, .subtle-arrow, .btn-close-top {
       cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M17,17 Q12,6 20,6 Q21,12 17,17' fill='%23ffe478' stroke='%231a3a0f' stroke-width='1'/%3E%3Cpath d='M18,18 Q26,6 31,12 Q24,18 18,18' fill='%23e4f2d3' stroke='%231a3a0f' stroke-width='1'/%3E%3Cpath d='M18,19 Q28,22 25,28 Q19,22 18,19' fill='%23e4f2d3' stroke='%231a3a0f' stroke-width='1'/%3E%3Cpath d='M15,15 C15,15 20,20 16,28 C16,28 14,24 15,19 C15,19 12,23 9,25 C9,25 7,19 13,16 Z' fill='%234a9b28' stroke='%231a3a0f' stroke-width='1'/%3E%3Ccircle cx='16' cy='11' r='3.5' fill='%23fbdcb8' stroke='%231a3a0f' stroke-width='1'/%3E%3Ccircle cx='18' cy='8' r='1.5' fill='%23f5c842' stroke='%231a3a0f' stroke-width='1'/%3E%3Cpath d='M15,16 L6,6' stroke='%23fbdcb8' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M8,8 L2,2' stroke='%23fff' stroke-width='1.5' stroke-linecap='round'/%3E%3Ccircle cx='2' cy='2' r='4' fill='%238dc95a' opacity='0.8'/%3E%3Ccircle cx='2' cy='2' r='2' fill='%23fff'/%3E%3C/svg%3E") 2 2, pointer !important;
     }
-    input, textarea, .field {
+    input, textarea, .field, select {
       cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 3L12 21M9 3L15 3M9 21L15 21' stroke='%233e2709' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M12 3L12 21M9 3L15 3M9 21L15 21' stroke='%23f5c842' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") 12 12, text !important;
     }
     #dim-overlay { position: fixed; inset: 0; background: rgba(10, 20, 5, 0.65); backdrop-filter: blur(3px); z-index: 9990; opacity: 0; pointer-events: none; transition: opacity 1.5s ease; }
     #dim-overlay.active { opacity: 1; pointer-events: auto; }
     .btn-close-top { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.05); border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--text-dark); z-index: 50; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-    .btn-close-top:hover { background: #fff; transform: scale(1.1); box-shadow: 0 4px 12px rgba(245,200,66,0.2); }
-    body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; background: radial-gradient(circle at 20% 30%, rgba(255,230,150,0.15), transparent 40%), radial-gradient(circle at 80% 20%, rgba(255,240,180,0.12), transparent 40%), radial-gradient(circle at 50% 80%, rgba(255,220,120,0.1), transparent 50%), linear-gradient(115deg, transparent 20%, rgba(255, 245, 200, 0.05) 25%, transparent 35%), linear-gradient(115deg, transparent 60%, rgba(255, 250, 220, 0.04) 65%, transparent 75%); }
+    .btn-close-top:hover { background: var(--bg-card-solid); transform: scale(1.1); box-shadow: 0 4px 12px rgba(245,200,66,0.2); }
+    body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; transition: opacity 0.5s; background: radial-gradient(circle at 20% 30%, rgba(255,230,150,0.15), transparent 40%), radial-gradient(circle at 80% 20%, rgba(255,240,180,0.12), transparent 40%), radial-gradient(circle at 50% 80%, rgba(255,220,120,0.1), transparent 50%), linear-gradient(115deg, transparent 20%, rgba(255, 245, 200, 0.05) 25%, transparent 35%), linear-gradient(115deg, transparent 60%, rgba(255, 250, 220, 0.04) 65%, transparent 75%); }
+    [data-theme="dark"] body::before { opacity: 0.2; }
     .sparkles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 2; mix-blend-mode: screen; }
     .sp { position: absolute; border-radius: 50%; animation: sparkle-float linear infinite; opacity: 0; background: radial-gradient(circle, rgba(255, 240, 180, 1) 0%, rgba(255, 220, 120, 0.8) 30%, rgba(255, 200, 80, 0.4) 60%, transparent 80%); box-shadow: 0 0 6px rgba(255, 220, 120, 0.8), 0 0 12px rgba(255, 200, 80, 0.6), 0 0 24px rgba(255, 200, 80, 0.4); }
     @keyframes sparkle-float { 0% { opacity: 0; transform: translateY(15px) scale(0.4); } 15% { opacity: 0.8; } 40% { opacity: 0.4; } 75% { opacity: 0.1; } 100% { opacity: 0; transform: translateY(var(--float-dist, -250px)) scale(1.2); } }
@@ -42,6 +72,7 @@
     @keyframes dust-fade { 0% { transform: scale(1) translateY(0); opacity: 1; } 100% { transform: scale(0) translateY(30px) translateX(var(--drift)); opacity: 0; } }
     .click-dust { position: fixed; pointer-events: none; border-radius: 50%; background: #fff; box-shadow: 0 0 8px var(--gold-light); z-index: 10000; mix-blend-mode: screen; animation: click-burst 0.8s forwards ease-out; }
     @keyframes click-burst { 0% { transform: scale(1) translate(0, 0); opacity: 1; } 100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0; } }
+    
     .header { background: linear-gradient(160deg, #0f2a06 0%, #1a4a0a 45%, #234f10 100%); padding: 28px 20px 22px; position: relative; overflow: hidden; z-index: 1; border-bottom: 2px solid rgba(245,200,66,0.2); box-shadow: 0 4px 20px rgba(26, 74, 10, 0.2); }
     .header-leaves { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
     .leaf { position: absolute; border-radius: 50% 0 50% 0; background: rgba(141, 201, 90, 0.15); box-shadow: inset 0 0 10px rgba(255,255,255,0.05); }
@@ -74,12 +105,14 @@
     .date-badge { background: rgba(245,200,66,0.15); border: 1px solid rgba(245,200,66,0.3); border-radius: 12px; padding: 4px 8px; font-size: 9px; font-weight: 700; color: var(--gold-light); display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 0 10px rgba(245,200,66,0.15); font-family: var(--sans); }
     .date-badge::before { content: '✦'; color: var(--gold); font-size: 8px; animation: star-twinkle 2s infinite alternate; }
     @keyframes star-twinkle { 0% { opacity: 0.5; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
-    .tab-bar { background: rgba(247, 241, 220, 0.85); backdrop-filter: blur(10px); padding: 10px 16px 0; border-bottom: 1px solid rgba(184, 144, 10, 0.1); display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; position: sticky; top: 0; z-index: 3; position: relative; }
+    
+    .tab-bar { background: var(--bg-tab); backdrop-filter: blur(10px); padding: 10px 16px 0; border-bottom: 1px solid rgba(184, 144, 10, 0.1); display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; position: sticky; top: 0; z-index: 3; transition: background 0.5s; }
     .tab-bar::-webkit-scrollbar { display: none; }
     .tab-indicator { position: absolute; bottom: 0; height: 3px; background: var(--gold); border-radius: 3px 3px 0 0; box-shadow: 0 0 8px rgba(245,200,66,0.6); transition: left 0.32s cubic-bezier(.4,0,.2,1), width 0.32s cubic-bezier(.4,0,.2,1); pointer-events: none; z-index: 4; }
     .tab { flex: 1; padding: 10px 0; text-align: center; border-radius: 12px 12px 0 0; font-size: 13px; font-weight: 700; border: none; background: transparent; color: var(--text-soft); cursor: pointer; transition: color 0.3s, background 0.3s; letter-spacing: 0.02em; font-family: var(--sans); }
-    .tab.active { background: rgba(253, 250, 240, 0.9); color: var(--green-deep); box-shadow: 0 -4px 10px rgba(245,200,66,0.05); }
-    .tab:hover:not(.active) { color: var(--text-mid); background: rgba(255,255,255,0.3); }
+    .tab.active { background: var(--bg-tab-active); color: var(--green-deep); box-shadow: 0 -4px 10px rgba(245,200,66,0.05); }
+    .tab:hover:not(.active) { color: var(--text-mid); background: rgba(255,255,255,0.1); }
+    
     .sync-bar { padding: 8px 16px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
     .sync-bar.syncing { color: var(--text-soft); }
     .sync-bar.ok { color: var(--green-leaf); }
@@ -90,6 +123,7 @@
     .error .sync-dot { background: var(--red-soft); }
     @keyframes pulse { 0%,100% { opacity:1; transform: scale(1); } 50% { opacity:0.5; transform: scale(0.8); } }
     .error-box { background:#fdeded; border:1px solid #f7c1c1; border-radius:10px; padding:10px 14px; font-size:12px; color:var(--red-soft); margin:0 16px 10px; line-height:1.5; font-weight: 500;}
+    
     .main { padding: 16px 16px 32px; display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 1; flex-grow: 1; }
     .pages-wrapper { position: relative; overflow: hidden; }
     .page { display: flex; flex-direction: column; gap: 14px; position: absolute; top: 0; left: 0; width: 100%; opacity: 0; pointer-events: none; transform: translateX(40px); transition: transform 0.32s cubic-bezier(.4,0,.2,1), opacity 0.32s ease; }
@@ -98,9 +132,16 @@
     .page.slide-out-right { transform: translateX(40px);  opacity: 0; }
     .page.slide-in-left   { transform: translateX(-40px); }
     .page.slide-in-right  { transform: translateX(40px);  }
+    
     .sec-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
     .sec-lbl::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg,rgba(184, 144, 10, 0.15),transparent); }
-    .fc-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 18px; padding: 20px; position: relative; overflow: hidden; border: 1px solid rgba(245,200,66,0.3); box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: center; transition: all 0.3s ease; }
+    
+    /* CARDS */
+    .fc-card, .rules-card, .input-card, .settings-card, .day, .match-list-item, .fc-list-item { 
+      background: var(--bg-card); backdrop-filter: blur(10px); border-radius: 18px; position: relative; overflow: hidden; border: 1px solid var(--border-card); box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: all 0.3s ease; 
+    }
+    
+    .fc-card { padding: 20px; display: flex; flex-direction: column; justify-content: center; }
     .fc-content { position: relative; z-index: 2; }
     .fc-bg-icon { position: absolute; right: -5px; bottom: -15px; font-size: 75px; opacity: 0.15; pointer-events: none; z-index: 0; transition: all 0.4s ease; }
     .fc-title { font-size: 11px; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
@@ -110,19 +151,30 @@
     .fc-half .fc-title { font-size: 10px; }
     .fc-half .fc-val { font-size: 26px; }
     .fc-half .fc-bg-icon { font-size: 60px; right: -5px; bottom: -10px; }
+    
     .aura-blue { filter: drop-shadow(0 0 15px #4a90e2); opacity: 0.2; animation: float-icon 4s infinite alternate; }
     .aura-red { filter: drop-shadow(0 0 20px var(--red-soft)) drop-shadow(0 0 30px var(--red-soft)); opacity: 0.4; animation: fc-pulse-crit 1s infinite alternate; }
     .aura-amber { filter: drop-shadow(0 0 15px var(--amber)); opacity: 0.25; animation: float-icon 3s infinite alternate; }
     .aura-fire { filter: drop-shadow(0 0 20px #ff5722) drop-shadow(0 0 30px #ff5722); opacity: 0.4; animation: fire-shake 0.3s infinite alternate; }
     .aura-green { filter: drop-shadow(0 0 15px var(--green-leaf)); opacity: 0.2; animation: float-icon 5s infinite alternate reverse; }
     .aura-gold { filter: drop-shadow(0 0 15px var(--gold)); opacity: 0.25; animation: float-icon 4.5s infinite alternate; }
+    
     @keyframes fc-pulse-crit { 0% { transform: scale(1) translateY(0); opacity: 0.3; } 100% { transform: scale(1.05) translateY(-5px); opacity: 0.6; } }
     @keyframes fire-shake { 0% { transform: translate(0, 0) scale(1) rotate(-3deg); } 100% { transform: translate(-2px, -3px) scale(1.05) rotate(3deg); } }
     @keyframes float-icon { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(15deg); } }
     @keyframes fairy-pulse { 0% { transform: translate(50%, -50%) scale(0.8); opacity: 0.7; } 100% { transform: translate(50%, -50%) scale(1.1); opacity: 0.9; } }
-    .reward-card { background: linear-gradient(135deg,#1a4a0a 0%,#0f2a06 60%,#1a3a10 100%); border-radius: 18px; padding: 18px 18px 16px; position: relative; overflow: hidden; box-shadow: 0 6px 25px rgba(26,74,10,0.3), inset 0 0 20px rgba(245,200,66,0.05); }
-    .reward-card::before { content: '✦'; position: absolute; right: 18px; top: 16px; font-size: 52px; opacity: 0.1; color: var(--gold); text-shadow: 0 0 30px var(--gold); animation: float-icon 6s ease-in-out infinite; }
-    .reward-card::after { content: '✦'; position: absolute; right: 50px; bottom: 12px; font-size: 24px; opacity: 0.08; color: var(--gold); animation: float-icon 4s ease-in-out infinite reverse; }
+    
+    /* REWARD CARD GLOW & PARTICLES */
+    .reward-card { background: linear-gradient(135deg,#1a4a0a 0%,#0f2a06 60%,#1a3a10 100%); border-radius: 18px; padding: 18px 18px 16px; position: relative; overflow: hidden; box-shadow: 0 6px 25px rgba(26,74,10,0.3); }
+    .rc-glow { position: absolute; inset: 0; pointer-events: none; z-index: 0; background: radial-gradient(circle at 80% 20%, rgba(245,200,66,0.7) 0%, transparent 65%); opacity: 0; transition: opacity 1.5s ease; mix-blend-mode: screen; }
+    .rc-particles { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+    .rc-star { position: absolute; width: 3px; height: 3px; background: #fff; box-shadow: 0 0 6px 2px #ffe478, 0 0 12px 4px #f5c842; border-radius: 50%; animation: twinkle-star 2s infinite alternate; }
+    @keyframes twinkle-star { 0% { transform: scale(0.5); opacity: 0.2; } 100% { transform: scale(1.5); opacity: 1; } }
+    
+    .reward-card::before { content: '✦'; position: absolute; right: 18px; top: 16px; font-size: 52px; opacity: 0.1; color: var(--gold); text-shadow: 0 0 30px var(--gold); animation: float-icon 6s ease-in-out infinite; z-index: 0; }
+    .reward-card::after { content: '✦'; position: absolute; right: 50px; bottom: 12px; font-size: 24px; opacity: 0.08; color: var(--gold); animation: float-icon 4s ease-in-out infinite reverse; z-index: 0; }
+    
+    .rc-top, .rc-amount, .rc-note, .rc-bar { position: relative; z-index: 2; }
     .rc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
     .rc-title { font-family: var(--serif); font-size: 16px; color: rgba(255,255,255,0.9); }
     .rc-chip { background: rgba(245,200,66,0.2); border: 1px solid rgba(245,200,66,0.4); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; color: var(--gold-light); box-shadow: 0 0 10px rgba(245,200,66,0.2); }
@@ -131,144 +183,188 @@
     .rc-bar { height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); position: relative; }
     .rc-bar-fill { position: relative; height: 100%; border-radius: 3px; background: linear-gradient(90deg,var(--gold-dark),var(--gold-light), #fff); box-shadow: 0 0 10px rgba(245,200,66,0.8); transition: width 1.2s ease; }
     .rc-bar-fill::after { content: ''; position: absolute; right: 0; top: 50%; width: 10px; height: 10px; background: #fff; border-radius: 50%; box-shadow: 0 0 6px 2px var(--gold-light), 0 0 12px 4px var(--gold), 0 0 20px 8px rgba(245, 200, 66, 0.3); animation: fairy-pulse 1.5s ease-in-out infinite alternate; z-index: 2; }
+    
     .badge-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .badge-item { background: rgba(255,255,255,0.6); backdrop-filter: blur(5px); border-radius: 14px; border: 1px solid rgba(0,0,0,0.05); padding: 16px 12px; text-align: center; transition: all 0.5s; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0.5; filter: grayscale(1); }
-    .badge-item.unlocked { opacity: 1; filter: grayscale(0); background: linear-gradient(145deg, #fff, var(--gold-pale)); border-color: rgba(245,200,66,0.4); box-shadow: 0 6px 20px rgba(245,200,66,0.15); transform: translateY(-3px); }
+    .badge-item { background: var(--bg-card); backdrop-filter: blur(5px); border-radius: 14px; border: 1px solid var(--border-card); padding: 16px 12px; text-align: center; transition: all 0.5s; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0.5; filter: grayscale(1); }
+    .badge-item.unlocked { opacity: 1; filter: grayscale(0); background: linear-gradient(145deg, var(--bg-card-solid), var(--gold-pale)); border-color: rgba(245,200,66,0.4); box-shadow: 0 6px 20px rgba(245,200,66,0.15); transform: translateY(-3px); }
+    [data-theme="dark"] .badge-item.unlocked { background: linear-gradient(145deg, var(--bg-card-solid), #2a2510); }
     .badge-icon { font-size: 32px; margin-bottom: 8px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); transition: all 0.5s; }
     .badge-item.unlocked .badge-icon { animation: float-magical 3s infinite alternate; filter: drop-shadow(0 4px 10px rgba(245,200,66,0.6)); }
     .badge-title { font-size: 12px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; transition: color 0.3s; }
     .badge-item.unlocked .badge-title { color: var(--gold-dark); }
+    [data-theme="dark"] .badge-item.unlocked .badge-title { color: var(--gold-light); }
     .badge-desc { font-size: 10px; font-weight: 500; color: var(--text-soft); line-height: 1.4; }
-    .rules-card, .input-card, .settings-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 14px; border: 1px solid rgba(245,200,66,0.15); overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-    .rule-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid rgba(0,0,0,0.03); }
+    
+    .rule-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+    [data-theme="dark"] .rule-row { border-bottom: 1px solid rgba(255,255,255,0.05); }
     .rule-row:last-child { border-bottom: none; }
     .rule-icon { font-size: 16px; flex-shrink: 0; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1)); }
     .rule-text { flex: 1; font-size: 13px; font-weight: 500; color: var(--text-mid); }
     .rule-val { font-size: 13px; font-weight: 700; }
     .rv-g { color: var(--green-mid); } .rv-a { color: var(--amber); } .rv-r { color: var(--red-soft); }
+    [data-theme="dark"] .rv-g { color: var(--green-light); }
+    
     .days-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; }
-    .day { position: relative; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(5px); border-radius: 10px; padding: 12px 3px 8px; text-align: center; border: 1px solid rgba(245,200,66,0.1); transition: all 0.2s; }
-    .day:hover { transform: scale(1.05); background: rgba(255,255,255,0.9); box-shadow: 0 4px 10px rgba(245,200,66,0.1); z-index: 1; }
-    .day.today { border-color: var(--gold); background: rgba(255, 248, 214, 0.8); box-shadow: 0 0 15px rgba(245,200,66,0.3); }
+    .day { padding: 12px 3px 8px; text-align: center; }
+    .day:hover { transform: scale(1.05); background: var(--bg-card-solid); box-shadow: 0 4px 10px rgba(245,200,66,0.1); z-index: 1; }
+    .day.today { border-color: var(--gold); background: var(--bg-input); box-shadow: 0 0 15px rgba(245,200,66,0.3); }
+    [data-theme="dark"] .day.today { background: rgba(245, 200, 66, 0.15); }
     .day-name { font-size: 9px; color: var(--text-soft); margin-bottom: 5px; font-weight: 600; line-height: 1.3; text-transform: uppercase; letter-spacing: 0.05em; }
     .day.today .day-name { color: var(--gold-dark); }
+    [data-theme="dark"] .day.today .day-name { color: var(--gold-light); }
     .day-dot { width: 24px; height: 24px; border-radius: 50%; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; transition: all 0.3s; }
-    .day-dot.done { background: var(--gold); color: var(--text-dark); box-shadow: 0 0 10px rgba(245,200,66,0.6); }
-    .day-dot.empty { background: rgba(0,0,0,0.04); color: var(--text-soft); font-size: 10px; }
-    .day-dot.ujian { background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: 1px dashed rgba(232, 80, 80, 0.4); font-size: 11px; }
+    .day-dot.done { background: var(--gold); color: #2a1f0a; box-shadow: 0 0 10px rgba(245,200,66,0.6); }
+    .day-dot.empty { background: rgba(0,0,0,0.06); color: var(--text-soft); font-size: 10px; }
+    [data-theme="dark"] .day-dot.empty { background: rgba(255,255,255,0.06); }
+    .day-dot.ujian { background: rgba(232, 80, 80, 0.15); color: var(--red-soft); border: 1px dashed rgba(232, 80, 80, 0.4); font-size: 11px; }
     .day-pts { font-size: 9px; font-weight: 600; color: var(--text-soft); }
     .day.today .day-pts { color: var(--gold-dark); }
-    .day-mood { position: absolute; top: -6px; right: -6px; background: #fff; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 13px; z-index: 4; }
+    [data-theme="dark"] .day.today .day-pts { color: var(--gold-light); }
+    .day-mood { position: absolute; top: -6px; right: -6px; background: var(--bg-card-solid); border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 13px; z-index: 4; }
     .day.cp-pass { border-color: rgba(74, 155, 40, 0.5); }
     .day.cp-fail { border-color: rgba(232, 80, 80, 0.5); border-style: dashed; }
     .day.cp-future { border-color: rgba(232, 160, 32, 0.4); border-style: dashed; }
+    
     .input-card { padding: 18px; }
     .input-label { font-size: 12px; color: var(--text-soft); margin-bottom: 10px; font-weight: 600; letter-spacing: 0.02em; line-height: 1.5; }
     .input-row { display: flex; gap: 10px; }
-    .field { flex: 1; border: 1.5px solid rgba(245,200,66,0.2); border-radius: 12px; padding: 12px 14px; font-size: 15px; font-family: var(--sans); font-weight: 500; background: rgba(255,255,255,0.8); color: var(--text-dark); outline: none; transition: all 0.2s; width: 100%; }
-    .field:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(245,200,66,0.2); background: #fff; }
-    .field::placeholder { color: rgba(154, 138, 106, 0.6); }
+    .field { flex: 1; border: 1.5px solid var(--border-card); border-radius: 12px; padding: 12px 14px; font-size: 15px; font-family: var(--sans); font-weight: 500; background: var(--bg-input); color: var(--text-dark); outline: none; transition: all 0.2s; width: 100%; }
+    .field:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(245,200,66,0.2); background: var(--bg-card-solid); }
+    .field::placeholder { color: var(--text-soft); opacity: 0.6; }
+    
     .btn-save { padding: 12px 20px; background: linear-gradient(135deg, var(--green-mid), var(--green-leaf)); color: #fff; border: none; border-radius: 12px; font-size: 13px; font-weight: 700; font-family: var(--sans); white-space: nowrap; transition: all 0.2s; box-shadow: 0 4px 10px rgba(74, 155, 40, 0.3); }
     .btn-save:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
     .btn-save:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(74, 155, 40, 0.4); filter: brightness(1.1); }
     .save-msg { font-size: 12px; color: var(--green-leaf); margin-top: 8px; display: none; font-weight: 600; }
     .save-msg::before { content: "✦ "; }
+    
     .mood-wrap { display: flex; gap: 10px; margin-bottom: 12px; }
     .mood-btn { background: transparent; border: 1px solid rgba(0,0,0,0.1); border-radius: 50%; width: 40px; height: 40px; font-size: 20px; transition: all 0.2s; display:flex; align-items:center; justify-content:center; padding: 0; }
+    [data-theme="dark"] .mood-btn { border: 1px solid rgba(255,255,255,0.1); }
     .mood-btn.selected { background: var(--gold-pale); border-color: var(--gold); transform: scale(1.15); box-shadow: 0 0 12px rgba(245,200,66,0.4); }
-    .match-list-item { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.8); padding: 12px; border-radius: 14px; margin-bottom: 10px; border: 1px solid rgba(245,200,66,0.3); transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+    
+    .match-list-item { padding: 12px; }
     .match-list-item:hover { transform: translateX(5px); box-shadow: 0 6px 15px rgba(245,200,66,0.15); }
     .match-list-img { width: 55px; height: 55px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(0,0,0,0.05); }
     .match-list-word { flex: 1; font-size: 14px; font-weight: 700; color: var(--text-dark); text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     
     /* Area Penambahan Gambar - Drag & Drop / Paste */
-    .dropzone { border: 2px dashed rgba(245,200,66,0.6); transition: all 0.3s; background: rgba(255,255,255,0.6); }
+    .dropzone { border: 2px dashed rgba(245,200,66,0.6); transition: all 0.3s; background: var(--bg-card); }
     .dropzone.dragover { background: rgba(245,200,66,0.2); border-color: var(--gold-dark); transform: scale(1.02); }
 
     .crop-container { width: 100%; max-width: 320px; height: 250px; margin: 0 auto 15px; background: rgba(0,0,0,0.05); border-radius: 16px; position: relative; overflow: hidden; touch-action: none; border: 2px dashed rgba(245,200,66,0.5); box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
+    [data-theme="dark"] .crop-container { background: rgba(255,255,255,0.05); }
     #crop-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; }
-    .match-play-img { width: 180px; height: 180px; object-fit: cover; border-radius: 20px; border: 4px solid #fff; box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin: 0 auto 20px; display: block; transition: all 0.3s; }
+    .match-play-img { width: 180px; height: 180px; object-fit: cover; border-radius: 20px; border: 4px solid var(--bg-card-solid); box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin: 0 auto 20px; display: block; transition: all 0.3s; }
     .match-words-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 25px; }
-    .match-word-btn { padding: 12px 20px; background: #fff; border: 2px solid rgba(245,200,66,0.3); border-radius: 15px; font-size: 14px; font-weight: 700; color: var(--text-mid); cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-family: var(--sans); }
+    .match-word-btn { padding: 12px 20px; background: var(--bg-card-solid); border: 2px solid var(--border-card); border-radius: 15px; font-size: 14px; font-weight: 700; color: var(--text-mid); cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-family: var(--sans); }
     .match-word-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(245,200,66,0.2); }
     .match-word-btn.selected { background: linear-gradient(135deg, var(--gold-dark), var(--gold-light)); color: #fff; border-color: var(--gold-dark); transform: scale(1.05); box-shadow: 0 6px 20px rgba(245,200,66,0.4); }
     .match-nav-controls { display: flex; justify-content: space-between; gap: 15px; }
-    .match-review-item { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.9); padding: 12px; border-radius: 16px; margin-bottom: 12px; border: 1px solid rgba(245,200,66,0.3); cursor: default; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
-    .match-review-item:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(245,200,66,0.15); border-color: var(--gold); }
-    .match-review-img { width: 60px; height: 60px; border-radius: 12px; object-fit: cover; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .match-review-item { display: flex; align-items: center; gap: 15px; background: var(--bg-input); padding: 12px; border-radius: 16px; margin-bottom: 12px; border: 1px solid var(--border-card); cursor: default; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+    .match-review-item:hover { background: var(--bg-card-solid); transform: translateY(-2px); box-shadow: 0 6px 15px rgba(245,200,66,0.15); border-color: var(--gold); }
+    .match-review-img { width: 60px; height: 60px; border-radius: 12px; object-fit: cover; border: 2px solid var(--bg-card-solid); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
     .match-review-ans { flex: 1; text-align: left; }
     .match-review-ans .lbl { font-size: 10px; color: var(--text-soft); font-weight: 700; letter-spacing: 0.05em; margin-bottom: 3px; }
     .match-review-ans .val { font-size: 14px; font-weight: 700; color: var(--text-dark); }
     .match-review-ans .val.empty { color: var(--red-soft); font-style: italic; }
-    .fc-list-item { background: rgba(255,255,255,0.8); border: 1px solid rgba(245,200,66,0.3); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; text-align: left; }
-    .fc-list-item:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(245,200,66,0.15); }
+    
+    .fc-list-item { padding: 14px 16px; }
+    .fc-list-item:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(245,200,66,0.15); }
     .fc-list-q { font-size: 14px; font-weight: 700; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80%; }
     .fc-tab-btn { flex: 1; padding: 10px 0; text-align: center; border-radius: 10px; font-size: 12px; font-weight: 700; border: 1px solid transparent; background: transparent; color: var(--text-soft); transition: all 0.3s; cursor: pointer;}
     .fc-tab-btn.active { background: rgba(245,200,66,0.15); border-color: rgba(245,200,66,0.4); color: var(--gold-dark); }
+    [data-theme="dark"] .fc-tab-btn.active { color: var(--gold-light); }
+    
     .flashcard { width: 100%; max-width: 450px; height: 260px; perspective: 1200px; cursor: pointer; margin: 0 auto; position: relative; z-index: 5; }
     .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
     .flashcard.is-flipped .flashcard-inner { transform: rotateY(180deg); }
-    .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; border-radius: 20px; overflow: hidden; }
+    .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; border-radius: 20px; overflow: hidden; transition: background 0.5s, color 0.5s; }
     .fc-content-text { flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; overflow-y: auto; scrollbar-width: none; font-weight: 600; }
     .fc-content-text::-webkit-scrollbar { display: none; }
     .fc-hint-text { font-size: 11px; color: rgba(0,0,0,0.3); margin-top: 15px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
-    .flashcard-front { background: linear-gradient(135deg, #ffffff 0%, #fffbf0 100%), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M30 0l3 12 12 3-12 3-3 12-3-12-12-3 12-3 3-12z' fill='%23b8900a' fill-opacity='0.08'/%3E%3Cpath d='M15 30l1.5 6 6 1.5-6 1.5-1.5 6-1.5-6-6-1.5 6-1.5 1.5-6z' fill='%23b8900a' fill-opacity='0.05'/%3E%3C/g%3E%3C/svg%3E"); border: 1px solid var(--gold-dark); box-shadow: inset 0 0 0 5px #ffffff, inset 0 0 0 6px var(--gold-light), 0 10px 30px rgba(0,0,0,0.1); color: var(--text-dark); font-family: var(--serif); font-size: 24px; font-style: italic; font-weight: 400; line-height: 1.4; }
-    .flashcard-back { background: linear-gradient(135deg, #fdfaf0 0%, #f7f1dc 100%), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M30 0l3 12 12 3-12 3-3 12-3-12-12-3 12-3 3-12z' fill='%23b8900a' fill-opacity='0.08'/%3E%3Cpath d='M15 30l1.5 6 6 1.5-6 1.5-1.5 6-1.5-6-6-1.5 6-1.5 1.5-6z' fill='%23b8900a' fill-opacity='0.05'/%3E%3C/g%3E%3C/svg%3E"); border: 1px solid var(--gold-dark); color: var(--text-dark); transform: rotateY(180deg); font-weight: 500; font-size: 16px; line-height: 1.6; box-shadow: inset 0 0 0 5px #fdfaf0, inset 0 0 0 6px var(--gold-light), 0 10px 30px rgba(0,0,0,0.1); }
+    [data-theme="dark"] .fc-hint-text { color: rgba(255,255,255,0.3); }
+    
+    .flashcard-front { background: linear-gradient(135deg, #ffffff 0%, #fffbf0 100%), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M30 0l3 12 12 3-12 3-3 12-3-12-12-3 12-3 3-12z' fill='%23b8900a' fill-opacity='0.08'/%3E%3Cpath d='M15 30l1.5 6 6 1.5-6 1.5-1.5 6-1.5-6-6-1.5 6-1.5 1.5-6z' fill='%23b8900a' fill-opacity='0.05'/%3E%3C/g%3E%3C/svg%3E"); border: 1px solid var(--gold-dark); box-shadow: inset 0 0 0 5px #ffffff, inset 0 0 0 6px var(--gold-light), 0 10px 30px rgba(0,0,0,0.1); color: #2a1f0a; font-family: var(--serif); font-size: 24px; font-style: italic; font-weight: 400; line-height: 1.4; }
+    .flashcard-back { background: linear-gradient(135deg, #fdfaf0 0%, #f7f1dc 100%), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M30 0l3 12 12 3-12 3-3 12-3-12-12-3 12-3 3-12z' fill='%23b8900a' fill-opacity='0.08'/%3E%3Cpath d='M15 30l1.5 6 6 1.5-6 1.5-1.5 6-1.5-6-6-1.5 6-1.5 1.5-6z' fill='%23b8900a' fill-opacity='0.05'/%3E%3C/g%3E%3C/svg%3E"); border: 1px solid var(--gold-dark); color: #2a1f0a; transform: rotateY(180deg); font-weight: 500; font-size: 16px; line-height: 1.6; box-shadow: inset 0 0 0 5px #fdfaf0, inset 0 0 0 6px var(--gold-light), 0 10px 30px rgba(0,0,0,0.1); }
+    
+    [data-theme="dark"] .flashcard-front, [data-theme="dark"] .flashcard-back {
+      background-color: #141e16; background-blend-mode: overlay; color: #fdfaf0;
+      box-shadow: inset 0 0 0 5px #141e16, inset 0 0 0 6px var(--gold-dark), 0 10px 30px rgba(0,0,0,0.5);
+    }
+    
     .flashcard-front::before, .flashcard-back::before { content: '✦'; position: absolute; top: 12px; left: 12px; font-size: 22px; color: var(--gold-dark); opacity: 0.6; }
     .flashcard-front::after, .flashcard-back::after { content: '✦'; position: absolute; bottom: 12px; right: 12px; font-size: 22px; color: var(--gold-dark); opacity: 0.6; }
     .fc-star-tr { position: absolute; top: 12px; right: 12px; font-size: 22px; color: var(--gold-dark); opacity: 0.6; pointer-events: none; }
     .fc-star-bl { position: absolute; bottom: 12px; left: 12px; font-size: 22px; color: var(--gold-dark); opacity: 0.6; pointer-events: none; }
     .fc-nav-wrapper { position: absolute; inset: 0; display: flex; justify-content: space-between; align-items: center; pointer-events: none; padding: 0 10px; z-index: 10; }
     .subtle-arrow { pointer-events: auto; width: 40px; height: 60px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.3); border: none; border-radius: 12px; font-size: 24px; color: var(--text-mid); opacity: 0.4; transition: all 0.3s; backdrop-filter: blur(5px); }
-    .subtle-arrow:hover:not(:disabled) { opacity: 1; background: rgba(255,255,255,0.9); box-shadow: 0 4px 15px rgba(245,200,66,0.3); transform: scale(1.1); }
+    .subtle-arrow:hover:not(:disabled) { opacity: 1; background: var(--bg-card-solid); box-shadow: 0 4px 15px rgba(245,200,66,0.3); transform: scale(1.1); }
     .subtle-arrow:disabled { opacity: 0; cursor: default; }
+    
     .settings-card { padding: 18px; display: flex; flex-direction: column; gap: 14px; }
     .set-label { font-size: 12px; color: var(--text-soft); margin-bottom: 6px; font-weight: 600; }
     .btn-reset { padding: 12px 20px; background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: 1px solid rgba(232, 80, 80, 0.3); border-radius: 12px; font-size: 13px; font-weight: 700; font-family: var(--sans); transition: all 0.2s; }
     .btn-reset:hover { background: rgba(232, 80, 80, 0.2); }
     .btn-full { width: 100%; }
+    
     .fairy-footer { text-align: center; padding: 10px 16px 24px; font-size: 11px; color: var(--text-soft); letter-spacing: 0.1em; font-weight: 500; }
     .fairy-footer span { color: var(--gold-dark); font-weight: 700; }
+    [data-theme="dark"] .fairy-footer span { color: var(--gold-light); }
+    
     .page.active > * { animation: fadeUp 0.4s ease-out both; }
     @keyframes fadeUp { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
     .page.active > *:nth-child(1) { animation-delay: 0.05s; }
     .page.active > *:nth-child(2) { animation-delay: 0.1s; }
     .page.active > *:nth-child(3) { animation-delay: 0.15s; }
     .page.active > *:nth-child(4) { animation-delay: 0.2s; }
+    
     .welcome-overlay { position: fixed; inset: 0; background: rgba(26, 58, 15, 0.75); backdrop-filter: blur(12px); z-index: 10000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
+    [data-theme="dark"] .welcome-overlay { background: rgba(10, 15, 10, 0.85); }
     .welcome-overlay.show { opacity: 1; pointer-events: auto; }
     .welcome-card { background: rgba(255, 255, 255, 0.95); border-radius: 24px; padding: 36px 24px 24px; text-align: center; border: 2px solid rgba(245,200,66,0.6); box-shadow: 0 10px 40px rgba(0,0,0,0.3), inset 0 0 20px rgba(245,200,66,0.1); transform: translateY(30px) scale(0.9); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); max-width: 320px; width: 85%; position: relative; }
+    [data-theme="dark"] .welcome-card { background: rgba(20, 30, 22, 0.95); border-color: rgba(245,200,66,0.3); }
     .welcome-overlay.show .welcome-card { transform: translateY(0) scale(1); }
     .welcome-card::before { content: '✦'; position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-size: 46px; color: var(--gold); text-shadow: 0 0 20px var(--gold); animation: star-twinkle 2s infinite alternate; }
     .welcome-title { font-family: var(--serif); font-size: 28px; color: var(--green-deep); margin-bottom: 6px; }
     .welcome-subtitle { font-size: 14px; color: var(--text-mid); margin-bottom: 24px; line-height: 1.5; font-weight: 500; }
     .welcome-input { text-align: center; font-size: 18px; padding: 14px; margin-bottom: 20px; border-width: 2px; width: 100%; }
     .welcome-btn { width: 100%; font-size: 15px; padding: 14px; border-radius: 14px; letter-spacing: 0.05em; }
-    .result-image { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: -70px auto 16px; border: 4px solid #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.15), 0 0 20px rgba(245,200,66,0.5); background: var(--cream); display: none; position: relative; z-index: 2; }
+    
+    .result-image { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: -70px auto 16px; border: 4px solid var(--bg-card-solid); box-shadow: 0 4px 15px rgba(0,0,0,0.15), 0 0 20px rgba(245,200,66,0.5); background: var(--bg-main); display: none; position: relative; z-index: 2; }
     .result-image.show { display: block; animation: fadeUp 0.6s ease-out; }
+    
     .appreciation-overlay { position: fixed; inset: 0; background: rgba(15, 30, 10, 0.85); backdrop-filter: blur(16px); z-index: 20000; display: flex; align-items: center; justify-content: center; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
+    [data-theme="dark"] .appreciation-overlay { background: rgba(5, 10, 5, 0.9); }
     .appreciation-overlay.show { opacity: 1; pointer-events: auto; }
     .appreciation-content { text-align: center; transform: scale(0.8) translateY(30px); opacity: 0; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); padding: 0 20px; position: relative; }
     .appreciation-overlay.show .appreciation-content { transform: scale(1) translateY(0); opacity: 1; animation: float-magical 4s ease-in-out infinite alternate; }
     @keyframes float-magical { 0% { transform: translateY(0px); } 100% { transform: translateY(-12px); } }
     .appreciation-title { font-family: var(--serif); font-size: 42px; color: #fff; margin-bottom: 16px; font-style: italic; text-shadow: 0 0 10px var(--gold-light), 0 0 20px var(--gold), 0 0 40px var(--gold-dark), 0 0 80px var(--gold-dark); letter-spacing: 1px; }
     .appreciation-sub { font-family: var(--sans); font-size: 16px; color: var(--green-pale); line-height: 1.6; max-width: 90%; margin: 0 auto; text-shadow: 0 0 10px rgba(141, 201, 90, 0.8), 0 0 20px rgba(74, 155, 40, 0.6); font-weight: 600; letter-spacing: 0.05em; }
+    
     .app-fairy-orb { position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%; box-shadow: 0 0 10px 4px #ffe478, 0 0 20px 8px #f5c842, 0 0 40px 15px rgba(245, 200, 66, 0.6); top: 50%; left: 50%; z-index: -1; opacity: 0; pointer-events: none; mix-blend-mode: screen; }
     .appreciation-overlay.show .app-fairy-orb { animation: fairy-circle 5s cubic-bezier(0.4, 0, 0.2, 1) infinite; opacity: 1; }
     @keyframes fairy-circle { 0% { transform: translate(-50%, -50%) rotate(0deg) translateX(160px) rotate(0deg) scale(0.8); } 50% { transform: translate(-50%, -50%) rotate(180deg) translateX(90px) rotate(-180deg) scale(1.3); } 100% { transform: translate(-50%, -50%) rotate(360deg) translateX(160px) rotate(-360deg) scale(0.8); } }
+    
     .burst-sparkle { position: fixed; pointer-events: none; width: 6px; height: 6px; background: #fff; border-radius: 50%; box-shadow: 0 0 12px 2px var(--gold-light), 0 0 20px 4px var(--gold); z-index: 20001; mix-blend-mode: screen; animation: burst-anim 2.5s forwards cubic-bezier(0.1, 0.8, 0.3, 1); }
     @keyframes burst-anim { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 10% { transform: translate(calc(-50% + var(--tx)*0.1), calc(-50% + var(--ty)*0.1)) scale(1.5); opacity: 1; } 100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0) rotate(180deg); opacity: 0; } }
     .grand-sparkle { position: fixed; pointer-events: none; border-radius: 50%; z-index: 20002; mix-blend-mode: screen; animation: grand-fall forwards cubic-bezier(0.2, 0.8, 0.4, 1); }
     @keyframes grand-fall { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 15% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(var(--s)); opacity: 1; } 100% { transform: translate(calc(-50% + var(--tx) + var(--drift)), calc(-50% + var(--ty) + 400px)) scale(0); opacity: 0; } }
+    
     .float-container { position: fixed; bottom: 25px; right: 25px; z-index: 9999; display: flex; flex-direction: column; align-items: flex-end; }
     .float-menu { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; opacity: 0; pointer-events: none; transform: translateY(20px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-origin: bottom right; }
     .float-menu.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
-    .menu-btn { padding: 12px 20px; border-radius: 20px; border: none; background: #fff; color: var(--text-dark); font-weight: 700; font-family: var(--sans); font-size: 14px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 8px; transition: all 0.2s; white-space: nowrap; }
+    .menu-btn { padding: 12px 20px; border-radius: 20px; border: none; background: var(--bg-card-solid); color: var(--text-dark); font-weight: 700; font-family: var(--sans); font-size: 14px; box-shadow: 0 8px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 8px; transition: all 0.2s; white-space: nowrap; }
     .menu-btn:hover { transform: scale(1.05) translateX(-5px); background: var(--gold-pale); color: var(--gold-dark); }
+    [data-theme="dark"] .menu-btn:hover { background: #2a2510; }
+    
     .float-timer-btn { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--gold-dark), var(--gold-light)); border: 2px solid #fff; box-shadow: 0 8px 20px rgba(245, 200, 66, 0.4), inset 0 0 10px rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; font-size: 26px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    [data-theme="dark"] .float-timer-btn { border-color: #fdfaf0; }
     .float-timer-btn:hover { transform: scale(1.1); }
     .float-timer-btn.active { animation: float-glow 2s infinite alternate; background: linear-gradient(135deg, #a5f3fc, #0ea5e9); box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3), inset 0 0 10px rgba(255,255,255,0.5); border-color: #fff; }
     @keyframes float-glow { 0% { box-shadow: 0 0 10px #0ea5e9; } 100% { box-shadow: 0 0 25px #0ea5e9, 0 0 40px rgba(14, 165, 233, 0.4); } }
+    
     .focus-stage { height: 220px; width: 100%; margin: 10px auto; display: flex; align-items: flex-end; justify-content: center; position: relative; }
     .theme-wrap { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; width: 100%; height: 100%; position: absolute; bottom: 0; left: 0; }
     .ice-3d { width: 110px; height: 110px; background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(140,230,255,0.7) 100%); border: 2px solid rgba(255,255,255,0.9); border-radius: 15px; position: relative; z-index: 2; transform-origin: bottom center; transform: perspective(400px) rotateX(30deg) rotateY(-20deg) scale(1); box-shadow: -15px 20px 25px rgba(14, 165, 233, 0.3), inset 15px 15px 20px rgba(255, 255, 255, 1), inset -15px -15px 25px rgba(14, 165, 233, 0.5); transition: transform 1s linear, opacity 1s linear, border-radius 1s linear; }
@@ -285,16 +381,19 @@
     .potion-bubbles { position: absolute; bottom: 10px; left: 20px; width: 10px; height: 10px; background: rgba(255,255,255,0.5); border-radius: 50%; box-shadow: 30px -15px 0 -2px rgba(255,255,255,0.5), 15px -30px 0 -3px rgba(255,255,255,0.5); animation: bubble-rise 2s infinite linear; }
     @keyframes bubble-rise { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-30px); opacity: 0; } }
     .potion-shadow { width: 80px; height: 12px; background: rgba(74, 155, 40, 0.3); border-radius: 50%; margin-top: 5px; filter: blur(3px); z-index: 1; }
+    
     #timer-modal .welcome-card { max-width: 640px; width: 90%; }
     .timer-split-view { display: flex; align-items: center; justify-content: center; gap: 25px; flex-wrap: wrap; margin-top: 15px; }
     .timer-anim-col { flex: 1; min-width: 220px; display: flex; flex-direction: column; align-items: center; }
     .timer-music-col { flex: 1; min-width: 280px; width: 100%; }
+    
     .match-review-correct { border-left: 6px solid var(--green-leaf); }
     .match-review-wrong { border-left: 6px solid var(--red-soft); }
     .review-result-badge { font-size: 24px; margin-right: 15px; }
-    .fc-test-option { padding: 14px; background: #fff; border: 2px solid rgba(245,200,66,0.3); border-radius: 16px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; font-weight: 600; font-family: var(--sans); }
-    .fc-test-option.selected { background: var(--gold-pale); border-color: var(--gold); transform: scale(1.02); }
-    .fc-test-review-item { display: flex; align-items: center; background: rgba(255,255,255,0.8); padding: 14px; border-radius: 14px; margin-bottom: 10px; border: 1px solid rgba(0,0,0,0.05); }
+    .fc-test-option { padding: 14px; background: var(--bg-card-solid); border: 2px solid var(--border-card); border-radius: 16px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; font-weight: 600; font-family: var(--sans); color: var(--text-dark); }
+    .fc-test-option.selected { background: var(--gold-pale); border-color: var(--gold); transform: scale(1.02); color: #2a1f0a; }
+    [data-theme="dark"] .fc-test-option.selected { background: #2a2510; color: var(--gold-light); }
+    .fc-test-review-item { display: flex; align-items: center; background: var(--bg-input); padding: 14px; border-radius: 14px; margin-bottom: 10px; border: 1px solid var(--border-card); }
     .best-record-badge { background: linear-gradient(135deg, var(--gold-dark), var(--gold)); color: white; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; display: inline-block; }
     .match-review-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
   </style>
@@ -309,7 +408,7 @@
       <div class="leaf leaf4"></div>
     </div>
     <div class="header-eyebrow">
-      <span>Study Journey</span>
+      <span data-i18n="hdr_eyebrow">Study Journey</span>
     </div>
     <div class="header-name">
       <span class="name-text" id="header-name">Revalina,</span>
@@ -318,7 +417,7 @@
     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: -4px;">
       <div>
         <div class="header-name" style="font-size: 24px; margin-top: 4px; margin-bottom: 2px;">
-          <span class="name-text" id="greeting-line">semangat belajarnya!</span>
+          <span class="name-text" id="greeting-line" data-i18n="hdr_greeting">semangat belajarnya!</span>
         </div>
         <div class="header-sub" id="date-line" style="margin-top: 2px;">—</div>
       </div>
@@ -339,18 +438,18 @@
         </svg>
         <div class="ring-center">
           <div class="ring-pct" id="ring-pct">0%</div>
-          <div class="ring-lbl">progress</div>
+          <div class="ring-lbl" data-i18n="prog_lbl">progress</div>
         </div>
       </div>
       <div class="prog-info">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px;">
-          <div class="prog-label" style="margin-bottom: 0;">Total PPT Blok ini</div>
+          <div class="prog-label" style="margin-bottom: 0;" data-i18n="prog_total_lbl">Total PPT Blok ini</div>
           <div class="date-badge" id="week-badge-txt">Memuat data...</div>
         </div>
         <div class="prog-bar-track"><div class="prog-bar-fill" id="prog-bar" style="width:0%"></div></div>
         <div class="prog-nums">
-          <span><strong id="slide-done">0</strong> slide selesai</span>
-          <span>target <strong id="slide-target-hdr">30</strong></span>
+          <span><strong id="slide-done">0</strong> <span data-i18n="prog_done_lbl">slide selesai</span></span>
+          <span><span data-i18n="prog_target_lbl">target</span> <strong id="slide-target-hdr">30</strong></span>
         </div>
       </div>
     </div>
@@ -358,16 +457,16 @@
   </div>
 
   <div class="tab-bar">
-    <button class="tab active" onclick="switchTab('dashboard')">Dashboard</button>
-    <button class="tab" onclick="switchTab('tracker')">Tracker</button>
-    <button class="tab" onclick="switchTab('reward')">Reward</button>
-    <button class="tab" onclick="switchTab('setting')">Pengaturan</button>
+    <button class="tab active" onclick="switchTab('dashboard')" data-i18n="tab_dash">Dashboard</button>
+    <button class="tab" onclick="switchTab('tracker')" data-i18n="tab_track">Tracker</button>
+    <button class="tab" onclick="switchTab('reward')" data-i18n="tab_rew">Reward</button>
+    <button class="tab" onclick="switchTab('setting')" data-i18n="tab_set">Pengaturan</button>
     <div class="tab-indicator" id="tab-indicator"></div>
   </div>
 
   <div class="sync-bar syncing" id="sync-bar">
     <div class="sync-dot"></div>
-    <span id="sync-txt">Menghubungkan ke Notion...</span>
+    <span id="sync-txt" data-i18n="sync_conn">Menghubungkan ke Notion...</span>
   </div>
   <div class="error-box" id="error-box" style="display:none"></div>
 
@@ -377,7 +476,7 @@
         <div class="fc-card">
           <div class="fc-bg-icon aura-blue" id="cd-icon">⏳</div>
           <div class="fc-content">
-            <div class="fc-title">⏳ Menuju Ujian</div>
+            <div class="fc-title" data-i18n="db_exam_lbl">⏳ Menuju Ujian</div>
             <div class="fc-val" id="cd-val">-</div>
             <div class="fc-sub" id="cd-lbl">Belum Diatur</div>
           </div>
@@ -386,15 +485,15 @@
           <div class="fc-card fc-half" style="flex: 1;">
             <div class="fc-bg-icon aura-gold">📖</div>
             <div class="fc-content">
-              <div class="fc-title">📖 Slide Dibaca</div>
+              <div class="fc-title" data-i18n="db_read_lbl">📖 Slide Dibaca</div>
               <div class="fc-val"><span id="m-slide">0</span></div>
-              <div class="fc-sub">Target: <span id="dash-target">30</span></div>
+              <div class="fc-sub"><span data-i18n="db_read_tgt">Target:</span> <span id="dash-target">30</span></div>
             </div>
           </div>
           <div class="fc-card fc-half" style="flex: 1;">
             <div class="fc-bg-icon aura-green" id="pacing-icon">🎯</div>
             <div class="fc-content">
-              <div class="fc-title">🎯 Target Harian</div>
+              <div class="fc-title" data-i18n="db_daily_lbl">🎯 Target Harian</div>
               <div class="fc-val"><span id="pacing-val">-</span></div>
               <div class="fc-sub" id="pacing-lbl">PPT / hari</div>
             </div>
@@ -403,104 +502,142 @@
         <div class="fc-card">
           <div class="fc-bg-icon" id="str-icon">🔥</div>
           <div class="fc-content">
-            <div class="fc-title">🔥 Hari Beruntun</div>
-            <div class="fc-val"><span id="str-val">0</span> <span style="font-size: 20px; margin-left: 4px; color: var(--amber);">Hari</span></div>
+            <div class="fc-title" data-i18n="db_streak_lbl">🔥 Hari Beruntun</div>
+            <div class="fc-val"><span id="str-val">0</span> <span style="font-size: 20px; margin-left: 4px; color: var(--amber);" data-i18n="db_streak_day">Hari</span></div>
             <div class="fc-sub" id="str-sub">Belum ada api sihir berturut-turut</div>
           </div>
         </div>
       </div>
+      
       <div class="page" id="tab-tracker">
         <div>
-          <div class="sec-lbl">Gulungan Slide per hari</div>
+          <div class="sec-lbl" data-i18n="trk_title_grid">Gulungan Slide per hari</div>
           <div class="days-grid" id="days-grid"></div>
         </div>
         <div>
-          <div class="sec-lbl">Catatan Perjalananmu Hari Ini</div>
+          <div class="sec-lbl" data-i18n="trk_title_input">Catatan Perjalananmu Hari Ini</div>
           <div class="input-card">
-            <div class="input-label">Berapa banyak gulungan slide yang berhasil kamu pelajari hari ini?</div>
+            <div class="input-label" data-i18n="trk_lbl_input">Berapa banyak gulungan slide yang berhasil kamu pelajari hari ini?</div>
             <div class="input-row">
               <input type="number" id="inp-slide" min="0" max="99" placeholder="0" class="field" />
-              <button class="btn-save" id="btn-slide" onclick="addSlide()">Simpan</button>
+              <button class="btn-save" id="btn-slide" onclick="addSlide()" data-i18n="btn_save">Simpan</button>
             </div>
-            <div class="save-msg" id="save-msg-slide">Tersimpan ke Notion!</div>
+            <div class="save-msg" id="save-msg-slide" data-i18n="msg_saved">Tersimpan ke Notion!</div>
           </div>
         </div>
       </div>
+      
       <div class="page" id="tab-reward">
-        <div class="reward-card">
+        <div class="reward-card" id="reward-card-container">
+          <div class="rc-glow" id="rc-glow"></div>
+          <div class="rc-particles" id="rc-particles"></div>
           <div class="rc-top">
-            <div class="rc-title">Reward Blok Ini</div>
+            <div class="rc-title" data-i18n="rew_title_card">Reward Blok Ini</div>
             <div class="rc-chip" id="rc-chip">0%</div>
           </div>
           <div class="rc-amount" id="rc-amount">Rp 0</div>
-          <div class="rc-note" id="rc-note">Mulai tambah bacaanmu untuk menghitung reward</div>
+          <div class="rc-note" id="rc-note" data-i18n="rew_note_card">Mulai tambah bacaanmu untuk menghitung reward</div>
           <div class="rc-bar"><div class="rc-bar-fill" id="rc-bar" style="width:0%"></div></div>
         </div>
         <div>
-          <div class="sec-lbl">Ketentuan Pencairan Reward</div>
+          <div class="sec-lbl" data-i18n="rew_title_rules">Ketentuan Pencairan Reward</div>
           <div class="rules-card">
-            <div class="rule-row"><div class="rule-icon">✅</div><div class="rule-text">Target Belajar Terpenuhi</div><div class="rule-val rv-g">Rp 200.000</div></div>
-            <div class="rule-row"><div class="rule-icon">⚠️</div><div class="rule-text">≥ 30% Target Belajar</div><div class="rule-val rv-a">Rp 150.000</div></div>
-            <div class="rule-row"><div class="rule-icon">❌</div><div class="rule-text">< 30% Target Belajar</div><div class="rule-val rv-r">No Reward</div></div>
-            <div class="rule-row"><div class="rule-icon">🚩</div><div class="rule-text">Meleset Checkpoint (25, 50, 75%)</div><div class="rule-val rv-r">-Rp 10.000</div></div>
-            <div class="rule-row"><div class="rule-icon">📉</div><div class="rule-text">Nilai Ujian < 60</div><div class="rule-val rv-r">-Rp 2k / poin</div></div>
+            <div class="rule-row"><div class="rule-icon">✅</div><div class="rule-text" data-i18n="rew_rule_1">Target Belajar Terpenuhi</div><div class="rule-val rv-g">Rp 200.000</div></div>
+            <div class="rule-row"><div class="rule-icon">⚠️</div><div class="rule-text" data-i18n="rew_rule_2">≥ 30% Target Belajar</div><div class="rule-val rv-a">Rp 150.000</div></div>
+            <div class="rule-row"><div class="rule-icon">❌</div><div class="rule-text" data-i18n="rew_rule_3">< 30% Target Belajar</div><div class="rule-val rv-r" data-i18n="rew_rule_none">No Reward</div></div>
+            <div class="rule-row"><div class="rule-icon">🚩</div><div class="rule-text" data-i18n="rew_rule_4">Meleset Checkpoint (25, 50, 75%)</div><div class="rule-val rv-r">-Rp 10.000</div></div>
+            <div class="rule-row"><div class="rule-icon">📉</div><div class="rule-text" data-i18n="rew_rule_5">Nilai Ujian < 60</div><div class="rule-val rv-r">-Rp 2k / poin</div></div>
           </div>
         </div>
         <div>
-          <div class="sec-lbl">Galeri Keajaiban (Lencana)</div>
+          <div class="sec-lbl" data-i18n="rew_title_gallery">Galeri Keajaiban (Lencana)</div>
           <div class="badge-grid">
             <div class="badge-item" id="badge-1">
               <div class="badge-icon">🌱</div>
-              <div class="badge-title">Awal Sihir</div>
-              <div class="badge-desc">Membaca slide pertamamu di blok ini.</div>
+              <div class="badge-title" data-i18n="bdg_1_title">Awal Sihir</div>
+              <div class="badge-desc" data-i18n="bdg_1_desc">Membaca slide pertamamu di blok ini.</div>
             </div>
             <div class="badge-item" id="badge-2">
               <div class="badge-icon">🔥</div>
-              <div class="badge-title">Api Semangat</div>
-              <div class="badge-desc">Belajar 3 hari secara berturut-turut.</div>
+              <div class="badge-title" data-i18n="bdg_2_title">Api Semangat</div>
+              <div class="badge-desc" data-i18n="bdg_2_desc">Belajar 3 hari secara berturut-turut.</div>
             </div>
             <div class="badge-item" id="badge-3">
               <div class="badge-icon">✨</div>
-              <div class="badge-title">Sayap Bersinar</div>
-              <div class="badge-desc">Mencapai separuh (50%) dari target blok.</div>
+              <div class="badge-title" data-i18n="bdg_3_title">Sayap Bersinar</div>
+              <div class="badge-desc" data-i18n="bdg_3_desc">Mencapai separuh (50%) dari target blok.</div>
             </div>
             <div class="badge-item" id="badge-4">
               <div class="badge-icon">👑</div>
-              <div class="badge-title">Peri Lulus</div>
-              <div class="badge-desc">Berhasil menyentuh target 100% belajar.</div>
+              <div class="badge-title" data-i18n="bdg_4_title">Peri Lulus</div>
+              <div class="badge-desc" data-i18n="bdg_4_desc">Berhasil menyentuh target 100% belajar.</div>
+            </div>
+            <div class="badge-item" id="badge-5">
+              <div class="badge-icon">🧩</div>
+              <div class="badge-title" data-i18n="bdg_5_title">Ahli Ingatan</div>
+              <div class="badge-desc" data-i18n="bdg_5_desc">Memainkan kepingan ingatan pertamamu.</div>
+            </div>
+            <div class="badge-item" id="badge-6">
+              <div class="badge-icon">🪄</div>
+              <div class="badge-title" data-i18n="bdg_6_title">Mantra Terangkai</div>
+              <div class="badge-desc" data-i18n="bdg_6_desc">Menyelesaikan ujian mantra pertamamu.</div>
+            </div>
+            <div class="badge-item" id="badge-7">
+              <div class="badge-icon">⏳</div>
+              <div class="badge-title" data-i18n="bdg_7_title">Waktu Terhenti</div>
+              <div class="badge-desc" data-i18n="bdg_7_desc">Berhasil menyelesaikan 25 menit sesi fokus.</div>
             </div>
           </div>
         </div>
       </div>
+      
       <div class="page" id="tab-setting">
         <div>
-          <div class="sec-lbl">Pengaturan blok</div>
+          <div class="sec-lbl" data-i18n="set_interface_lbl">Antarmuka & Keajaiban</div>
+          <div class="settings-card">
+            <div class="input-row" style="align-items: center; justify-content: space-between;">
+              <div class="set-label" style="margin:0;" data-i18n="set_theme_lbl">Suasana Hati (Tema)</div>
+              <button class="btn-save" id="btn-theme-toggle" onclick="toggleTheme()" style="padding: 8px 16px; border-radius: 10px;">🌙 Malam Ajaib</button>
+            </div>
+            <div style="height: 1px; background: var(--border-card); margin: 5px 0;"></div>
+            <div class="input-row" style="align-items: center; justify-content: space-between;">
+              <div class="set-label" style="margin:0;" data-i18n="set_lang_lbl">Bahasa Sihir (Language)</div>
+              <select id="lang-select" class="field" style="width: auto; padding: 8px 12px; font-size: 13px; font-weight: 700; border-radius: 10px;" onchange="changeLanguage(this.value)">
+                <option value="id">🇮🇩 Indonesia</option>
+                <option value="en">🇬🇧 English</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="sec-lbl" data-i18n="set_block_lbl">Pengaturan blok</div>
           <div class="settings-card">
             <div>
-              <div class="set-label">Tanggal mulai blok</div>
+              <div class="set-label" data-i18n="set_start_lbl">Tanggal mulai blok</div>
               <input type="date" id="set-block-start" class="field" style="width:100%" />
             </div>
             <div>
-              <div class="set-label">Tanggal ujian</div>
+              <div class="set-label" data-i18n="set_end_lbl">Tanggal ujian</div>
               <input type="date" id="set-block-end" class="field" style="width:100%" />
             </div>
             <div>
-              <div class="set-label">Target Bacaan Blok ini</div>
+              <div class="set-label" data-i18n="set_target_lbl">Target Bacaan Blok ini</div>
               <input type="number" id="set-target" min="5" max="500" placeholder="30" class="field" style="width:100%" />
             </div>
             <div>
-              <div class="set-label">Nama kamu</div>
-              <input type="text" id="set-name" placeholder="Ketik namamu di sini" class="field" style="width:100%" />
+              <div class="set-label" data-i18n="set_name_lbl">Nama kamu</div>
+              <input type="text" id="set-name" placeholder="..." class="field" style="width:100%" />
             </div>
-            <button class="btn-save btn-full" id="btn-set" onclick="saveSettings()">Simpan Pengaturan</button>
-            <div class="save-msg" id="save-msg-set" style="text-align:center">Pengaturan tersimpan ke Notion!</div>
+            <button class="btn-save btn-full" id="btn-set" onclick="saveSettings()" data-i18n="btn_save_set">Simpan Pengaturan</button>
+            <div class="save-msg" id="save-msg-set" style="text-align:center" data-i18n="msg_set_saved">Pengaturan tersimpan!</div>
           </div>
         </div>
         <div>
-          <div class="sec-lbl">Sistem</div>
+          <div class="sec-lbl" data-i18n="set_sys_lbl">Sistem</div>
           <div class="input-card">
-            <div class="input-label" style="margin-bottom:12px; line-height:1.5;">Gunakan tombol ini setiap awal blok baru untuk mengosongkan riwayat, lencana, dan nilai.</div>
-            <button class="btn-reset btn-full" onclick="resetBlok()">Reset Blok Baru</button>
+            <div class="input-label" style="margin-bottom:12px; line-height:1.5;" data-i18n="set_reset_desc">Gunakan tombol ini setiap awal blok baru untuk mengosongkan riwayat, lencana, dan nilai.</div>
+            <button class="btn-reset btn-full" onclick="resetBlok()" data-i18n="btn_reset">Reset Blok Baru</button>
           </div>
         </div>
       </div>
@@ -511,102 +648,102 @@
 
   <div class="float-container">
     <div class="float-menu" id="float-menu">
-      <button class="menu-btn" onclick="openMatchModal()">🧩 Kepingan Ingatan</button>
-      <button class="menu-btn" onclick="openFcListModal()">🪄 Ruang Mantra</button>
-      <button class="menu-btn" onclick="openTimerModal()">⏳ Mulai Fokus</button>
+      <button class="menu-btn" onclick="openMatchModal()">🧩 <span data-i18n="menu_match">Kepingan Ingatan</span></button>
+      <button class="menu-btn" onclick="openFcListModal()">🪄 <span data-i18n="menu_fc">Ruang Mantra</span></button>
+      <button class="menu-btn" onclick="openTimerModal()">⏳ <span data-i18n="menu_focus">Mulai Fokus</span></button>
     </div>
     <button class="float-timer-btn" id="main-float-btn" onclick="toggleFloatMenu()">✨</button>
   </div>
 
+  <!-- MATCH MODAL -->
   <div class="welcome-overlay" id="match-modal">
     <div class="welcome-card" style="max-height: 90vh; overflow-y: auto; padding: 30px 20px; width: 95%; max-width: 550px; position: relative;">
       <button class="btn-close-top" onclick="closeMatchModal()">✖</button>
-      <h2 style="font-family:var(--serif); color:var(--gold-dark); font-style:italic; margin-bottom: 15px; margin-top: 10px;">Kepingan Ingatan</h2>
+      <h2 style="font-family:var(--serif); color:var(--gold-dark); font-style:italic; margin-bottom: 15px; margin-top: 10px;" data-i18n="menu_match">Kepingan Ingatan</h2>
       <div id="match-view-list">
         <div id="match-items-container" style="margin-bottom: 15px; max-height: 250px; overflow-y: auto; padding-right: 5px;"></div>
         
         <div class="fc-card dropzone" id="match-dropzone" style="padding: 20px; text-align: center; margin-bottom: 15px;">
-          <div style="font-size: 11px; font-weight: 700; color: var(--text-soft); margin-bottom: 8px; letter-spacing: 0.1em;">TAMBAH KEPINGAN INGATAN</div>
-          <div style="font-size: 13px; color: var(--text-mid); margin-bottom: 12px; font-weight: 500; line-height: 1.5;">
-            Tarik & lepas gambarmu ke sini,<br>
-            tekan <strong>Ctrl+V</strong> untuk menempel dari <i>clipboard</i>,<br>
-            atau klik tombol di bawah 🪄
+          <div style="font-size: 11px; font-weight: 700; color: var(--text-soft); margin-bottom: 8px; letter-spacing: 0.1em;" data-i18n="match_add_title">TAMBAH KEPINGAN INGATAN</div>
+          <div style="font-size: 13px; color: var(--text-mid); margin-bottom: 12px; font-weight: 500; line-height: 1.5;" data-i18n="match_add_desc">
+            Tarik & lepas gambarmu ke sini,<br>tekan <strong>Ctrl+V</strong> untuk menempel dari <i>clipboard</i>,<br>atau klik tombol di bawah 🪄
           </div>
           <input type="file" id="match-file-input" accept="image/*" style="display: none;" onchange="handleMatchImageUpload(event)">
-          <button class="btn-save btn-full" style="background: linear-gradient(135deg, var(--gold-dark), var(--gold-light)); border-radius: 12px; font-size: 14px; padding: 12px;" onclick="document.getElementById('match-file-input').click()">📁 Pilih Gambar</button>
+          <button class="btn-save btn-full" style="background: linear-gradient(135deg, var(--gold-dark), var(--gold-light)); border-radius: 12px; font-size: 14px; padding: 12px;" onclick="document.getElementById('match-file-input').click()" data-i18n="btn_choose_img">📁 Pilih Gambar</button>
         </div>
 
-        <button class="btn-save btn-full" style="font-size: 15px; padding: 14px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 4px 15px rgba(74, 155, 40, 0.3);" onclick="startMatchPlay()">Mulai Merangkai Ingatan 🧩</button>
-        <button class="btn-reset btn-full" style="font-size: 13px; padding: 12px; border-radius: 12px; background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: none;" onclick="deleteAllMatchItems()">🗑️ Hapus Semua Kepingan</button>
+        <button class="btn-save btn-full" style="font-size: 15px; padding: 14px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 4px 15px rgba(74, 155, 40, 0.3);" onclick="startMatchPlay()" data-i18n="btn_start_match">Mulai Merangkai Ingatan 🧩</button>
+        <button class="btn-reset btn-full" style="font-size: 13px; padding: 12px; border-radius: 12px; background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: none;" onclick="deleteAllMatchItems()" data-i18n="btn_del_all_match">🗑️ Hapus Semua Kepingan</button>
       </div>
       <div id="match-view-crop" style="display: none;">
-        <p style="font-size: 13px; color: var(--text-mid); margin-bottom: 15px; font-weight: 600;">Sentuh dan tarik untuk memotong area yang ingin diingat ✂️</p>
+        <p style="font-size: 13px; color: var(--text-mid); margin-bottom: 15px; font-weight: 600;" data-i18n="crop_desc">Sentuh dan tarik untuk memotong area yang ingin diingat ✂️</p>
         <div class="crop-container" id="crop-container">
           <canvas id="crop-canvas"></canvas>
         </div>
-        <input type="text" id="match-word-input" class="field" placeholder="Apa sebutan untuk gambar ini?..." style="width: 100%; margin-bottom: 15px; text-align: center; border-radius: 12px; font-weight: 600;" autocomplete="off">
+        <input type="text" id="match-word-input" class="field" placeholder="..." style="width: 100%; margin-bottom: 15px; text-align: center; border-radius: 12px; font-weight: 600;" autocomplete="off">
         <div style="display: flex; gap: 10px;">
-          <button class="btn-reset" style="flex: 1; border-radius: 12px; background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: none;" onclick="cancelCrop()">Batal</button>
-          <button class="btn-save" style="flex: 2; border-radius: 12px;" onclick="saveCrop()">Simpan Potongan ✨</button>
+          <button class="btn-reset" style="flex: 1; border-radius: 12px; background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: none;" onclick="cancelCrop()" data-i18n="btn_cancel">Batal</button>
+          <button class="btn-save" style="flex: 2; border-radius: 12px;" onclick="saveCrop()" data-i18n="btn_save_crop">Simpan Potongan ✨</button>
         </div>
       </div>
       <div id="match-view-play" style="display: none;">
         <div style="font-size:11px; color:var(--text-soft); margin-bottom:15px; font-weight:700; letter-spacing: 0.1em; text-transform: uppercase;" id="match-play-counter">Ingatan 1 dari 10</div>
         <img id="match-play-current-img" class="match-play-img" src="">
-        <div style="height: 1px; width: 60%; background: linear-gradient(90deg, transparent, rgba(245,200,66,0.3), transparent); margin: 0 auto 20px;"></div>
-        <p style="font-size: 14px; color: var(--text-mid); margin-bottom: 15px; font-weight: 600;">Manakah yang paling tepat untuk menggambarkan kepingan ini?</p>
+        <div style="height: 1px; width: 60%; background: linear-gradient(90deg, transparent, var(--border-card), transparent); margin: 0 auto 20px;"></div>
+        <p style="font-size: 14px; color: var(--text-mid); margin-bottom: 15px; font-weight: 600;" data-i18n="match_play_desc">Manakah yang paling tepat untuk menggambarkan kepingan ini?</p>
         <div class="match-words-grid" id="match-play-words"></div>
         <div class="match-nav-controls">
-          <button class="btn-reset" style="flex:1; border:none; background:rgba(0,0,0,0.05); color: var(--text-dark); border-radius: 12px;" onclick="navMatchPlay(-1)" id="btn-match-prev">❮ Sebelumnya</button>
+          <button class="btn-reset" style="flex:1; border:none; background:var(--bg-input); color: var(--text-dark); border-radius: 12px;" onclick="navMatchPlay(-1)" id="btn-match-prev">❮ Sebelumnya</button>
           <button class="btn-save" style="flex:1; border-radius: 12px;" onclick="navMatchPlay(1)" id="btn-match-next">Selanjutnya ❯</button>
         </div>
       </div>
       <div id="match-view-review" style="display: none;">
         <div class="match-review-nav">
-          <button class="subtle-arrow" onclick="navMatchReviewPage(-1)" style="opacity:0.8; background:rgba(0,0,0,0.05); width:40px; height:40px;">❮</button>
+          <button class="subtle-arrow" onclick="navMatchReviewPage(-1)" style="opacity:0.8; background:var(--bg-input); width:40px; height:40px;">❮</button>
           <span style="font-weight:700;" id="match-review-page">Halaman 1</span>
-          <button class="subtle-arrow" onclick="navMatchReviewPage(1)" style="opacity:0.8; background:rgba(0,0,0,0.05); width:40px; height:40px;">❯</button>
+          <button class="subtle-arrow" onclick="navMatchReviewPage(1)" style="opacity:0.8; background:var(--bg-input); width:40px; height:40px;">❯</button>
         </div>
         <div id="match-review-detail" style="margin-bottom:20px; display:flex; flex-direction:column; gap:10px;"></div>
-        <button class="btn-save btn-full" style="border-radius:12px; padding:14px; font-size:15px;" onclick="submitMatch()">✨ Periksa Hasil Rangkaian</button>
-        <button class="btn-reset btn-full" style="margin-top:10px; border:none; background:none; color:var(--text-soft);" onclick="switchMatchTab('list')">Kembali</button>
+        <button class="btn-save btn-full" style="border-radius:12px; padding:14px; font-size:15px;" onclick="submitMatch()" data-i18n="btn_review_res">✨ Periksa Hasil Rangkaian</button>
+        <button class="btn-reset btn-full" style="margin-top:10px; border:none; background:none; color:var(--text-soft);" onclick="switchMatchTab('list')" data-i18n="btn_back">Kembali</button>
       </div>
       <div id="match-result-overlay" style="display: none; position: absolute; inset: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 100; border-radius: 24px; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
         <div id="match-result-icon" style="font-size: 80px; margin-bottom: 10px; filter: drop-shadow(0 10px 20px rgba(245,200,66,0.4)); animation: float-magical 3s infinite alternate;">🎉</div>
         <h3 id="match-result-title" style="font-family: var(--serif); color: var(--gold-dark); margin-bottom: 10px; font-size: 32px; font-style: italic;">Luar Biasa!</h3>
         <p id="match-result-text" style="font-size: 15px; color: var(--text-dark); margin-bottom: 30px; text-align: center; line-height: 1.5; font-weight: 600;"></p>
-        <button class="btn-save" style="border-radius: 20px; padding: 12px 30px;" onclick="document.getElementById('match-result-overlay').style.display='none'; switchMatchTab('list');">Tutup Hasil</button>
+        <button class="btn-save" style="border-radius: 20px; padding: 12px 30px;" onclick="document.getElementById('match-result-overlay').style.display='none'; switchMatchTab('list');" data-i18n="btn_close_res">Tutup Hasil</button>
       </div>
     </div>
   </div>
 
-   <div class="welcome-overlay" id="fc-list-modal">
+  <!-- MODAL LIST MANTRA -->
+  <div class="welcome-overlay" id="fc-list-modal">
   <div class="welcome-card" style="max-height: 85vh; overflow-y: auto; padding: 30px 20px; width: 95%; max-width: 600px; position: relative;">
     <button class="btn-close-top" onclick="closeFcListModal()">✖</button>
-    <h2 style="font-family:var(--serif); color:var(--gold-dark); font-style:italic; margin-bottom: 10px;">Ruang Mantra</h2>
+    <h2 style="font-family:var(--serif); color:var(--gold-dark); font-style:italic; margin-bottom: 10px;" data-i18n="menu_fc">Ruang Mantra</h2>
     
-    <div style="display: flex; gap: 5px; margin-bottom: 20px; background: rgba(255,255,255,0.5); padding: 4px; border-radius: 12px;">
-      <button class="fc-tab-btn active" onclick="switchFcMainTab('list', this)">📚 Daftar Tumpukan</button>
-      <button class="fc-tab-btn" onclick="switchFcMainTab('test', this)">🧪 Uji Kemampuan</button>
+    <div style="display: flex; gap: 5px; margin-bottom: 20px; background: var(--bg-input); padding: 4px; border-radius: 12px;">
+      <button class="fc-tab-btn active" onclick="switchFcMainTab('list', this)" data-i18n="fc_tab_list">📚 Daftar Tumpukan</button>
+      <button class="fc-tab-btn" onclick="switchFcMainTab('test', this)" data-i18n="fc_tab_test">🧪 Uji Kemampuan</button>
     </div>
 
     <div id="fc-main-list">
       <div id="fc-list-container" style="margin-bottom: 20px;"></div>
       <div class="fc-card" style="padding: 16px; border: 1px dashed rgba(245,200,66,0.6);">
-        <div style="font-size: 11px; font-weight: 700; color: var(--text-soft); margin-bottom: 10px;">TAMBAH MANTRA BARU</div>
-        <div style="display: flex; gap: 5px; margin-bottom: 15px; background: rgba(255,255,255,0.5); padding: 4px; border-radius: 12px;">
-          <button class="fc-tab-btn active" onclick="switchFcMode('single', this)">Satu Persatu</button>
-          <button class="fc-tab-btn" onclick="switchFcMode('bulk', this)">Banyak Sekaligus 🪄</button>
+        <div style="font-size: 11px; font-weight: 700; color: var(--text-soft); margin-bottom: 10px;" data-i18n="fc_add_title">TAMBAH MANTRA BARU</div>
+        <div style="display: flex; gap: 5px; margin-bottom: 15px; background: var(--bg-input); padding: 4px; border-radius: 12px;">
+          <button class="fc-tab-btn active" onclick="switchFcMode('single', this)" data-i18n="fc_mode_single">Satu Persatu</button>
+          <button class="fc-tab-btn" onclick="switchFcMode('bulk', this)" data-i18n="fc_mode_bulk">Banyak Sekaligus 🪄</button>
         </div>
         <div id="fc-mode-single">
-          <input type="text" id="fc-q" placeholder="Contoh: Apa fungsi dari Epididimis?" class="field" style="width: 100%; margin-bottom: 10px; border-radius: 12px;" />
-          <textarea id="fc-a" placeholder="Contoh: Tempat pematangan dan penyimpanan sementara spermatozoa..." class="field" style="width: 100%; margin-bottom: 15px; resize: vertical; min-height: 60px; border-radius: 12px;"></textarea>
-          <button class="btn-save btn-full" style="border-radius: 12px; font-size: 14px;" onclick="tambahFlashcard()">Tambahkan ke Tumpukan ✦</button>
+          <input type="text" id="fc-q" placeholder="..." class="field" style="width: 100%; margin-bottom: 10px; border-radius: 12px;" />
+          <textarea id="fc-a" placeholder="..." class="field" style="width: 100%; margin-bottom: 15px; resize: vertical; min-height: 60px; border-radius: 12px;"></textarea>
+          <button class="btn-save btn-full" style="border-radius: 12px; font-size: 14px;" onclick="tambahFlashcard()" data-i18n="btn_add_fc">Tambahkan ke Tumpukan ✦</button>
         </div>
         <div id="fc-mode-bulk" style="display: none;">
-          <div style="font-size: 12px; color: var(--text-mid); margin-bottom: 12px; line-height: 1.5; background: rgba(245,200,66,0.1); padding: 10px; border-radius: 8px;"><strong>Cara Cepat:</strong> Salin catatanmu ke kotak di bawah. Gunakan tanda hubung ( - ) atau titik dua ( : ) untuk memisahkan pertanyaan dan jawaban.</div>
-          <textarea id="fc-bulk-text" placeholder="Tempel teks di sini..." class="field" style="width: 100%; margin-bottom: 15px; resize: vertical; min-height: 100px; border-radius: 12px; font-family: monospace; font-size: 13px; line-height: 1.6;"></textarea>
-          <button class="btn-save btn-full" style="border-radius: 12px; background: linear-gradient(135deg, var(--gold-dark), var(--amber)); font-size: 14px;" onclick="tambahFlashcardMassal()">Ubah Jadi Kartu Ajaib ✨</button>
+          <div style="font-size: 12px; color: var(--text-mid); margin-bottom: 12px; line-height: 1.5; background: rgba(245,200,66,0.1); padding: 10px; border-radius: 8px;" data-i18n="fc_bulk_desc"><strong>Cara Cepat:</strong> Salin catatanmu ke kotak di bawah. Gunakan tanda hubung ( - ) atau titik dua ( : ) untuk memisahkan pertanyaan dan jawaban.</div>
+          <textarea id="fc-bulk-text" placeholder="..." class="field" style="width: 100%; margin-bottom: 15px; resize: vertical; min-height: 100px; border-radius: 12px; font-family: monospace; font-size: 13px; line-height: 1.6;"></textarea>
+          <button class="btn-save btn-full" style="border-radius: 12px; background: linear-gradient(135deg, var(--gold-dark), var(--amber)); font-size: 14px;" onclick="tambahFlashcardMassal()" data-i18n="btn_add_bulk">Ubah Jadi Kartu Ajaib ✨</button>
         </div>
         <div class="save-msg" id="save-msg-fc" style="text-align:center; margin-top: 10px; font-size: 13px;"></div>
       </div>
@@ -614,26 +751,30 @@
 
     <div id="fc-main-test" style="display: none;">
       <div id="fc-test-setup">
-        <p style="margin-bottom:15px; font-weight:600;">Bagaimana kamu ingin menguji ingatanmu hari ini?</p>
-        <button class="btn-save btn-full" onclick="startFcTest('all')" style="font-size: 14px; padding: 14px;">📦 Semua Tumpukan Kartu</button>
-        <button class="btn-save btn-full" style="margin-top:10px; background:var(--amber); font-size: 14px; padding: 14px;" onclick="startFcTest('difficult')" id="btn-test-difficult">⚠️ Ulangi Kartu yang Sulit (<span id="difficult-count">0</span>)</button>
-        <div style="margin-top:20px;"><div class="best-record-badge">🏆 Catatan Terbaik: <span id="best-record-display">-</span></div></div>
+        <p style="margin-bottom:15px; font-weight:600;" data-i18n="fc_test_setup_desc">Bagaimana kamu ingin menguji ingatanmu hari ini?</p>
+        <button class="btn-save btn-full" onclick="startFcTest('all')" style="font-size: 14px; padding: 14px;" data-i18n="btn_test_all">📦 Semua Tumpukan Kartu</button>
+        <button class="btn-save btn-full" style="margin-top:10px; background:var(--amber); font-size: 14px; padding: 14px;" onclick="startFcTest('difficult')" id="btn-test-difficult">⚠️ Ulangi Kartu yang Sulit</button>
+        <div style="margin-top:20px;"><div class="best-record-badge"><span id="best-record-wrapper"><span data-i18n="res_record">🏆 Rekor: {1}s</span></span></div></div>
       </div>
       <div id="fc-test-play" style="display: none;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span id="fc-test-progress" style="font-weight:700;">1/10</span><span style="color:var(--text-soft); font-weight:600;">⏱️ <span id="fc-test-timer">00:00</span></span></div>
         <div class="flashcard" style="height:180px; margin-bottom:20px; pointer-events:none;"><div class="flashcard-front" style="padding:20px; display:flex; align-items:center; justify-content:center;"><div id="fc-test-question" style="font-size:20px;">Pertanyaan</div></div></div>
         <div id="fc-test-options" class="match-words-grid" style="flex-direction:column; gap:8px;"></div>
-        <div class="match-nav-controls" style="margin-top:20px;"><button class="btn-reset" onclick="navFcTest(-1)">❮ Sebelumnya</button><button class="btn-save" onclick="navFcTest(1)" id="fc-test-next">Selanjutnya ❯</button></div>
+        <div class="match-nav-controls" style="margin-top:20px;">
+          <button class="btn-reset" onclick="navFcTest(-1)" style="background:var(--bg-input);" id="btn-fc-prev-test">❮ Sebelumnya</button>
+          <button class="btn-save" onclick="navFcTest(1)" id="fc-test-next">Selanjutnya ❯</button>
+        </div>
       </div>
       <div id="fc-test-review" style="display: none;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 15px;"><button class="subtle-arrow" onclick="navFcReviewPage(-1)">❮</button><span id="fc-review-page" style="font-weight:700;">Halaman 1</span><button class="subtle-arrow" onclick="navFcReviewPage(1)">❯</button></div>
         <div id="fc-review-detail" style="margin-bottom:20px;"></div>
-        <button class="btn-save btn-full" style="font-size: 14px; padding: 14px;" onclick="finishFcTest()">Selesai Melihat Hasil</button>
+        <button class="btn-save btn-full" style="font-size: 14px; padding: 14px;" onclick="finishFcTest()" data-i18n="btn_fc_finish">Selesai Melihat Hasil</button>
       </div>
     </div>
   </div>
 </div>
 
+  <!-- MODAL PRAKTEK KARTU MANTRA -->
   <div class="welcome-overlay" id="fc-view-modal">
     <button class="btn-close-top" style="position: absolute; top: 20px; left: 20px; width: 45px; height: 45px; font-size: 22px; background: rgba(255,255,255,0.2); color: #fff;" onclick="closeFcViewModal()">❮</button>
     <div class="fc-nav-wrapper">
@@ -646,21 +787,22 @@
         <div class="flashcard-inner">
           <div class="flashcard-front">
             <div class="fc-content-text" id="fc-view-q">Pertanyaan</div>
-            <div class="fc-hint-text">[Spasi] atau Klik untuk membalik</div>
+            <div class="fc-hint-text" data-i18n="fc_hint_flip">[Spasi] atau Klik</div>
           </div>
           <div class="flashcard-back">
             <div class="fc-content-text" id="fc-view-a">Jawaban</div>
-            <div class="fc-hint-text">[Spasi] atau Klik untuk kembali</div>
+            <div class="fc-hint-text" data-i18n="fc_hint_flip">[Spasi] atau Klik</div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- TIMER MODAL -->
   <div class="welcome-overlay" id="timer-modal">
     <div class="welcome-card" style="padding-top: 40px; position: relative;">
       <button class="btn-close-top" id="btn-timer-close-top" onclick="closeTimerModal()">✖</button>
-      <h2 id="timer-title" style="font-family:var(--serif); color:var(--green-deep); font-style:italic">Fokus Sihir</h2>
+      <h2 id="timer-title" style="font-family:var(--serif); color:var(--green-deep); font-style:italic" data-i18n="timer_title">Fokus Sihir</h2>
       <div class="timer-split-view">
         <div class="timer-anim-col">
           <div class="focus-stage">
@@ -686,52 +828,53 @@
           <p id="timer-status" style="font-size:14px; color:var(--text-mid); margin-bottom:15px; margin-top:10px; min-height: 40px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight:600;">Siap memulai sesi fokus 25 menit?</p>
         </div>
         <div class="timer-music-col" id="music-container">
-          <p style="font-size: 11px; color: var(--text-soft); text-align: center; margin-bottom: 5px; font-style: italic;">✦ Login ke akun Spotify-mu di browser ini agar lagu dapat berputar penuh ✦</p>
+          <p style="font-size: 11px; color: var(--text-soft); text-align: center; margin-bottom: 5px; font-style: italic;" data-i18n="timer_spotify">✦ Login ke akun Spotify-mu di browser ini agar lagu dapat berputar penuh ✦</p>
           <iframe data-testid="embed-iframe" style="border-radius:12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" src="https://open.spotify.com/embed/playlist/1e6YJipVpYh8ZQDUrFHBv6?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
       </div>
       <div id="extra-time-options" style="display:none; margin-bottom: 15px;">
-        <p style="font-size:13px; color:var(--text-mid); margin-bottom:10px; font-weight:700;">Masih belum selesai? Tambah waktu:</p>
+        <p style="font-size:13px; color:var(--text-mid); margin-bottom:10px; font-weight:700;" data-i18n="timer_extra_desc">Masih belum selesai? Tambah waktu:</p>
         <div style="display:flex; gap:10px;">
-          <button class="btn-save" style="flex:1; background:var(--amber);" onclick="addExtraTime(5)">+ 5 Menit</button>
-          <button class="btn-save" style="flex:1; background:var(--amber);" onclick="addExtraTime(10)">+ 10 Menit</button>
+          <button class="btn-save" style="flex:1; background:var(--amber);" onclick="addExtraTime(5)" data-i18n="btn_extra_5">+ 5 Menit</button>
+          <button class="btn-save" style="flex:1; background:var(--amber);" onclick="addExtraTime(10)" data-i18n="btn_extra_10">+ 10 Menit</button>
         </div>
-        <button class="btn-reset btn-full" style="margin-top:10px;" onclick="finishFocusAndRest()">Cukup, Ayo Istirahat 💧</button>
+        <button class="btn-reset btn-full" style="margin-top:10px;" onclick="finishFocusAndRest()" data-i18n="btn_rest">Cukup, Ayo Istirahat 💧</button>
       </div>
-      <button class="btn-save welcome-btn" id="btn-timer-toggle" onclick="startTimer()">Mulai Fokus ✦</button>
+      <button class="btn-save welcome-btn" id="btn-timer-toggle" onclick="startTimer()" data-i18n="btn_start_focus">Mulai Fokus ✦</button>
     </div>
   </div>
 
+  <!-- WELCOME MODALS -->
   <div class="welcome-overlay" id="welcome-modal">
     <div class="welcome-card">
-      <h1 class="welcome-title">Pixie Hollow</h1>
-      <p class="welcome-subtitle">Siapa namamu, peri kecil?</p>
-      <input type="text" id="welcome-name" class="field welcome-input" placeholder="Ketik namamu..." autocomplete="off" />
-      <button class="btn-save welcome-btn" onclick="mulaiPetualangan()">Mulai Petualangan ✦</button>
-      <div class="save-msg" id="welcome-error" style="color: var(--red-soft); margin-top: 10px;">Namamu tidak boleh kosong ya!</div>
+      <h1 class="welcome-title" data-i18n="welcome_title">Pixie Hollow</h1>
+      <p class="welcome-subtitle" data-i18n="welcome_sub">Siapa namamu, peri kecil?</p>
+      <input type="text" id="welcome-name" class="field welcome-input" placeholder="..." autocomplete="off" />
+      <button class="btn-save welcome-btn" onclick="mulaiPetualangan()" data-i18n="btn_start_adv">Mulai Petualangan ✦</button>
+      <div class="save-msg" id="welcome-error" style="color: var(--red-soft); margin-top: 10px;" data-i18n="err_name_empty">Namamu tidak boleh kosong ya!</div>
     </div>
   </div>
 
   <div class="welcome-overlay" id="setup-modal">
     <div class="welcome-card">
-      <h1 class="welcome-title" style="font-size: 26px;">Persiapan Misi</h1>
-      <p class="welcome-subtitle" style="margin-bottom: 16px;">Ayo atur tujuan belajarmu kali ini!</p>
+      <h1 class="welcome-title" style="font-size: 26px;" data-i18n="setup_title">Persiapan Misi</h1>
+      <p class="welcome-subtitle" style="margin-bottom: 16px;" data-i18n="setup_sub">Ayo atur tujuan belajarmu kali ini!</p>
       <div style="text-align: left; margin-bottom: 16px;">
-        <label class="input-label">Mulai Belajar:</label>
+        <label class="input-label" data-i18n="setup_start_lbl">Mulai Belajar:</label>
         <input type="date" id="setup-start" class="field" style="width: 100%; margin-bottom: 10px;" />
-        <label class="input-label">Tanggal Ujian:</label>
+        <label class="input-label" data-i18n="setup_end_lbl">Tanggal Ujian:</label>
         <input type="date" id="setup-end" class="field" style="width: 100%; margin-bottom: 10px;" />
-        <label class="input-label">Target Total Slide:</label>
-        <input type="number" id="setup-target" class="field" style="width: 100%;" placeholder="Contoh: 30" />
+        <label class="input-label" data-i18n="setup_target_lbl">Target Total Slide:</label>
+        <input type="number" id="setup-target" class="field" style="width: 100%;" placeholder="..." />
       </div>
-      <button class="btn-save welcome-btn" onclick="simpanSetupAwal()">Siap Terbang! ✦</button>
+      <button class="btn-save welcome-btn" onclick="simpanSetupAwal()" data-i18n="btn_ready">Siap Terbang! ✦</button>
     </div>
   </div>
 
   <div class="welcome-overlay" id="mood-modal">
     <div class="welcome-card" style="padding-bottom: 30px;">
-      <h1 class="welcome-title" style="font-size: 28px;">Perasaanmu</h1>
-      <p class="welcome-subtitle">Kerja bagus! Bagaimana perasaanmu setelah membaca hari ini?</p>
+      <h1 class="welcome-title" style="font-size: 28px;" data-i18n="mood_title">Perasaanmu</h1>
+      <p class="welcome-subtitle" data-i18n="mood_sub">Kerja bagus! Bagaimana perasaanmu setelah membaca hari ini?</p>
       <div class="mood-wrap" style="justify-content: center; transform: scale(1.2); margin-top: 10px;">
         <button class="mood-btn" onclick="simpanMood('🤩', this)">🤩</button>
         <button class="mood-btn" onclick="simpanMood('😌', this)">😌</button>
@@ -743,20 +886,20 @@
 
   <div class="welcome-overlay" id="exam-modal">
     <div class="welcome-card">
-      <h1 class="welcome-title">Hari Penentuan! 📝</h1>
-      <p class="welcome-subtitle">Bagaimana hasil belajarmu selama ini?</p>
+      <h1 class="welcome-title" data-i18n="exam_title">Hari Penentuan! 📝</h1>
+      <p class="welcome-subtitle" data-i18n="exam_sub">Bagaimana hasil belajarmu selama ini?</p>
       <input type="number" id="exam-score-input" class="field welcome-input" placeholder="0 - 100" min="0" max="100" />
-      <button class="btn-save welcome-btn" id="btn-submit-exam" onclick="submitExamScore()">Simpan Nilai ✦</button>
-      <div class="save-msg" id="exam-error" style="color: var(--red-soft); margin-top: 10px;">Masukkan rentang nilai yang benar (0-100) ya!</div>
+      <button class="btn-save welcome-btn" id="btn-submit-exam" onclick="submitExamScore()" data-i18n="btn_save_score">Simpan Nilai ✦</button>
+      <div class="save-msg" id="exam-error" style="color: var(--red-soft); margin-top: 10px;" data-i18n="err_score">Masukkan rentang nilai yang benar (0-100) ya!</div>
     </div>
   </div>
 
   <div class="welcome-overlay" id="result-modal">
     <div class="welcome-card">
       <img src="" id="result-image" class="result-image" alt="Hasil Peri" />
-      <h1 class="welcome-title" id="result-title">Selamat!</h1>
-      <p class="welcome-subtitle" id="result-message" style="font-size: 15px; line-height: 1.5; color: var(--text-dark);">Kerja bagus!</p>
-      <button class="btn-save welcome-btn" onclick="closeResultModal()">Tutup ✦</button>
+      <h1 class="welcome-title" id="result-title" data-i18n="res_title_def">Selamat!</h1>
+      <p class="welcome-subtitle" id="result-message" style="font-size: 15px; line-height: 1.5; color: var(--text-dark);" data-i18n="res_msg_def">Kerja bagus!</p>
+      <button class="btn-save welcome-btn" onclick="closeResultModal()" data-i18n="btn_close_res">Tutup ✦</button>
     </div>
   </div>
 
@@ -798,6 +941,403 @@
         "Belajar adalah cara kita menumbuhkan sayap untuk terbang.",
         "Masa depan adalah milik mereka yang percaya pada keindahan mimpinya."
       ];
+      
+      // ========================
+      // KAMUS BAHASA (I18N DICTIONARY)
+      // ========================
+      const i18n = {
+        id: {
+          hdr_eyebrow: "Study Journey",
+          hdr_greeting: "semangat belajarnya!",
+          prog_lbl: "progress",
+          prog_total_lbl: "Total PPT Blok ini",
+          prog_done_lbl: "slide selesai",
+          prog_target_lbl: "target",
+          tab_dash: "Dashboard",
+          tab_track: "Tracker",
+          tab_rew: "Reward",
+          tab_set: "Pengaturan",
+          sync_conn: "Menghubungkan ke Notion...",
+          db_exam_lbl: "⏳ Menuju Ujian",
+          db_read_lbl: "📖 Slide Dibaca",
+          db_read_tgt: "Target:",
+          db_daily_lbl: "🎯 Target Harian",
+          db_streak_lbl: "🔥 Hari Beruntun",
+          db_streak_day: "Hari",
+          trk_title_grid: "Gulungan Slide per hari",
+          trk_title_input: "Catatan Perjalananmu Hari Ini",
+          trk_lbl_input: "Berapa banyak gulungan slide yang berhasil kamu pelajari hari ini?",
+          btn_save: "Simpan",
+          msg_saved: "Tersimpan ke Notion!",
+          rew_title_card: "Reward Blok Ini",
+          rew_note_card: "Mulai tambah bacaanmu untuk menghitung reward",
+          rew_title_rules: "Ketentuan Pencairan Reward",
+          rew_rule_1: "Target Belajar Terpenuhi",
+          rew_rule_2: "≥ 30% Target Belajar",
+          rew_rule_3: "< 30% Target Belajar",
+          rew_rule_none: "No Reward",
+          rew_rule_4: "Meleset Checkpoint (25, 50, 75%)",
+          rew_rule_5: "Nilai Ujian < 60",
+          rew_title_gallery: "Galeri Keajaiban (Lencana)",
+          bdg_1_title: "Awal Sihir",
+          bdg_1_desc: "Membaca slide pertamamu di blok ini.",
+          bdg_2_title: "Api Semangat",
+          bdg_2_desc: "Belajar 3 hari secara berturut-turut.",
+          bdg_3_title: "Sayap Bersinar",
+          bdg_3_desc: "Mencapai separuh (50%) dari target blok.",
+          bdg_4_title: "Peri Lulus",
+          bdg_4_desc: "Berhasil menyentuh target 100% belajar.",
+          set_interface_lbl: "Antarmuka & Keajaiban",
+          set_theme_lbl: "Suasana Hati (Tema)",
+          btn_to_light: "☀️ Terang Siang",
+          btn_to_dark: "🌙 Malam Ajaib",
+          set_lang_lbl: "Bahasa Sihir (Language)",
+          set_block_lbl: "Pengaturan blok",
+          set_start_lbl: "Tanggal mulai blok",
+          set_end_lbl: "Tanggal ujian",
+          set_target_lbl: "Target Bacaan Blok ini",
+          set_name_lbl: "Nama kamu",
+          btn_save_set: "Simpan Pengaturan",
+          set_sys_lbl: "Sistem",
+          set_reset_desc: "Gunakan tombol ini setiap awal blok baru untuk mengosongkan riwayat, lencana, dan nilai.",
+          btn_reset: "Reset Blok Baru",
+          menu_match: "Kepingan Ingatan",
+          menu_fc: "Ruang Mantra",
+          menu_focus: "Mulai Fokus",
+          
+          match_add_title: "TAMBAH KEPINGAN INGATAN",
+          match_add_desc: "Tarik & lepas gambarmu ke sini,<br>tekan <strong>Ctrl+V</strong> untuk menempel dari <i>clipboard</i>,<br>atau klik tombol di bawah 🪄",
+          btn_choose_img: "📁 Pilih Gambar",
+          btn_start_match: "Mulai Merangkai Ingatan 🧩",
+          btn_del_all_match: "🗑️ Hapus Semua Kepingan",
+          crop_desc: "Sentuh dan tarik untuk memotong area yang ingin diingat ✂️",
+          match_play_desc: "Manakah yang paling tepat untuk menggambarkan kepingan ini?",
+          fc_tab_list: "📚 Daftar Tumpukan",
+          fc_tab_test: "🧪 Uji Kemampuan",
+          fc_add_title: "TAMBAH MANTRA BARU",
+          fc_mode_single: "Satu Persatu",
+          fc_mode_bulk: "Banyak Sekaligus 🪄",
+          btn_add_fc: "Tambahkan ke Tumpukan ✦",
+          fc_bulk_desc: "<strong>Cara Cepat:</strong> Salin catatanmu ke kotak di bawah. Gunakan tanda hubung ( - ) atau titik dua ( : ) untuk memisahkan pertanyaan dan jawaban.",
+          btn_add_bulk: "Ubah Jadi Kartu Ajaib ✨",
+          fc_test_setup_desc: "Bagaimana kamu ingin menguji ingatanmu hari ini?",
+          btn_test_all: "📦 Semua Tumpukan Kartu",
+          btn_test_diff: "⚠️ Ulangi Kartu yang Sulit ({1})",
+          fc_hint_flip: "[Spasi] atau Klik",
+          
+          alert_name_img: "Sebutkan nama untuk gambar ini dulu!",
+          alert_crop_small: "Area potongan terlalu kecil!",
+          confirm_del_all_match: "Hapus semua kepingan ingatan?",
+          alert_match_min_2: "Kumpulkan minimal 2 kepingan!",
+          lbl_mem_of: "Ingatan {1} dari {2}",
+          btn_review_res: "✨ Periksa Hasil Rangkaian",
+          btn_next: "Selanjutnya ❯",
+          btn_skip: "Lewati ⏭️",
+          lbl_your_ans: "JAWABAN KAMU",
+          lbl_un_guessed: "Tidak tertebak",
+          lbl_correct: "SEHARUSNYA",
+          lbl_page_of: "Halaman {1} dari {2}",
+          res_perfect: "Ingatan Sempurna!",
+          res_almost: "Sedikit Lagi!",
+          res_match_txt: "Berhasil menebak {1}/{2}. Waktu: {3} detik.",
+          res_record: "🏆 Rekor: {1}s",
+          alert_fc_fmt: "Formatnya belum tepat!",
+          lbl_fc_empty: "Tumpukan kartumu masih kosong.",
+          btn_fc_open: "Mulai Buka Kartu 🪄",
+          btn_fc_clear: "Kosongkan Tumpukan",
+          lbl_card_of: "Kartu {1} dari {2}",
+          alert_fc_empty_test: "Tumpukan masih kosong!",
+          alert_fc_min_2: "Tambahkan minimal 2 kartu!",
+          btn_fc_finish: "Selesai & Evaluasi",
+          lbl_fc_ans_you: "Jawaban kamu",
+          lbl_fc_ans_cor: "Seharusnya",
+          txt_no_date: "Tentukan tanggal peluncuran misimu",
+          txt_exam: "ujian",
+          txt_slide: " slide",
+          txt_syncing: "Merajut data...",
+          txt_sync_ok: "✦ Tersinkron Penuh",
+          txt_sync_err: "Terputus",
+          txt_sync_err_desc: "Jaringan magis sedang terganggu.",
+          txt_saving: "Mencatat dalam buku sihir...",
+          txt_saved_cloud: "Tersimpan ke awan!",
+          txt_saved_local: "Tersimpan sementara!",
+          appr_title_100: "Kamu Berhasil! 🧚‍♀️✨",
+          appr_sub_100: "Target 100% selesai!",
+          appr_title_75: "Hebat Sekali! 💫",
+          appr_sub_75: "Progres sudah melampaui 75%!",
+          appr_title_50: "Luar Biasa! 🌟",
+          appr_sub_50: "50% telah terlewati dengan indah!",
+          appr_title_25: "Awal yang Cemerlang! ✨",
+          appr_sub_25: "25% perjalanan telah terukir!",
+          exam_great: "Kerja Luar Biasa! ✨",
+          exam_great_sub: "Sangat membanggakan, {1}!",
+          exam_good: "Tetap Bersemangat! 🌟",
+          exam_good_sub: "Kamu sudah berusaha keras, {1}!",
+          msg_set_saved: "Pengaturan tersimpan!",
+          msg_set_local: "Tersimpan di tempat aman!",
+          confirm_reset: "Apakah kamu yakin ingin merapikan lembaran dan memulai yang baru?",
+          time_added: "Tambahan waktu {1} menit. ✨",
+          time_break: "Waktunya Menenangkan Diri (5 Menit) 💧",
+          time_focus_end: "Kerja bagus! Sesi selesai.",
+          time_break_end_title: "Istirahat Selesai!",
+          time_break_end_sub: "Siap untuk kembali?",
+          timer_started: "Mantra terkunci! Mari selesaikan bacaanmu ✨",
+          timer_stopped: "Sesi Berakhir.",
+          bdg_5_title: "Ahli Ingatan",
+          bdg_5_desc: "Memainkan kepingan ingatan pertamamu.",
+          bdg_6_title: "Mantra Terangkai",
+          bdg_6_desc: "Menyelesaikan ujian mantra pertamamu.",
+          bdg_7_title: "Waktu Terhenti",
+          bdg_7_desc: "Berhasil menyelesaikan 25 menit sesi fokus.",
+          btn_close_res: "Tutup Hasil",
+          btn_cancel: "Batal",
+          btn_save_crop: "Simpan Potongan ✨",
+          msg_upload_first: "Belum ada kepingan ingatan.<br>Unggah gambar pertamamu ✨",
+          btn_prev: "❮ Sebelumnya",
+          btn_back: "Kembali",
+          lbl_day: " Hari",
+          lbl_until_exam: "Menuju Hari Penentuan",
+          lbl_ppt_day: "PPT / hari",
+          lbl_today: "Hari Ini!",
+          lbl_show_wings: "Tunjukkan Sayap Terindahmu!",
+          lbl_ppt_more: "PPT lagi!",
+          lbl_over: "Selesai",
+          lbl_exam_passed: "Ujian Berlalu",
+          lbl_not_set: "Belum Diatur",
+          lbl_good_target: "Bagus, target terpenuhi!",
+          lbl_half_reward: "Kamu mendapatkan separuh penghargaan.",
+          lbl_need_magic: "Masih butuh sedikit usaha lagi.",
+          lbl_faded: "Sedikit memudar",
+          lbl_streak_fire: "Api sihirmu terus menyala! ✨",
+          lbl_streak_amber: "Hebat! Pertahankan iramamu! 🔥",
+          lbl_streak_blue: "Langkah awal yang cantik!",
+          lbl_streak_none: "Mulai nyalakan kembali semangatmu.",
+          welcome_title: "Pixie Hollow",
+          welcome_sub: "Siapa namamu, peri kecil?",
+          btn_start_adv: "Mulai Petualangan ✦",
+          err_name_empty: "Namamu tidak boleh kosong ya!",
+          setup_title: "Persiapan Misi",
+          setup_sub: "Ayo atur tujuan belajarmu kali ini!",
+          setup_start_lbl: "Mulai Belajar:",
+          setup_end_lbl: "Tanggal Ujian:",
+          setup_target_lbl: "Target Total Slide:",
+          btn_ready: "Siap Terbang! ✦",
+          mood_title: "Perasaanmu",
+          mood_sub: "Kerja bagus! Bagaimana perasaanmu setelah membaca hari ini?",
+          exam_title: "Hari Penentuan! 📝",
+          exam_sub: "Bagaimana hasil belajarmu selama ini?",
+          btn_save_score: "Simpan Nilai ✦",
+          err_score: "Masukkan rentang nilai yang benar (0-100) ya!",
+          res_title_def: "Selamat!",
+          res_msg_def: "Kerja bagus!",
+          timer_title: "Fokus Sihir",
+          timer_spotify: "✦ Login ke akun Spotify-mu di browser ini agar lagu dapat berputar penuh ✦",
+          timer_extra_desc: "Masih belum selesai? Tambah waktu:",
+          btn_extra_5: "+ 5 Menit",
+          btn_extra_10: "+ 10 Menit",
+          btn_rest: "Cukup, Ayo Istirahat 💧",
+          btn_start_focus: "Mulai Fokus ✦"
+        },
+        en: {
+          hdr_eyebrow: "Study Journey",
+          hdr_greeting: "happy studying!",
+          prog_lbl: "progress",
+          prog_total_lbl: "Total Slides This Block",
+          prog_done_lbl: "slides read",
+          prog_target_lbl: "target",
+          tab_dash: "Dashboard",
+          tab_track: "Tracker",
+          tab_rew: "Rewards",
+          tab_set: "Settings",
+          sync_conn: "Connecting to Notion...",
+          db_exam_lbl: "⏳ Countdown",
+          db_read_lbl: "📖 Slides Read",
+          db_read_tgt: "Target:",
+          db_daily_lbl: "🎯 Daily Target",
+          db_streak_lbl: "🔥 Daily Streak",
+          db_streak_day: "Days",
+          trk_title_grid: "Slides Read per Day",
+          trk_title_input: "Your Journey Today",
+          trk_lbl_input: "How many magical slides did you learn today?",
+          btn_save: "Save",
+          msg_saved: "Saved to Notion!",
+          rew_title_card: "Block Reward",
+          rew_note_card: "Start adding progress to calculate rewards",
+          rew_title_rules: "Reward Rules",
+          rew_rule_1: "Study Target Reached",
+          rew_rule_2: "≥ 30% Study Target",
+          rew_rule_3: "< 30% Study Target",
+          rew_rule_none: "No Reward",
+          rew_rule_4: "Missed Checkpoint (25, 50, 75%)",
+          rew_rule_5: "Exam Score < 60",
+          rew_title_gallery: "Gallery of Magic (Badges)",
+          bdg_1_title: "Magic Begins",
+          bdg_1_desc: "Read your first slide of the block.",
+          bdg_2_title: "Flame of Spirit",
+          bdg_2_desc: "Studied for 3 days in a row.",
+          bdg_3_title: "Glowing Wings",
+          bdg_3_desc: "Reached half (50%) of the block target.",
+          bdg_4_title: "Graduated Fairy",
+          bdg_4_desc: "Successfully reached the 100% target.",
+          set_interface_lbl: "Interface & Magic",
+          set_theme_lbl: "Atmosphere (Theme)",
+          btn_to_light: "☀️ Bright Day",
+          btn_to_dark: "🌙 Enchanted Night",
+          set_lang_lbl: "Magical Language",
+          set_block_lbl: "Block Settings",
+          set_start_lbl: "Block Start Date",
+          set_end_lbl: "Exam Date",
+          set_target_lbl: "Reading Target (Slides)",
+          set_name_lbl: "Your Name",
+          btn_save_set: "Save Settings",
+          set_sys_lbl: "System",
+          set_reset_desc: "Use this button at the start of a new block to clear history, badges, and scores.",
+          btn_reset: "Reset New Block",
+          menu_match: "Memory Fragments",
+          menu_fc: "Spell Room",
+          menu_focus: "Start Focus",
+          
+          match_add_title: "ADD MEMORY FRAGMENT",
+          match_add_desc: "Drag & drop your images here,<br>press <strong>Ctrl+V</strong> to paste from <i>clipboard</i>,<br>or click the button below 🪄",
+          btn_choose_img: "📁 Choose Image",
+          btn_start_match: "Start Matching Memories 🧩",
+          btn_del_all_match: "🗑️ Delete All Fragments",
+          crop_desc: "Touch and drag to crop the area you want to remember ✂️",
+          match_play_desc: "Which word best describes this fragment?",
+          fc_tab_list: "📚 Card Stack",
+          fc_tab_test: "🧪 Test Knowledge",
+          fc_add_title: "ADD NEW SPELL (CARD)",
+          fc_mode_single: "One by One",
+          fc_mode_bulk: "Bulk Add 🪄",
+          btn_add_fc: "Add to Stack ✦",
+          fc_bulk_desc: "<strong>Quick Way:</strong> Paste your notes below. Use a hyphen (-) or colon (:) to separate questions and answers.",
+          btn_add_bulk: "Turn into Magic Cards ✨",
+          fc_test_setup_desc: "How do you want to test your memory today?",
+          btn_test_all: "📦 All Cards",
+          btn_test_diff: "⚠️ Review Difficult Cards ({1})",
+          fc_hint_flip: "[Space] or Click",
+          
+          alert_name_img: "Please name this image first!",
+          alert_crop_small: "Crop area is too small!",
+          confirm_del_all_match: "Delete all memories?",
+          alert_match_min_2: "Add at least 2 memories!",
+          lbl_mem_of: "Memory {1} of {2}",
+          btn_review_res: "✨ Review Results",
+          btn_next: "Next ❯",
+          btn_skip: "Skip ⏭️",
+          lbl_your_ans: "YOUR ANSWER",
+          lbl_un_guessed: "Unguessed",
+          lbl_correct: "CORRECT",
+          lbl_page_of: "Page {1} of {2}",
+          res_perfect: "Perfect Memory!",
+          res_almost: "Almost There!",
+          res_match_txt: "{1}/{2} correct. Time: {3}s.",
+          res_record: "🏆 Best: {1}s",
+          alert_fc_fmt: "Incorrect format!",
+          lbl_fc_empty: "Your card stack is empty.",
+          btn_fc_open: "Open Cards 🪄",
+          btn_fc_clear: "Clear Cards",
+          lbl_card_of: "Card {1} of {2}",
+          alert_fc_empty_test: "Empty stack!",
+          alert_fc_min_2: "Need at least 2 cards!",
+          btn_fc_finish: "Finish & Evaluate",
+          lbl_fc_ans_you: "Your answer",
+          lbl_fc_ans_cor: "Correct",
+          txt_no_date: "Set your mission dates first",
+          txt_exam: "exam",
+          txt_slide: " slides",
+          txt_syncing: "Weaving data...",
+          txt_sync_ok: "✦ Fully Synced",
+          txt_sync_err: "Offline",
+          txt_sync_err_desc: "Magical network interrupted.",
+          txt_saving: "Writing in spellbook...",
+          txt_saved_cloud: "Saved to cloud!",
+          txt_saved_local: "Saved locally!",
+          appr_title_100: "You Did It! 🧚‍♀️✨",
+          appr_sub_100: "100% target reached!",
+          appr_title_75: "Amazing! 💫",
+          appr_sub_75: "75% progress passed!",
+          appr_title_50: "Wonderful! 🌟",
+          appr_sub_50: "50% beautifully passed!",
+          appr_title_25: "Bright Start! ✨",
+          appr_sub_25: "25% of the journey carved!",
+          exam_great: "Outstanding Work! ✨",
+          exam_great_sub: "Very proud of you, {1}!",
+          exam_good: "Keep Your Spirits Up! 🌟",
+          exam_good_sub: "You tried your best, {1}!",
+          msg_set_saved: "Settings saved!",
+          msg_set_local: "Saved safely!",
+          confirm_reset: "Are you sure you want to clean the slate and start anew?",
+          time_added: "Added {1} minutes. ✨",
+          time_break: "Time to Cool Down (5 Minutes) 💧",
+          time_focus_end: "Great job! Session complete.",
+          time_break_end_title: "Break Over!",
+          time_break_end_sub: "Ready to return?",
+          timer_started: "Focus locked in! Let's complete your quest ✨",
+          timer_stopped: "Session Ended.",
+          bdg_5_title: "Memory Master",
+          bdg_5_desc: "Played your first memory fragment game.",
+          bdg_6_title: "Spell Weaver",
+          bdg_6_desc: "Completed your first spell test.",
+          bdg_7_title: "Time Weaver",
+          bdg_7_desc: "Successfully completed a 25-minute focus session.",
+          btn_close_res: "Close Results",
+          btn_cancel: "Cancel",
+          btn_save_crop: "Save Cut ✨",
+          msg_upload_first: "No memories yet.<br>Upload your first image ✨",
+          btn_prev: "❮ Previous",
+          btn_back: "Back",
+          lbl_day: " Days",
+          lbl_until_exam: "Until Exam",
+          lbl_ppt_day: "slides / day",
+          lbl_today: "Today!",
+          lbl_show_wings: "Show your best wings!",
+          lbl_ppt_more: "more to go!",
+          lbl_over: "Over",
+          lbl_exam_passed: "Exam Passed",
+          lbl_not_set: "Not Set",
+          lbl_good_target: "Great, target reached!",
+          lbl_half_reward: "You unlocked partial rewards.",
+          lbl_need_magic: "Need a bit more magic.",
+          lbl_faded: "Faded",
+          lbl_streak_fire: "Your magic is blazing! ✨",
+          lbl_streak_amber: "Keep the rhythm going! 🔥",
+          lbl_streak_blue: "A beautiful start!",
+          lbl_streak_none: "Reignite your spark.",
+          welcome_title: "Pixie Hollow",
+          welcome_sub: "What is your name, little fairy?",
+          btn_start_adv: "Start Adventure ✦",
+          err_name_empty: "Your name cannot be empty!",
+          setup_title: "Mission Prep",
+          setup_sub: "Let's set your study goals!",
+          setup_start_lbl: "Start Date:",
+          setup_end_lbl: "Exam Date:",
+          setup_target_lbl: "Total Slide Target:",
+          btn_ready: "Ready to Fly! ✦",
+          mood_title: "Your Mood",
+          mood_sub: "Great job! How are you feeling after reading today?",
+          exam_title: "The Big Day! 📝",
+          exam_sub: "How well did your studies go?",
+          btn_save_score: "Save Score ✦",
+          err_score: "Please enter a valid score (0-100)!",
+          res_title_def: "Congratulations!",
+          res_msg_def: "Great job!",
+          timer_title: "Magic Focus",
+          timer_spotify: "✦ Log in to your Spotify account in this browser to play full songs ✦",
+          timer_extra_desc: "Not done yet? Add more time:",
+          btn_extra_5: "+ 5 Minutes",
+          btn_extra_10: "+ 10 Minutes",
+          btn_rest: "Enough, Let's Rest 💧",
+          btn_start_focus: "Start Focus ✦"
+        }
+      };
+
+      function t(key, ...args) {
+        let str = i18n[state.lang][key] || key;
+        args.forEach((arg, i) => { str = str.replace(`{${i+1}}`, arg); });
+        return str;
+      }
+
       let currentQuote = "";
       let audioCtx = null;
       let tempSlideCount = 0; 
@@ -820,14 +1360,16 @@
         blockStart: ls("rv_block_start", null),
         blockEnd: ls("rv_block_end", null),
         milestones: ls("rv_milestones", {25: false, 50: false, 75: false, 100: false}),
-        badges: ls("rv_badges", {1: false, 2: false, 3: false, 4: false}),
+        badges: ls("rv_badges", {1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false}),
         moods: ls("rv_moods", {}),
         focusTime: ls("rv_focus", 0),
         flashcards: ls("rv_flashcards", []),
         matchItems: ls("rv_matchItems", []),
         difficultCards: ls('difficultCards', []),
         matchBestTime: ls('matchBestTime', null),
-        fcBestTime: ls('fcBestTime', null)
+        fcBestTime: ls('fcBestTime', null),
+        theme: ls('rv_theme', 'light'), 
+        lang: ls('rv_lang', 'id')       
       };
       
       let pageId = null;
@@ -844,11 +1386,56 @@
       let currentTheme = 'ice';
 
       let matchStartTime = 0, matchTimerInterval = null;
-      let matchReviewPageIdx = 0; // Pagination untuk Match Review
+      let matchReviewPageIdx = 0; 
 
       let fcTestCards = [], fcTestAnswers = {}, fcTestStartTime = 0, fcTestTimerInterval = null;
       let fcTestCurrentIdx = 0, fcTestOptions = [];
-      let fcReviewPageIdx = 0; // Pagination untuk FC Review
+      let fcReviewPageIdx = 0; 
+      
+      /* ---------- TEMA & BAHASA ---------- */
+      let manualTheme = ls('rv_theme_manual', null);
+
+      function getAutoTheme() {
+        const h = new Date().getHours();
+        return (h >= 18 || h < 6) ? 'dark' : 'light';
+      }
+
+      window.applyTheme = function() {
+        if (!manualTheme) {
+            state.theme = getAutoTheme();
+        }
+        document.documentElement.setAttribute('data-theme', state.theme);
+        const btn = document.getElementById('btn-theme-toggle');
+        if (btn) {
+            btn.innerHTML = state.theme === 'dark' ? t('btn_to_light') : t('btn_to_dark'); 
+        }
+      };
+
+      window.toggleTheme = function() {
+        state.theme = state.theme === 'light' ? 'dark' : 'light';
+        manualTheme = state.theme;
+        ss('rv_theme_manual', manualTheme);
+        applyTheme();
+        playChime();
+      };
+
+      window.applyLanguage = function() {
+        const dict = i18n[state.lang];
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.getAttribute('data-i18n');
+          if(dict[key]) el.innerHTML = dict[key];
+        });
+        document.getElementById('lang-select').value = state.lang;
+        updateDifficultCount(); 
+        applyTheme(); 
+      };
+
+      window.changeLanguage = function(langCode) {
+        state.lang = langCode;
+        ss('rv_lang', state.lang);
+        applyLanguage();
+        render(); 
+      };
 
       /* ---------- FLOAT MENU ---------- */
       window.toggleFloatMenu = function() {
@@ -872,9 +1459,7 @@
 
       function sendNotif(title, body) {
         if ("Notification" in window && Notification.permission === "granted") {
-          try {
-            new Notification(title, { body, icon: "https://cdn-icons-png.flaticon.com/512/2917/2917242.png" });
-          } catch (e) {}
+          try { new Notification(title, { body, icon: "https://cdn-icons-png.flaticon.com/512/2917/2917242.png" }); } catch (e) {}
         }
       }
 
@@ -896,8 +1481,6 @@
         document.getElementById('wrap-candle').style.display = 'none';
         document.getElementById('wrap-potion').style.display = 'none';
         document.getElementById(`wrap-${currentTheme}`).style.display = 'flex';
-        const titles = { 'ice': 'Fokus Es Kristal', 'candle': 'Lilin Semangat', 'potion': 'Ramuan Fokus Sihir' };
-        document.getElementById('timer-title').textContent = titles[currentTheme];
         document.getElementById('timer-modal').classList.add('show');
       };
 
@@ -912,7 +1495,7 @@
         document.getElementById('btn-timer-close-top').style.display = 'none';
         document.getElementById('extra-time-options').style.display = 'none';
         document.getElementById('dim-overlay').classList.add('active');
-        document.getElementById('timer-status').textContent = "Mantra terkunci! Mari selesaikan bacaanmu ✨";
+        document.getElementById('timer-status').textContent = t('timer_started');
         const floatBtn = document.getElementById('main-float-btn');
         floatBtn.classList.add('active');
         floatBtn.textContent = currentTheme === 'candle' ? '🕯️' : (currentTheme === 'potion' ? '🧪' : '❄️');
@@ -926,7 +1509,7 @@
         document.getElementById('btn-timer-close-top').style.display = 'flex';
         document.getElementById('extra-time-options').style.display = 'none';
         document.getElementById('dim-overlay').classList.remove('active');
-        document.getElementById('timer-status').textContent = "Sesi Berakhir.";
+        document.getElementById('timer-status').textContent = t('timer_stopped');
         document.getElementById('main-float-btn').classList.remove('active');
         document.getElementById('main-float-btn').textContent = '✨';
         if (document.fullscreenElement) document.exitFullscreen().catch(()=>{});
@@ -940,11 +1523,11 @@
         if (timeLeft <= 0) {
           clearInterval(timerInterval);
           if (timerMode === 'focus') {
-            document.getElementById('timer-status').textContent = `Kerja bagus! Sesi selesai.`;
+            document.getElementById('timer-status').textContent = t('time_focus_end');
             document.getElementById('extra-time-options').style.display = 'block';
             playGrandChime();
           } else {
-            sendNotif("Istirahat Selesai!", "Siap untuk kembali?");
+            sendNotif(t('time_break_end_title'), t('time_break_end_sub'));
             playChime();
             stopTimer();
           }
@@ -955,7 +1538,7 @@
       window.addExtraTime = function(mins) {
         timeLeft = mins * 60; totalSession = mins * 60;
         document.getElementById('extra-time-options').style.display = 'none';
-        document.getElementById('timer-status').textContent = `Tambahan waktu ${mins} menit. ✨`;
+        document.getElementById('timer-status').textContent = t('time_added', mins);
         timerInterval = setInterval(updateTimer, 1000);
       };
       
@@ -963,12 +1546,13 @@
         document.getElementById('extra-time-options').style.display = 'none';
         state.focusTime += 25; ss("rv_focus", state.focusTime);
         sendNotif("Waktunya Istirahat! 💧", `Kerja yang baik! Mari istirahat 5 menit.`);
+        checkBadgeUnlocks();
         startBreak();
       };
 
       function startBreak() {
         timerMode = 'break'; timeLeft = 5 * 60; totalSession = 5 * 60;
-        document.getElementById('timer-status').textContent = "Waktunya Menenangkan Diri (5 Menit) 💧";
+        document.getElementById('timer-status').textContent = t('time_break');
         timerInterval = setInterval(updateTimer, 1000);
       }
 
@@ -1051,7 +1635,7 @@
       /* ---------- CLICK DUST ---------- */
       document.addEventListener('click', function(e) {
         if(e.target.closest('#fc-view-modal')) return;
-        if(e.target.tagName === 'INPUT' || e.target.tagName === 'SUMMARY' || e.target.tagName === 'BUTTON' || e.target.tagName === 'TEXTAREA' || e.target.closest('.flashcard')) return;
+        if(e.target.tagName === 'INPUT' || e.target.tagName === 'SUMMARY' || e.target.tagName === 'BUTTON' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT' || e.target.closest('.flashcard')) return;
         for (let i = 0; i < 4; i++) {
           const dust = document.createElement('div');
           dust.className = 'click-dust';
@@ -1081,7 +1665,7 @@
         return dates;
       }
       function blockLabel() {
-        if (!state.blockStart || !state.blockEnd) return "Tujuan belum diatur";
+        if (!state.blockStart || !state.blockEnd) return t('lbl_not_set');
         const s = new Date(state.blockStart + "T00:00:00");
         const e = new Date(state.blockEnd + "T00:00:00");
         return fmtLabel(s) + " – " + fmtLabel(e);
@@ -1212,7 +1796,6 @@
         reader.readAsDataURL(file);
       }
 
-      // DRAG & DROP / PASTE HANDLERS
       document.addEventListener('DOMContentLoaded', () => {
         const dropzone = document.getElementById('match-dropzone');
         if(dropzone) {
@@ -1326,10 +1909,10 @@
 
       window.saveCrop = function() {
         const word = document.getElementById('match-word-input').value.trim();
-        if (!word) { alert('Sebutkan nama untuk gambar ini dulu, ya!'); return; }
+        if (!word) { alert(t('alert_name_img')); return; }
         let cw = cropEndX - cropStartX;
         let ch = cropEndY - cropStartY;
-        if (cw < 20 || ch < 20) { alert('Area potongan terlalu kecil!'); return; }
+        if (cw < 20 || ch < 20) { alert(t('alert_crop_small')); return; }
         const finalW = 150;
         const finalH = (ch / cw) * finalW;
         const offCanvas = document.createElement('canvas');
@@ -1347,7 +1930,7 @@
       function renderMatchList() {
         const container = document.getElementById('match-items-container');
         if (!state.matchItems.length) {
-          container.innerHTML = `<div style="text-align:center; padding:20px; color: var(--text-soft); font-weight: 500;">Belum ada kepingan ingatan.<br>Unggah gambar pertamamu ✨</div>`;
+          container.innerHTML = `<div style="text-align:center; padding:20px; color: var(--text-soft); font-weight: 500;">${t('msg_upload_first')}</div>`;
           return;
         }
         let html = '';
@@ -1368,14 +1951,14 @@
       };
 
       window.deleteAllMatchItems = function() {
-        if (!confirm('Hapus semua kepingan ingatan yang sudah kamu simpan?')) return;
+        if (!confirm(t('confirm_del_all_match'))) return;
         state.matchItems = [];
         ss('rv_matchItems', state.matchItems);
         renderMatchList();
       };
 
       window.startMatchPlay = function() {
-        if (state.matchItems.length < 2) { alert('Kumpulkan minimal 2 kepingan untuk mulai bermain!'); return; }
+        if (state.matchItems.length < 2) { alert(t('alert_match_min_2')); return; }
         playImages = shuffleArray(state.matchItems);
         playWords = shuffleArray(state.matchItems).map(item => item.word);
         userAnswers = {}; currentPlayIdx = 0;
@@ -1389,7 +1972,7 @@
 
       function renderMatchPlay() {
         const imgItem = playImages[currentPlayIdx];
-        document.getElementById('match-play-counter').textContent = `Ingatan ${currentPlayIdx+1} dari ${playImages.length}`;
+        document.getElementById('match-play-counter').textContent = t('lbl_mem_of', currentPlayIdx+1, playImages.length);
         document.getElementById('match-play-current-img').src = imgItem.src;
         const wordsContainer = document.getElementById('match-play-words');
         let html = '';
@@ -1401,12 +1984,13 @@
         wordsContainer.innerHTML = html;
         const btnPrev = document.getElementById('btn-match-prev');
         const btnNext = document.getElementById('btn-match-next');
+        btnPrev.textContent = t('btn_prev');
         btnPrev.disabled = currentPlayIdx === 0;
         if (currentPlayIdx === playImages.length - 1) {
-          btnNext.textContent = 'Periksa Hasil 👀';
+          btnNext.textContent = t('btn_review_res');
           btnNext.style.background = 'linear-gradient(135deg, var(--gold-dark), var(--amber))';
         } else {
-          btnNext.textContent = selected ? 'Selanjutnya ❯' : 'Lewati ⏭️';
+          btnNext.textContent = selected ? t('btn_next') : t('btn_skip');
           btnNext.style.background = 'linear-gradient(135deg, var(--green-mid), var(--green-leaf))';
         }
       }
@@ -1424,7 +2008,6 @@
         else { currentPlayIdx += dir; renderMatchPlay(); }
       };
 
-      // PAGINATION 5 ITEM UNTUK MATCH REVIEW
       function showMatchReview() {
         matchReviewPageIdx = 0;
         document.getElementById('match-view-play').style.display = 'none';
@@ -1449,15 +2032,15 @@
               <div class="review-result-badge">${isCorrect ? '✅' : '❌'}</div>
               <img src="${img.src}" class="match-review-img">
               <div class="match-review-ans">
-                <div class="lbl">JAWABAN KAMU</div>
-                <div class="val">${ans || 'Tidak tertebak'}</div>
-                ${!isCorrect ? `<div class="lbl" style="margin-top:6px;">SEHARUSNYA</div><div class="val" style="color:var(--green-leaf);">${img.word}</div>` : ''}
+                <div class="lbl">${t('lbl_your_ans')}</div>
+                <div class="val">${ans || t('lbl_un_guessed')}</div>
+                ${!isCorrect ? `<div class="lbl" style="margin-top:6px;">${t('lbl_correct')}</div><div class="val" style="color:var(--green-leaf);">${img.word}</div>` : ''}
               </div>
             </div>
           `;
         }
         container.innerHTML = html;
-        document.getElementById('match-review-page').textContent = `Halaman ${matchReviewPageIdx+1} dari ${totalPages}`;
+        document.getElementById('match-review-page').textContent = t('lbl_page_of', matchReviewPageIdx+1, totalPages);
       }
 
       window.navMatchReviewPage = function(dir) {
@@ -1479,9 +2062,12 @@
         }
         const overlay = document.getElementById('match-result-overlay');
         document.getElementById('match-result-icon').textContent = correct === playImages.length ? '🎉' : '🧐';
-        document.getElementById('match-result-title').textContent = correct === playImages.length ? 'Ingatan Sempurna!' : 'Sedikit Lagi!';
-        document.getElementById('match-result-text').textContent = `Berhasil menebak ${correct}/${playImages.length}. Waktu penyelesaian: ${elapsed} detik. ${correct === playImages.length && state.matchBestTime ? '🏆 Rekor: '+state.matchBestTime+'s' : ''}`;
+        document.getElementById('match-result-title').textContent = correct === playImages.length ? t('res_perfect') : t('res_almost');
+        let resTxt = t('res_match_txt', correct, playImages.length, elapsed);
+        if (correct === playImages.length && state.matchBestTime) resTxt += ` ` + t('res_record', state.matchBestTime);
+        document.getElementById('match-result-text').textContent = resTxt;
         overlay.style.display = 'flex';
+        checkBadgeUnlocks();
         if (correct === playImages.length) { playGrandChime(); burstSparkles(); } else playChime();
       };
 
@@ -1530,7 +2116,7 @@
           document.getElementById('save-msg-fc').style.display = 'block';
           setTimeout(() => document.getElementById('save-msg-fc').style.display = 'none', 3000);
           playGrandChime();
-        } else alert('Sepertinya format yang kamu masukkan belum tepat!');
+        } else alert(t('alert_fc_fmt'));
       };
       window.tambahFlashcard = function() {
         const q = document.getElementById('fc-q').value.trim();
@@ -1560,7 +2146,7 @@
       function renderFcList() {
         const container = document.getElementById('fc-list-container');
         if(!state.flashcards.length) {
-          container.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text-soft);font-weight:500;">Tumpukan kartumu masih kosong.</div>`;
+          container.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text-soft);font-weight:500;">${t('lbl_fc_empty')}</div>`;
           return;
         }
         let html = '<div style="max-height:250px;overflow-y:auto;margin-bottom:15px;padding-right:5px;">';
@@ -1568,8 +2154,8 @@
           html += `<div class="fc-list-item"><div class="fc-list-q">${idx+1}. ${card.q}</div><button style="background:rgba(232,80,80,0.1);border:none;border-radius:10px;padding:8px 12px;cursor:pointer;" onclick="hapusFlashcard(${idx},event)">🗑️</button></div>`;
         });
         html += '</div>';
-        html += `<button class="btn-save btn-full" style="font-size:15px; padding:14px; margin-bottom:10px;" onclick="startFcPractice(0)">Mulai Buka Kartu 🪄</button>`;
-        html += `<button class="btn-reset btn-full" onclick="resetSemuaKartu()">🗑️ Kosongkan Tumpukan</button>`;
+        html += `<button class="btn-save btn-full" style="font-size:15px; padding:14px; margin-bottom:10px;" onclick="startFcPractice(0)">${t('btn_fc_open')}</button>`;
+        html += `<button class="btn-reset btn-full" onclick="resetSemuaKartu()">🗑️ ${t('btn_fc_clear')}</button>`;
         container.innerHTML = html;
       }
       window.startFcPractice = function(idx=0) {
@@ -1596,9 +2182,11 @@
       };
       function renderSingleFc() {
         const card = state.flashcards[currentFcIdx];
-        document.getElementById('fc-view-counter').textContent = `Kartu ${currentFcIdx+1} dari ${state.flashcards.length}`;
+        document.getElementById('fc-view-counter').textContent = t('lbl_card_of', currentFcIdx+1, state.flashcards.length);
         document.getElementById('fc-view-q').innerHTML = `<div class="fc-star-tr">✦</div><div class="fc-star-bl">✦</div>${card.q}`;
         document.getElementById('fc-view-a').innerHTML = `<div class="fc-star-tr">✦</div><div class="fc-star-bl">✦</div>${card.a}`;
+        document.querySelector('#fc-view-modal .flashcard-front .fc-hint-text').textContent = t('fc_hint_flip');
+        document.querySelector('#fc-view-modal .flashcard-back .fc-hint-text').textContent = t('fc_hint_flip');
         document.getElementById('active-flashcard').classList.remove('is-flipped');
         document.getElementById('fc-btn-prev').disabled = currentFcIdx === 0;
         document.getElementById('fc-btn-next').disabled = currentFcIdx === state.flashcards.length-1;
@@ -1615,15 +2203,16 @@
       };
 
       function updateDifficultCount() {
-        document.getElementById('difficult-count').textContent = state.difficultCards.length;
-        document.getElementById('best-record-display').textContent = state.fcBestTime ? state.fcBestTime+' detik' : '-';
+        const recText = state.fcBestTime ? `${state.fcBestTime}s` : '-';
+        document.getElementById('best-record-wrapper').innerHTML = t('res_record', recText);
+        document.getElementById('btn-test-difficult').innerHTML = t('btn_test_diff', state.difficultCards.length);
       }
 
       window.startFcTest = function(mode) {
         state.flashcards = state.flashcards.map(c => c.id ? c : { ...c, id: 'fc_' + Date.now() + Math.random() });
         let pool = mode === 'all' ? state.flashcards : state.flashcards.filter(c => state.difficultCards.includes(c.id));
-        if (!pool.length) { alert('Tumpukan masih kosong!'); return; }
-        if (pool.length < 2 && mode === 'all') { alert('Tambahkan minimal 2 kartu untuk memulai uji ingatan!'); return; }
+        if (!pool.length) { alert(t('alert_fc_empty_test')); return; }
+        if (pool.length < 2 && mode === 'all') { alert(t('alert_fc_min_2')); return; }
         fcTestCards = shuffleArray(pool);
         fcTestAnswers = {}; fcTestCurrentIdx = 0;
         fcTestStartTime = Date.now();
@@ -1656,7 +2245,8 @@
             if (btn.textContent === selected) btn.classList.add('selected');
           });
         }
-        document.getElementById('fc-test-next').textContent = fcTestCurrentIdx === fcTestCards.length-1 ? 'Selesai & Evaluasi' : 'Selanjutnya ❯';
+        document.getElementById('btn-fc-prev-test').textContent = t('btn_prev');
+        document.getElementById('fc-test-next').textContent = fcTestCurrentIdx === fcTestCards.length-1 ? t('btn_fc_finish') : t('btn_next');
       }
 
       window.selectFcTestAnswer = function(ans) {
@@ -1681,6 +2271,7 @@
           });
           ss('difficultCards', state.difficultCards);
           updateDifficultCount();
+          checkBadgeUnlocks();
           showFcTestReview();
         } else {
           fcTestCurrentIdx += dir;
@@ -1712,14 +2303,14 @@
               <div style="font-size:24px; margin-right:15px;">${isCorrect ? '✅' : '❌'}</div>
               <div style="flex:1;">
                 <strong style="color:var(--text-dark); font-size:14px;">${card.q}</strong><br>
-                <span style="font-size:13px; color:var(--text-mid); display:inline-block; margin-top:4px;">Jawaban kamu: <b>${ans || '-'}</b></span><br>
-                ${!isCorrect ? '<span style="font-size:13px; color:var(--green-leaf); display:inline-block; margin-top:2px;">Seharusnya: <b>'+card.a+'</b></span>' : ''}
+                <span style="font-size:13px; color:var(--text-mid); display:inline-block; margin-top:4px;">${t('lbl_fc_ans_you')}: <b>${ans || '-'}</b></span><br>
+                ${!isCorrect ? `<span style="font-size:13px; color:var(--green-leaf); display:inline-block; margin-top:2px;">${t('lbl_fc_ans_cor')}: <b>${card.a}</b></span>` : ''}
               </div>
             </div>
           `;
         }
         container.innerHTML = html;
-        document.getElementById('fc-review-page').textContent = `Halaman ${fcReviewPageIdx+1} dari ${totalPages}`;
+        document.getElementById('fc-review-page').textContent = t('lbl_page_of', fcReviewPageIdx+1, totalPages);
       }
 
       window.navFcReviewPage = function(dir) {
@@ -1739,74 +2330,98 @@
 
       /* ---------- RENDER UTAMA ---------- */
       function render() {
-        const p = pct(), t = total(), rCair = rewardCair();
+        const p = pct(), tCount = total(), rCair = rewardCair();
         const offset = circ - (circ * p) / 100;
         document.getElementById("ring-fill").style.strokeDashoffset = offset;
         document.getElementById("ring-glow").style.strokeDashoffset = offset;
         document.getElementById("ring-pct").textContent = p + "%";
         document.getElementById("prog-bar").style.width = p + "%";
-        document.getElementById("slide-done").textContent = t;
+        document.getElementById("slide-done").textContent = tCount;
         document.getElementById("slide-target-hdr").textContent = state.target;
         document.getElementById("dash-target").textContent = state.target;
         document.getElementById("header-name").textContent = (state.name || "Peri Kecil") + ",";
         document.getElementById("footer-name").textContent = state.name || "Peri Kecil";
+        
+        // Glow Effect at Reward Card
+        const rcGlow = document.getElementById("rc-glow");
+        const rcParticles = document.getElementById("rc-particles");
+        if(rcGlow && rcParticles) {
+          rcGlow.style.opacity = (p / 100).toFixed(2);
+          rcParticles.innerHTML = '';
+          const particleCount = Math.floor((p / 100) * 40); 
+          for(let i=0; i<particleCount; i++) {
+            const sp = document.createElement('div');
+            sp.className = 'rc-star';
+            sp.style.left = Math.random()*100 + '%';
+            sp.style.top = Math.random()*100 + '%';
+            sp.style.animationDelay = (Math.random()*2) + 's';
+            rcParticles.appendChild(sp);
+          }
+        }
+        
         let rankStr = "🌱 Peri Pemula";
         if(p>=100) rankStr = "👑 Ratu Pixie";
         else if(p>=75) rankStr = "🌿 Peri Penjaga";
         else if(p>=50) rankStr = "✨ Peri Cahaya";
         else if(p>=25) rankStr = "🔨 Peri Pekerja";
         document.getElementById("rank-badge").innerHTML = rankStr;
+        
         const h = new Date().getHours();
-        const greet = h<11?"Semangat mengawali harimu!":h<15?"Mari terus kepakkan sayapmu!":h<18?"Sore yang tenang untuk menyerap ilmu!":"Waktunya merapikan perlengkapan ajaibmu!";
-        document.getElementById("greeting-line").textContent = greet;
-        document.getElementById("date-line").textContent = new Date().toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+        const greetId = h<11?"Semangat mengawali harimu!":h<15?"Mari terus kepakkan sayapmu!":h<18?"Sore yang tenang untuk menyerap ilmu!":"Waktunya merapikan perlengkapan ajaibmu!";
+        const greetEn = h<11?"Have a magical morning!":h<15?"Keep flapping those wings!":h<18?"A peaceful evening to learn!":"Time to rest your magic!";
+        document.getElementById("greeting-line").textContent = state.lang==='id' ? greetId : greetEn;
+        
+        document.getElementById("date-line").textContent = new Date().toLocaleDateString(state.lang==='id'?"id-ID":"en-US",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
         document.getElementById("week-badge-txt").textContent = blockLabel();
-        document.getElementById("m-slide").textContent = t;
+        document.getElementById("m-slide").textContent = tCount;
         if(!currentQuote) currentQuote = MAGIC_QUOTES[Math.floor(Math.random()*MAGIC_QUOTES.length)];
         document.getElementById("quote-txt").textContent = "❝ " + currentQuote + " ❞";
         let streak = calculateStreak();
         document.getElementById("str-val").textContent = streak;
         const strIcon = document.getElementById("str-icon");
         const strSub = document.getElementById("str-sub");
-        if(streak>=5){ strIcon.className="fc-bg-icon aura-fire"; strSub.textContent="Api sihirmu terus menyala! ✨"; }
-        else if(streak>=3){ strIcon.className="fc-bg-icon aura-amber"; strSub.textContent="Hebat! Pertahankan iramamu! 🔥"; }
-        else if(streak>0){ strIcon.className="fc-bg-icon aura-blue"; strSub.textContent="Langkah awal yang cantik!"; }
-        else { strIcon.className="fc-bg-icon"; strSub.textContent="Mulai nyalakan kembali semangatmu."; }
+        if(streak>=5){ strIcon.className="fc-bg-icon aura-fire"; strSub.textContent = t('lbl_streak_fire'); }
+        else if(streak>=3){ strIcon.className="fc-bg-icon aura-amber"; strSub.textContent = t('lbl_streak_amber'); }
+        else if(streak>0){ strIcon.className="fc-bg-icon aura-blue"; strSub.textContent = t('lbl_streak_blue'); }
+        else { strIcon.className="fc-bg-icon"; strSub.textContent = t('lbl_streak_none'); }
 
         const cdVal = document.getElementById("cd-val"), cdLbl = document.getElementById("cd-lbl"), cdIcon = document.getElementById("cd-icon");
-        let pacingText = "Selesai!", pacingSub = "Bagus sekali!";
-        const sisaSlide = Math.max(0, state.target - t);
+        let pacingText = state.lang==='id'?"Selesai!":"Done!", pacingSub = state.lang==='id'?"Bagus sekali!":"Great job!";
+        const sisaSlide = Math.max(0, state.target - tCount);
         if(state.blockEnd){
           let examD = new Date(state.blockEnd+"T00:00:00");
           let diffDays = Math.ceil((examD - new Date(fmtISO(new Date())+"T00:00:00")) / (1000*60*60*24));
           if(diffDays>0){
-            cdVal.textContent = diffDays + " Hari";
-            cdLbl.textContent = "Menuju Hari Penentuan";
+            cdVal.textContent = diffDays + t('lbl_day');
+            cdLbl.textContent = t('lbl_until_exam');
             cdIcon.className = "fc-bg-icon " + (diffDays>7?"aura-blue":diffDays>3?"aura-amber":"aura-red");
-            if(sisaSlide>0){ pacingText = Math.ceil(sisaSlide/diffDays); pacingSub = "PPT / hari"; }
+            if(sisaSlide>0){ pacingText = Math.ceil(sisaSlide/diffDays); pacingSub = t('lbl_ppt_day'); }
           } else if(diffDays===0){
-            cdVal.textContent = "Hari Ini!"; cdLbl.textContent = "Tunjukkan Sayap Terindahmu!"; cdIcon.className="fc-bg-icon aura-red";
-            if(sisaSlide>0){ pacingText = sisaSlide; pacingSub = "PPT lagi!"; }
+            cdVal.textContent = t('lbl_today'); cdLbl.textContent = t('lbl_show_wings'); cdIcon.className="fc-bg-icon aura-red";
+            if(sisaSlide>0){ pacingText = sisaSlide; pacingSub = t('lbl_ppt_more'); }
           } else {
-            cdVal.textContent = "Selesai"; cdLbl.textContent = "Ujian Berlalu"; cdIcon.className="fc-bg-icon aura-blue";
+            cdVal.textContent = t('lbl_over'); cdLbl.textContent = t('lbl_exam_passed'); cdIcon.className="fc-bg-icon aura-blue";
           }
         } else {
-          cdVal.textContent = "-"; cdLbl.textContent = "Belum Diatur"; cdIcon.className="fc-bg-icon";
+          cdVal.textContent = "-"; cdLbl.textContent = t('lbl_not_set'); cdIcon.className="fc-bg-icon";
         }
         document.getElementById("pacing-val").textContent = pacingText;
         document.getElementById("pacing-lbl").textContent = pacingSub;
 
-        document.getElementById("badge-1").classList.toggle("unlocked", t>0);
+        document.getElementById("badge-1").classList.toggle("unlocked", tCount>0);
         document.getElementById("badge-2").classList.toggle("unlocked", streak>=3);
         document.getElementById("badge-3").classList.toggle("unlocked", p>=50);
         document.getElementById("badge-4").classList.toggle("unlocked", p>=100);
+        document.getElementById("badge-5").classList.toggle("unlocked", state.badges[5]);
+        document.getElementById("badge-6").classList.toggle("unlocked", state.badges[6]);
+        document.getElementById("badge-7").classList.toggle("unlocked", state.badges[7]);
 
         const nPenalty = nilaiPenalty(), cpPenalty = checkpointPenalty(), totalPenalty = nPenalty+cpPenalty;
         let noteCair = "";
-        if(t>=state.target) noteCair = "Bagus, target terpenuhi!";
-        else if(p>=30) noteCair = "Kamu mendapatkan separuh penghargaan.";
-        else noteCair = "Masih butuh sedikit usaha lagi.";
-        if(totalPenalty>0) noteCair += ` Sedikit memudar: ${fmtRp(totalPenalty)}`;
+        if(tCount>=state.target) noteCair = t('lbl_good_target');
+        else if(p>=30) noteCair = t('lbl_half_reward');
+        else noteCair = t('lbl_need_magic');
+        if(totalPenalty>0) noteCair += ` ${t('lbl_faded')}: ${fmtRp(totalPenalty)}`;
         document.getElementById("rc-amount").textContent = fmtRp(rCair);
         document.getElementById("rc-bar").style.width = p+"%";
         const rcChip = document.getElementById("rc-chip");
@@ -1817,7 +2432,7 @@
         const dg = document.getElementById("days-grid");
         dg.innerHTML = "";
         const dates = getBlockDates();
-        if(!dates.length) dg.innerHTML = '<div style="grid-column:1/-1;text-align:center;">Tentukan tanggal peluncuran misimu</div>';
+        if(!dates.length) dg.innerHTML = `<div style="grid-column:1/-1;text-align:center;">${t('txt_no_date')}</div>`;
         else {
           const CP_RATIOS = [0.25,0.5,0.75];
           const cpDates = new Set(dates.length>1?CP_RATIOS.map(r=>dates[Math.floor(dates.length*r)]):[]);
@@ -1844,7 +2459,7 @@
             let dotClass="empty", dotVal="–";
             if(isUjian){ dotClass="ujian"; dotVal="📝"; }
             else if(s>0){ dotClass="done"; dotVal=s; }
-            el.innerHTML = m+cpLabel+`<div class="day-name">${fmtLabel(d)}</div><div class="day-dot ${dotClass}">${dotVal}</div><div class="day-pts">${isUjian?"ujian":s>0?s+" slide":"–"}</div>`;
+            el.innerHTML = m+cpLabel+`<div class="day-name">${fmtLabel(d)}</div><div class="day-dot ${dotClass}">${dotVal}</div><div class="day-pts">${isUjian?t('txt_exam'):s>0?s+t('txt_slide'):"–"}</div>`;
             dg.appendChild(el);
           });
         }
@@ -1857,7 +2472,7 @@
 
       /* ---------- NOTION (MOCK) ---------- */
       async function loadFromNotion() {
-        setSyncStatus("syncing", "Merajut data...");
+        setSyncStatus("syncing", t('txt_syncing'));
         try {
           const res = await fetch("/api/notion");
           const json = await res.json();
@@ -1874,17 +2489,17 @@
             pageId = json.pageId;
             ss("rv_slides",state.slides); ss("rv_target",state.target); ss("rv_nilai",state.nilaiUjian); ss("rv_name",state.name); ss("rv_block_start",state.blockStart); ss("rv_block_end",state.blockEnd);
           }
-          setSyncStatus("ok", "✦ Tersinkron Penuh");
+          setSyncStatus("ok", t('txt_sync_ok'));
           showError(null);
         } catch(err){
-          setSyncStatus("error", "Terputus");
-          showError("Jaringan magis sedang terganggu.");
+          setSyncStatus("error", t('txt_sync_err'));
+          showError(t('txt_sync_err_desc'));
         }
         render();
       }
 
       async function saveToNotion(slideDate){
-        setSyncStatus("syncing","Mencatat dalam buku sihir...");
+        setSyncStatus("syncing", t('txt_saving'));
         try{
           const res = await fetch("/api/notion",{
             method:"POST",headers:{"Content-Type":"application/json"},
@@ -1895,7 +2510,7 @@
           if(json.pageId) pageId = json.pageId;
           setSyncStatus("ok","✦ Tersinkron"); showError(null); return true;
         }catch(err){
-          setSyncStatus("error","Tersimpan Sementara"); return false;
+          setSyncStatus("error", t('txt_saved_local')); return false;
         }
       }
 
@@ -1916,14 +2531,14 @@
         ss("rv_slides",state.slides); ss("rv_moods",state.moods);
         render();
         checkMilestoneAppreciation();
-        checkBadgeUnlocks(total(), pct(), calculateStreak());
+        checkBadgeUnlocks();
         playNextPopup();
         document.getElementById("inp-slide").value = "";
         setButtonLoading("btn-slide",true);
         const ok = await saveToNotion(todayStr);
         setButtonLoading("btn-slide",false);
         const msg = document.getElementById("save-msg-slide");
-        msg.textContent = ok ? "Tersimpan ke awan!" : "Tersimpan sementara!";
+        msg.textContent = ok ? t('txt_saved_cloud') : t('txt_saved_local');
         msg.style.display="block"; setTimeout(()=>msg.style.display="none",2200);
       };
 
@@ -1938,20 +2553,30 @@
           state.milestones[25]=true; if(milestone>=50)state.milestones[50]=true; if(milestone>=75)state.milestones[75]=true; if(milestone>=100)state.milestones[100]=true;
           ss("rv_milestones",state.milestones);
           popupQueue.push(()=>{
-            if(milestone===100) showAppreciation("Kamu Berhasil! 🧚‍♀️✨","Target 100% selesai!",true);
-            else if(milestone===75) showAppreciation("Hebat Sekali! 💫","Progres sudah melampaui 75%!");
-            else if(milestone===50) showAppreciation("Luar Biasa! 🌟","50% telah terlewati dengan indah!");
-            else showAppreciation("Awal yang Cemerlang! ✨","25% perjalanan telah terukir!");
+            if(milestone===100) showAppreciation(t('appr_title_100'), t('appr_sub_100'), true);
+            else if(milestone===75) showAppreciation(t('appr_title_75'), t('appr_sub_75'));
+            else if(milestone===50) showAppreciation(t('appr_title_50'), t('appr_sub_50'));
+            else showAppreciation(t('appr_title_25'), t('appr_sub_25'));
           });
         }
       }
-      function checkBadgeUnlocks(t,p,streak){
+      
+      function checkBadgeUnlocks(){
         let newBadges = [];
-        if(t>0 && !state.badges[1]){ state.badges[1]=true; newBadges.push(1); }
+        let tCount = total(); let p = pct(); let streak = calculateStreak();
+        if(tCount>0 && !state.badges[1]){ state.badges[1]=true; newBadges.push(1); }
         if(streak>=3 && !state.badges[2]){ state.badges[2]=true; newBadges.push(2); }
         if(p>=50 && !state.badges[3]){ state.badges[3]=true; newBadges.push(3); }
         if(p>=100 && !state.badges[4]){ state.badges[4]=true; newBadges.push(4); }
-        if(newBadges.length){ ss("rv_badges",state.badges); newBadges.forEach(id=>popupQueue.push(()=>showBadgeAnim(id))); }
+        if(state.matchBestTime !== null && !state.badges[5]){ state.badges[5]=true; newBadges.push(5); }
+        if(state.fcBestTime !== null && !state.badges[6]){ state.badges[6]=true; newBadges.push(6); }
+        if(state.focusTime >= 25 && !state.badges[7]){ state.badges[7]=true; newBadges.push(7); }
+        
+        if(newBadges.length){ 
+          ss("rv_badges",state.badges); 
+          newBadges.forEach(id=>popupQueue.push(()=>showBadgeAnim(id))); 
+          playNextPopup(); 
+        }
       }
 
       function showAppreciation(title,subtitle,isMax=false){
@@ -1965,16 +2590,10 @@
       }
 
       function showBadgeAnim(id){
-        const data = {
-          1:{icon:"🌱",title:"Awal Sihir",desc:"Menapakkan kaki pertama dalam misi ini."},
-          2:{icon:"🔥",title:"Api Semangat",desc:"Menjaga api tetap menyala 3 hari tanpa putus."},
-          3:{icon:"✨",title:"Sayap Bersinar",desc:"Terbang mencapai separuh (50%) perjalanan."},
-          4:{icon:"👑",title:"Peri Lulus",desc:"Sukses mengumpulkan seluruh energi yang ditargetkan."}
-        };
-        const bd = data[id];
-        document.getElementById("badge-anim-icon").textContent = bd.icon;
-        document.getElementById("badge-anim-title").textContent = bd.title;
-        document.getElementById("badge-anim-desc").textContent = bd.desc;
+        const iconList = {1:"🌱", 2:"🔥", 3:"✨", 4:"👑", 5:"🧩", 6:"🪄", 7:"⏳"};
+        document.getElementById("badge-anim-icon").textContent = iconList[id];
+        document.getElementById("badge-anim-title").textContent = t('bdg_'+id+'_title');
+        document.getElementById("badge-anim-desc").textContent = t('bdg_'+id+'_desc');
         document.getElementById("badge-anim-overlay").classList.add("show");
         playChime(); burstSparkles();
         setTimeout(()=>{ document.getElementById("badge-anim-overlay").classList.remove("show"); isPopupShowing=false; setTimeout(playNextPopup,800); },4500);
@@ -2032,10 +2651,10 @@
         img.classList.add("show");
         if(score>=60){
           playGrandChime(); img.src="https://lh3.googleusercontent.com/d/1O6YrTGBa0NBDdZ5IwCufLUP5pZ-2DjdY";
-          title.textContent="Kerja Luar Biasa! ✨"; msg.textContent=`Sangat membanggakan, ${state.name}!`;
+          title.textContent=t('exam_great'); msg.textContent=t('exam_great_sub', state.name);
         } else {
           playChime(); img.src="https://lh3.googleusercontent.com/d/1lJXQra0IbII_ppGIsfVsULGwSlNPpmVs";
-          title.textContent="Tetap Bersemangat! 🌟"; msg.textContent=`Kamu sudah berusaha keras, ${state.name}!`;
+          title.textContent=t('exam_good'); msg.textContent=t('exam_good_sub', state.name);
         }
         document.getElementById("result-modal").classList.add("show");
       }
@@ -2065,14 +2684,14 @@
         const ok = await saveToNotion();
         setButtonLoading("btn-set",false);
         const msg = document.getElementById("save-msg-set");
-        msg.textContent = ok ? "Pengaturan tersimpan!" : "Tersimpan di tempat aman!";
+        msg.textContent = ok ? t('msg_set_saved') : t('msg_set_local');
         msg.style.display="block"; setTimeout(()=>msg.style.display="none",2200);
       };
 
       window.resetBlok = async function(){
-        if(!confirm("Apakah kamu yakin ingin merapikan lembaran dan memulai yang baru?")) return;
-        state.slides={}; state.moods={}; state.nilaiUjian=0; state.milestones={25:false,50:false,75:false,100:false}; state.badges={1:false,2:false,3:false,4:false}; state.blockStart=null; state.blockEnd=null; pageId=null;
-        ss("rv_slides",{}); ss("rv_moods",{}); ss("rv_nilai",0); ss("rv_milestones",state.milestones); ss("rv_badges",state.badges); ss("rv_block_start",null); ss("rv_block_end",null);
+        if(!confirm(t('confirm_reset'))) return;
+        state.slides={}; state.moods={}; state.nilaiUjian=0; state.milestones={25:false,50:false,75:false,100:false}; state.badges={1:false,2:false,3:false,4:false, 5:false, 6:false, 7:false}; state.blockStart=null; state.blockEnd=null; pageId=null; state.focusTime=0; state.matchBestTime=null; state.fcBestTime=null;
+        ss("rv_slides",{}); ss("rv_moods",{}); ss("rv_nilai",0); ss("rv_milestones",state.milestones); ss("rv_badges",state.badges); ss("rv_block_start",null); ss("rv_block_end",null); ss("rv_focus",0); ss("matchBestTime",null); ss("fcBestTime",null);
         render(); await saveToNotion(); checkSetupModal();
       };
 
@@ -2114,7 +2733,7 @@
       let touchStartX=0;
       document.querySelector('.main').addEventListener('touchstart',e=>{ touchStartX=e.changedTouches[0].screenX; },{passive:true});
       document.querySelector('.main').addEventListener('touchend',e=>{
-        if(document.activeElement.tagName==='INPUT'||document.activeElement.tagName==='TEXTAREA') return;
+        if(document.activeElement.tagName==='INPUT'||document.activeElement.tagName==='TEXTAREA'||document.activeElement.tagName==='SELECT') return;
         const diff = touchStartX - e.changedTouches[0].screenX;
         if(diff>60 && currentTabIndex<TABS_ORDER.length-1) switchTab(TABS_ORDER[currentTabIndex+1]);
         else if(diff<-60 && currentTabIndex>0) switchTab(TABS_ORDER[currentTabIndex-1]);
@@ -2172,20 +2791,16 @@
         }
       }
 
+      /* INISIALISASI */
       createSparkles();
+      applyTheme();    // Set theme dari localStorage saat pertama load
+      applyLanguage(); // Set bahasa dari localStorage saat pertama load
       checkWelcomeModal();
       setupReminders();
       render();
       loadFromNotion();
       requestAnimationFrame(updateIndicator);
       window.addEventListener('resize',updateIndicator);
-      window.navMatchReviewPage = navMatchReviewPage;
-      window.switchFcMainTab = switchFcMainTab;
-      window.startFcTest = startFcTest;
-      window.selectFcTestAnswer = selectFcTestAnswer;
-      window.navFcTest = navFcTest;
-      window.navFcReviewPage = navFcReviewPage;
-      window.finishFcTest = finishFcTest;
     })();
   </script>
 </body>
