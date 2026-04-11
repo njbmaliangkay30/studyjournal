@@ -84,9 +84,9 @@
     .ppt-forest-deco { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
     .ppt-forest-deco svg { position: absolute; }
     /* Garis ular vertikal penghubung antar baris */
-    .ppt-snake-connector { display: flex; justify-content: flex-end; padding: 0 2px; position: relative; z-index: 1; margin-top: -34px; margin-bottom: 2px; }
+    .ppt-snake-connector { display: flex; justify-content: flex-end; padding: 0 2px; position: relative; z-index: 1; }
     .ppt-snake-connector.to-left { justify-content: flex-start; }
-    .ppt-snake-vline { width: 2px; height: 44px; background: rgba(141,201,90,0.18); border-radius: 2px; position: relative; overflow: visible; margin: 0 34px; }
+    .ppt-snake-vline { width: 2px; height: 28px; background: rgba(141,201,90,0.18); border-radius: 2px; position: relative; overflow: visible; margin: 0 20px; }
     .ppt-snake-vline::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(180deg, transparent, transparent 3px, rgba(141,201,90,0.2) 3px, rgba(141,201,90,0.2) 6px); }
     .ppt-snake-vline.lit { background: linear-gradient(180deg, rgba(245,200,66,0.25) 0%, rgba(255,240,100,0.95) 30%, rgba(245,200,66,0.25) 60%, rgba(255,240,100,0.9) 90%, rgba(245,200,66,0.25) 100%); background-size: 100% 200%; box-shadow: 0 0 8px rgba(245,200,66,0.65), 0 0 16px rgba(245,200,66,0.3); animation: energy-flow-v 1.2s infinite linear; }
     .ppt-snake-vline.lit::before { display: none; }
@@ -118,7 +118,7 @@
     .ppt-dot-label-empty { font-size: 9px; color: rgba(141,201,90,0.35); min-height: 22px; margin-top: 0; }
 
     /* Connecting energy line */
-    .ppt-energy-line { flex-shrink: 0; width: 100%; max-width: 24px; height: 2px; background: rgba(141,201,90,0.18); border-radius: 2px; margin-top: 22px; transition: background 0.5s, box-shadow 0.5s; position: relative; overflow: visible; margin-left: -4px: margin-right: -4px; }
+    .ppt-energy-line { flex-shrink: 0; width: 100%; max-width: 16px; height: 2px; background: rgba(141,201,90,0.18); border-radius: 2px; margin-top: 22px; transition: background 0.5s, box-shadow 0.5s; position: relative; overflow: visible; }
     .ppt-energy-line::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-50%); background: repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(141,201,90,0.2) 3px, rgba(141,201,90,0.2) 6px); }
     .ppt-energy-line.lit { background: linear-gradient(90deg, rgba(245,200,66,0.25) 0%, rgba(255,240,100,0.95) 30%, rgba(245,200,66,0.25) 60%, rgba(255,240,100,0.9) 90%, rgba(245,200,66,0.25) 100%); background-size: 200% 100%; box-shadow: 0 0 8px rgba(245,200,66,0.65), 0 0 16px rgba(245,200,66,0.3); animation: energy-flow-h 1.2s infinite linear; }
     .ppt-energy-line.lit::before { display: none; }
@@ -1313,14 +1313,7 @@
           btn_extra_5: "+ 5 Menit",
           btn_extra_10: "+ 10 Menit",
           btn_rest: "Cukup, Ayo Istirahat 💧",
-          btn_start_focus: "Mulai Fokus ✦",
-          trk_ppt_grid_title: "✦ Petak PPT — Tandai yang Sudah Dibaca",
-          trk_ppt_guide: "🌿 Klik titik untuk mencatat PPT selesai",
-          trk_ppt_popup_sub: "Apa judul PPT yang sudah kamu baca?",
-          trk_ppt_popup_edit: "Edit judul PPT atau batalkan tandai selesai.",
-          trk_ppt_placeholder: "Tulis judul PPT di sini...",
-          btn_mark_done: "✦ Tandai Selesai",
-          btn_unmark: "✕ Batalkan Tandai"
+          btn_start_focus: "Mulai Fokus ✦"
         },
         en: {
           hdr_eyebrow: "Study Journey",
@@ -1526,14 +1519,7 @@
           btn_extra_5: "+ 5 Minutes",
           btn_extra_10: "+ 10 Minutes",
           btn_rest: "Enough, Let's Rest 💧",
-          btn_start_focus: "Start Focus ✦",
-          trk_ppt_grid_title: "✦ PPT Grid — Mark as Completed",
-          trk_ppt_guide: "🌿 Click dots to record finished PPT",
-          trk_ppt_popup_sub: "What is the title of the PPT you've read?",
-          trk_ppt_popup_edit: "Edit title or unmark as completed.",
-          trk_ppt_placeholder: "Type PPT title here...",
-          btn_mark_done: "✦ Mark as Done",
-          btn_unmark: "✕ Unmark"
+          btn_start_focus: "Start Focus ✦"
         }
       };
 
@@ -3113,10 +3099,7 @@
         document.getElementById('ppt-done-count').textContent = doneCount;
         document.getElementById('ppt-total-count').textContent = dots.length;
 
-        // Update Label Header agar mendukung Bahasa Inggris
-        const headerLbl = document.querySelector('.ppt-track-header-lbl');
-        if(headerLbl) headerLbl.textContent = t('trk_ppt_guide');
-
+        // Split into rows of DOTS_PER_ROW
         const rawRows = [];
         for (let i = 0; i < dots.length; i += DOTS_PER_ROW) {
           rawRows.push(dots.slice(i, i + DOTS_PER_ROW).map((d, j) => ({ dot: d, idx: i + j })));
@@ -3124,7 +3107,9 @@
 
         let html = '';
         rawRows.forEach((rawRow, rowIdx) => {
-          const isReverse = rowIdx % 2 === 1; 
+          const isReverse = rowIdx % 2 === 1; // baris ganjil = kanan ke kiri (pola ular)
+          // Jangan reverse array — CSS flex-direction:row-reverse yang mengatur posisi visual
+          // Slot pertama di array (mis. slot 9) akan muncul di KANAN (di bawah slot 8)
           const displayRow = rawRow;
 
           html += `<div class="ppt-row" style="${isReverse ? 'flex-direction:row-reverse;' : ''}">`;
@@ -3146,6 +3131,7 @@
                  </div>`
               : `<div class="ppt-dot-label"><div class="ppt-dot-label-empty">${idx + 1}</div></div>`;
 
+            // Garis horisontal antara titik dalam satu baris
             const nextDisplay = displayRow[colIdx + 1];
             const lineIsLit = isDone && nextDisplay && nextDisplay.dot.done;
             const lineHtml = nextDisplay !== undefined
@@ -3159,21 +3145,6 @@
             ${lineHtml}`;
           });
           html += `</div>`;
-
-          if (rowIdx < rawRows.length - 1) {
-            const lastDotThisRow = rawRow[rawRow.length - 1]; 
-            const firstDotNextRow = rawRows[rowIdx + 1][0];   
-            const vLineIsLit = lastDotThisRow && lastDotThisRow.dot.done && firstDotNextRow && firstDotNextRow.dot.done;
-
-            const connectorSide = isReverse ? 'to-left' : '';
-            html += `<div class="ppt-snake-connector ${connectorSide}">
-              <div class="ppt-snake-vline${vLineIsLit ? ' lit' : ''}"></div>
-            </div>`;
-          }
-        });
-
-        container.innerHTML = html;
-      }
 
           // Garis vertikal penghubung antar baris (pola ular sambung ke bawah)
           if (rowIdx < rawRows.length - 1) {
@@ -3205,17 +3176,14 @@
         const isDone = dot && dot.done;
         document.getElementById('ppt-popup-num').textContent = idx + 1;
         document.getElementById('ppt-popup-input').value = isDone ? (dot.title || '') : '';
-  
-  // Menggunakan fungsi t() untuk multibahasa
-  document.getElementById('ppt-popup-sub').textContent = isDone ? t('trk_ppt_popup_edit') : t('trk_ppt_popup_sub');
-  document.getElementById('ppt-popup-confirm-btn').textContent = isDone ? t('btn_save_set') : t('btn_mark_done');
-  document.getElementById('ppt-popup-unmark-btn').textContent = t('btn_unmark');
-  document.getElementById('ppt-popup-input').placeholder = t('trk_ppt_placeholder');
-
-  document.getElementById('ppt-popup-unmark-btn').style.display = isDone ? 'block' : 'none';
-  document.getElementById('ppt-dot-modal').classList.add('show');
-  setTimeout(() => document.getElementById('ppt-popup-input').focus(), 200);
-};
+        document.getElementById('ppt-popup-sub').textContent = isDone
+          ? 'Edit judul PPT atau batalkan tandai selesai.'
+          : 'Apa judul PPT yang sudah kamu baca?';
+        document.getElementById('ppt-popup-confirm-btn').textContent = isDone ? '✦ Simpan Perubahan' : '✦ Tandai Selesai';
+        document.getElementById('ppt-popup-unmark-btn').style.display = isDone ? 'block' : 'none';
+        document.getElementById('ppt-dot-modal').classList.add('show');
+        setTimeout(() => document.getElementById('ppt-popup-input').focus(), 200);
+      };
 
       window.closeDotModal = function() {
         document.getElementById('ppt-dot-modal').classList.remove('show');
