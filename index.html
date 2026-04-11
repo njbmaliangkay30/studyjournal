@@ -595,7 +595,7 @@
 
         <!-- PPT DOT TRACKER (replaces manual input) -->
         <div>
-          <div class="sec-lbl">✦ Petak PPT — Tandai yang Sudah Dibaca</div>
+          <div class="sec-lbl" data-i18n="trk_ppt_title">✦ Petak PPT — Tandai yang Sudah Dibaca</div>
           <div class="ppt-track-wrap">
             <!-- Dekorasi hutan magis -->
             <div class="ppt-forest-deco" aria-hidden="true">
@@ -644,7 +644,7 @@
               </svg>
             </div>
             <div class="ppt-track-header">
-              <div class="ppt-track-header-lbl">🌿 Klik titik untuk mencatat PPT selesai</div>
+              <div class="ppt-track-header-lbl" data-i18n="trk_ppt_guide">🌿 Klik titik untuk mencatat PPT selesai</div>
               <div class="ppt-track-counter"><span id="ppt-done-count">0</span> / <span id="ppt-total-count">0</span></div>
             </div>
             <div class="ppt-dots-row" id="ppt-dots-row" style="padding-bottom: 22px;"></div>
@@ -3112,6 +3112,10 @@
         const container = document.getElementById('ppt-dots-row');
         if (!container) return;
 
+        const titleEl = document.querySelector('[data-i18n="trk_ppt_title"]');
+    if(titleEl) titleEl.textContent = t('trk_ppt_title');
+    const guideEl = document.querySelector('[data-i18n="trk_ppt_guide"]');
+    if(guideEl) guideEl.textContent = t('trk_ppt_guide');
         const dots = state.pptDots;
         const doneCount = dots.filter(d => d.done).length;
         document.getElementById('ppt-done-count').textContent = doneCount;
