@@ -144,16 +144,16 @@ module.exports = async function handler(req, res) {
       }
 
       return res.json({
-            found: true,
-            pageId: page.id,
-            target: getNumber(props, "Weekly Target"),
-            nilaiUjian: getNumber(props, "Nilai Ujian"),
-            blockStart: props["Range Date"]?.date?.start || "",
-            blockEnd: props["Range Date"]?.date?.end || "",
-            pptDots: getText(props, "PPT Dots"),
-            moods: getText(props, "Moods"),
-            blockName: getText(props, "Topik Blok") // 👈 TAMBAHKAN BARIS INI
-          });
+        found: true,
+        pageId: page.id,
+        target: getNumber(p, "Weekly Target"),
+        nilaiUjian: getNumber(p, "Nilai Ujian"),
+        blockStart: p["Range Date"]?.date?.start || "",
+        blockEnd: p["Range Date"]?.date?.end || "",
+        pptDots: getText(p, "PPT Dots"),
+        moods: getText(p, "Moods"),
+        blockName: getText(p, "Topik Blok")
+      });
 
     } catch (err) {
       return res.status(500).json({ error: "Gagal mengambil data: " + err.message });
