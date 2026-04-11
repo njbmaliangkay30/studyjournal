@@ -2818,17 +2818,13 @@
         addCoins(tempSlideCount * 10);
 
         render();
-        // Beritahu sistem bahwa popup sudah selesai agar antrean lencana/milestone bisa jalan
-  isPopupShowing = false;
-  playNextPopup();
-  
-  // Simpan ke Notion
-  await saveToNotion(todayStr);
-};
         checkMilestoneAppreciation();
         checkBadgeUnlocks();
         playNextPopup();
         setButtonLoading("btn-slide",true);
+        // Beritahu sistem bahwa popup ini selesai agar antrean berikutnya bisa jalan
+        isPopupShowing = false;
+        playNextPopup();
         const ok = await saveToNotion(todayStr);
         setButtonLoading("btn-slide",false);
         const msg = document.getElementById("save-msg-slide");
@@ -3263,8 +3259,18 @@
       });
     }
     playNextPopup(); }
+        // JIKA bukan PPT pertama (popup mood tidak muncul), langsung simpan dan tampilkan pesan
+  if (!isFirstToday) {
+    const ok = await saveToNotion(todayStr);
+    const msg = document.getElementById("save-msg-slide");
+    if (msg) {
+      msg.textContent = ok ? t('txt_saved_cloud') : t('txt_saved_local');
+      msg.style.display = "block";
+      setTimeout(() => msg.style.display = "none", 2200);
   await saveToNotion(todayStr);
 };
+  }
+      };
       window.unmarkDot = async function() {
         if (activeDotIdx < 0 || activeDotIdx >= state.pptDots.length) return;
         const dot = state.pptDots[activeDotIdx];
