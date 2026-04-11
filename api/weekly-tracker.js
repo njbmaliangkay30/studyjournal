@@ -160,7 +160,8 @@ module.exports = async function handler(req, res) {
   if (req.method === "POST") {
     const {
       username   = "",
-      target     = 30,
+      blockName  = "",
+      target     = 0,
       blockStart = "",
       blockEnd   = "",
       nilaiUjian = 0,
@@ -180,7 +181,7 @@ module.exports = async function handler(req, res) {
         "Weekly Target": makeNumber(target),
         "Nilai Ujian":   makeNumber(nilaiUjian),
         "Username":      makeRichText(username),
-        "Block Start":   makeRichText(blockStart),
+        "Topik Blok":   makeRichText(blockName),
         "PPT Dots":      makeRichText(safeJson(pptDots)),
         "Moods":         makeRichText(safeJson(moods)),
       };
