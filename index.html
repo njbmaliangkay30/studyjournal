@@ -1635,6 +1635,10 @@
           if(dict[key]) el.innerHTML = dict[key];
         });
         document.getElementById('lang-select').value = state.lang;
+        
+        // Tambahkan baris ini agar PPT Tracker di-render ulang dengan bahasa baru
+        renderPptTrack(); 
+        
         updateDifficultCount(); 
         applyTheme(); 
       };
