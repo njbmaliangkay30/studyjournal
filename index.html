@@ -562,7 +562,7 @@
     <div class="tab-indicator" id="tab-indicator"></div>
   </div>
 
-  <div class="sync-bar syncing" id="sync-bar">
+  <div class="sync-bar ok" id="sync-bar">
     <div class="sync-dot"></div>
     <span id="sync-txt" data-i18n="sync_conn">Menghubungkan ke Notion...</span>
   </div>
@@ -2808,21 +2808,12 @@
       // Auto-load saat startup jika username sudah disimpan di localStorage
       async function loadFromNotion() {
         if (state.syncCode) {
-          const ok = await loadUserFromNotion(state.syncCode);
-          if (ok) { render(); return; }
+          await loadUserFromNotion(state.syncCode);
+          render();
+          return;
         }
-        // Fallback: coba endpoint lama (backward compat, tidak blok UI)
-        try {
-          const res = await fetch("/api/notion");
-          if (!res.ok) return;
-          const json = await res.json();
-          if (json.found && json.data) {
-            const d = json.data;
-            if (!state.slides || !Object.keys(state.slides).length) { state.slides = d.slides || {}; ss("rv_slides", state.slides); }
-            if (!state.target || state.target === 30) { state.target = d.target || 30; ss("rv_target", state.target); }
-          }
-          setSyncStatus("ok", t('txt_sync_ok')); showError(null);
-        } catch(e) { /* silent */ }
+        // Tidak ada username — tidak perlu sync, langsung ok
+        setSyncStatus("ok", "✦ Siap");
         render();
       }
 
@@ -3355,7 +3346,11 @@
       /* INISIALISASI */
       createSparkles();
       applyTheme();    
-      applyLanguage(); 
+      applyLanguage();
+      // Auto-load dari Notion jika sudah pernah login sebelumnya
+      if (state.syncCode) {
+        loadFromNotion(); // async, tidak perlu await — UI sudah jalan
+      }
       checkWelcomeModal();
       setupReminders();
       render();
