@@ -4,20 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>Revalina — Study Journey</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;500;600&display=swap"
-    rel="stylesheet"
-  />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alice&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ===== CSS TIDAK BERUBAH DARI ASLI ===== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --gold: #f5c842; --gold-light: #ffe478; --gold-pale: #fff8d6; --gold-dark: #b8900a;
       --green-deep: #1a3a0f; --green-mid: #2e6b1a; --green-leaf: #4a9b28; --green-light: #8dc95a;
       --green-pale: #e4f2d3; --cream: #fdfaf0; --cream2: #f7f1dc; --brown: #6b4c1e;
       --amber: #e8a020; --red-soft: #e85050; --text-dark: #2a1f0a; --text-mid: #5a4a2a;
-      --text-soft: #9a8a6a; --serif: "Playfair Display", Georgia, serif;
-      --sans: "Nunito", system-ui, sans-serif;
+      --text-soft: #9a8a6a; 
+      --serif: "Alice", Georgia, serif;
+      --sans: "Quicksand", system-ui, sans-serif;
     }
     
     html, body { 
@@ -50,11 +49,11 @@
     .leaf2 { width: 80px; height: 50px; bottom: -10px; right: 25%; transform: rotate(-15deg); }
     .leaf3 { width: 70px; height: 45px; top: 30px; left: -15px; transform: rotate(60deg); }
     .leaf4 { width: 40px; height: 25px; top: 10px; right: 40%; transform: rotate(120deg); background: rgba(245,200,66,0.08); }
-    .header-eyebrow { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 3px; font-weight: 400; text-shadow: 0 0 5px rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: space-between; }
+    .header-eyebrow { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 3px; font-weight: 600; text-shadow: 0 0 5px rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: space-between; }
     .rank-badge { background: rgba(245,200,66,0.15); border: 1px solid rgba(245,200,66,0.3); padding: 3px 10px; border-radius: 12px; color: var(--gold-light); font-weight: 700; font-size: 11px; text-transform: none; letter-spacing: normal; display: inline-flex; align-items: center; gap: 4px; font-family: var(--sans); margin-left: 8px; vertical-align: middle; box-shadow: 0 0 10px rgba(245,200,66,0.15); }
-    .header-name { font-family: var(--serif); font-size: 28px; color: #fff; line-height: 1.15; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 2px; }
-    .header-name span.name-text { color: var(--gold-light); font-style: italic; text-shadow: 0 0 15px rgba(245,200,66,0.4); }
-    .header-sub { font-size: 11px; color: rgba(255,255,255,0.45); margin-bottom: 12px; margin-top: 4px;}
+    .header-name { font-family: var(--serif); font-size: 30px; color: #fff; line-height: 1.15; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 2px; }
+    .header-name span.name-text { color: var(--gold-light); text-shadow: 0 0 15px rgba(245,200,66,0.4); }
+    .header-sub { font-size: 11px; color: rgba(255,255,255,0.45); margin-bottom: 12px; margin-top: 4px; font-weight: 500;}
     .prog-wrap { display: flex; align-items: center; gap: 18px; }
     .ring-outer { position: relative; width: 80px; height: 80px; flex-shrink: 0; filter: drop-shadow(0 0 12px rgba(245,200,66,0.6)); animation: breathing-glow 4s infinite alternate; }
     @keyframes breathing-glow { 0% { filter: drop-shadow(0 0 8px rgba(245,200,66,0.4)); } 100% { filter: drop-shadow(0 0 18px rgba(245,200,66,0.7)); } }
@@ -64,33 +63,33 @@
     .ring-fill { fill: none; stroke: url(#goldGrad); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 213.6; stroke-dashoffset: 213.6; transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1); }
     .ring-glow { fill: none; stroke: rgba(255,228,120,0.35); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 213.6; stroke-dashoffset: 213.6; transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1); }
     .ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .ring-pct { font-size: 17px; font-weight: 600; color: var(--gold-light); line-height: 1; }
-    .ring-lbl { font-size: 9px; color: rgba(255,255,255,0.4); margin-top: 1px; }
+    .ring-pct { font-size: 17px; font-weight: 700; color: var(--gold-light); line-height: 1; }
+    .ring-lbl { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.4); margin-top: 1px; text-transform: uppercase; letter-spacing: 0.05em; }
     .prog-info { flex: 1; }
-    .prog-label { font-size: 10px; color: rgba(255,255,255,0.45); margin-bottom: 7px; letter-spacing: 0.05em; }
+    .prog-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.45); margin-bottom: 7px; letter-spacing: 0.05em; }
     .prog-bar-track { height: 5px; background: rgba(255,255,255,0.08); border-radius: 3px; margin-bottom: 7px; overflow: visible; }
     .prog-bar-fill { height: 5px; border-radius: 3px; background: linear-gradient(90deg,var(--gold-dark),var(--gold-light)); box-shadow: 0 0 8px rgba(245,200,66,0.8),0 0 16px rgba(245,200,66,0.4); transition: width 1.2s cubic-bezier(.4,0,.2,1); }
-    .prog-nums { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.4); }
-    .prog-nums strong { color: var(--gold-light); font-weight: 600; text-shadow: 0 0 5px rgba(245,200,66,0.3); }
-    .date-badge { background: rgba(245,200,66,0.15); border: 1px solid rgba(245,200,66,0.3); border-radius: 12px; padding: 3px 8px; font-size: 9px; font-weight: 700; color: var(--gold-light); display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 0 10px rgba(245,200,66,0.15); font-family: var(--sans); }
+    .prog-nums { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.4); font-weight: 500; }
+    .prog-nums strong { color: var(--gold-light); font-weight: 700; text-shadow: 0 0 5px rgba(245,200,66,0.3); }
+    .date-badge { background: rgba(245,200,66,0.15); border: 1px solid rgba(245,200,66,0.3); border-radius: 12px; padding: 4px 8px; font-size: 9px; font-weight: 700; color: var(--gold-light); display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 0 10px rgba(245,200,66,0.15); font-family: var(--sans); }
     .date-badge::before { content: '✦'; color: var(--gold); font-size: 8px; animation: star-twinkle 2s infinite alternate; }
     @keyframes star-twinkle { 0% { opacity: 0.5; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
     .tab-bar { background: rgba(247, 241, 220, 0.85); backdrop-filter: blur(10px); padding: 10px 16px 0; border-bottom: 1px solid rgba(184, 144, 10, 0.1); display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; position: sticky; top: 0; z-index: 3; position: relative; }
     .tab-bar::-webkit-scrollbar { display: none; }
-    .tab-indicator { position: absolute; bottom: 0; height: 2px; background: var(--gold); border-radius: 2px 2px 0 0; box-shadow: 0 0 8px rgba(245,200,66,0.6); transition: left 0.32s cubic-bezier(.4,0,.2,1), width 0.32s cubic-bezier(.4,0,.2,1); pointer-events: none; z-index: 4; }
-    .tab { flex: 1; padding: 8px 0; text-align: center; border-radius: 12px 12px 0 0; font-size: 12px; font-weight: 600; border: none; background: transparent; color: var(--text-soft); cursor: pointer; transition: color 0.3s, background 0.3s; letter-spacing: 0.02em; font-family: var(--sans); }
+    .tab-indicator { position: absolute; bottom: 0; height: 3px; background: var(--gold); border-radius: 3px 3px 0 0; box-shadow: 0 0 8px rgba(245,200,66,0.6); transition: left 0.32s cubic-bezier(.4,0,.2,1), width 0.32s cubic-bezier(.4,0,.2,1); pointer-events: none; z-index: 4; }
+    .tab { flex: 1; padding: 10px 0; text-align: center; border-radius: 12px 12px 0 0; font-size: 13px; font-weight: 700; border: none; background: transparent; color: var(--text-soft); cursor: pointer; transition: color 0.3s, background 0.3s; letter-spacing: 0.02em; font-family: var(--sans); }
     .tab.active { background: rgba(253, 250, 240, 0.9); color: var(--green-deep); box-shadow: 0 -4px 10px rgba(245,200,66,0.05); }
     .tab:hover:not(.active) { color: var(--text-mid); background: rgba(255,255,255,0.3); }
-    .sync-bar { padding: 6px 16px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .sync-bar { padding: 8px 16px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 6px; }
     .sync-bar.syncing { color: var(--text-soft); }
     .sync-bar.ok { color: var(--green-leaf); }
     .sync-bar.error { color: var(--red-soft); }
-    .sync-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 5px currentColor; }
+    .sync-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 5px currentColor; }
     .syncing .sync-dot { background: var(--amber); animation: pulse 1s infinite; }
     .ok .sync-dot { background: var(--green-leaf); }
     .error .sync-dot { background: var(--red-soft); }
     @keyframes pulse { 0%,100% { opacity:1; transform: scale(1); } 50% { opacity:0.5; transform: scale(0.8); } }
-    .error-box { background:#fdeded; border:1px solid #f7c1c1; border-radius:10px; padding:10px 14px; font-size:11px; color:var(--red-soft); margin:0 16px 10px; line-height:1.5; }
+    .error-box { background:#fdeded; border:1px solid #f7c1c1; border-radius:10px; padding:10px 14px; font-size:12px; color:var(--red-soft); margin:0 16px 10px; line-height:1.5; font-weight: 500;}
     .main { padding: 16px 16px 32px; display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 1; flex-grow: 1; }
     .pages-wrapper { position: relative; overflow: hidden; }
     .page { display: flex; flex-direction: column; gap: 14px; position: absolute; top: 0; left: 0; width: 100%; opacity: 0; pointer-events: none; transform: translateX(40px); transition: transform 0.32s cubic-bezier(.4,0,.2,1), opacity 0.32s ease; }
@@ -99,16 +98,16 @@
     .page.slide-out-right { transform: translateX(40px);  opacity: 0; }
     .page.slide-in-left   { transform: translateX(-40px); }
     .page.slide-in-right  { transform: translateX(40px);  }
-    .sec-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .sec-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
     .sec-lbl::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg,rgba(184, 144, 10, 0.15),transparent); }
     .fc-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 18px; padding: 20px; position: relative; overflow: hidden; border: 1px solid rgba(245,200,66,0.3); box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: center; transition: all 0.3s ease; }
     .fc-content { position: relative; z-index: 2; }
     .fc-bg-icon { position: absolute; right: -5px; bottom: -15px; font-size: 75px; opacity: 0.15; pointer-events: none; z-index: 0; transition: all 0.4s ease; }
-    .fc-title { font-size: 10px; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .fc-title { font-size: 11px; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
     .fc-val { font-family: var(--sans); font-size: 32px; color: var(--text-dark); line-height: 1; text-shadow: 0 0 15px rgba(245,200,66,0.2); display: flex; align-items: baseline; gap: 4px; font-weight: 800; }
-    .fc-sub { font-size: 11px; color: var(--text-mid); margin-top: 6px; font-weight: 600; line-height: 1.4; }
+    .fc-sub { font-size: 12px; color: var(--text-mid); margin-top: 6px; font-weight: 600; line-height: 1.4; }
     .fc-half { padding: 16px; }
-    .fc-half .fc-title { font-size: 9px; }
+    .fc-half .fc-title { font-size: 10px; }
     .fc-half .fc-val { font-size: 26px; }
     .fc-half .fc-bg-icon { font-size: 60px; right: -5px; bottom: -10px; }
     .aura-blue { filter: drop-shadow(0 0 15px #4a90e2); opacity: 0.2; animation: float-icon 4s infinite alternate; }
@@ -125,91 +124,95 @@
     .reward-card::before { content: '✦'; position: absolute; right: 18px; top: 16px; font-size: 52px; opacity: 0.1; color: var(--gold); text-shadow: 0 0 30px var(--gold); animation: float-icon 6s ease-in-out infinite; }
     .reward-card::after { content: '✦'; position: absolute; right: 50px; bottom: 12px; font-size: 24px; opacity: 0.08; color: var(--gold); animation: float-icon 4s ease-in-out infinite reverse; }
     .rc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-    .rc-title { font-family: var(--serif); font-size: 14px; color: rgba(255,255,255,0.9); font-style: italic; }
-    .rc-chip { background: rgba(245,200,66,0.2); border: 1px solid rgba(245,200,66,0.4); border-radius: 20px; padding: 3px 10px; font-size: 10px; color: var(--gold-light); box-shadow: 0 0 10px rgba(245,200,66,0.2); }
-    .rc-amount { font-family: var(--serif); font-size: 30px; color: var(--gold-light); text-shadow: 0 0 20px rgba(245,200,66,0.6); margin-bottom: 4px; line-height: 1; }
-    .rc-note { font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 12px; }
-    .rc-bar { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); position: relative; }
-    .rc-bar-fill { position: relative; height: 100%; border-radius: 2px; background: linear-gradient(90deg,var(--gold-dark),var(--gold-light), #fff); box-shadow: 0 0 10px rgba(245,200,66,0.8); transition: width 1.2s ease; }
-    .rc-bar-fill::after { content: ''; position: absolute; right: 0; top: 50%; width: 8px; height: 8px; background: #fff; border-radius: 50%; box-shadow: 0 0 6px 2px var(--gold-light), 0 0 12px 4px var(--gold), 0 0 20px 8px rgba(245, 200, 66, 0.3); animation: fairy-pulse 1.5s ease-in-out infinite alternate; z-index: 2; }
+    .rc-title { font-family: var(--serif); font-size: 16px; color: rgba(255,255,255,0.9); }
+    .rc-chip { background: rgba(245,200,66,0.2); border: 1px solid rgba(245,200,66,0.4); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; color: var(--gold-light); box-shadow: 0 0 10px rgba(245,200,66,0.2); }
+    .rc-amount { font-family: var(--serif); font-size: 32px; color: var(--gold-light); text-shadow: 0 0 20px rgba(245,200,66,0.6); margin-bottom: 4px; line-height: 1; }
+    .rc-note { font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 12px; font-weight: 500; }
+    .rc-bar { height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); position: relative; }
+    .rc-bar-fill { position: relative; height: 100%; border-radius: 3px; background: linear-gradient(90deg,var(--gold-dark),var(--gold-light), #fff); box-shadow: 0 0 10px rgba(245,200,66,0.8); transition: width 1.2s ease; }
+    .rc-bar-fill::after { content: ''; position: absolute; right: 0; top: 50%; width: 10px; height: 10px; background: #fff; border-radius: 50%; box-shadow: 0 0 6px 2px var(--gold-light), 0 0 12px 4px var(--gold), 0 0 20px 8px rgba(245, 200, 66, 0.3); animation: fairy-pulse 1.5s ease-in-out infinite alternate; z-index: 2; }
     .badge-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .badge-item { background: rgba(255,255,255,0.6); backdrop-filter: blur(5px); border-radius: 14px; border: 1px solid rgba(0,0,0,0.05); padding: 16px 12px; text-align: center; transition: all 0.5s; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0.5; filter: grayscale(1); }
     .badge-item.unlocked { opacity: 1; filter: grayscale(0); background: linear-gradient(145deg, #fff, var(--gold-pale)); border-color: rgba(245,200,66,0.4); box-shadow: 0 6px 20px rgba(245,200,66,0.15); transform: translateY(-3px); }
-    .badge-icon { font-size: 28px; margin-bottom: 8px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); transition: all 0.5s; }
+    .badge-icon { font-size: 32px; margin-bottom: 8px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); transition: all 0.5s; }
     .badge-item.unlocked .badge-icon { animation: float-magical 3s infinite alternate; filter: drop-shadow(0 4px 10px rgba(245,200,66,0.6)); }
-    .badge-title { font-size: 11px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; transition: color 0.3s; }
+    .badge-title { font-size: 12px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; transition: color 0.3s; }
     .badge-item.unlocked .badge-title { color: var(--gold-dark); }
-    .badge-desc { font-size: 9px; color: var(--text-soft); line-height: 1.3; }
+    .badge-desc { font-size: 10px; font-weight: 500; color: var(--text-soft); line-height: 1.4; }
     .rules-card, .input-card, .settings-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 14px; border: 1px solid rgba(245,200,66,0.15); overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-    .rule-row { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-bottom: 1px solid rgba(0,0,0,0.03); }
+    .rule-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid rgba(0,0,0,0.03); }
     .rule-row:last-child { border-bottom: none; }
-    .rule-icon { font-size: 15px; flex-shrink: 0; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1)); }
-    .rule-text { flex: 1; font-size: 12px; color: var(--text-mid); }
-    .rule-val { font-size: 12px; font-weight: 700; }
+    .rule-icon { font-size: 16px; flex-shrink: 0; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1)); }
+    .rule-text { flex: 1; font-size: 13px; font-weight: 500; color: var(--text-mid); }
+    .rule-val { font-size: 13px; font-weight: 700; }
     .rv-g { color: var(--green-mid); } .rv-a { color: var(--amber); } .rv-r { color: var(--red-soft); }
-    .days-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; }
+    .days-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; }
     .day { position: relative; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(5px); border-radius: 10px; padding: 12px 3px 8px; text-align: center; border: 1px solid rgba(245,200,66,0.1); transition: all 0.2s; }
     .day:hover { transform: scale(1.05); background: rgba(255,255,255,0.9); box-shadow: 0 4px 10px rgba(245,200,66,0.1); z-index: 1; }
     .day.today { border-color: var(--gold); background: rgba(255, 248, 214, 0.8); box-shadow: 0 0 15px rgba(245,200,66,0.3); }
-    .day-name { font-size: 8px; color: var(--text-soft); margin-bottom: 4px; font-weight: 600; line-height: 1.3; }
+    .day-name { font-size: 9px; color: var(--text-soft); margin-bottom: 5px; font-weight: 600; line-height: 1.3; text-transform: uppercase; letter-spacing: 0.05em; }
     .day.today .day-name { color: var(--gold-dark); }
-    .day-dot { width: 22px; height: 22px; border-radius: 50%; margin: 0 auto 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; transition: all 0.3s; }
+    .day-dot { width: 24px; height: 24px; border-radius: 50%; margin: 0 auto 5px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; transition: all 0.3s; }
     .day-dot.done { background: var(--gold); color: var(--text-dark); box-shadow: 0 0 10px rgba(245,200,66,0.6); }
-    .day-dot.empty { background: rgba(0,0,0,0.04); color: var(--text-soft); font-size: 9px; }
-    .day-dot.ujian { background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: 1px dashed rgba(232, 80, 80, 0.4); font-size: 10px; }
-    .day-pts { font-size: 8px; color: var(--text-soft); }
+    .day-dot.empty { background: rgba(0,0,0,0.04); color: var(--text-soft); font-size: 10px; }
+    .day-dot.ujian { background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: 1px dashed rgba(232, 80, 80, 0.4); font-size: 11px; }
+    .day-pts { font-size: 9px; font-weight: 600; color: var(--text-soft); }
     .day.today .day-pts { color: var(--gold-dark); }
-    .day-mood { position: absolute; top: -6px; right: -6px; background: #fff; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 12px; z-index: 4; }
+    .day-mood { position: absolute; top: -6px; right: -6px; background: #fff; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.1); width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 13px; z-index: 4; }
     .day.cp-pass { border-color: rgba(74, 155, 40, 0.5); }
     .day.cp-fail { border-color: rgba(232, 80, 80, 0.5); border-style: dashed; }
     .day.cp-future { border-color: rgba(232, 160, 32, 0.4); border-style: dashed; }
-    .input-card { padding: 16px; }
-    .input-label { font-size: 11px; color: var(--text-soft); margin-bottom: 8px; font-weight: 600; letter-spacing: 0.04em; line-height: 1.4; }
-    .input-row { display: flex; gap: 8px; }
-    .field { flex: 1; border: 1.5px solid rgba(245,200,66,0.2); border-radius: 10px; padding: 9px 12px; font-size: 16px; font-family: var(--sans); background: rgba(255,255,255,0.8); color: var(--text-dark); outline: none; transition: all 0.2s; width: 100%; }
+    .input-card { padding: 18px; }
+    .input-label { font-size: 12px; color: var(--text-soft); margin-bottom: 10px; font-weight: 600; letter-spacing: 0.02em; line-height: 1.5; }
+    .input-row { display: flex; gap: 10px; }
+    .field { flex: 1; border: 1.5px solid rgba(245,200,66,0.2); border-radius: 12px; padding: 12px 14px; font-size: 15px; font-family: var(--sans); font-weight: 500; background: rgba(255,255,255,0.8); color: var(--text-dark); outline: none; transition: all 0.2s; width: 100%; }
     .field:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(245,200,66,0.2); background: #fff; }
-    .btn-save { padding: 9px 18px; background: linear-gradient(135deg, var(--green-mid), var(--green-leaf)); color: #fff; border: none; border-radius: 10px; font-size: 12px; font-weight: 700; font-family: var(--sans); white-space: nowrap; transition: all 0.2s; box-shadow: 0 4px 10px rgba(74, 155, 40, 0.3); }
+    .field::placeholder { color: rgba(154, 138, 106, 0.6); }
+    .btn-save { padding: 12px 20px; background: linear-gradient(135deg, var(--green-mid), var(--green-leaf)); color: #fff; border: none; border-radius: 12px; font-size: 13px; font-weight: 700; font-family: var(--sans); white-space: nowrap; transition: all 0.2s; box-shadow: 0 4px 10px rgba(74, 155, 40, 0.3); }
     .btn-save:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
     .btn-save:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(74, 155, 40, 0.4); filter: brightness(1.1); }
-    .save-msg { font-size: 11px; color: var(--green-leaf); margin-top: 6px; display: none; font-weight: 600; }
+    .save-msg { font-size: 12px; color: var(--green-leaf); margin-top: 8px; display: none; font-weight: 600; }
     .save-msg::before { content: "✦ "; }
-    .mood-wrap { display: flex; gap: 8px; margin-bottom: 12px; }
-    .mood-btn { background: transparent; border: 1px solid rgba(0,0,0,0.1); border-radius: 50%; width: 34px; height: 34px; font-size: 18px; transition: all 0.2s; display:flex; align-items:center; justify-content:center; padding: 0; }
+    .mood-wrap { display: flex; gap: 10px; margin-bottom: 12px; }
+    .mood-btn { background: transparent; border: 1px solid rgba(0,0,0,0.1); border-radius: 50%; width: 40px; height: 40px; font-size: 20px; transition: all 0.2s; display:flex; align-items:center; justify-content:center; padding: 0; }
     .mood-btn.selected { background: var(--gold-pale); border-color: var(--gold); transform: scale(1.15); box-shadow: 0 0 12px rgba(245,200,66,0.4); }
-    .match-list-item { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.8); padding: 10px; border-radius: 14px; margin-bottom: 10px; border: 1px solid rgba(245,200,66,0.3); transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+    .match-list-item { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.8); padding: 12px; border-radius: 14px; margin-bottom: 10px; border: 1px solid rgba(245,200,66,0.3); transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
     .match-list-item:hover { transform: translateX(5px); box-shadow: 0 6px 15px rgba(245,200,66,0.15); }
-    .match-list-img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(0,0,0,0.05); }
-    .match-list-word { flex: 1; font-size: 13px; font-weight: 700; color: var(--text-dark); text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .match-list-img { width: 55px; height: 55px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(0,0,0,0.05); }
+    .match-list-word { flex: 1; font-size: 14px; font-weight: 700; color: var(--text-dark); text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    
+    /* Area Penambahan Gambar - Drag & Drop / Paste */
+    .dropzone { border: 2px dashed rgba(245,200,66,0.6); transition: all 0.3s; background: rgba(255,255,255,0.6); }
+    .dropzone.dragover { background: rgba(245,200,66,0.2); border-color: var(--gold-dark); transform: scale(1.02); }
+
     .crop-container { width: 100%; max-width: 320px; height: 250px; margin: 0 auto 15px; background: rgba(0,0,0,0.05); border-radius: 16px; position: relative; overflow: hidden; touch-action: none; border: 2px dashed rgba(245,200,66,0.5); box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
     #crop-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; }
     .match-play-img { width: 180px; height: 180px; object-fit: cover; border-radius: 20px; border: 4px solid #fff; box-shadow: 0 8px 25px rgba(0,0,0,0.15); margin: 0 auto 20px; display: block; transition: all 0.3s; }
     .match-words-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 25px; }
-    .match-word-btn { padding: 10px 18px; background: #fff; border: 2px solid rgba(245,200,66,0.3); border-radius: 15px; font-size: 14px; font-weight: 700; color: var(--text-mid); cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-family: var(--sans); }
+    .match-word-btn { padding: 12px 20px; background: #fff; border: 2px solid rgba(245,200,66,0.3); border-radius: 15px; font-size: 14px; font-weight: 700; color: var(--text-mid); cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-family: var(--sans); }
     .match-word-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(245,200,66,0.2); }
     .match-word-btn.selected { background: linear-gradient(135deg, var(--gold-dark), var(--gold-light)); color: #fff; border-color: var(--gold-dark); transform: scale(1.05); box-shadow: 0 6px 20px rgba(245,200,66,0.4); }
     .match-nav-controls { display: flex; justify-content: space-between; gap: 15px; }
-    .match-review-item { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.9); padding: 12px; border-radius: 16px; margin-bottom: 12px; border: 1px solid rgba(245,200,66,0.3); cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+    .match-review-item { display: flex; align-items: center; gap: 15px; background: rgba(255,255,255,0.9); padding: 12px; border-radius: 16px; margin-bottom: 12px; border: 1px solid rgba(245,200,66,0.3); cursor: default; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
     .match-review-item:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(245,200,66,0.15); border-color: var(--gold); }
     .match-review-img { width: 60px; height: 60px; border-radius: 12px; object-fit: cover; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
     .match-review-ans { flex: 1; text-align: left; }
     .match-review-ans .lbl { font-size: 10px; color: var(--text-soft); font-weight: 700; letter-spacing: 0.05em; margin-bottom: 3px; }
     .match-review-ans .val { font-size: 14px; font-weight: 700; color: var(--text-dark); }
     .match-review-ans .val.empty { color: var(--red-soft); font-style: italic; }
-    .match-review-edit { font-size: 18px; color: rgba(0,0,0,0.1); padding-right: 10px; }
-    .match-review-item:hover .match-review-edit { color: var(--gold-dark); }
-    .fc-list-item { background: rgba(255,255,255,0.8); border: 1px solid rgba(245,200,66,0.3); border-radius: 12px; padding: 12px 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; text-align: left; }
+    .fc-list-item { background: rgba(255,255,255,0.8); border: 1px solid rgba(245,200,66,0.3); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; text-align: left; }
     .fc-list-item:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(245,200,66,0.15); }
-    .fc-list-q { font-size: 13px; font-weight: 700; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80%; }
-    .fc-tab-btn { flex: 1; padding: 8px 0; text-align: center; border-radius: 10px; font-size: 11px; font-weight: 700; border: 1px solid transparent; background: transparent; color: var(--text-soft); transition: all 0.3s; }
+    .fc-list-q { font-size: 14px; font-weight: 700; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80%; }
+    .fc-tab-btn { flex: 1; padding: 10px 0; text-align: center; border-radius: 10px; font-size: 12px; font-weight: 700; border: 1px solid transparent; background: transparent; color: var(--text-soft); transition: all 0.3s; cursor: pointer;}
     .fc-tab-btn.active { background: rgba(245,200,66,0.15); border-color: rgba(245,200,66,0.4); color: var(--gold-dark); }
     .flashcard { width: 100%; max-width: 450px; height: 260px; perspective: 1200px; cursor: pointer; margin: 0 auto; position: relative; z-index: 5; }
     .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d; }
     .flashcard.is-flipped .flashcard-inner { transform: rotateY(180deg); }
     .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; border-radius: 20px; overflow: hidden; }
-    .fc-content-text { flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; overflow-y: auto; scrollbar-width: none; }
+    .fc-content-text { flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; overflow-y: auto; scrollbar-width: none; font-weight: 600; }
     .fc-content-text::-webkit-scrollbar { display: none; }
-    .fc-hint-text { font-size: 10px; color: rgba(0,0,0,0.3); margin-top: 15px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
-    .flashcard-front { background: linear-gradient(135deg, #ffffff 0%, #fffbf0 100%), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M30 0l3 12 12 3-12 3-3 12-3-12-12-3 12-3 3-12z' fill='%23b8900a' fill-opacity='0.08'/%3E%3Cpath d='M15 30l1.5 6 6 1.5-6 1.5-1.5 6-1.5-6-6-1.5 6-1.5 1.5-6z' fill='%23b8900a' fill-opacity='0.05'/%3E%3C/g%3E%3C/svg%3E"); border: 1px solid var(--gold-dark); box-shadow: inset 0 0 0 5px #ffffff, inset 0 0 0 6px var(--gold-light), 0 10px 30px rgba(0,0,0,0.1); color: var(--text-dark); font-family: var(--serif); font-size: 22px; font-style: italic; font-weight: 600; line-height: 1.4; }
+    .fc-hint-text { font-size: 11px; color: rgba(0,0,0,0.3); margin-top: 15px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+    .flashcard-front { background: linear-gradient(135deg, #ffffff 0%, #fffbf0 100%), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M30 0l3 12 12 3-12 3-3 12-3-12-12-3 12-3 3-12z' fill='%23b8900a' fill-opacity='0.08'/%3E%3Cpath d='M15 30l1.5 6 6 1.5-6 1.5-1.5 6-1.5-6-6-1.5 6-1.5 1.5-6z' fill='%23b8900a' fill-opacity='0.05'/%3E%3C/g%3E%3C/svg%3E"); border: 1px solid var(--gold-dark); box-shadow: inset 0 0 0 5px #ffffff, inset 0 0 0 6px var(--gold-light), 0 10px 30px rgba(0,0,0,0.1); color: var(--text-dark); font-family: var(--serif); font-size: 24px; font-style: italic; font-weight: 400; line-height: 1.4; }
     .flashcard-back { background: linear-gradient(135deg, #fdfaf0 0%, #f7f1dc 100%), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M30 0l3 12 12 3-12 3-3 12-3-12-12-3 12-3 3-12z' fill='%23b8900a' fill-opacity='0.08'/%3E%3Cpath d='M15 30l1.5 6 6 1.5-6 1.5-1.5 6-1.5-6-6-1.5 6-1.5 1.5-6z' fill='%23b8900a' fill-opacity='0.05'/%3E%3C/g%3E%3C/svg%3E"); border: 1px solid var(--gold-dark); color: var(--text-dark); transform: rotateY(180deg); font-weight: 500; font-size: 16px; line-height: 1.6; box-shadow: inset 0 0 0 5px #fdfaf0, inset 0 0 0 6px var(--gold-light), 0 10px 30px rgba(0,0,0,0.1); }
     .flashcard-front::before, .flashcard-back::before { content: '✦'; position: absolute; top: 12px; left: 12px; font-size: 22px; color: var(--gold-dark); opacity: 0.6; }
     .flashcard-front::after, .flashcard-back::after { content: '✦'; position: absolute; bottom: 12px; right: 12px; font-size: 22px; color: var(--gold-dark); opacity: 0.6; }
@@ -219,16 +222,13 @@
     .subtle-arrow { pointer-events: auto; width: 40px; height: 60px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.3); border: none; border-radius: 12px; font-size: 24px; color: var(--text-mid); opacity: 0.4; transition: all 0.3s; backdrop-filter: blur(5px); }
     .subtle-arrow:hover:not(:disabled) { opacity: 1; background: rgba(255,255,255,0.9); box-shadow: 0 4px 15px rgba(245,200,66,0.3); transform: scale(1.1); }
     .subtle-arrow:disabled { opacity: 0; cursor: default; }
-    .notion-note { background: rgba(255, 248, 214, 0.7); backdrop-filter: blur(5px); border: 1px solid rgba(245,200,66,0.3); border-radius: 12px; padding: 12px 14px; font-size: 11px; color: var(--text-mid); line-height: 1.6; }
-    .notion-note summary { outline: none; }
-    .notion-note strong { color: var(--gold-dark); }
-    .settings-card { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-    .set-label { font-size: 11px; color: var(--text-soft); margin-bottom: 5px; font-weight: 600; }
-    .btn-reset { padding: 10px 18px; background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: 1px solid rgba(232, 80, 80, 0.3); border-radius: 10px; font-size: 12px; font-weight: 700; font-family: var(--sans); transition: all 0.2s; }
+    .settings-card { padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+    .set-label { font-size: 12px; color: var(--text-soft); margin-bottom: 6px; font-weight: 600; }
+    .btn-reset { padding: 12px 20px; background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: 1px solid rgba(232, 80, 80, 0.3); border-radius: 12px; font-size: 13px; font-weight: 700; font-family: var(--sans); transition: all 0.2s; }
     .btn-reset:hover { background: rgba(232, 80, 80, 0.2); }
     .btn-full { width: 100%; }
-    .fairy-footer { text-align: center; padding: 10px 16px 24px; font-size: 10px; color: var(--text-soft); letter-spacing: 0.1em; }
-    .fairy-footer span { color: var(--gold-dark); font-weight: 600; }
+    .fairy-footer { text-align: center; padding: 10px 16px 24px; font-size: 11px; color: var(--text-soft); letter-spacing: 0.1em; font-weight: 500; }
+    .fairy-footer span { color: var(--gold-dark); font-weight: 700; }
     .page.active > * { animation: fadeUp 0.4s ease-out both; }
     @keyframes fadeUp { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
     .page.active > *:nth-child(1) { animation-delay: 0.05s; }
@@ -240,10 +240,10 @@
     .welcome-card { background: rgba(255, 255, 255, 0.95); border-radius: 24px; padding: 36px 24px 24px; text-align: center; border: 2px solid rgba(245,200,66,0.6); box-shadow: 0 10px 40px rgba(0,0,0,0.3), inset 0 0 20px rgba(245,200,66,0.1); transform: translateY(30px) scale(0.9); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); max-width: 320px; width: 85%; position: relative; }
     .welcome-overlay.show .welcome-card { transform: translateY(0) scale(1); }
     .welcome-card::before { content: '✦'; position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-size: 46px; color: var(--gold); text-shadow: 0 0 20px var(--gold); animation: star-twinkle 2s infinite alternate; }
-    .welcome-title { font-family: var(--serif); font-size: 26px; color: var(--green-deep); margin-bottom: 6px; font-style: italic; }
-    .welcome-subtitle { font-size: 12px; color: var(--text-mid); margin-bottom: 24px; line-height: 1.5; }
+    .welcome-title { font-family: var(--serif); font-size: 28px; color: var(--green-deep); margin-bottom: 6px; }
+    .welcome-subtitle { font-size: 14px; color: var(--text-mid); margin-bottom: 24px; line-height: 1.5; font-weight: 500; }
     .welcome-input { text-align: center; font-size: 18px; padding: 14px; margin-bottom: 20px; border-width: 2px; width: 100%; }
-    .welcome-btn { width: 100%; font-size: 14px; padding: 14px; border-radius: 14px; letter-spacing: 0.05em; }
+    .welcome-btn { width: 100%; font-size: 15px; padding: 14px; border-radius: 14px; letter-spacing: 0.05em; }
     .result-image { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: -70px auto 16px; border: 4px solid #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.15), 0 0 20px rgba(245,200,66,0.5); background: var(--cream); display: none; position: relative; z-index: 2; }
     .result-image.show { display: block; animation: fadeUp 0.6s ease-out; }
     .appreciation-overlay { position: fixed; inset: 0; background: rgba(15, 30, 10, 0.85); backdrop-filter: blur(16px); z-index: 20000; display: flex; align-items: center; justify-content: center; flex-direction: column; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; }
@@ -289,19 +289,17 @@
     .timer-split-view { display: flex; align-items: center; justify-content: center; gap: 25px; flex-wrap: wrap; margin-top: 15px; }
     .timer-anim-col { flex: 1; min-width: 220px; display: flex; flex-direction: column; align-items: center; }
     .timer-music-col { flex: 1; min-width: 280px; width: 100%; }
-        /* === TAMBAHAN UNTUK FITUR BARU === */
     .match-review-correct { border-left: 6px solid var(--green-leaf); }
     .match-review-wrong { border-left: 6px solid var(--red-soft); }
-    .review-result-badge { font-size: 24px; margin-right: 10px; }
-    .fc-test-option { padding: 12px; background: #fff; border: 2px solid rgba(245,200,66,0.3); border-radius: 16px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; font-weight: 600; }
+    .review-result-badge { font-size: 24px; margin-right: 15px; }
+    .fc-test-option { padding: 14px; background: #fff; border: 2px solid rgba(245,200,66,0.3); border-radius: 16px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; font-weight: 600; font-family: var(--sans); }
     .fc-test-option.selected { background: var(--gold-pale); border-color: var(--gold); transform: scale(1.02); }
-    .fc-test-review-item { display: flex; align-items: center; background: rgba(255,255,255,0.8); padding: 12px; border-radius: 14px; margin-bottom: 8px; }
-    .best-record-badge { background: linear-gradient(135deg, var(--gold-dark), var(--gold)); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block; }
+    .fc-test-review-item { display: flex; align-items: center; background: rgba(255,255,255,0.8); padding: 14px; border-radius: 14px; margin-bottom: 10px; border: 1px solid rgba(0,0,0,0.05); }
+    .best-record-badge { background: linear-gradient(135deg, var(--gold-dark), var(--gold)); color: white; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; display: inline-block; }
     .match-review-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
   </style>
 </head>
 <body>
-  <!-- ===== HTML TIDAK BERUBAH (SAMA PERSIS DENGAN ASLI) ===== -->
   <div id="dim-overlay"></div>
   <div class="header">
     <div class="header-leaves">
@@ -324,7 +322,7 @@
         </div>
         <div class="header-sub" id="date-line" style="margin-top: 2px;">—</div>
       </div>
-      <div id="quote-txt" style="font-family: var(--serif); font-size: 13px; color: #fff; font-style: italic; text-shadow: 0 0 12px rgba(255,255,255,0.8); line-height: 1.4; font-weight: 500; opacity: 0.95; max-width: 48%; text-align: right; margin-top: 8px;">
+      <div id="quote-txt" style="font-family: var(--serif); font-size: 14px; color: #fff; font-style: italic; text-shadow: 0 0 12px rgba(255,255,255,0.8); line-height: 1.4; font-weight: 500; opacity: 0.95; max-width: 48%; text-align: right; margin-top: 8px;">
         ❝ Memuat mantra ajaib... ❞
       </div>
     </div>
@@ -359,7 +357,6 @@
     <div class="sparkles" id="sparkles"></div>
   </div>
 
-  <!-- TAB BAR -->
   <div class="tab-bar">
     <button class="tab active" onclick="switchTab('dashboard')">Dashboard</button>
     <button class="tab" onclick="switchTab('tracker')">Tracker</button>
@@ -414,13 +411,13 @@
       </div>
       <div class="page" id="tab-tracker">
         <div>
-          <div class="sec-lbl">PPT per hari — Blok ini</div>
+          <div class="sec-lbl">Gulungan Slide per hari</div>
           <div class="days-grid" id="days-grid"></div>
         </div>
         <div>
-          <div class="sec-lbl">Perjuanganku hari ini</div>
+          <div class="sec-lbl">Catatan Perjalananmu Hari Ini</div>
           <div class="input-card">
-            <div class="input-label">Berapa PPT yang kamu baca hari ini?</div>
+            <div class="input-label">Berapa banyak gulungan slide yang berhasil kamu pelajari hari ini?</div>
             <div class="input-row">
               <input type="number" id="inp-slide" min="0" max="99" placeholder="0" class="field" />
               <button class="btn-save" id="btn-slide" onclick="addSlide()">Simpan</button>
@@ -436,7 +433,7 @@
             <div class="rc-chip" id="rc-chip">0%</div>
           </div>
           <div class="rc-amount" id="rc-amount">Rp 0</div>
-          <div class="rc-note" id="rc-note">Mulai tambahkan PPT untuk menghitung reward</div>
+          <div class="rc-note" id="rc-note">Mulai tambah bacaanmu untuk menghitung reward</div>
           <div class="rc-bar"><div class="rc-bar-fill" id="rc-bar" style="width:0%"></div></div>
         </div>
         <div>
@@ -488,12 +485,12 @@
               <input type="date" id="set-block-end" class="field" style="width:100%" />
             </div>
             <div>
-              <div class="set-label">Target PPT Blok ini</div>
+              <div class="set-label">Target Bacaan Blok ini</div>
               <input type="number" id="set-target" min="5" max="500" placeholder="30" class="field" style="width:100%" />
             </div>
             <div>
               <div class="set-label">Nama kamu</div>
-              <input type="text" id="set-name" placeholder="Ketik nama kamu disini" class="field" style="width:100%" />
+              <input type="text" id="set-name" placeholder="Ketik namamu di sini" class="field" style="width:100%" />
             </div>
             <button class="btn-save btn-full" id="btn-set" onclick="saveSettings()">Simpan Pengaturan</button>
             <div class="save-msg" id="save-msg-set" style="text-align:center">Pengaturan tersimpan ke Notion!</div>
@@ -502,7 +499,7 @@
         <div>
           <div class="sec-lbl">Sistem</div>
           <div class="input-card">
-            <div class="input-label" style="margin-bottom:12px; line-height:1.5;">Gunakan tombol ini setiap awal blok baru untuk mengosongkan riwayat slide, lencana, dan ujian.</div>
+            <div class="input-label" style="margin-bottom:12px; line-height:1.5;">Gunakan tombol ini setiap awal blok baru untuk mengosongkan riwayat, lencana, dan nilai.</div>
             <button class="btn-reset btn-full" onclick="resetBlok()">Reset Blok Baru</button>
           </div>
         </div>
@@ -512,48 +509,52 @@
 
   <div class="fairy-footer">✦ <span id="footer-name">Revalina</span> — Pixie Dust Journey ✦</div>
 
-  <!-- FLOATING MENU -->
   <div class="float-container">
     <div class="float-menu" id="float-menu">
-      <button class="menu-btn" onclick="openMatchModal()">🧩 Cocokkan Gambar</button>
-      <button class="menu-btn" onclick="openFcListModal()">🪄 Buka Kartu Mantra</button>
-      <button class="menu-btn" onclick="openTimerModal()">⏳ Mulai Fokus Timer</button>
+      <button class="menu-btn" onclick="openMatchModal()">🧩 Kepingan Ingatan</button>
+      <button class="menu-btn" onclick="openFcListModal()">🪄 Ruang Mantra</button>
+      <button class="menu-btn" onclick="openTimerModal()">⏳ Mulai Fokus</button>
     </div>
     <button class="float-timer-btn" id="main-float-btn" onclick="toggleFloatMenu()">✨</button>
   </div>
 
-  <!-- MATCH MODAL -->
   <div class="welcome-overlay" id="match-modal">
     <div class="welcome-card" style="max-height: 90vh; overflow-y: auto; padding: 30px 20px; width: 95%; max-width: 550px; position: relative;">
       <button class="btn-close-top" onclick="closeMatchModal()">✖</button>
-      <h2 style="font-family:var(--serif); color:var(--gold-dark); font-style:italic; margin-bottom: 15px; margin-top: 10px;">Pecahan Memori</h2>
+      <h2 style="font-family:var(--serif); color:var(--gold-dark); font-style:italic; margin-bottom: 15px; margin-top: 10px;">Kepingan Ingatan</h2>
       <div id="match-view-list">
         <div id="match-items-container" style="margin-bottom: 15px; max-height: 250px; overflow-y: auto; padding-right: 5px;"></div>
-        <div class="fc-card" style="padding: 18px; border: 1px dashed rgba(245,200,66,0.6); text-align: center; background: rgba(255,255,255,0.8); margin-bottom: 15px;">
-          <div style="font-size: 11px; font-weight: 700; color: var(--text-soft); margin-bottom: 12px; letter-spacing: 0.1em;">TAMBAH KEPINGAN GAMBAR</div>
+        
+        <div class="fc-card dropzone" id="match-dropzone" style="padding: 20px; text-align: center; margin-bottom: 15px;">
+          <div style="font-size: 11px; font-weight: 700; color: var(--text-soft); margin-bottom: 8px; letter-spacing: 0.1em;">TAMBAH KEPINGAN INGATAN</div>
+          <div style="font-size: 13px; color: var(--text-mid); margin-bottom: 12px; font-weight: 500; line-height: 1.5;">
+            Tarik & lepas gambarmu ke sini,<br>
+            tekan <strong>Ctrl+V</strong> untuk menempel dari <i>clipboard</i>,<br>
+            atau klik tombol di bawah 🪄
+          </div>
           <input type="file" id="match-file-input" accept="image/*" style="display: none;" onchange="handleMatchImageUpload(event)">
-          <button class="btn-save btn-full" style="background: linear-gradient(135deg, var(--gold-dark), var(--gold-light)); border-radius: 12px; font-size: 13px; padding: 12px;" onclick="document.getElementById('match-file-input').click()">📁 Unggah Gambar</button>
-          <p style="font-size: 10px; color: var(--text-soft); margin-top: 8px;">*Kamu bisa memotong bagian spesifik gambar nanti</p>
+          <button class="btn-save btn-full" style="background: linear-gradient(135deg, var(--gold-dark), var(--gold-light)); border-radius: 12px; font-size: 14px; padding: 12px;" onclick="document.getElementById('match-file-input').click()">📁 Pilih Gambar</button>
         </div>
-        <button class="btn-save btn-full" style="font-size: 14px; padding: 12px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 4px 15px rgba(74, 155, 40, 0.3);" onclick="startMatchPlay()">Mulai Bermain 🧩</button>
-        <button class="btn-reset btn-full" style="font-size: 12px; padding: 10px; border-radius: 12px; background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: none;" onclick="deleteAllMatchItems()">🗑️ Hapus Semua Kepingan</button>
+
+        <button class="btn-save btn-full" style="font-size: 15px; padding: 14px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 4px 15px rgba(74, 155, 40, 0.3);" onclick="startMatchPlay()">Mulai Merangkai Ingatan 🧩</button>
+        <button class="btn-reset btn-full" style="font-size: 13px; padding: 12px; border-radius: 12px; background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: none;" onclick="deleteAllMatchItems()">🗑️ Hapus Semua Kepingan</button>
       </div>
       <div id="match-view-crop" style="display: none;">
-        <p style="font-size: 12px; color: var(--text-mid); margin-bottom: 15px; font-weight: 600;">Sentuh dan tarik untuk memotong area gambar ✂️</p>
+        <p style="font-size: 13px; color: var(--text-mid); margin-bottom: 15px; font-weight: 600;">Sentuh dan tarik untuk memotong area yang ingin diingat ✂️</p>
         <div class="crop-container" id="crop-container">
           <canvas id="crop-canvas"></canvas>
         </div>
-        <input type="text" id="match-word-input" class="field" placeholder="Masukkan kata kuncinya..." style="width: 100%; margin-bottom: 15px; text-align: center; border-radius: 12px; font-weight: 600;" autocomplete="off">
+        <input type="text" id="match-word-input" class="field" placeholder="Apa sebutan untuk gambar ini?..." style="width: 100%; margin-bottom: 15px; text-align: center; border-radius: 12px; font-weight: 600;" autocomplete="off">
         <div style="display: flex; gap: 10px;">
           <button class="btn-reset" style="flex: 1; border-radius: 12px; background: rgba(232, 80, 80, 0.1); color: var(--red-soft); border: none;" onclick="cancelCrop()">Batal</button>
           <button class="btn-save" style="flex: 2; border-radius: 12px;" onclick="saveCrop()">Simpan Potongan ✨</button>
         </div>
       </div>
       <div id="match-view-play" style="display: none;">
-        <div style="font-size:11px; color:var(--text-soft); margin-bottom:15px; font-weight:700; letter-spacing: 0.1em; text-transform: uppercase;" id="match-play-counter">Gambar 1 dari 10</div>
+        <div style="font-size:11px; color:var(--text-soft); margin-bottom:15px; font-weight:700; letter-spacing: 0.1em; text-transform: uppercase;" id="match-play-counter">Ingatan 1 dari 10</div>
         <img id="match-play-current-img" class="match-play-img" src="">
         <div style="height: 1px; width: 60%; background: linear-gradient(90deg, transparent, rgba(245,200,66,0.3), transparent); margin: 0 auto 20px;"></div>
-        <p style="font-size: 12px; color: var(--text-mid); margin-bottom: 15px; font-weight: 600;">Pilih kata yang tepat untuk gambar di atas:</p>
+        <p style="font-size: 14px; color: var(--text-mid); margin-bottom: 15px; font-weight: 600;">Manakah yang paling tepat untuk menggambarkan kepingan ini?</p>
         <div class="match-words-grid" id="match-play-words"></div>
         <div class="match-nav-controls">
           <button class="btn-reset" style="flex:1; border:none; background:rgba(0,0,0,0.05); color: var(--text-dark); border-radius: 12px;" onclick="navMatchPlay(-1)" id="btn-match-prev">❮ Sebelumnya</button>
@@ -562,13 +563,13 @@
       </div>
       <div id="match-view-review" style="display: none;">
         <div class="match-review-nav">
-          <button class="subtle-arrow" onclick="navMatchReview(-1)" style="opacity:0.8; background:rgba(0,0,0,0.05); width:40px; height:40px;">❮</button>
-          <span style="font-weight:700;" id="match-review-page">1 / 10</span>
-          <button class="subtle-arrow" onclick="navMatchReview(1)" style="opacity:0.8; background:rgba(0,0,0,0.05); width:40px; height:40px;">❯</button>
+          <button class="subtle-arrow" onclick="navMatchReviewPage(-1)" style="opacity:0.8; background:rgba(0,0,0,0.05); width:40px; height:40px;">❮</button>
+          <span style="font-weight:700;" id="match-review-page">Halaman 1</span>
+          <button class="subtle-arrow" onclick="navMatchReviewPage(1)" style="opacity:0.8; background:rgba(0,0,0,0.05); width:40px; height:40px;">❯</button>
         </div>
-        <div id="match-review-detail" style="margin-bottom:20px;"></div>
-        <button class="btn-save btn-full" style="border-radius:12px; padding:12px; font-size:14px;" onclick="submitMatch()">✨ Kumpulkan & Cek Hasil</button>
-        <button class="btn-reset btn-full" style="margin-top:10px; border:none; background:none; color:var(--text-soft);" onclick="switchMatchTab('list')">Kembali ke Daftar</button>
+        <div id="match-review-detail" style="margin-bottom:20px; display:flex; flex-direction:column; gap:10px;"></div>
+        <button class="btn-save btn-full" style="border-radius:12px; padding:14px; font-size:15px;" onclick="submitMatch()">✨ Periksa Hasil Rangkaian</button>
+        <button class="btn-reset btn-full" style="margin-top:10px; border:none; background:none; color:var(--text-soft);" onclick="switchMatchTab('list')">Kembali</button>
       </div>
       <div id="match-result-overlay" style="display: none; position: absolute; inset: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 100; border-radius: 24px; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
         <div id="match-result-icon" style="font-size: 80px; margin-bottom: 10px; filter: drop-shadow(0 10px 20px rgba(245,200,66,0.4)); animation: float-magical 3s infinite alternate;">🎉</div>
@@ -579,19 +580,16 @@
     </div>
   </div>
 
-   <!-- MODAL LIST MANTRA -->
-  <div class="welcome-overlay" id="fc-list-modal">
+   <div class="welcome-overlay" id="fc-list-modal">
   <div class="welcome-card" style="max-height: 85vh; overflow-y: auto; padding: 30px 20px; width: 95%; max-width: 600px; position: relative;">
     <button class="btn-close-top" onclick="closeFcListModal()">✖</button>
-    <h2 style="font-family:var(--serif); color:var(--gold-dark); font-style:italic; margin-bottom: 10px;">Kartu Mantra</h2>
+    <h2 style="font-family:var(--serif); color:var(--gold-dark); font-style:italic; margin-bottom: 10px;">Ruang Mantra</h2>
     
-    <!-- TABS -->
     <div style="display: flex; gap: 5px; margin-bottom: 20px; background: rgba(255,255,255,0.5); padding: 4px; border-radius: 12px;">
-      <button class="fc-tab-btn active" onclick="switchFcMainTab('list', this)">📚 Daftar</button>
-      <button class="fc-tab-btn" onclick="switchFcMainTab('test', this)">🧪 Uji Mantra</button>
+      <button class="fc-tab-btn active" onclick="switchFcMainTab('list', this)">📚 Daftar Tumpukan</button>
+      <button class="fc-tab-btn" onclick="switchFcMainTab('test', this)">🧪 Uji Kemampuan</button>
     </div>
 
-    <!-- DAFTAR KARTU -->
     <div id="fc-main-list">
       <div id="fc-list-container" style="margin-bottom: 20px;"></div>
       <div class="fc-card" style="padding: 16px; border: 1px dashed rgba(245,200,66,0.6);">
@@ -601,43 +599,41 @@
           <button class="fc-tab-btn" onclick="switchFcMode('bulk', this)">Banyak Sekaligus 🪄</button>
         </div>
         <div id="fc-mode-single">
-          <input type="text" id="fc-q" placeholder="Sisi Depan (Pertanyaan)" class="field" style="width: 100%; margin-bottom: 10px; border-radius: 12px;" />
-          <textarea id="fc-a" placeholder="Sisi Belakang (Penjelasan)" class="field" style="width: 100%; margin-bottom: 15px; resize: vertical; min-height: 50px; border-radius: 12px;"></textarea>
-          <button class="btn-save btn-full" style="border-radius: 12px; font-size: 13px;" onclick="tambahFlashcard()">Tambahkan ke Tumpukan ✦</button>
+          <input type="text" id="fc-q" placeholder="Contoh: Apa fungsi dari Epididimis?" class="field" style="width: 100%; margin-bottom: 10px; border-radius: 12px;" />
+          <textarea id="fc-a" placeholder="Contoh: Tempat pematangan dan penyimpanan sementara spermatozoa..." class="field" style="width: 100%; margin-bottom: 15px; resize: vertical; min-height: 60px; border-radius: 12px;"></textarea>
+          <button class="btn-save btn-full" style="border-radius: 12px; font-size: 14px;" onclick="tambahFlashcard()">Tambahkan ke Tumpukan ✦</button>
         </div>
         <div id="fc-mode-bulk" style="display: none;">
-          <div style="font-size: 10px; color: var(--text-mid); margin-bottom: 12px; line-height: 1.5; background: rgba(245,200,66,0.1); padding: 10px; border-radius: 8px;"><strong>Cara Cepat:</strong> Copas catatanmu ke kotak di bawah. Gunakan tanda hubung ( - ) atau titik dua ( : ) untuk memisahkan pertanyaan dan jawaban.</div>
-          <textarea id="fc-bulk-text" placeholder="Ketik atau paste teks di sini..." class="field" style="width: 100%; margin-bottom: 15px; resize: vertical; min-height: 100px; border-radius: 12px; font-family: monospace; font-size: 12px; line-height: 1.6;"></textarea>
-          <button class="btn-save btn-full" style="border-radius: 12px; background: linear-gradient(135deg, var(--gold-dark), var(--amber)); font-size: 13px;" onclick="tambahFlashcardMassal()">Sihirkan Jadi Kartu ✨</button>
+          <div style="font-size: 12px; color: var(--text-mid); margin-bottom: 12px; line-height: 1.5; background: rgba(245,200,66,0.1); padding: 10px; border-radius: 8px;"><strong>Cara Cepat:</strong> Salin catatanmu ke kotak di bawah. Gunakan tanda hubung ( - ) atau titik dua ( : ) untuk memisahkan pertanyaan dan jawaban.</div>
+          <textarea id="fc-bulk-text" placeholder="Tempel teks di sini..." class="field" style="width: 100%; margin-bottom: 15px; resize: vertical; min-height: 100px; border-radius: 12px; font-family: monospace; font-size: 13px; line-height: 1.6;"></textarea>
+          <button class="btn-save btn-full" style="border-radius: 12px; background: linear-gradient(135deg, var(--gold-dark), var(--amber)); font-size: 14px;" onclick="tambahFlashcardMassal()">Ubah Jadi Kartu Ajaib ✨</button>
         </div>
-        <div class="save-msg" id="save-msg-fc" style="text-align:center; margin-top: 10px; font-size: 12px;"></div>
+        <div class="save-msg" id="save-msg-fc" style="text-align:center; margin-top: 10px; font-size: 13px;"></div>
       </div>
     </div>
 
-    <!-- UJI MANTRA -->
     <div id="fc-main-test" style="display: none;">
       <div id="fc-test-setup">
-        <p style="margin-bottom:15px;">Pilih mode uji:</p>
-        <button class="btn-save btn-full" onclick="startFcTest('all')">📦 Semua Kartu</button>
-        <button class="btn-save btn-full" style="margin-top:10px; background:var(--amber);" onclick="startFcTest('difficult')" id="btn-test-difficult">⚠️ Kartu Sulit (<span id="difficult-count">0</span>)</button>
-        <div style="margin-top:20px;"><div class="best-record-badge">🏆 Best Record: <span id="best-record-display">-</span></div></div>
+        <p style="margin-bottom:15px; font-weight:600;">Bagaimana kamu ingin menguji ingatanmu hari ini?</p>
+        <button class="btn-save btn-full" onclick="startFcTest('all')" style="font-size: 14px; padding: 14px;">📦 Semua Tumpukan Kartu</button>
+        <button class="btn-save btn-full" style="margin-top:10px; background:var(--amber); font-size: 14px; padding: 14px;" onclick="startFcTest('difficult')" id="btn-test-difficult">⚠️ Ulangi Kartu yang Sulit (<span id="difficult-count">0</span>)</button>
+        <div style="margin-top:20px;"><div class="best-record-badge">🏆 Catatan Terbaik: <span id="best-record-display">-</span></div></div>
       </div>
       <div id="fc-test-play" style="display: none;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span id="fc-test-progress">1/10</span><span style="color:var(--text-soft);">⏱️ <span id="fc-test-timer">00:00</span></span></div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span id="fc-test-progress" style="font-weight:700;">1/10</span><span style="color:var(--text-soft); font-weight:600;">⏱️ <span id="fc-test-timer">00:00</span></span></div>
         <div class="flashcard" style="height:180px; margin-bottom:20px; pointer-events:none;"><div class="flashcard-front" style="padding:20px; display:flex; align-items:center; justify-content:center;"><div id="fc-test-question" style="font-size:20px;">Pertanyaan</div></div></div>
-        <div id="fc-test-options" class="match-words-grid"></div>
+        <div id="fc-test-options" class="match-words-grid" style="flex-direction:column; gap:8px;"></div>
         <div class="match-nav-controls" style="margin-top:20px;"><button class="btn-reset" onclick="navFcTest(-1)">❮ Sebelumnya</button><button class="btn-save" onclick="navFcTest(1)" id="fc-test-next">Selanjutnya ❯</button></div>
       </div>
       <div id="fc-test-review" style="display: none;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;"><button class="subtle-arrow" onclick="navFcReview(-1)">❮</button><span id="fc-review-page">1/10</span><button class="subtle-arrow" onclick="navFcReview(1)">❯</button></div>
-        <div id="fc-review-detail"></div>
-        <button class="btn-save btn-full" onclick="finishFcTest()">Selesai Review</button>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;"><button class="subtle-arrow" onclick="navFcReviewPage(-1)">❮</button><span id="fc-review-page" style="font-weight:700;">Halaman 1</span><button class="subtle-arrow" onclick="navFcReviewPage(1)">❯</button></div>
+        <div id="fc-review-detail" style="margin-bottom:20px;"></div>
+        <button class="btn-save btn-full" style="font-size: 14px; padding: 14px;" onclick="finishFcTest()">Selesai Melihat Hasil</button>
       </div>
     </div>
   </div>
 </div>
 
-  <!-- MODAL PRAKTEK KARTU MANTRA -->
   <div class="welcome-overlay" id="fc-view-modal">
     <button class="btn-close-top" style="position: absolute; top: 20px; left: 20px; width: 45px; height: 45px; font-size: 22px; background: rgba(255,255,255,0.2); color: #fff;" onclick="closeFcViewModal()">❮</button>
     <div class="fc-nav-wrapper">
@@ -661,7 +657,6 @@
     </div>
   </div>
 
-  <!-- TIMER MODAL -->
   <div class="welcome-overlay" id="timer-modal">
     <div class="welcome-card" style="padding-top: 40px; position: relative;">
       <button class="btn-close-top" id="btn-timer-close-top" onclick="closeTimerModal()">✖</button>
@@ -688,26 +683,25 @@
               <div class="potion-shadow"></div>
             </div>
           </div>
-          <p id="timer-status" style="font-size:13px; color:var(--text-mid); margin-bottom:15px; margin-top:10px; min-height: 40px; display: flex; align-items: center; justify-content: center; text-align: center;">Siap memulai sesi fokus 25 menit?</p>
+          <p id="timer-status" style="font-size:14px; color:var(--text-mid); margin-bottom:15px; margin-top:10px; min-height: 40px; display: flex; align-items: center; justify-content: center; text-align: center; font-weight:600;">Siap memulai sesi fokus 25 menit?</p>
         </div>
         <div class="timer-music-col" id="music-container">
-          <p style="font-size: 10px; color: var(--text-soft); text-align: center; margin-bottom: 5px; font-style: italic;">✦ Login ke akun Spotify-mu di browser ini agar lagu dapat berputar penuh ✦</p>
+          <p style="font-size: 11px; color: var(--text-soft); text-align: center; margin-bottom: 5px; font-style: italic;">✦ Login ke akun Spotify-mu di browser ini agar lagu dapat berputar penuh ✦</p>
           <iframe data-testid="embed-iframe" style="border-radius:12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" src="https://open.spotify.com/embed/playlist/1e6YJipVpYh8ZQDUrFHBv6?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
       </div>
       <div id="extra-time-options" style="display:none; margin-bottom: 15px;">
-        <p style="font-size:11px; color:var(--text-mid); margin-bottom:10px; font-weight:700;">Masih tanggung? Tambah waktu:</p>
+        <p style="font-size:13px; color:var(--text-mid); margin-bottom:10px; font-weight:700;">Masih belum selesai? Tambah waktu:</p>
         <div style="display:flex; gap:10px;">
           <button class="btn-save" style="flex:1; background:var(--amber);" onclick="addExtraTime(5)">+ 5 Menit</button>
           <button class="btn-save" style="flex:1; background:var(--amber);" onclick="addExtraTime(10)">+ 10 Menit</button>
         </div>
         <button class="btn-reset btn-full" style="margin-top:10px;" onclick="finishFocusAndRest()">Cukup, Ayo Istirahat 💧</button>
       </div>
-      <button class="btn-save welcome-btn" id="btn-timer-toggle" onclick="startTimer()">Mulai Sesi ✦</button>
+      <button class="btn-save welcome-btn" id="btn-timer-toggle" onclick="startTimer()">Mulai Fokus ✦</button>
     </div>
   </div>
 
-  <!-- WELCOME MODAL 1 (NAMA) -->
   <div class="welcome-overlay" id="welcome-modal">
     <div class="welcome-card">
       <h1 class="welcome-title">Pixie Hollow</h1>
@@ -718,28 +712,26 @@
     </div>
   </div>
 
-  <!-- WELCOME MODAL 2 (SETUP BLOK) -->
   <div class="welcome-overlay" id="setup-modal">
     <div class="welcome-card">
-      <h1 class="welcome-title" style="font-size: 22px;">Persiapan Blok</h1>
-      <p class="welcome-subtitle" style="margin-bottom: 16px;">Ayo atur misi belajarmu kali ini!</p>
+      <h1 class="welcome-title" style="font-size: 26px;">Persiapan Misi</h1>
+      <p class="welcome-subtitle" style="margin-bottom: 16px;">Ayo atur tujuan belajarmu kali ini!</p>
       <div style="text-align: left; margin-bottom: 16px;">
-        <label class="input-label">Mulai Blok:</label>
-        <input type="date" id="setup-start" class="field" style="width: 100%; margin-bottom: 8px;" />
-        <label class="input-label">Ujian Blok:</label>
-        <input type="date" id="setup-end" class="field" style="width: 100%; margin-bottom: 8px;" />
-        <label class="input-label">Target PPT:</label>
+        <label class="input-label">Mulai Belajar:</label>
+        <input type="date" id="setup-start" class="field" style="width: 100%; margin-bottom: 10px;" />
+        <label class="input-label">Tanggal Ujian:</label>
+        <input type="date" id="setup-end" class="field" style="width: 100%; margin-bottom: 10px;" />
+        <label class="input-label">Target Total Slide:</label>
         <input type="number" id="setup-target" class="field" style="width: 100%;" placeholder="Contoh: 30" />
       </div>
       <button class="btn-save welcome-btn" onclick="simpanSetupAwal()">Siap Terbang! ✦</button>
     </div>
   </div>
 
-  <!-- MOOD MODAL -->
   <div class="welcome-overlay" id="mood-modal">
     <div class="welcome-card" style="padding-bottom: 30px;">
-      <h1 class="welcome-title" style="font-size: 24px;">Perasaanmu</h1>
-      <p class="welcome-subtitle">Kerja bagus! Bagaimana perasaanmu setelah belajar hari ini?</p>
+      <h1 class="welcome-title" style="font-size: 28px;">Perasaanmu</h1>
+      <p class="welcome-subtitle">Kerja bagus! Bagaimana perasaanmu setelah membaca hari ini?</p>
       <div class="mood-wrap" style="justify-content: center; transform: scale(1.2); margin-top: 10px;">
         <button class="mood-btn" onclick="simpanMood('🤩', this)">🤩</button>
         <button class="mood-btn" onclick="simpanMood('😌', this)">😌</button>
@@ -749,51 +741,44 @@
     </div>
   </div>
 
-  <!-- EXAM MODAL -->
   <div class="welcome-overlay" id="exam-modal">
     <div class="welcome-card">
-      <h1 class="welcome-title">Hari Ujian! 📝</h1>
-      <p class="welcome-subtitle">Bagaimana hasil ujian Blok ini?</p>
+      <h1 class="welcome-title">Hari Penentuan! 📝</h1>
+      <p class="welcome-subtitle">Bagaimana hasil belajarmu selama ini?</p>
       <input type="number" id="exam-score-input" class="field welcome-input" placeholder="0 - 100" min="0" max="100" />
       <button class="btn-save welcome-btn" id="btn-submit-exam" onclick="submitExamScore()">Simpan Nilai ✦</button>
-      <div class="save-msg" id="exam-error" style="color: var(--red-soft); margin-top: 10px;">Masukkan nilai yang valid ya (0-100)!</div>
+      <div class="save-msg" id="exam-error" style="color: var(--red-soft); margin-top: 10px;">Masukkan rentang nilai yang benar (0-100) ya!</div>
     </div>
   </div>
 
-  <!-- RESULT MODAL -->
   <div class="welcome-overlay" id="result-modal">
     <div class="welcome-card">
       <img src="" id="result-image" class="result-image" alt="Hasil Peri" />
       <h1 class="welcome-title" id="result-title">Selamat!</h1>
-      <p class="welcome-subtitle" id="result-message" style="font-size: 14px; line-height: 1.5; color: var(--text-dark);">Kerja bagus!</p>
+      <p class="welcome-subtitle" id="result-message" style="font-size: 15px; line-height: 1.5; color: var(--text-dark);">Kerja bagus!</p>
       <button class="btn-save welcome-btn" onclick="closeResultModal()">Tutup ✦</button>
     </div>
   </div>
 
-  <!-- APPRECIATION OVERLAY -->
   <div class="appreciation-overlay" id="appreciation-overlay">
     <div class="appreciation-content">
       <div class="app-fairy-orb"></div>
       <h1 class="appreciation-title" id="app-title">Kamu Berhasil!</h1>
-      <p class="appreciation-sub" id="app-sub">Terimakasih sudah bekerja keras</p>
+      <p class="appreciation-sub" id="app-sub">Terimakasih sudah berusaha keras</p>
     </div>
   </div>
 
-  <!-- BADGE UNLOCKED OVERLAY -->
   <div class="appreciation-overlay" id="badge-anim-overlay">
     <div class="appreciation-content">
       <div class="app-fairy-orb"></div>
-      <div style="font-size: 12px; color: var(--gold-light); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 20px; font-weight: 800; text-shadow: 0 0 10px rgba(245,200,66,0.5);">Lencana Baru Terbuka!</div>
+      <div style="font-size: 14px; color: var(--gold-light); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 20px; font-weight: 800; text-shadow: 0 0 10px rgba(245,200,66,0.5);">Lencana Baru Menantimu!</div>
       <div id="badge-anim-icon" style="font-size: 80px; margin-bottom: 10px; filter: drop-shadow(0 10px 20px rgba(245,200,66,0.5)); animation: float-magical 3s infinite alternate;">👑</div>
-      <h1 class="appreciation-title" id="badge-anim-title" style="font-size: 36px;">Peri Lulus</h1>
+      <h1 class="appreciation-title" id="badge-anim-title" style="font-size: 40px;">Peri Lulus</h1>
       <p class="appreciation-sub" id="badge-anim-desc">Berhasil menyentuh target 100% belajar.</p>
     </div>
   </div>
 
   <script>
-    // ========================
-    // SELURUH JAVASCRIPT (SUDAH DIPERBAIKI)
-    // ========================
     (function(){
       function ls(k, d) { try { if (typeof window === 'undefined' || !window.localStorage) return d; const v = localStorage.getItem(k); return v !== null ? JSON.parse(v) : d; } catch { return d; } }
       function ss(k, v) { try { if (typeof window !== 'undefined' && window.localStorage) localStorage.setItem(k, JSON.stringify(v)); } catch {} }
@@ -857,14 +842,13 @@
 
       const focusThemes = ['ice', 'candle', 'potion'];
       let currentTheme = 'ice';
-      // Match Game additional
-      let matchStartTime = 0, matchTimerInterval = null;
-      let matchReviewIdx = 0;
 
-      // Flashcard Test additional
+      let matchStartTime = 0, matchTimerInterval = null;
+      let matchReviewPageIdx = 0; // Pagination untuk Match Review
+
       let fcTestCards = [], fcTestAnswers = {}, fcTestStartTime = 0, fcTestTimerInterval = null;
       let fcTestCurrentIdx = 0, fcTestOptions = [];
-      let fcReviewIdx = 0;
+      let fcReviewPageIdx = 0; // Pagination untuk FC Review
 
       /* ---------- FLOAT MENU ---------- */
       window.toggleFloatMenu = function() {
@@ -898,9 +882,9 @@
         setInterval(() => {
           const now = new Date();
           const hour = now.getHours();
-          if (hour === 12) sendNotif("Waktunya Makan Siang!", "Ayo isi energi dulu 🍎");
-          if (hour === 19) sendNotif("Waktunya Makan Malam!", "Jangan lupa makan malam 🌙");
-          if (hour === 22) sendNotif("Waktunya Istirahat!", "Sayapmu butuh istirahat 💤");
+          if (hour === 12) sendNotif("Waktunya Istirahat Siang!", "Ayo isi energi dulu 🍎");
+          if (hour === 19) sendNotif("Malam Tiba!", "Jangan lupa makan malam 🌙");
+          if (hour === 22) sendNotif("Waktunya Tidur!", "Sayapmu butuh istirahat 💤");
         }, 1000 * 60 * 30);
       }
 
@@ -912,7 +896,7 @@
         document.getElementById('wrap-candle').style.display = 'none';
         document.getElementById('wrap-potion').style.display = 'none';
         document.getElementById(`wrap-${currentTheme}`).style.display = 'flex';
-        const titles = { 'ice': 'Fokus Es Kristal', 'candle': 'Lilin Semangat Peri', 'potion': 'Ramuan Fokus Sihir' };
+        const titles = { 'ice': 'Fokus Es Kristal', 'candle': 'Lilin Semangat', 'potion': 'Ramuan Fokus Sihir' };
         document.getElementById('timer-title').textContent = titles[currentTheme];
         document.getElementById('timer-modal').classList.add('show');
       };
@@ -928,7 +912,7 @@
         document.getElementById('btn-timer-close-top').style.display = 'none';
         document.getElementById('extra-time-options').style.display = 'none';
         document.getElementById('dim-overlay').classList.add('active');
-        document.getElementById('timer-status').textContent = "Fokus terkunci! Ayo selesaikan misimu ✨";
+        document.getElementById('timer-status').textContent = "Mantra terkunci! Mari selesaikan bacaanmu ✨";
         const floatBtn = document.getElementById('main-float-btn');
         floatBtn.classList.add('active');
         floatBtn.textContent = currentTheme === 'candle' ? '🕯️' : (currentTheme === 'potion' ? '🧪' : '❄️');
@@ -942,7 +926,7 @@
         document.getElementById('btn-timer-close-top').style.display = 'flex';
         document.getElementById('extra-time-options').style.display = 'none';
         document.getElementById('dim-overlay').classList.remove('active');
-        document.getElementById('timer-status').textContent = "Sesi Selesai.";
+        document.getElementById('timer-status').textContent = "Sesi Berakhir.";
         document.getElementById('main-float-btn').classList.remove('active');
         document.getElementById('main-float-btn').textContent = '✨';
         if (document.fullscreenElement) document.exitFullscreen().catch(()=>{});
@@ -956,11 +940,11 @@
         if (timeLeft <= 0) {
           clearInterval(timerInterval);
           if (timerMode === 'focus') {
-            document.getElementById('timer-status').textContent = `Selesai! Sesi selesai.`;
+            document.getElementById('timer-status').textContent = `Kerja bagus! Sesi selesai.`;
             document.getElementById('extra-time-options').style.display = 'block';
             playGrandChime();
           } else {
-            sendNotif("Istirahat Selesai!", "Siap kembali?");
+            sendNotif("Istirahat Selesai!", "Siap untuk kembali?");
             playChime();
             stopTimer();
           }
@@ -978,13 +962,13 @@
       window.finishFocusAndRest = function() {
         document.getElementById('extra-time-options').style.display = 'none';
         state.focusTime += 25; ss("rv_focus", state.focusTime);
-        sendNotif("Waktunya Istirahat! 💧", `Kerja bagus! Istirahat 5 menit.`);
+        sendNotif("Waktunya Istirahat! 💧", `Kerja yang baik! Mari istirahat 5 menit.`);
         startBreak();
       };
 
       function startBreak() {
         timerMode = 'break'; timeLeft = 5 * 60; totalSession = 5 * 60;
-        document.getElementById('timer-status').textContent = "Waktunya Istirahat (5 Menit) 💧";
+        document.getElementById('timer-status').textContent = "Waktunya Menenangkan Diri (5 Menit) 💧";
         timerInterval = setInterval(updateTimer, 1000);
       }
 
@@ -1024,13 +1008,6 @@
       }
 
       function resetFocusVisuals() { updateFocusVisuals(1); }
-
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden && isFocusActive && timerMode === 'focus') {
-          playChime();
-          document.getElementById('timer-status').textContent = `⚠️ Kembalilah fokus!`;
-        }
-      });
 
       /* ---------- AUDIO ---------- */
       function initAudio() {
@@ -1104,7 +1081,7 @@
         return dates;
       }
       function blockLabel() {
-        if (!state.blockStart || !state.blockEnd) return "Blok belum diatur";
+        if (!state.blockStart || !state.blockEnd) return "Tujuan belum diatur";
         const s = new Date(state.blockStart + "T00:00:00");
         const e = new Date(state.blockEnd + "T00:00:00");
         return fmtLabel(s) + " – " + fmtLabel(e);
@@ -1177,7 +1154,7 @@
         else box.style.display = "none";
       }
 
-      /* ---------- MATCH GAME (COCOKKAN GAMBAR) VERSI BERSIH ---------- */
+      /* ---------- MATCH GAME (COCOKKAN GAMBAR) DENGAN DRAG & DROP ---------- */
       let cropImage = new Image();
       let cropCtx = null;
       let isCropping = false;
@@ -1221,14 +1198,43 @@
       window.handleMatchImageUpload = function(e) {
         const file = e.target.files[0];
         if (!file) return;
+        processImageFile(file);
+        e.target.value = '';
+      };
+
+      function processImageFile(file) {
+        if (!file || !file.type.startsWith('image/')) return;
         const reader = new FileReader();
         reader.onload = ev => {
           cropImage.onload = () => setupCropper();
           cropImage.src = ev.target.result;
         };
         reader.readAsDataURL(file);
-        e.target.value = '';
-      };
+      }
+
+      // DRAG & DROP / PASTE HANDLERS
+      document.addEventListener('DOMContentLoaded', () => {
+        const dropzone = document.getElementById('match-dropzone');
+        if(dropzone) {
+          dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
+          dropzone.addEventListener('dragleave', e => { dropzone.classList.remove('dragover'); });
+          dropzone.addEventListener('drop', e => {
+            e.preventDefault(); dropzone.classList.remove('dragover');
+            if(e.dataTransfer.files && e.dataTransfer.files[0]) processImageFile(e.dataTransfer.files[0]);
+          });
+        }
+        document.addEventListener('paste', e => {
+          const matchModal = document.getElementById('match-modal');
+          const viewList = document.getElementById('match-view-list');
+          if(matchModal.classList.contains('show') && viewList.style.display !== 'none') {
+            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+            for (let index in items) {
+              const item = items[index];
+              if (item.kind === 'file') processImageFile(item.getAsFile());
+            }
+          }
+        });
+      });
 
       function setupCropper() {
         document.getElementById('match-view-list').style.display = 'none';
@@ -1320,7 +1326,7 @@
 
       window.saveCrop = function() {
         const word = document.getElementById('match-word-input').value.trim();
-        if (!word) { alert('Masukkan kata kunci!'); return; }
+        if (!word) { alert('Sebutkan nama untuk gambar ini dulu, ya!'); return; }
         let cw = cropEndX - cropStartX;
         let ch = cropEndY - cropStartY;
         if (cw < 20 || ch < 20) { alert('Area potongan terlalu kecil!'); return; }
@@ -1341,7 +1347,7 @@
       function renderMatchList() {
         const container = document.getElementById('match-items-container');
         if (!state.matchItems.length) {
-          container.innerHTML = `<div style="text-align:center; padding:30px;">Belum ada kepingan memori.<br>Unggah gambar pertamamu ✨</div>`;
+          container.innerHTML = `<div style="text-align:center; padding:20px; color: var(--text-soft); font-weight: 500;">Belum ada kepingan ingatan.<br>Unggah gambar pertamamu ✨</div>`;
           return;
         }
         let html = '';
@@ -1349,7 +1355,7 @@
           html += `<div class="match-list-item">
             <img src="${item.src}" class="match-list-img">
             <div class="match-list-word">${item.word}</div>
-            <button class="btn-reset" style="padding:6px 10px;" onclick="deleteMatchItem(${idx})">🗑️</button>
+            <button class="btn-reset" style="padding:8px 12px;" onclick="deleteMatchItem(${idx})">🗑️</button>
           </div>`;
         });
         container.innerHTML = html;
@@ -1362,20 +1368,20 @@
       };
 
       window.deleteAllMatchItems = function() {
-        if (!confirm('Hapus semua kepingan?')) return;
+        if (!confirm('Hapus semua kepingan ingatan yang sudah kamu simpan?')) return;
         state.matchItems = [];
         ss('rv_matchItems', state.matchItems);
         renderMatchList();
       };
 
-            window.startMatchPlay = function() {
-        if (state.matchItems.length < 2) { alert('Tambahkan minimal 2 kepingan!'); return; }
+      window.startMatchPlay = function() {
+        if (state.matchItems.length < 2) { alert('Kumpulkan minimal 2 kepingan untuk mulai bermain!'); return; }
         playImages = shuffleArray(state.matchItems);
         playWords = shuffleArray(state.matchItems).map(item => item.word);
         userAnswers = {}; currentPlayIdx = 0;
         matchStartTime = Date.now();
         if (matchTimerInterval) clearInterval(matchTimerInterval);
-        matchTimerInterval = setInterval(() => {}, 1000); // dummy
+        matchTimerInterval = setInterval(() => {}, 1000); 
         document.getElementById('match-view-list').style.display = 'none';
         document.getElementById('match-view-play').style.display = 'block';
         renderMatchPlay();
@@ -1383,7 +1389,7 @@
 
       function renderMatchPlay() {
         const imgItem = playImages[currentPlayIdx];
-        document.getElementById('match-play-counter').textContent = `Gambar ${currentPlayIdx+1} dari ${playImages.length}`;
+        document.getElementById('match-play-counter').textContent = `Ingatan ${currentPlayIdx+1} dari ${playImages.length}`;
         document.getElementById('match-play-current-img').src = imgItem.src;
         const wordsContainer = document.getElementById('match-play-words');
         let html = '';
@@ -1397,7 +1403,7 @@
         const btnNext = document.getElementById('btn-match-next');
         btnPrev.disabled = currentPlayIdx === 0;
         if (currentPlayIdx === playImages.length - 1) {
-          btnNext.textContent = 'Review Hasil 👀';
+          btnNext.textContent = 'Periksa Hasil 👀';
           btnNext.style.background = 'linear-gradient(135deg, var(--gold-dark), var(--amber))';
         } else {
           btnNext.textContent = selected ? 'Selanjutnya ❯' : 'Lewati ⏭️';
@@ -1418,35 +1424,46 @@
         else { currentPlayIdx += dir; renderMatchPlay(); }
       };
 
+      // PAGINATION 5 ITEM UNTUK MATCH REVIEW
       function showMatchReview() {
-        matchReviewIdx = 0;
+        matchReviewPageIdx = 0;
         document.getElementById('match-view-play').style.display = 'none';
         document.getElementById('match-view-review').style.display = 'block';
-        renderMatchReviewItem();
+        renderMatchReviewPage();
       }
 
-      function renderMatchReviewItem() {
-        const img = playImages[matchReviewIdx];
-        const ans = userAnswers[img.id];
-        const isCorrect = ans === img.word;
+      function renderMatchReviewPage() {
+        const itemsPerPage = 5;
+        const totalPages = Math.ceil(playImages.length / itemsPerPage);
+        const start = matchReviewPageIdx * itemsPerPage;
+        const end = Math.min(start + itemsPerPage, playImages.length);
         const container = document.getElementById('match-review-detail');
-        container.innerHTML = `
-          <div class="match-review-item ${isCorrect ? 'match-review-correct' : 'match-review-wrong'}">
-            <div class="review-result-badge">${isCorrect ? '✅' : '❌'}</div>
-            <img src="${img.src}" class="match-review-img">
-            <div class="match-review-ans">
-              <div class="lbl">JAWABAN KAMU</div>
-              <div class="val">${ans || 'Tidak dijawab'}</div>
-              ${!isCorrect ? `<div class="lbl" style="margin-top:5px;">JAWABAN BENAR</div><div class="val" style="color:var(--green-leaf);">${img.word}</div>` : ''}
+        
+        let html = '';
+        for(let i=start; i<end; i++) {
+          const img = playImages[i];
+          const ans = userAnswers[img.id];
+          const isCorrect = ans === img.word;
+          html += `
+            <div class="match-review-item ${isCorrect ? 'match-review-correct' : 'match-review-wrong'}">
+              <div class="review-result-badge">${isCorrect ? '✅' : '❌'}</div>
+              <img src="${img.src}" class="match-review-img">
+              <div class="match-review-ans">
+                <div class="lbl">JAWABAN KAMU</div>
+                <div class="val">${ans || 'Tidak tertebak'}</div>
+                ${!isCorrect ? `<div class="lbl" style="margin-top:6px;">SEHARUSNYA</div><div class="val" style="color:var(--green-leaf);">${img.word}</div>` : ''}
+              </div>
             </div>
-          </div>
-        `;
-        document.getElementById('match-review-page').textContent = `${matchReviewIdx+1} / ${playImages.length}`;
+          `;
+        }
+        container.innerHTML = html;
+        document.getElementById('match-review-page').textContent = `Halaman ${matchReviewPageIdx+1} dari ${totalPages}`;
       }
 
-      window.navMatchReview = function(dir) {
-        matchReviewIdx = Math.min(playImages.length-1, Math.max(0, matchReviewIdx + dir));
-        renderMatchReviewItem();
+      window.navMatchReviewPage = function(dir) {
+        const totalPages = Math.ceil(playImages.length / 5);
+        matchReviewPageIdx = Math.min(totalPages-1, Math.max(0, matchReviewPageIdx + dir));
+        renderMatchReviewPage();
       };
 
       window.submitMatch = function() {
@@ -1462,8 +1479,8 @@
         }
         const overlay = document.getElementById('match-result-overlay');
         document.getElementById('match-result-icon').textContent = correct === playImages.length ? '🎉' : '🧐';
-        document.getElementById('match-result-title').textContent = correct === playImages.length ? 'Ingatan Sempurna!' : 'Hampir Tepat';
-        document.getElementById('match-result-text').textContent = `Benar ${correct}/${playImages.length}. Waktu: ${elapsed} detik. ${correct === playImages.length && state.matchBestTime ? '🏆 Best: '+state.matchBestTime+'s' : ''}`;
+        document.getElementById('match-result-title').textContent = correct === playImages.length ? 'Ingatan Sempurna!' : 'Sedikit Lagi!';
+        document.getElementById('match-result-text').textContent = `Berhasil menebak ${correct}/${playImages.length}. Waktu penyelesaian: ${elapsed} detik. ${correct === playImages.length && state.matchBestTime ? '🏆 Rekor: '+state.matchBestTime+'s' : ''}`;
         overlay.style.display = 'flex';
         if (correct === playImages.length) { playGrandChime(); burstSparkles(); } else playChime();
       };
@@ -1485,36 +1502,36 @@
         btn.classList.add('active');
       };
       window.tambahFlashcardMassal = function() {
-  const bulkEl = document.getElementById('fc-bulk-text');
-  if (!bulkEl) return;
-  const text = bulkEl.value.trim();
-  if (!text) return;
-  const lines = text.split('\n');
-  let added = 0;
-  lines.forEach(line => {
-    if (!line.trim()) return;
-    let sep = line.includes('-') ? '-' : (line.includes(':') ? ':' : null);
-    if (!sep) return;
-    const parts = line.split(sep);
-    const q = parts[0].trim();
-    const a = parts.slice(1).join(sep).trim();
-    if (q && a) {
-      state.flashcards.push({
-        id: 'fc_' + Date.now() + Math.random() + added, // ID unik tanpa i
-        q, a
-      });
-      added++;
-    }
-  });
-  if (added) {
-    ss("rv_flashcards", state.flashcards);
-    bulkEl.value = '';
-    renderFcList();
-    document.getElementById('save-msg-fc').style.display = 'block';
-    setTimeout(() => document.getElementById('save-msg-fc').style.display = 'none', 3000);
-    playGrandChime();
-  } else alert('Format salah!');
-};
+        const bulkEl = document.getElementById('fc-bulk-text');
+        if (!bulkEl) return;
+        const text = bulkEl.value.trim();
+        if (!text) return;
+        const lines = text.split('\n');
+        let added = 0;
+        lines.forEach(line => {
+          if (!line.trim()) return;
+          let sep = line.includes('-') ? '-' : (line.includes(':') ? ':' : null);
+          if (!sep) return;
+          const parts = line.split(sep);
+          const q = parts[0].trim();
+          const a = parts.slice(1).join(sep).trim();
+          if (q && a) {
+            state.flashcards.push({
+              id: 'fc_' + Date.now() + Math.random() + added,
+              q, a
+            });
+            added++;
+          }
+        });
+        if (added) {
+          ss("rv_flashcards", state.flashcards);
+          bulkEl.value = '';
+          renderFcList();
+          document.getElementById('save-msg-fc').style.display = 'block';
+          setTimeout(() => document.getElementById('save-msg-fc').style.display = 'none', 3000);
+          playGrandChime();
+        } else alert('Sepertinya format yang kamu masukkan belum tepat!');
+      };
       window.tambahFlashcard = function() {
         const q = document.getElementById('fc-q').value.trim();
         const a = document.getElementById('fc-a').value.trim();
@@ -1543,16 +1560,16 @@
       function renderFcList() {
         const container = document.getElementById('fc-list-container');
         if(!state.flashcards.length) {
-          container.innerHTML = `<div style="text-align:center;padding:20px;">Belum ada Kartu Mantra.</div>`;
+          container.innerHTML = `<div style="text-align:center;padding:20px;color:var(--text-soft);font-weight:500;">Tumpukan kartumu masih kosong.</div>`;
           return;
         }
-        let html = '<div style="max-height:250px;overflow-y:auto;margin-bottom:15px;">';
+        let html = '<div style="max-height:250px;overflow-y:auto;margin-bottom:15px;padding-right:5px;">';
         state.flashcards.forEach((card, idx) => {
-          html += `<div class="fc-list-item"><div class="fc-list-q">${idx+1}. ${card.q}</div><button style="background:rgba(232,80,80,0.1);border:none;border-radius:8px;padding:6px 10px;" onclick="hapusFlashcard(${idx},event)">🗑️</button></div>`;
+          html += `<div class="fc-list-item"><div class="fc-list-q">${idx+1}. ${card.q}</div><button style="background:rgba(232,80,80,0.1);border:none;border-radius:10px;padding:8px 12px;cursor:pointer;" onclick="hapusFlashcard(${idx},event)">🗑️</button></div>`;
         });
         html += '</div>';
-        html += `<button class="btn-save btn-full" onclick="startFcPractice(0)">Mulai Latihan 🪄</button>`;
-        html += `<button class="btn-reset btn-full" onclick="resetSemuaKartu()">🗑️ Hapus Semua</button>`;
+        html += `<button class="btn-save btn-full" style="font-size:15px; padding:14px; margin-bottom:10px;" onclick="startFcPractice(0)">Mulai Buka Kartu 🪄</button>`;
+        html += `<button class="btn-reset btn-full" onclick="resetSemuaKartu()">🗑️ Kosongkan Tumpukan</button>`;
         container.innerHTML = html;
       }
       window.startFcPractice = function(idx=0) {
@@ -1586,7 +1603,8 @@
         document.getElementById('fc-btn-prev').disabled = currentFcIdx === 0;
         document.getElementById('fc-btn-next').disabled = currentFcIdx === state.flashcards.length-1;
       };
-            /* ---------- FLASHCARD TEST MODE ---------- */
+
+      /* ---------- FLASHCARD TEST MODE ---------- */
       window.switchFcMainTab = function(tab, btn) {
         document.getElementById('fc-main-list').style.display = tab === 'list' ? 'block' : 'none';
         document.getElementById('fc-main-test').style.display = tab === 'test' ? 'block' : 'none';
@@ -1602,11 +1620,10 @@
       }
 
       window.startFcTest = function(mode) {
-        // Generate ID jika kartu belum punya
         state.flashcards = state.flashcards.map(c => c.id ? c : { ...c, id: 'fc_' + Date.now() + Math.random() });
         let pool = mode === 'all' ? state.flashcards : state.flashcards.filter(c => state.difficultCards.includes(c.id));
-        if (!pool.length) { alert('Tidak ada kartu untuk diuji!'); return; }
-        if (pool.length < 2 && mode === 'all') { alert('Minimal 2 kartu untuk mode uji!'); return; }
+        if (!pool.length) { alert('Tumpukan masih kosong!'); return; }
+        if (pool.length < 2 && mode === 'all') { alert('Tambahkan minimal 2 kartu untuk memulai uji ingatan!'); return; }
         fcTestCards = shuffleArray(pool);
         fcTestAnswers = {}; fcTestCurrentIdx = 0;
         fcTestStartTime = Date.now();
@@ -1639,7 +1656,7 @@
             if (btn.textContent === selected) btn.classList.add('selected');
           });
         }
-        document.getElementById('fc-test-next').textContent = fcTestCurrentIdx === fcTestCards.length-1 ? 'Review Hasil' : 'Selanjutnya ❯';
+        document.getElementById('fc-test-next').textContent = fcTestCurrentIdx === fcTestCards.length-1 ? 'Selesai & Evaluasi' : 'Selanjutnya ❯';
       }
 
       window.selectFcTestAnswer = function(ans) {
@@ -1671,36 +1688,49 @@
         }
       };
 
+      // PAGINATION 5 ITEM UNTUK FC REVIEW
       function showFcTestReview() {
-        fcReviewIdx = 0;
+        fcReviewPageIdx = 0;
         document.getElementById('fc-test-play').style.display = 'none';
         document.getElementById('fc-test-review').style.display = 'block';
-        renderFcReviewItem();
+        renderFcReviewPage();
       }
 
-      function renderFcReviewItem() {
-        const card = fcTestCards[fcReviewIdx];
-        const ans = fcTestAnswers[card.id];
-        const isCorrect = ans === card.a;
+      function renderFcReviewPage() {
+        const itemsPerPage = 5;
+        const totalPages = Math.ceil(fcTestCards.length / itemsPerPage);
+        const start = fcReviewPageIdx * itemsPerPage;
+        const end = Math.min(start + itemsPerPage, fcTestCards.length);
         const container = document.getElementById('fc-review-detail');
-        container.innerHTML = `
-          <div class="fc-test-review-item" style="border-left:6px solid ${isCorrect ? 'var(--green-leaf)' : 'var(--red-soft)'};">
-            <div style="font-size:24px; margin-right:15px;">${isCorrect ? '✅' : '❌'}</div>
-            <div style="flex:1;"><strong>${card.q}</strong><br>Jawaban kamu: ${ans || '-'}<br>${!isCorrect ? 'Benar: '+card.a : ''}</div>
-          </div>
-        `;
-        document.getElementById('fc-review-page').textContent = `${fcReviewIdx+1}/${fcTestCards.length}`;
+        let html = '';
+        for(let i=start; i<end; i++) {
+          const card = fcTestCards[i];
+          const ans = fcTestAnswers[card.id];
+          const isCorrect = ans === card.a;
+          html += `
+            <div class="fc-test-review-item" style="border-left:6px solid ${isCorrect ? 'var(--green-leaf)' : 'var(--red-soft)'};">
+              <div style="font-size:24px; margin-right:15px;">${isCorrect ? '✅' : '❌'}</div>
+              <div style="flex:1;">
+                <strong style="color:var(--text-dark); font-size:14px;">${card.q}</strong><br>
+                <span style="font-size:13px; color:var(--text-mid); display:inline-block; margin-top:4px;">Jawaban kamu: <b>${ans || '-'}</b></span><br>
+                ${!isCorrect ? '<span style="font-size:13px; color:var(--green-leaf); display:inline-block; margin-top:2px;">Seharusnya: <b>'+card.a+'</b></span>' : ''}
+              </div>
+            </div>
+          `;
+        }
+        container.innerHTML = html;
+        document.getElementById('fc-review-page').textContent = `Halaman ${fcReviewPageIdx+1} dari ${totalPages}`;
       }
 
-      window.navFcReview = function(dir) {
-        fcReviewIdx = Math.min(fcTestCards.length-1, Math.max(0, fcReviewIdx + dir));
-        renderFcReviewItem();
+      window.navFcReviewPage = function(dir) {
+        const totalPages = Math.ceil(fcTestCards.length / 5);
+        fcReviewPageIdx = Math.min(totalPages-1, Math.max(0, fcReviewPageIdx + dir));
+        renderFcReviewPage();
       };
 
       window.finishFcTest = function() {
         document.getElementById('fc-test-review').style.display = 'none';
         document.getElementById('fc-test-setup').style.display = 'block';
-        // Kembali ke tab daftar
         document.querySelector('#fc-main-list').style.display = 'block';
         document.querySelector('#fc-main-test').style.display = 'none';
         document.querySelectorAll('.fc-tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -1727,7 +1757,7 @@
         else if(p>=25) rankStr = "🔨 Peri Pekerja";
         document.getElementById("rank-badge").innerHTML = rankStr;
         const h = new Date().getHours();
-        const greet = h<11?"Semangat memulai hari cantik!":h<15?"Ayo, jangan menyerah!":h<18?"Sore yang indah untuk belajar!":"Ingat untuk tetap beristirahat ya!";
+        const greet = h<11?"Semangat mengawali harimu!":h<15?"Mari terus kepakkan sayapmu!":h<18?"Sore yang tenang untuk menyerap ilmu!":"Waktunya merapikan perlengkapan ajaibmu!";
         document.getElementById("greeting-line").textContent = greet;
         document.getElementById("date-line").textContent = new Date().toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
         document.getElementById("week-badge-txt").textContent = blockLabel();
@@ -1738,10 +1768,10 @@
         document.getElementById("str-val").textContent = streak;
         const strIcon = document.getElementById("str-icon");
         const strSub = document.getElementById("str-sub");
-        if(streak>=5){ strIcon.className="fc-bg-icon aura-fire"; strSub.textContent="Api sihirmu membara! ✨"; }
-        else if(streak>=3){ strIcon.className="fc-bg-icon aura-amber"; strSub.textContent="Hebat! Pertahankan! 🔥"; }
-        else if(streak>0){ strIcon.className="fc-bg-icon aura-blue"; strSub.textContent="Langkah awal bagus!"; }
-        else { strIcon.className="fc-bg-icon"; strSub.textContent="Belum ada api sihir."; }
+        if(streak>=5){ strIcon.className="fc-bg-icon aura-fire"; strSub.textContent="Api sihirmu terus menyala! ✨"; }
+        else if(streak>=3){ strIcon.className="fc-bg-icon aura-amber"; strSub.textContent="Hebat! Pertahankan iramamu! 🔥"; }
+        else if(streak>0){ strIcon.className="fc-bg-icon aura-blue"; strSub.textContent="Langkah awal yang cantik!"; }
+        else { strIcon.className="fc-bg-icon"; strSub.textContent="Mulai nyalakan kembali semangatmu."; }
 
         const cdVal = document.getElementById("cd-val"), cdLbl = document.getElementById("cd-lbl"), cdIcon = document.getElementById("cd-icon");
         let pacingText = "Selesai!", pacingSub = "Bagus sekali!";
@@ -1751,11 +1781,11 @@
           let diffDays = Math.ceil((examD - new Date(fmtISO(new Date())+"T00:00:00")) / (1000*60*60*24));
           if(diffDays>0){
             cdVal.textContent = diffDays + " Hari";
-            cdLbl.textContent = "Menuju Ujian";
+            cdLbl.textContent = "Menuju Hari Penentuan";
             cdIcon.className = "fc-bg-icon " + (diffDays>7?"aura-blue":diffDays>3?"aura-amber":"aura-red");
             if(sisaSlide>0){ pacingText = Math.ceil(sisaSlide/diffDays); pacingSub = "PPT / hari"; }
           } else if(diffDays===0){
-            cdVal.textContent = "Hari Ini!"; cdLbl.textContent = "Semoga Berhasil!"; cdIcon.className="fc-bg-icon aura-red";
+            cdVal.textContent = "Hari Ini!"; cdLbl.textContent = "Tunjukkan Sayap Terindahmu!"; cdIcon.className="fc-bg-icon aura-red";
             if(sisaSlide>0){ pacingText = sisaSlide; pacingSub = "PPT lagi!"; }
           } else {
             cdVal.textContent = "Selesai"; cdLbl.textContent = "Ujian Berlalu"; cdIcon.className="fc-bg-icon aura-blue";
@@ -1773,10 +1803,10 @@
 
         const nPenalty = nilaiPenalty(), cpPenalty = checkpointPenalty(), totalPenalty = nPenalty+cpPenalty;
         let noteCair = "";
-        if(t>=state.target) noteCair = "Target tercapai!";
-        else if(p>=30) noteCair = "Reward sebagian.";
-        else noteCair = "Belum memenuhi syarat.";
-        if(totalPenalty>0) noteCair += ` Potongan: ${fmtRp(totalPenalty)}`;
+        if(t>=state.target) noteCair = "Bagus, target terpenuhi!";
+        else if(p>=30) noteCair = "Kamu mendapatkan separuh penghargaan.";
+        else noteCair = "Masih butuh sedikit usaha lagi.";
+        if(totalPenalty>0) noteCair += ` Sedikit memudar: ${fmtRp(totalPenalty)}`;
         document.getElementById("rc-amount").textContent = fmtRp(rCair);
         document.getElementById("rc-bar").style.width = p+"%";
         const rcChip = document.getElementById("rc-chip");
@@ -1787,7 +1817,7 @@
         const dg = document.getElementById("days-grid");
         dg.innerHTML = "";
         const dates = getBlockDates();
-        if(!dates.length) dg.innerHTML = '<div style="grid-column:1/-1;text-align:center;">Atur tanggal blok</div>';
+        if(!dates.length) dg.innerHTML = '<div style="grid-column:1/-1;text-align:center;">Tentukan tanggal peluncuran misimu</div>';
         else {
           const CP_RATIOS = [0.25,0.5,0.75];
           const cpDates = new Set(dates.length>1?CP_RATIOS.map(r=>dates[Math.floor(dates.length*r)]):[]);
@@ -1827,7 +1857,7 @@
 
       /* ---------- NOTION (MOCK) ---------- */
       async function loadFromNotion() {
-        setSyncStatus("syncing", "Memuat data...");
+        setSyncStatus("syncing", "Merajut data...");
         try {
           const res = await fetch("/api/notion");
           const json = await res.json();
@@ -1837,7 +1867,6 @@
             state.slides = d.slides || {};
             state.target = d.target || 30;
             state.nilaiUjian = d.nilaiUjian || 0;
-            // Di dalam loadFromNotion atau setelah state didefinisikan
             state.flashcards = state.flashcards.map(c => c.id ? c : { ...c, id: 'fc_' + Date.now() + Math.random() });
             if(d.userName) state.name = d.userName;
             if(json.blockStart) state.blockStart = json.blockStart;
@@ -1845,17 +1874,17 @@
             pageId = json.pageId;
             ss("rv_slides",state.slides); ss("rv_target",state.target); ss("rv_nilai",state.nilaiUjian); ss("rv_name",state.name); ss("rv_block_start",state.blockStart); ss("rv_block_end",state.blockEnd);
           }
-          setSyncStatus("ok", "✦ Tersinkron dengan Notion");
+          setSyncStatus("ok", "✦ Tersinkron Penuh");
           showError(null);
         } catch(err){
-          setSyncStatus("error", "Mode Offline");
-          showError("Tidak bisa terhubung ke Notion.");
+          setSyncStatus("error", "Terputus");
+          showError("Jaringan magis sedang terganggu.");
         }
         render();
       }
 
       async function saveToNotion(slideDate){
-        setSyncStatus("syncing","Menyimpan...");
+        setSyncStatus("syncing","Mencatat dalam buku sihir...");
         try{
           const res = await fetch("/api/notion",{
             method:"POST",headers:{"Content-Type":"application/json"},
@@ -1866,7 +1895,7 @@
           if(json.pageId) pageId = json.pageId;
           setSyncStatus("ok","✦ Tersinkron"); showError(null); return true;
         }catch(err){
-          setSyncStatus("error","Tersimpan Lokal"); return false;
+          setSyncStatus("error","Tersimpan Sementara"); return false;
         }
       }
 
@@ -1894,7 +1923,7 @@
         const ok = await saveToNotion(todayStr);
         setButtonLoading("btn-slide",false);
         const msg = document.getElementById("save-msg-slide");
-        msg.textContent = ok ? "Tersimpan ke Notion!" : "Tersimpan Lokal!";
+        msg.textContent = ok ? "Tersimpan ke awan!" : "Tersimpan sementara!";
         msg.style.display="block"; setTimeout(()=>msg.style.display="none",2200);
       };
 
@@ -1910,9 +1939,9 @@
           ss("rv_milestones",state.milestones);
           popupQueue.push(()=>{
             if(milestone===100) showAppreciation("Kamu Berhasil! 🧚‍♀️✨","Target 100% selesai!",true);
-            else if(milestone===75) showAppreciation("Hebat Sekali! 💫","Progres 75%!");
-            else if(milestone===50) showAppreciation("Luar Biasa! 🌟","50% sudah terlewati!");
-            else showAppreciation("Awal Indah! ✨","25% tercapai!");
+            else if(milestone===75) showAppreciation("Hebat Sekali! 💫","Progres sudah melampaui 75%!");
+            else if(milestone===50) showAppreciation("Luar Biasa! 🌟","50% telah terlewati dengan indah!");
+            else showAppreciation("Awal yang Cemerlang! ✨","25% perjalanan telah terukir!");
           });
         }
       }
@@ -1937,10 +1966,10 @@
 
       function showBadgeAnim(id){
         const data = {
-          1:{icon:"🌱",title:"Awal Sihir",desc:"Slide pertama!"},
-          2:{icon:"🔥",title:"Api Semangat",desc:"3 hari berturut-turut."},
-          3:{icon:"✨",title:"Sayap Bersinar",desc:"50% target."},
-          4:{icon:"👑",title:"Peri Lulus",desc:"100% target."}
+          1:{icon:"🌱",title:"Awal Sihir",desc:"Menapakkan kaki pertama dalam misi ini."},
+          2:{icon:"🔥",title:"Api Semangat",desc:"Menjaga api tetap menyala 3 hari tanpa putus."},
+          3:{icon:"✨",title:"Sayap Bersinar",desc:"Terbang mencapai separuh (50%) perjalanan."},
+          4:{icon:"👑",title:"Peri Lulus",desc:"Sukses mengumpulkan seluruh energi yang ditargetkan."}
         };
         const bd = data[id];
         document.getElementById("badge-anim-icon").textContent = bd.icon;
@@ -2003,10 +2032,10 @@
         img.classList.add("show");
         if(score>=60){
           playGrandChime(); img.src="https://lh3.googleusercontent.com/d/1O6YrTGBa0NBDdZ5IwCufLUP5pZ-2DjdY";
-          title.textContent="Kerja Luar Biasa! ✨"; msg.textContent=`Selamat, ${state.name}!`;
+          title.textContent="Kerja Luar Biasa! ✨"; msg.textContent=`Sangat membanggakan, ${state.name}!`;
         } else {
           playChime(); img.src="https://lh3.googleusercontent.com/d/1lJXQra0IbII_ppGIsfVsULGwSlNPpmVs";
-          title.textContent="Tetap Semangat! 🌟"; msg.textContent=`Jangan bersedih, ${state.name}!`;
+          title.textContent="Tetap Bersemangat! 🌟"; msg.textContent=`Kamu sudah berusaha keras, ${state.name}!`;
         }
         document.getElementById("result-modal").classList.add("show");
       }
@@ -2036,12 +2065,12 @@
         const ok = await saveToNotion();
         setButtonLoading("btn-set",false);
         const msg = document.getElementById("save-msg-set");
-        msg.textContent = ok ? "Pengaturan tersimpan!" : "Tersimpan lokal!";
+        msg.textContent = ok ? "Pengaturan tersimpan!" : "Tersimpan di tempat aman!";
         msg.style.display="block"; setTimeout(()=>msg.style.display="none",2200);
       };
 
       window.resetBlok = async function(){
-        if(!confirm("Reset semua data?")) return;
+        if(!confirm("Apakah kamu yakin ingin merapikan lembaran dan memulai yang baru?")) return;
         state.slides={}; state.moods={}; state.nilaiUjian=0; state.milestones={25:false,50:false,75:false,100:false}; state.badges={1:false,2:false,3:false,4:false}; state.blockStart=null; state.blockEnd=null; pageId=null;
         ss("rv_slides",{}); ss("rv_moods",{}); ss("rv_nilai",0); ss("rv_milestones",state.milestones); ss("rv_badges",state.badges); ss("rv_block_start",null); ss("rv_block_end",null);
         render(); await saveToNotion(); checkSetupModal();
@@ -2150,12 +2179,12 @@
       loadFromNotion();
       requestAnimationFrame(updateIndicator);
       window.addEventListener('resize',updateIndicator);
-      window.navMatchReview = navMatchReview;
+      window.navMatchReviewPage = navMatchReviewPage;
       window.switchFcMainTab = switchFcMainTab;
       window.startFcTest = startFcTest;
       window.selectFcTestAnswer = selectFcTestAnswer;
       window.navFcTest = navFcTest;
-      window.navFcReview = navFcReview;
+      window.navFcReviewPage = navFcReviewPage;
       window.finishFcTest = finishFcTest;
     })();
   </script>
