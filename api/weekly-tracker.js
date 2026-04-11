@@ -94,9 +94,9 @@ module.exports = async function handler(req, res) {
   // ══════════════════════════════════════════════════════════════════════════
   if (req.method === "GET") {
     const username = (req.query.username ?? "").trim();
-    const blockName = (req.query.blockName ?? "").trim(); // Ambil parameter blockName
+    const blockName = (req.query.blockName ?? "").trim();
 
-    if (!username) return res.status(400).json({ error: "Parameter ?username= wajib diisi." });
+    if (!username || !blockName) return res.status(400).json({ error: "Username dan BlockName wajib ada." });
 
     try {
       const qr = await fetch(`https://api.notion.com/v1/databases/${WEEKLY_DB_ID}/query`, {
@@ -112,35 +112,30 @@ module.exports = async function handler(req, res) {
         }),
       });
       const qd = await qr.json();
-      if (!qr.ok) return res.status(qr.status).json({ error: qd.message ?? "Notion query error" });
-
       const page = qd.results?.[0] ?? null;
-      if (!page) return res.json({ found: false, data: null });
+      if (!page) return res.json({ found: false });
 
-      const p = page.properties; // Variabel 'p' sebagai sumber data
+      const p = page.properties;
 
-      // Ambil slides dari Daily Log
+      // Tarik data harian (slides)
       let slides = {};
       if (DAILY_DB_ID) {
         const dr = await fetch(`https://api.notion.com/v1/databases/${DAILY_DB_ID}/query`, {
           method: "POST", headers: notionHeaders(),
           body: JSON.stringify({
             filter: { property: "Weekly Tracker", relation: { contains: page.id } },
-            page_size: 100,
           }),
         });
         if (dr.ok) {
           const dd = await dr.json();
           for (const e of dd.results ?? []) {
-            const dp = e.properties;
-            const dt = dp["Date"]?.date?.start ?? "";
-            const cnt = getNumber(dp, "Total Slide");
-            if (dt && cnt > 0) slides[dt] = cnt;
+            const dt = e.properties["Date"]?.date?.start || "";
+            const cnt = e.properties["Total Slide"]?.number || 0;
+            if (dt) slides[dt] = cnt;
           }
         }
       }
 
-      // Pastikan semua properti menggunakan variabel 'p'
       return res.json({
         found: true,
         pageId: page.id,
@@ -151,11 +146,10 @@ module.exports = async function handler(req, res) {
         pptDots: getText(p, "PPT Dots"),
         moods: getText(p, "Moods"),
         blockName: getText(p, "Topik Blok"),
-        slides: slides // Kirim data slides harian agar muncul di HP
+        slides: slides
       });
-
     } catch (err) {
-      return res.status(500).json({ error: "Gagal: " + err.message });
+      return res.status(500).json({ error: err.message });
     }
   }
 
