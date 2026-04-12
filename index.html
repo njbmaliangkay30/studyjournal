@@ -159,6 +159,90 @@
     @keyframes dust-fade { 0% { transform: scale(1) translateY(0); opacity: 1; } 100% { transform: scale(0) translateY(30px) translateX(var(--drift)); opacity: 0; } }
     .click-dust { position: fixed; pointer-events: none; border-radius: 50%; background: #fff; box-shadow: 0 0 8px var(--gold-light); z-index: 10000; mix-blend-mode: screen; animation: click-burst 0.8s forwards ease-out; }
     @keyframes click-burst { 0% { transform: scale(1) translate(0, 0); opacity: 1; } 100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0; } }
+
+    /* ===== GACHA CSS ===== */
+    .gacha-entry-wrap { background: linear-gradient(135deg, rgba(245,200,66,0.08) 0%, rgba(74,155,40,0.08) 100%); border: 1px solid rgba(245,200,66,0.25); border-radius: 20px; padding: 22px 18px 18px; text-align: center; position: relative; overflow: hidden; }
+    .gacha-entry-wrap::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 50% 0%, rgba(245,200,66,0.12) 0%, transparent 60%); pointer-events:none; }
+    .gacha-entry-deco { font-size: 11px; letter-spacing: 0.3em; color: var(--gold); opacity: 0.6; margin-bottom: 8px; }
+    .gacha-entry-sub { font-size: 13px; color: var(--text-soft); margin-bottom: 16px; line-height: 1.5; }
+    .gacha-entry-btn { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 50px; border: none; background: linear-gradient(135deg, #b8900a 0%, #f5c842 40%, #ffe478 60%, #f5c842 80%, #b8900a 100%); color: #2a1f0a; font-size: 15px; font-weight: 800; font-family: var(--sans); box-shadow: 0 6px 24px rgba(245,200,66,0.45), 0 2px 8px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.4); transition: all 0.25s; letter-spacing: 0.02em; cursor: pointer; width: 100%; justify-content: center; }
+    .gacha-entry-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(245,200,66,0.6), 0 4px 12px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.5); }
+    .gacha-entry-btn:active { transform: translateY(0); }
+    .gacha-btn-shine { position: absolute; top: 0; left: -100%; width: 60%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent); transform: skewX(-20deg); animation: gacha-shine 2.5s infinite; }
+    @keyframes gacha-shine { 0% { left:-100%; } 60% { left:160%; } 100% { left:160%; } }
+    .gacha-btn-icon { font-size: 20px; }
+    .gacha-btn-text { font-size: 15px; }
+    .gacha-btn-sparkle { font-size: 16px; }
+    .gacha-inv-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 14px; min-height: 0; }
+    .gacha-inv-chip { display: inline-flex; align-items: center; gap: 4px; background: var(--bg-card); border: 1.5px solid var(--gold); border-radius: 20px; padding: 4px 10px; font-size: 13px; font-weight: 700; color: var(--text-dark); }
+    .gacha-inv-count { font-size: 11px; color: var(--text-soft); }
+
+    /* Gacha Modal */
+    .gacha-modal-card { background: linear-gradient(160deg, #0c1a0c 0%, #122012 50%, #0e1a0c 100%); border: 1px solid rgba(245,200,66,0.3); border-radius: 24px; padding: 36px 22px 28px; max-width: 420px; width: 92%; margin: auto; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(245,200,66,0.1); max-height: 90vh; overflow-y: auto; }
+    .gacha-modal-body { text-align: center; }
+    .gacha-home-chest { font-size: 72px; margin-bottom: 6px; animation: gacha-chest-float 3s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(245,200,66,0.5)); }
+    @keyframes gacha-chest-float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+    .gacha-home-title { font-family: var(--serif); font-size: 22px; color: var(--gold-light); font-weight: 700; margin-bottom: 8px; text-shadow: 0 0 20px rgba(245,200,66,0.4); }
+    .gacha-home-coin { display: inline-flex; align-items: center; gap: 6px; background: rgba(245,200,66,0.12); border: 1px solid rgba(245,200,66,0.3); border-radius: 20px; padding: 6px 16px; font-size: 15px; font-weight: 700; color: var(--gold-light); margin-bottom: 20px; }
+    .gacha-coin-icon { font-size: 16px; }
+    .gacha-pull-btns { display: flex; gap: 12px; margin-bottom: 20px; }
+    .gacha-pull-btn { flex: 1; border: none; border-radius: 16px; padding: 14px 12px; cursor: pointer; transition: all 0.2s; font-family: var(--sans); font-weight: 700; }
+    .gacha-pull-1 { background: linear-gradient(135deg, #2e6b1a, #4a9b28); color: #fff; box-shadow: 0 4px 16px rgba(74,155,40,0.4); }
+    .gacha-pull-1:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(74,155,40,0.5); }
+    .gacha-pull-5 { background: linear-gradient(135deg, #b8900a, #f5c842); color: #2a1f0a; box-shadow: 0 4px 16px rgba(245,200,66,0.4); }
+    .gacha-pull-5:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(245,200,66,0.55); }
+    .gacha-pull-label { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+    .gacha-pull-cost { font-size: 11px; opacity: 0.85; }
+    .gacha-rate-details { text-align: left; background: rgba(255,255,255,0.04); border-radius: 14px; border: 1px solid rgba(255,255,255,0.08); overflow: hidden; }
+    .gacha-rate-details summary { padding: 12px 16px; font-size: 12px; font-weight: 700; color: var(--gold-light); cursor: pointer; letter-spacing: 0.05em; }
+    .gacha-rate-list { padding: 8px 14px 14px; }
+    .gacha-rate-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .gacha-rate-row:last-child { border-bottom: none; }
+    .gacha-rate-emoji { font-size: 18px; width: 26px; text-align: center; }
+    .gacha-rate-name { flex: 1; font-size: 12px; color: #e0dcc8; font-weight: 600; }
+    .gacha-rate-rarity { font-size: 10px; font-weight: 700; letter-spacing: 0.03em; }
+    .gacha-rate-pct { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5); min-width: 32px; text-align: right; }
+
+    /* Gacha Result */
+    .gacha-result-title { font-family: var(--serif); font-size: 24px; color: var(--gold-light); font-weight: 700; margin-bottom: 8px; text-shadow: 0 0 20px rgba(245,200,66,0.5); animation: gacha-res-in 0.4s ease; }
+    .gacha-result-coins { display: inline-flex; align-items: center; gap: 6px; background: rgba(245,200,66,0.12); border: 1px solid rgba(245,200,66,0.3); border-radius: 20px; padding: 5px 14px; font-size: 14px; font-weight: 700; color: var(--gold-light); margin-bottom: 18px; }
+    .gacha-result-cards { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 20px; }
+    .gacha-result-card { background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.12); border-radius: 18px; padding: 16px 14px 12px; width: 120px; text-align: center; animation: gacha-card-pop 0.4s ease forwards; opacity: 0; }
+    .gacha-result-card--uncommon { border-color: rgba(74,181,224,0.5); background: rgba(74,181,224,0.07); }
+    .gacha-result-card--rare { border-color: rgba(176,112,232,0.5); background: rgba(176,112,232,0.07); }
+    .gacha-result-card--superrare { border-color: rgba(245,200,66,0.7); background: rgba(245,200,66,0.1); box-shadow: 0 0 20px rgba(245,200,66,0.25); animation: gacha-card-pop 0.5s ease forwards, gacha-super-glow 1.5s ease-in-out infinite 0.5s; }
+    @keyframes gacha-card-pop { from { opacity:0; transform:scale(0.6) translateY(20px); } to { opacity:1; transform:scale(1) translateY(0); } }
+    @keyframes gacha-super-glow { 0%,100%{box-shadow:0 0 16px rgba(245,200,66,0.25);} 50%{box-shadow:0 0 32px rgba(245,200,66,0.55);} }
+    @keyframes gacha-res-in { from{opacity:0;transform:translateY(-12px);} to{opacity:1;transform:translateY(0);} }
+    .gacha-res-emoji { font-size: 36px; margin-bottom: 6px; }
+    .gacha-res-name { font-size: 11px; font-weight: 700; color: #e0dcc8; margin-bottom: 4px; line-height: 1.3; }
+    .gacha-res-rarity { font-size: 9px; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 6px; display: block; }
+    .gacha-res-desc { font-size: 9px; color: rgba(255,255,255,0.4); line-height: 1.4; }
+    .gacha-result-actions { margin-top: 4px; }
+
+    /* Sakura theme */
+    [data-theme="sakura"] {
+      --bg-main: #fff0f5; --bg-card: rgba(255,220,235,0.7); --bg-card-solid: #fff0f5;
+      --bg-tab: rgba(255,230,240,0.85); --bg-tab-active: rgba(255,240,248,0.9);
+      --bg-input: rgba(255,240,248,0.8);
+      --text-dark: #3a1020; --text-mid: #7a3050; --text-soft: #b07090;
+      --border-card: rgba(240,100,160,0.3);
+      --gold: #e87080; --gold-light: #f090a0; --gold-pale: #ffe0e8; --gold-dark: #c04060;
+      --green-deep: #c04070; --green-mid: #d06080; --green-leaf: #e07090; --green-light: #f0a0b0;
+      --green-pale: #ffe8f0; --amber: #e08090;
+    }
+    /* ===== THEME PICKER CSS ===== */
+    .theme-pick-btn { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 14px 8px 10px; border-radius: 14px; border: 2px solid var(--border-card); background: var(--bg-card); color: var(--text-dark); font-family: var(--sans); cursor: pointer; position: relative; transition: all 0.22s; width: 100%; }
+    .theme-pick-btn:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 4px 14px rgba(245,200,66,0.15); }
+    .theme-pick-btn.active { border-color: var(--gold); background: rgba(245,200,66,0.08); box-shadow: 0 0 12px rgba(245,200,66,0.2); }
+    .theme-pick-btn.locked { opacity: 0.5; cursor: not-allowed; }
+    .theme-pick-btn.locked:hover { transform: none; box-shadow: none; border-color: var(--border-card); }
+    .theme-pick-emoji { font-size: 24px; }
+    .theme-pick-name { font-size: 11px; font-weight: 700; text-align: center; line-height: 1.3; color: var(--text-mid); }
+    .theme-pick-badge { position: absolute; top: 7px; right: 9px; font-size: 10px; color: var(--gold); font-weight: 900; }
+    .theme-pick-lock { position: absolute; top: 7px; right: 9px; font-size: 12px; opacity: 0.7; }
+    .theme-pick-sub { font-size: 9px; font-weight: 600; letter-spacing: 0.05em; opacity: 0.55; text-align: center; }
+    /* ===== END GACHA CSS ===== */
     
     .header { background: linear-gradient(160deg, #0f2a06 0%, #1a4a0a 45%, #234f10 100%); padding: 28px 20px 22px; position: relative; overflow: hidden; z-index: 1; border-bottom: 2px solid rgba(245,200,66,0.2); box-shadow: 0 4px 20px rgba(26, 74, 10, 0.2); }
     .header-leaves { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
@@ -492,6 +576,26 @@
     .fc-test-review-item { display: flex; align-items: center; background: var(--bg-input); padding: 14px; border-radius: 14px; margin-bottom: 10px; border: 1px solid var(--border-card); }
     .best-record-badge { background: linear-gradient(135deg, var(--gold-dark), var(--gold)); color: white; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; display: inline-block; }
     .match-review-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+
+    /* ===== HISTORY DASHBOARD ===== */
+    .hist-wrap { margin-top: 4px; }
+    .hist-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .hist-col-head { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 8px; }
+    .hist-card { background: var(--bg-card); border: 1px solid var(--border-card); border-radius: 12px; padding: 10px 10px 8px; margin-bottom: 8px; position: relative; overflow: hidden; min-width: 0; }
+    .hist-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 3px 0 0 3px; background: linear-gradient(180deg, var(--gold-dark), var(--gold-light)); }
+    .hist-card.top::before { background: linear-gradient(180deg, #2e6b1a, #8dc95a); }
+    .hist-card-name { font-family: var(--serif); font-size: 12px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; padding-left: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .hist-card-date { font-size: 9px; color: var(--text-soft); padding-left: 6px; margin-bottom: 6px; }
+    .hist-card-row { display: flex; align-items: center; justify-content: space-between; padding-left: 6px; margin-bottom: 4px; }
+    .hist-card-label { font-size: 9px; color: var(--text-soft); font-weight: 600; }
+    .hist-card-val { font-size: 10px; font-weight: 800; color: var(--text-mid); }
+    .hist-card-val.gold { color: var(--gold-dark); }
+    .hist-card-val.green { color: var(--green-mid); }
+    .hist-mini-bar { height: 3px; background: rgba(0,0,0,0.07); border-radius: 2px; margin: 2px 6px 0; overflow: hidden; }
+    .hist-mini-fill { height: 3px; border-radius: 2px; background: linear-gradient(90deg, var(--gold-dark), var(--gold-light)); transition: width 1s ease; }
+    .hist-mini-fill.green { background: linear-gradient(90deg, #2e6b1a, #8dc95a); }
+    .hist-empty { font-size: 11px; color: var(--text-soft); text-align: center; padding: 16px 0; }
+    .hist-loading { font-size: 11px; color: var(--text-soft); text-align: center; padding: 20px 0; grid-column: 1 / -1; }
   </style>
 </head>
 <body>
@@ -504,7 +608,6 @@
       <div class="leaf leaf4"></div>
     </div>
     
-    <!-- HEADER BAR: Eyebrow + Coin Badge -->
     <div class="header-top-row">
       <div class="header-eyebrow">
         <span data-i18n="hdr_eyebrow">Study Journey</span>
@@ -611,6 +714,13 @@
             <div class="fc-sub" id="str-sub">Belum ada api sihir berturut-turut</div>
           </div>
         </div>
+
+        <div class="hist-wrap">
+          <div class="sec-lbl">📜 Riwayat Blok</div>
+          <div class="hist-cols" id="hist-cols">
+            <div class="hist-loading">✦ Memuat riwayat...</div>
+          </div>
+        </div>
       </div>
       
       <div class="page" id="tab-tracker">
@@ -619,36 +729,29 @@
           <div class="days-grid" id="days-grid"></div>
         </div>
 
-        <!-- PPT DOT TRACKER (replaces manual input) -->
         <div>
           <div class="sec-lbl" data-i18n="trk_ppt_title">✦ Petak PPT — Tandai yang Sudah Dibaca</div>
           <div class="ppt-track-wrap">
-            <!-- Dekorasi hutan magis -->
             <div class="ppt-forest-deco" aria-hidden="true">
-              <!-- Daun kiri atas -->
               <svg width="90" height="80" viewBox="0 0 90 80" style="top:-5px;left:-8px;opacity:0.18;">
                 <path d="M5,70 Q15,30 50,10 Q30,40 45,65 Z" fill="#4a9b28"/>
                 <path d="M5,70 Q20,50 45,65" stroke="#8dc95a" stroke-width="1.5" fill="none" opacity="0.6"/>
                 <path d="M20,70 Q35,20 70,5 Q45,35 60,62 Z" fill="#2e6b1a" opacity="0.8"/>
                 <path d="M20,70 Q42,45 60,62" stroke="#8dc95a" stroke-width="1" fill="none" opacity="0.5"/>
               </svg>
-              <!-- Daun kanan atas -->
               <svg width="90" height="75" viewBox="0 0 90 75" style="top:-5px;right:-8px;opacity:0.18;transform:scaleX(-1);">
                 <path d="M5,70 Q15,30 50,10 Q30,40 45,65 Z" fill="#4a9b28"/>
                 <path d="M5,70 Q20,50 45,65" stroke="#8dc95a" stroke-width="1.5" fill="none" opacity="0.6"/>
                 <path d="M20,70 Q35,20 70,5 Q45,35 60,62 Z" fill="#2e6b1a" opacity="0.8"/>
               </svg>
-              <!-- Daun kiri bawah -->
               <svg width="70" height="60" viewBox="0 0 70 60" style="bottom:-5px;left:10px;opacity:0.14;transform:rotate(30deg);">
                 <path d="M5,55 Q20,20 55,8 Q35,30 50,52 Z" fill="#4a9b28"/>
                 <path d="M5,55 Q25,38 50,52" stroke="#8dc95a" stroke-width="1.5" fill="none" opacity="0.5"/>
               </svg>
-              <!-- Daun kanan bawah -->
               <svg width="70" height="60" viewBox="0 0 70 60" style="bottom:-5px;right:15px;opacity:0.14;transform:rotate(-30deg) scaleX(-1);">
                 <path d="M5,55 Q20,20 55,8 Q35,30 50,52 Z" fill="#4a9b28"/>
                 <path d="M5,55 Q25,38 50,52" stroke="#8dc95a" stroke-width="1.5" fill="none" opacity="0.5"/>
               </svg>
-              <!-- Bintang sihir kecil -->
               <svg width="16" height="16" viewBox="0 0 16 16" style="top:20%;left:12%;opacity:0.25;">
                 <path d="M8,1 L9.2,5.8 L14,7 L9.2,8.2 L8,13 L6.8,8.2 L2,7 L6.8,5.8 Z" fill="#ffe478"/>
               </svg>
@@ -658,11 +761,9 @@
               <svg width="12" height="12" viewBox="0 0 12 12" style="bottom:25%;left:20%;opacity:0.18;">
                 <path d="M6,1 L7,4.5 L11,6 L7,7.5 L6,11 L5,7.5 L1,6 L5,4.5 Z" fill="#ffe478"/>
               </svg>
-              <!-- Titik spora -->
               <div style="position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(141,201,90,0.3);top:15%;left:35%;"></div>
               <div style="position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(141,201,90,0.25);top:55%;right:25%;"></div>
               <div style="position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(245,200,66,0.15);bottom:30%;left:50%;"></div>
-              <!-- Jaring/sulur tipis -->
               <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style="top:0;left:0;opacity:0.06;">
                 <path d="M0,25 Q25,20 50,28 Q75,36 100,25" stroke="#8dc95a" stroke-width="0.8" fill="none"/>
                 <path d="M0,60 Q30,55 60,63 Q80,68 100,60" stroke="#8dc95a" stroke-width="0.6" fill="none"/>
@@ -676,7 +777,6 @@
             <div class="ppt-dots-row" id="ppt-dots-row" style="padding-bottom: 22px;"></div>
           </div>
         </div>
-        <!-- Hidden legacy input for compatibility -->
         <input type="hidden" id="inp-slide" value="0" />
         <div id="save-msg-slide" style="display:none;"></div>
       </div>
@@ -694,24 +794,18 @@
           <div class="rc-bar"><div class="rc-bar-fill" id="rc-bar" style="width:0%"></div></div>
         </div>
 
-        <!-- NEW TOKO SIHIR (MAGIC SHOP) -->
         <div>
-          <div class="sec-lbl" data-i18n="shop_title">Toko Sihir (Booster)</div>
-          <div class="badge-grid">
-            <div class="badge-item" style="opacity:1; filter:none;">
-               <div class="badge-icon">🛡️</div>
-               <div class="badge-title" data-i18n="shop_streak_title">Pelindung Api</div>
-               <div class="badge-desc" style="margin-bottom:8px; line-height:1.4;" data-i18n="shop_streak_desc">Menjaga streak tetap aman walau bolos 1 hari.</div>
-               <button class="btn-save" style="padding:6px 12px; font-size:11px; width: 100%; border-radius: 10px;" onclick="buyItem('streak', 500)">✨ 500</button>
-               <div style="font-size: 10px; margin-top: 6px; color: var(--text-soft);" id="inv-streak">Dimiliki: 0</div>
-            </div>
-            <div class="badge-item" style="opacity:1; filter:none;">
-               <div class="badge-icon">☕</div>
-               <div class="badge-title" data-i18n="shop_focus_title">Ramuan Energi</div>
-               <div class="badge-desc" style="margin-bottom:8px; line-height:1.4;" data-i18n="shop_focus_desc">Fitur misteri untuk petualangan berikutnya!</div>
-               <button class="btn-reset" disabled style="padding:6px 12px; font-size:11px; width: 100%; opacity:0.5; background:var(--bg-input); color:var(--text-soft); border:none; border-radius: 10px;" data-i18n="shop_coming_soon">Segera</button>
-               <div style="font-size: 10px; margin-top: 6px; color: transparent;">-</div>
-            </div>
+          <div class="sec-lbl" data-i18n="gacha_section_title">Lemari Sihir (Gacha)</div>
+          <div class="gacha-entry-wrap">
+            <div class="gacha-entry-deco">✦ ✦ ✦</div>
+            <div class="gacha-entry-sub" data-i18n="gacha_entry_sub">Gunakan koin untuk membuka hadiah misterius dari lemari sihir!</div>
+            <button class="gacha-entry-btn" onclick="openGachaModal()">
+              <span class="gacha-btn-shine"></span>
+              <span class="gacha-btn-icon">🎴</span>
+              <span class="gacha-btn-text" data-i18n="gacha_entry_btn">Buka Lemari Sihir</span>
+              <span class="gacha-btn-sparkle">✨</span>
+            </button>
+            <div class="gacha-inv-row" id="gacha-inv-row"></div>
           </div>
         </div>
 
@@ -771,11 +865,11 @@
         <div>
           <div class="sec-lbl" data-i18n="set_interface_lbl">Antarmuka & Keajaiban</div>
           <div class="settings-card">
-            <div class="input-row" style="align-items: center; justify-content: space-between;">
-              <div class="set-label" style="margin:0;" data-i18n="set_theme_lbl">Suasana Hati (Tema)</div>
-              <button class="btn-save" id="btn-theme-toggle" onclick="toggleTheme()" style="padding: 8px 16px; border-radius: 10px;">🌙 Malam Ajaib</button>
+            <div>
+              <div class="set-label" style="margin-bottom:10px;" data-i18n="set_theme_lbl">Suasana Hati (Tema)</div>
+              <div id="theme-picker-grid" style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px;"></div>
             </div>
-            <div style="height: 1px; background: var(--border-card); margin: 5px 0;"></div>
+            <div style="height: 1px; background: var(--border-card); margin: 10px 0;"></div>
             <div class="input-row" style="align-items: center; justify-content: space-between;">
               <div class="set-label" style="margin:0;" data-i18n="set_lang_lbl">Bahasa Sihir (Language)</div>
               <select id="lang-select" class="field" style="width: auto; padding: 8px 12px; font-size: 13px; font-weight: 700; border-radius: 10px;" onchange="changeLanguage(this.value)">
@@ -834,7 +928,6 @@
     <button class="float-timer-btn" id="main-float-btn" onclick="toggleFloatMenu()">✨</button>
   </div>
 
-  <!-- MATCH MODAL -->
   <div class="welcome-overlay" id="match-modal">
     <div class="welcome-card" style="max-height: 90vh; overflow-y: auto; padding: 30px 20px; width: 95%; max-width: 550px; position: relative;">
       <button class="btn-close-top" onclick="closeMatchModal()">✖</button>
@@ -895,7 +988,6 @@
     </div>
   </div>
 
-  <!-- MODAL LIST MANTRA -->
   <div class="welcome-overlay" id="fc-list-modal">
   <div class="welcome-card" style="max-height: 85vh; overflow-y: auto; padding: 30px 20px; width: 95%; max-width: 600px; position: relative;">
     <button class="btn-close-top" onclick="closeFcListModal()">✖</button>
@@ -953,7 +1045,6 @@
   </div>
 </div>
 
-  <!-- MODAL PRAKTEK KARTU MANTRA -->
   <div class="welcome-overlay" id="fc-view-modal">
     <button class="btn-close-top" style="position: absolute; top: 20px; left: 20px; width: 45px; height: 45px; font-size: 22px; background: rgba(255,255,255,0.2); color: #fff;" onclick="closeFcViewModal()">❮</button>
     <div class="fc-nav-wrapper">
@@ -977,7 +1068,6 @@
     </div>
   </div>
 
-  <!-- PPT DOT POPUP MODAL -->
   <div class="welcome-overlay" id="ppt-dot-modal" style="z-index:9995;">
     <div class="welcome-card" style="max-width:320px; padding:40px 24px 24px; position: relative">
       <button class="btn-close-top" onclick="closeDotModal()">✖</button>
@@ -990,7 +1080,6 @@
     </div>
   </div>
 
-  <!-- TIMER MODAL -->
   <div class="welcome-overlay" id="timer-modal">
     <div class="welcome-card" style="padding-top: 40px; position: relative;">
       <button class="btn-close-top" id="btn-timer-close-top" onclick="closeTimerModal()">✖</button>
@@ -1036,7 +1125,6 @@
     </div>
   </div>
 
-  <!-- WELCOME MODALS -->
   <div class="welcome-overlay" id="welcome-modal">
     <div class="welcome-card">
       <h1 class="welcome-title" data-i18n="welcome_title">Pixie Hollow</h1>
@@ -1178,6 +1266,9 @@
           shop_coming_soon: "Segera",
           inv_streak_lbl: "Dimiliki: {1}",
           msg_not_enough_coins: "Koin sihirmu belum cukup!",
+          gacha_section_title: "Lemari Sihir (Gacha)",
+          gacha_entry_sub: "Gunakan koin untuk membuka hadiah misterius dari lemari sihir!",
+          gacha_entry_btn: "Buka Lemari Sihir",
           
           rew_title_rules: "Ketentuan Pencairan Reward",
           rew_rule_1: "Target Belajar Terpenuhi",
@@ -1396,6 +1487,9 @@
           shop_coming_soon: "Soon",
           inv_streak_lbl: "Owned: {1}",
           msg_not_enough_coins: "Not enough magic coins!",
+          gacha_section_title: "Magic Wardrobe (Gacha)",
+          gacha_entry_sub: "Use coins to open mysterious gifts from the magic wardrobe!",
+          gacha_entry_btn: "Open Magic Wardrobe",
 
           rew_title_rules: "Reward Rules",
           rew_rule_1: "Study Target Reached",
@@ -1627,7 +1721,8 @@
         coins: ls('rv_coins', 0),
         inventory: ls('rv_inv', { streakFreeze: 0 }),
         pptDots: ls('rv_pptDots', []),
-        pptMigrated: ls('rv_pptMigrated', false)
+        pptMigrated: ls('rv_pptMigrated', false),
+        doubleStarExpiry: ls('rv_dblstar_exp', 0)
       };
       
       let pageId = null;
@@ -1728,7 +1823,8 @@
           "rv_slides", "rv_target", "rv_name", "rv_syncCode", "rv_blokPageId", 
           "rv_nilai", "rv_block_start", "rv_block_end", "rv_milestones", "rv_badges", 
           "rv_moods", "rv_focus", "rv_flashcards", "rv_matchItems", "difficultCards", 
-          "matchBestTime", "fcBestTime", "rv_coins", "rv_inv", "rv_pptDots", "rv_pptMigrated"
+          "matchBestTime", "fcBestTime", "rv_coins", "rv_inv", "rv_pptDots", "rv_pptMigrated",
+          "rv_theme_manual"
         ];
 
         keysToRemove.forEach(k => localStorage.removeItem(k));
@@ -2825,6 +2921,8 @@
         
         updateDifficultCount(); // Update inventory coins dan shop
         renderPptTrack(); // PPT dot tracker
+        try { if (typeof renderGachaInventory === 'function') renderGachaInventory(); } catch(e) {}
+        try { if (typeof renderThemeGrid === 'function') renderThemeGrid(); } catch(e) {}
       }
 
       /* ---------- NOTION (MOCK) ---------- */
@@ -2856,6 +2954,34 @@
         state.pptDots = Array.isArray(ed.pptDots) ? ed.pptDots
                       : (() => { try { return JSON.parse(ed.pptDots || "[]"); } catch { return []; } })();
         state.slides  = ed.slides || {};
+        const loadedMoods = ed.moods || {};
+        if (loadedMoods._wallet) {
+          const wallet = loadedMoods._wallet;
+          if (typeof wallet.coins === 'number' && wallet.coins > (state.coins || 0)) {
+            state.coins = wallet.coins;
+            ss('rv_coins', state.coins);
+          }
+          if (wallet.inv && typeof wallet.inv === 'object') {
+            const remoteInv = wallet.inv;
+            const localInv  = state.inventory || {};
+            const merged = {};
+            const allKeys = new Set([...Object.keys(remoteInv), ...Object.keys(localInv)]);
+            allKeys.forEach(k => { merged[k] = Math.max(remoteInv[k] || 0, localInv[k] || 0); });
+            state.inventory = merged;
+            ss('rv_inv', state.inventory);
+          }
+          // Restore themeManual from Notion
+          if (wallet.themeManual) {
+            manualTheme = wallet.themeManual;
+            state.theme = manualTheme;
+            ss('rv_theme_manual', manualTheme);
+            document.documentElement.setAttribute('data-theme', manualTheme);
+          }
+          const cleanMoods = Object.assign({}, loadedMoods);
+          delete cleanMoods._wallet;
+          state.moods = cleanMoods;
+          ss('rv_moods', state.moods);
+        }
       }
       ss('rv_target', state.target); ss('rv_block_start', state.blockStart);
       ss('rv_block_end', state.blockEnd); ss('rv_blokPageId', state.blokPageId);
@@ -2899,11 +3025,14 @@
   const forceNew = state._forceNewBlock === true;
   delete state._forceNewBlock; // pakai sekali, langsung hapus
   try {
+    const moodsWithWallet = Object.assign({}, state.moods || {}, {
+      _wallet: { coins: state.coins || 0, inv: state.inventory || {}, themeManual: manualTheme || null }
+    });
     const res = await fetch("/api/weekly-tracker", {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         username, blockName: blockName || "", target: state.target || 30,
-        blockStart, blockEnd, pptDots: state.pptDots || [], moods: state.moods || {},
+        blockStart, blockEnd, pptDots: state.pptDots || [], moods: moodsWithWallet,
         nilaiUjian: state.nilaiUjian || 0, pageId: state.blokPageId || null,
         slideDate: targetDate, slides: state.slides || {},
         forceNew
@@ -3176,6 +3305,7 @@
         document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
         document.querySelector(`.tab[onclick="switchTab('${id}')"]`).classList.add('active');
         requestAnimationFrame(updateIndicator);
+        if (id === 'dashboard') loadHistoryDashboard(false);
       };
 
       let touchStartX=0;
@@ -3197,7 +3327,7 @@
         else checkExamModal();
       }
       function checkExamModal(){
-        if(state.blockEnd && state.blockEnd===fmtISO(new Date()) && state.nilaiUjian===0) document.getElementById('exam-modal').classList.add('show');
+        if(state.blockEnd && state.blockEnd<=fmtISO(new Date()) && state.nilaiUjian===0) document.getElementById('exam-modal').classList.add('show');
       }
       window.mulaiPetualangan = async function(){
         const inp = document.getElementById('welcome-name').value.trim();
@@ -3444,11 +3574,102 @@
 
       /* ===== END PPT DOT TRACKER ===== */
 
+
+
+
+      /* ===== HISTORY DASHBOARD ===== */
+      let _histLoaded = false;
+
+      async function loadHistoryDashboard(force) {
+        if (_histLoaded && !force) return;
+        const username = state.syncCode || ls('rv_syncCode', '');
+        const container = document.getElementById('hist-cols');
+        if (!container) return;
+        if (!username) {
+          container.innerHTML = '<div class="hist-loading">Hubungkan ke Notion untuk melihat riwayat.</div>';
+          return;
+        }
+        container.innerHTML = '<div class="hist-loading">✦ Memuat riwayat...</div>';
+        try {
+          const res  = await fetch(`/api/weekly-tracker?username=${encodeURIComponent(username)}&history=true`);
+          const json = await res.json();
+          if (!res.ok || !json.found || !json.blocks?.length) {
+            container.innerHTML = '<div class="hist-loading">Belum ada riwayat blok tersimpan.</div>';
+            return;
+          }
+          renderHistoryDashboard(json.blocks);
+          _histLoaded = true;
+        } catch(e) {
+          container.innerHTML = '<div class="hist-loading">Gagal memuat riwayat.</div>';
+        }
+      }
+
+      function histPerfScore(b) {
+        if (b.nilaiUjian > 0) return b.nilaiUjian;
+        const done = (b.pptDots || []).filter(d => d.done).length;
+        return b.target > 0 ? Math.round(done / b.target * 100) : 0;
+      }
+
+      function histActivedays(b) {
+        const dates = new Set((b.pptDots || []).filter(d => d.done && d.date).map(d => d.date));
+        return dates.size;
+      }
+
+      function histFmtDate(iso) {
+        if (!iso) return '—';
+        return new Date(iso + 'T00:00:00').toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+      }
+
+      function buildHistCard(b, isTop) {
+        const done    = (b.pptDots || []).filter(d => d.done).length;
+        const pct     = b.target > 0 ? Math.round(done / b.target * 100) : 0;
+        const pctCap  = Math.min(pct, 100);
+        const aktif   = histActivedays(b);
+        const ujian   = b.nilaiUjian > 0 ? `<span class="hist-card-val gold">📝 ${b.nilaiUjian}/100</span>` : `<span class="hist-card-val" style="color:var(--text-soft)">—</span>`;
+        const barCls  = isTop ? 'green' : '';
+        const valCls  = isTop ? 'green' : '';
+        return `<div class="hist-card ${isTop ? 'top' : ''}">
+          <div class="hist-card-name" title="${b.blockName || '(Tanpa Nama)'}">${b.blockName || '(Tanpa Nama)'}</div>
+          <div class="hist-card-date">${histFmtDate(b.blockStart)} → ${histFmtDate(b.blockEnd)}</div>
+          <div class="hist-card-row">
+            <span class="hist-card-label">Nilai</span>${ujian}
+          </div>
+          <div class="hist-card-row">
+            <span class="hist-card-label">PPT</span>
+            <span class="hist-card-val ${valCls}">${done}/${b.target} · ${pct}%</span>
+          </div>
+          <div class="hist-mini-bar"><div class="hist-mini-fill ${barCls}" style="width:${pctCap}%"></div></div>
+          <div class="hist-card-row" style="margin-top:5px;">
+            <span class="hist-card-label">Hari aktif</span>
+            <span class="hist-card-val">${aktif} hari</span>
+          </div>
+        </div>`;
+      }
+
+      function renderHistoryDashboard(blocks) {
+        const container = document.getElementById('hist-cols');
+        if (!container) return;
+        const recent = blocks.slice(0, 3);
+        const sorted = [...blocks].sort((a, b) => histPerfScore(b) - histPerfScore(a));
+        const top3   = sorted.slice(0, 3);
+        const colRecent = `<div>
+          <div class="hist-col-head">🕐 3 Terakhir</div>
+          ${recent.length ? recent.map(b => buildHistCard(b, false)).join('') : '<div class="hist-empty">—</div>'}
+        </div>`;
+        const colTop = `<div>
+          <div class="hist-col-head">🏆 3 Terbaik</div>
+          ${top3.length ? top3.map(b => buildHistCard(b, true)).join('') : '<div class="hist-empty">—</div>'}
+        </div>`;
+        container.innerHTML = colRecent + colTop;
+      }
+      /* ===== END HISTORY DASHBOARD ===== */
+
       /* INISIALISASI */
       createSparkles();
       applyTheme();
       applyLanguage();
       if (state.syncCode) loadFromNotion();
+      loadHistoryDashboard(false);
       checkWelcomeModal();
       setupReminders();
       render();
@@ -3467,7 +3688,272 @@ setInterval(() => {
   }
 }, 60000);
 
+    /* ========== GACHA SYSTEM ========== */
+
+    const GACHA_POOL = [
+      { id: 'streakFreeze',  emoji: '🛡️', rarity: 'common',     rate: 0.38, name_id: 'Pelindung Api',         name_en: 'Flame Protector',     desc_id: 'Menjaga streak 1 hari.',        desc_en: 'Keeps streak safe 1 day.' },
+      { id: 'focusBooster',  emoji: '⚡', rarity: 'common',     rate: 0.25, name_id: 'Petir Fokus',           name_en: 'Focus Bolt',          desc_id: 'Tambah +15 menit timer fokus.', desc_en: 'Adds +15 min to focus timer.' },
+      { id: 'luckCharm',     emoji: '🍀', rarity: 'uncommon',   rate: 0.17, name_id: 'Pesona Keberuntungan',  name_en: 'Lucky Charm',         desc_id: 'Tingkatkan peluang gacha berikutnya!', desc_en: 'Boost next gacha odds!' },
+      { id: 'memCrystal',    emoji: '🔮', rarity: 'uncommon',   rate: 0.12, name_id: 'Kristal Memori',        name_en: 'Memory Crystal',      desc_id: '2× koin dari sesi flashcard.', desc_en: '2× coins from flashcard session.' },
+      { id: 'doubleStar',    emoji: '💎', rarity: 'rare',       rate: 0.05, name_id: 'Bintang Ganda',         name_en: 'Double Star',         desc_id: '2× koin selama 24 jam.', desc_en: '2× coins for 24 hours.' },
+      { id: 'themeMoon',     emoji: '🌙', rarity: 'rare',       rate: 0.02, name_id: 'Bulan Mistis',          name_en: 'Mystic Moon',         desc_id: 'Tema Malam Mistis eksklusif!', desc_en: 'Exclusive Mystic Night theme!' },
+      { id: 'themeSakura',   emoji: '🌸', rarity: 'superrare',  rate: 0.01, name_id: 'Sakura Ajaib',          name_en: 'Magic Sakura',        desc_id: 'Tema Sakura paling langka!', desc_en: 'Rarest Sakura theme!' }
+    ];
+
+    const GACHA_RARITY_LABEL = {
+      common:    { id: 'Biasa',       en: 'Common',     color: '#8dc95a' },
+      uncommon:  { id: 'Langka',      en: 'Uncommon',   color: '#4ab5e0' },
+      rare:      { id: 'Sangat Langka', en: 'Rare',     color: '#b070e8' },
+      superrare: { id: '✦ Super Langka', en: '✦ Super Rare', color: '#f5c842' }
+    };
+
+    const GACHA_COST_1 = 100;
+    const GACHA_COST_5 = 450;
+
+    function gachaRoll() {
+      const hasLuck = state.inventory.luckCharm > 0;
+      let pool = GACHA_POOL.map(item => {
+        let rate = item.rate;
+        if (hasLuck) {
+          if (item.rarity === 'uncommon') rate *= 1.5;
+          if (item.rarity === 'rare') rate *= 2;
+          if (item.rarity === 'superrare') rate *= 3;
+        }
+        return { ...item, rate };
+      });
+      const total = pool.reduce((s, i) => s + i.rate, 0);
+      let rand = Math.random() * total;
+      for (const item of pool) {
+        rand -= item.rate;
+        if (rand <= 0) return item;
+      }
+      return pool[0];
+    }
+
+    function grantGachaItem(item) {
+      if (!state.inventory[item.id]) state.inventory[item.id] = 0;
+      if (item.id === 'themeMoon') {
+        state.inventory.themeMoon = (state.inventory.themeMoon || 0) + 1;
+        if (!manualTheme) { state.theme = 'dark'; }
+        document.documentElement.setAttribute('data-theme', 'dark');
+        manualTheme = 'dark';
+        ss('rv_theme_manual', 'dark');
+      } else if (item.id === 'themeSakura') {
+        state.inventory.themeSakura = (state.inventory.themeSakura || 0) + 1;
+        document.documentElement.setAttribute('data-theme', 'sakura');
+        manualTheme = 'sakura';
+        ss('rv_theme_manual', 'sakura');
+      } else if (item.id === 'doubleStar') {
+        state.inventory.doubleStar = (state.inventory.doubleStar || 0) + 1;
+        state.doubleStarExpiry = Date.now() + 24 * 60 * 60 * 1000;
+        ss('rv_dblstar_exp', state.doubleStarExpiry);
+      } else {
+        state.inventory[item.id] = (state.inventory[item.id] || 0) + 1;
+      }
+      ss('rv_inv', state.inventory);
+    }
+
+    window.openGachaModal = function() {
+      renderGachaHome();
+      document.getElementById('gacha-modal').classList.add('show');
+    };
+
+    window.closeGachaModal = function() {
+      document.getElementById('gacha-modal').classList.remove('show');
+      renderGachaInventory();
+    };
+
+    function renderGachaHome() {
+      const modal = document.getElementById('gacha-modal');
+      modal.querySelector('.gacha-modal-body').innerHTML = gachaHomeHTML();
+    }
+    window.renderGachaHome = renderGachaHome;
+
+    function gachaHomeHTML() {
+      const lang = state.lang;
+      const cost1Txt = lang === 'id' ? `🪙 ${GACHA_COST_1} Koin` : `🪙 ${GACHA_COST_1} Coins`;
+      const cost5Txt = lang === 'id' ? `🪙 ${GACHA_COST_5} Koin (Hemat!)` : `🪙 ${GACHA_COST_5} Coins (Save!)`;
+      const title1 = lang === 'id' ? 'Tarik 1×' : 'Pull 1×';
+      const title5 = lang === 'id' ? 'Tarik 5×' : 'Pull 5×';
+      const rateTitle = lang === 'id' ? 'Tabel Peluang' : 'Drop Rates';
+      let rateRows = GACHA_POOL.map(item => {
+        const rLabel = GACHA_RARITY_LABEL[item.rarity];
+        const name = lang === 'id' ? item.name_id : item.name_en;
+        const pct = Math.round(item.rate * 100);
+        return `<div class="gacha-rate-row">
+          <span class="gacha-rate-emoji">${item.emoji}</span>
+          <span class="gacha-rate-name">${name}</span>
+          <span class="gacha-rate-rarity" style="color:${rLabel.color}">${lang === 'id' ? rLabel.id : rLabel.en}</span>
+          <span class="gacha-rate-pct">${pct}%</span>
+        </div>`;
+      }).join('');
+      return `
+        <div class="gacha-home-chest">🎴</div>
+        <div class="gacha-home-title">${lang === 'id' ? 'Lemari Sihir' : 'Magic Wardrobe'}</div>
+        <div class="gacha-home-coin"><span class="gacha-coin-icon">🪙</span> <span id="gacha-coin-disp">${state.coins}</span></div>
+        <div class="gacha-pull-btns">
+          <button class="gacha-pull-btn gacha-pull-1" onclick="doPull(1)">
+            <div class="gacha-pull-label">${title1}</div>
+            <div class="gacha-pull-cost">${cost1Txt}</div>
+          </button>
+          <button class="gacha-pull-btn gacha-pull-5" onclick="doPull(5)">
+            <div class="gacha-pull-label">${title5}</div>
+            <div class="gacha-pull-cost">${cost5Txt}</div>
+          </button>
+        </div>
+        <details class="gacha-rate-details">
+          <summary>${rateTitle}</summary>
+          <div class="gacha-rate-list">${rateRows}</div>
+        </details>
+      `;
+    }
+
+    window.doPull = function(count) {
+      const cost = count === 1 ? GACHA_COST_1 : GACHA_COST_5;
+      const notEnough = state.lang === 'id' ? 'Koin sihirmu belum cukup!' : 'Not enough magic coins!';
+      if (state.coins < cost) { alert(notEnough); return; }
+      state.coins -= cost;
+      ss('rv_coins', state.coins);
+      if (state.inventory.luckCharm > 0) {
+        state.inventory.luckCharm--;
+        ss('rv_inv', state.inventory);
+      }
+      const results = [];
+      for (let i = 0; i < count; i++) results.push(gachaRoll());
+      results.forEach(item => grantGachaItem(item));
+      playGrandChime();
+      burstSparkles();
+      showGachaResult(results);
+      const coinBadge = document.getElementById('coin-badge');
+      const coinValEl = document.getElementById('coin-val');
+      if (coinValEl) coinValEl.textContent = state.coins;
+      if (coinBadge) { coinBadge.classList.remove('pulse'); void coinBadge.offsetWidth; coinBadge.classList.add('pulse'); }
+      render();
+    };
+
+    function showGachaResult(results) {
+      const lang = state.lang;
+      const titleTxt = lang === 'id' ? 'Kamu Mendapatkan!' : 'You Got!';
+      const btnTxt = lang === 'id' ? 'Tarik Lagi ✨' : 'Pull Again ✨';
+      let cardsHTML = results.map((item, i) => {
+        const rLabel = GACHA_RARITY_LABEL[item.rarity];
+        const name = lang === 'id' ? item.name_id : item.name_en;
+        const desc = lang === 'id' ? item.desc_id : item.desc_en;
+        return `<div class="gacha-result-card gacha-result-card--${item.rarity}" style="animation-delay:${i * 0.12}s">
+          <div class="gacha-res-emoji">${item.emoji}</div>
+          <div class="gacha-res-name">${name}</div>
+          <div class="gacha-res-rarity" style="color:${rLabel.color}">${lang === 'id' ? rLabel.id : rLabel.en}</div>
+          <div class="gacha-res-desc">${desc}</div>
+        </div>`;
+      }).join('');
+      document.getElementById('gacha-modal').querySelector('.gacha-modal-body').innerHTML = `
+        <div class="gacha-result-title">${titleTxt}</div>
+        <div class="gacha-result-coins"><span class="gacha-coin-icon">🪙</span> ${state.coins}</div>
+        <div class="gacha-result-cards">${cardsHTML}</div>
+        <div class="gacha-result-actions">
+          <button class="gacha-pull-btn gacha-pull-1" onclick="renderGachaHome()">${btnTxt}</button>
+        </div>
+      `;
+    }
+
+    function renderGachaInventory() {
+      const wrap = document.getElementById('gacha-inv-row');
+      if (!wrap) return;
+      const lang = state.lang;
+      const inv = state.inventory;
+      const items = GACHA_POOL.filter(item => (inv[item.id] || 0) > 0);
+      if (!items.length) { wrap.innerHTML = ''; return; }
+      wrap.innerHTML = items.map(item => {
+        const name = lang === 'id' ? item.name_id : item.name_en;
+        const rLabel = GACHA_RARITY_LABEL[item.rarity];
+        return `<div class="gacha-inv-chip" title="${name}" style="border-color:${rLabel.color}">
+          <span>${item.emoji}</span>
+          <span class="gacha-inv-count">×${inv[item.id] || 0}</span>
+        </div>`;
+      }).join('');
+    }
+
+    /* ========== END GACHA SYSTEM ========== */
+
+    /* ========== THEME PICKER SYSTEM ========== */
+    const THEMES = [
+      { id: 'light', name_id: '☀️ Terang Siang', name_en: '☀️ Bright Day', req: null },
+      { id: 'dark', name_id: '🌙 Malam Ajaib', name_en: '🌙 Enchanted Night', req: null },
+      { id: 'sakura', name_id: '🌸 Sakura Ajaib', name_en: '🌸 Magic Sakura', req: 'themeSakura', rarity: 'Super Rare', badge: '💎' },
+      { id: 'moon', name_id: '🌒 Bulan Mistis', name_en: '🌒 Mystic Moon', req: 'themeMoon', rarity: 'Rare', badge: '✨' }
+    ];
+
+    function renderThemeGrid() {
+      const grid = document.getElementById('theme-picker-grid');
+      if (!grid) return;
+      const lang = state.lang || 'id';
+      const inv = state.inventory || {};
+      
+      let html = '';
+      THEMES.forEach(t => {
+        const isUnlocked = !t.req || (inv[t.req] && inv[t.req] > 0);
+        
+        let currentActive = state.theme;
+        if (manualTheme) currentActive = manualTheme;
+        const isActive = (currentActive === t.id);
+        
+        const name = lang === 'id' ? t.name_id : t.name_en;
+        
+        if (isUnlocked) {
+          html += `
+            <button class="theme-pick-btn ${isActive ? 'active' : ''}" onclick="setTheme('${t.id}')">
+              <div class="theme-pick-emoji">${t.badge || (t.id==='light'?'☀️':'🌙')}</div>
+              <div class="theme-pick-name">${name}</div>
+            </button>
+          `;
+        } else {
+          html += `
+            <button class="theme-pick-btn locked" onclick="showThemeLocked('${name}')">
+              <div class="theme-pick-emoji">${t.badge || '🔒'}</div>
+              <div class="theme-pick-name">${name}</div>
+              <div class="theme-pick-lock">🔒</div>
+              <div class="theme-pick-sub">${t.rarity}</div>
+            </button>
+          `;
+        }
+      });
+      grid.innerHTML = html;
+    }
+    window.renderThemeGrid = renderThemeGrid;
+
+    window.setTheme = function(themeId) {
+      manualTheme = themeId;
+      state.theme = themeId;
+      ss('rv_theme_manual', manualTheme);
+      
+      document.documentElement.setAttribute('data-theme', themeId);
+      
+      renderThemeGrid();
+      playChime();
+      
+      saveToNotion(fmtISO(new Date())); 
+    };
+
+    window.showThemeLocked = function(themeName) {
+      const msg = state.lang === 'id' 
+        ? `Tema ${themeName} masih terkunci! Dapatkan hadiah ini dari Lemari Sihir (Gacha).` 
+        : `Theme ${themeName} is locked! Unlock it from the Magic Wardrobe (Gacha).`;
+      alert(msg);
+    };
+
+    // Render Grid di inisialisasi awal
+    setTimeout(renderThemeGrid, 100);
+    /* ========== END THEME PICKER ========== */
+
     })();
   </script>
+
+  <div class="welcome-overlay" id="gacha-modal" style="z-index:9995;">
+    <div class="gacha-modal-card">
+      <button class="btn-close-top" onclick="closeGachaModal()">✕</button>
+      <div class="gacha-modal-body"></div>
+    </div>
+  </div>
+
 </body>
 </html>
