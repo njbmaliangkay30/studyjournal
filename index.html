@@ -2896,6 +2896,8 @@
   }
   isSaving = true;
   setSyncStatus("syncing", t('txt_saving'));
+  const forceNew = state._forceNewBlock === true;
+  delete state._forceNewBlock; // pakai sekali, langsung hapus
   try {
     const res = await fetch("/api/weekly-tracker", {
       method: "POST", headers: { "Content-Type": "application/json" },
@@ -2903,7 +2905,8 @@
         username, blockName: blockName || "", target: state.target || 30,
         blockStart, blockEnd, pptDots: state.pptDots || [], moods: state.moods || {},
         nilaiUjian: state.nilaiUjian || 0, pageId: state.blokPageId || null,
-        slideDate: targetDate, slides: state.slides || {}
+        slideDate: targetDate, slides: state.slides || {},
+        forceNew
       })
     });
     if (!res.ok) {
@@ -3094,6 +3097,10 @@
         state.slides = {};
         state.pptDots = [];
 
+        // Pastikan blokPageId dikosongkan supaya backend selalu buat ROW BARU
+        state.blokPageId = null;
+        ss("rv_blokPageId", null);
+
         ss('rv_blockName', bName); // 👈 SIMPAN KE LOCAL STORAGE
         ss('rv_block_start', d1);
         ss('rv_block_end', d2);
@@ -3102,8 +3109,10 @@
         ss('rv_pptDots', []);
 
         document.getElementById('setup-modal').classList.remove('show');
-        
-        await saveToNotion(fmtISO(new Date())); 
+
+        // Kirim forceNew=true agar backend selalu membuat row baru di Notion
+        state._forceNewBlock = true;
+        await saveToNotion(fmtISO(new Date()));
         render();
       };
       window.saveSettings = async function(){
@@ -3126,9 +3135,12 @@
         if(!confirm(t('confirm_reset'))) return;
         state.slides={}; state.moods={}; state.nilaiUjian=0; state.milestones={25:false,50:false,75:false,100:false}; state.badges={1:false,2:false,3:false,4:false, 5:false, 6:false, 7:false}; state.blockStart=null; state.blockEnd=null; pageId=null; state.focusTime=0; state.matchBestTime=null; state.fcBestTime=null;
         state.coins = 0; state.inventory = { streakFreeze: 0 };
+        // Wajib clear blokPageId dan blockName supaya simpanSetupAwal tidak PATCH row lama
+        state.blokPageId = null; state.blockName = "";
         ss("rv_slides",{}); ss("rv_moods",{}); ss("rv_nilai",0); ss("rv_milestones",state.milestones); ss("rv_badges",state.badges); ss("rv_block_start",null); ss("rv_block_end",null); ss("rv_focus",0); ss("matchBestTime",null); ss("fcBestTime",null);
         ss("rv_coins", 0); ss("rv_inv", state.inventory);
-        render(); await saveToNotion(); checkSetupModal();
+        ss("rv_blokPageId", null); ss("rv_blockName", "");
+        render(); checkSetupModal();
       };
 
       /* ---------- TAB & SWIPE ---------- */
