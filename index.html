@@ -2063,8 +2063,8 @@
         return streak;
       }
 
-      /* ---------- SYNC ---------- */
-      function setSyncStatus(status, msg) {
+      /* ---------- FLAG GLOBAL ---------- */
+let isSaving = false;
         const bar = document.getElementById("sync-bar");
         if (bar) bar.className = "sync-bar " + status;
         const syncTxt = document.getElementById("sync-txt");
@@ -2829,41 +2829,42 @@
 
       // Ambil semua data user dari Notion berdasarkan username
       async function loadUserFromNotion(username, blockName) {
-  if (!username || !blockName) return;
+  if (!username) return;
+  if (isSaving) return;
   setSyncStatus("syncing", "Menarik data dari Hutan Sihir...");
-
   try {
-    const res = await fetch(`/api/weekly-tracker?username=${encodeURIComponent(username)}&blockName=${encodeURIComponent(blockName)}`);
+    const effectiveBlock = blockName || ls('rv_blockName', '') || '';
+    const url = `/api/weekly-tracker?username=${encodeURIComponent(username)}`
+              + (effectiveBlock ? `&blockName=${encodeURIComponent(effectiveBlock)}` : '');
+    const res = await fetch(url);
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      setSyncStatus("error", t('txt_sync_err'));
+      showError(`Gagal memuat: ${errData.error || 'HTTP ' + res.status}`);
+      return;
+    }
     const ed = await res.json();
-
     if (ed.found) {
-      // --- KUNCI SINKRONISASI: TIMPA DATA LOKAL DENGAN DATA NOTION ---
-      state.target = ed.target || state.target;
-      state.blockStart = ed.blockStart;
-      state.blockEnd = ed.blockEnd;
+      state.target     = ed.target     || state.target;
+      state.blockStart = ed.blockStart  || state.blockStart;
+      state.blockEnd   = ed.blockEnd    || state.blockEnd;
       state.blokPageId = ed.pageId;
-      state.pptDots = Array.isArray(ed.pptDots) ? ed.pptDots : JSON.parse(ed.pptDots || "[]");
-      state.slides = ed.slides || {};
-
-      // Simpan ke localStorage agar HP ingat data terbaru ini
-      ss('rv_target', state.target);
-      ss('rv_block_start', state.blockStart);
-      ss('rv_block_end', state.blockEnd);
-      ss('rv_blokPageId', state.blokPageId);
-      ss('rv_pptDots', state.pptDots);
-      ss('rv_slides', state.slides);
-
-      setSyncStatus("ok", "Tersinkron Penuh");
-      render(); // Gambar ulang semua komponen di layar
-      if (typeof renderPptTrack === "function") renderPptTrack();
+      if (!isSaving) {
+        state.pptDots = Array.isArray(ed.pptDots) ? ed.pptDots
+                      : (() => { try { return JSON.parse(ed.pptDots || "[]"); } catch { return []; } })();
+        state.slides  = ed.slides || {};
+      }
+      ss('rv_target', state.target); ss('rv_block_start', state.blockStart);
+      ss('rv_block_end', state.blockEnd); ss('rv_blokPageId', state.blokPageId);
+      ss('rv_pptDots', state.pptDots); ss('rv_slides', state.slides);
+      setSyncStatus("ok", t('txt_sync_ok')); showError(null);
+      render(); if (typeof renderPptTrack === "function") renderPptTrack();
     } else {
-      // Jika user/blok benar-benar belum ada di Notion
-      setSyncStatus("ok", "Siap");
-      checkSetupModal(); // Baru tampilkan modal setup jika data kosong
+      setSyncStatus("ok", t('txt_ready')); checkSetupModal();
     }
   } catch (err) {
-    setSyncStatus("error", "Koneksi Sihir Terputus");
-    console.error(err);
+    setSyncStatus("error", t('txt_sync_err')); showError(t('txt_sync_err_desc'));
+    console.error("[loadUserFromNotion]", err.message);
   }
 }
 
@@ -2881,36 +2882,44 @@
 
       // Simpan semua progress ke Notion, diidentifikasi oleh username + blockName
       async function saveToNotion(dateStr) {
-        const targetDate = dateStr || fmtISO(new Date());
-        if (!state.syncCode || !state.blockStart || !state.blockEnd) {
-          setSyncStatus("ok", "✦ Tersimpan lokal"); return false;
-        }
-        setSyncStatus("syncing", "Menyimpan...");
-        try {
-          const res = await fetch("/api/weekly-tracker", {
-            method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              username:   state.syncCode,
-              blockName:  state.blockName  || "",
-              target:     state.target     || 30,
-              blockStart: state.blockStart,
-              blockEnd:   state.blockEnd,
-              pptDots:    state.pptDots    || [],
-              moods:      state.moods      || {},
-              nilaiUjian: state.nilaiUjian || 0,
-              pageId:     state.blokPageId || null,
-              slideDate:  targetDate,
-              slides:     state.slides     || {}
-            })
-          });
-          const json = await res.json();
-          if (!res.ok) throw new Error(json.error || "Notion error");
-          if (json.pageId) { state.blokPageId = json.pageId; ss("rv_blokPageId", state.blokPageId); }
-          setSyncStatus("ok", "✦ Tersinkron"); showError(null); return true;
-        } catch (err) {
-          setSyncStatus("error", "Koneksi terputus"); return false;
-        }
-      }
+  const targetDate = dateStr || fmtISO(new Date());
+  const username   = state.syncCode  || ls('rv_syncCode',  '');
+  const blockName  = state.blockName || ls('rv_blockName', '');
+  const blockStart = state.blockStart || ls('rv_block_start', '');
+  const blockEnd   = state.blockEnd   || ls('rv_block_end',   '');
+  if (!username || !blockStart || !blockEnd) {
+    console.warn("[saveToNotion] Skip:", { username, blockStart, blockEnd });
+    setSyncStatus("ok", "✦ Tersimpan lokal"); return false;
+  }
+  isSaving = true;
+  setSyncStatus("syncing", t('txt_saving'));
+  try {
+    const res = await fetch("/api/weekly-tracker", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username, blockName: blockName || "", target: state.target || 30,
+        blockStart, blockEnd, pptDots: state.pptDots || [], moods: state.moods || {},
+        nilaiUjian: state.nilaiUjian || 0, pageId: state.blokPageId || null,
+        slideDate: targetDate, slides: state.slides || {}
+      })
+    });
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      if (errData.received) console.error("[saveToNotion] 400 detail:", errData.received);
+      setSyncStatus("error", t('txt_sync_err'));
+      showError(`Gagal simpan: ${errData.error || 'HTTP ' + res.status}`);
+      return false;
+    }
+    const json = await res.json();
+    if (json.pageId) { state.blokPageId = json.pageId; ss("rv_blokPageId", state.blokPageId); }
+    setSyncStatus("ok", t('txt_sync_ok')); showError(null); return true;
+  } catch (err) {
+    setSyncStatus("error", t('txt_sync_err')); showError(t('txt_sync_err_desc'));
+    console.error("[saveToNotion]", err.message); return false;
+  } finally {
+    isSaving = false;
+  }
+}
 
       /* ---------- ACTIONS ---------- */
       function setButtonLoading(id, loading){ const el = document.getElementById(id); if(el) el.disabled = loading; }
@@ -3433,17 +3442,15 @@
 
       // ── AUTO-SYNC: update data dari Notion saat tab aktif kembali ──────────
       document.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === "visible" && state.syncCode) {
-          loadUserFromNotion(state.syncCode, state.blockName || null);
-        }
-      });
-
-      // ── AUTO-SYNC: polling setiap 30 detik saat user aktif ─────────────────
-      setInterval(() => {
-        if (state.syncCode && !document.hidden) {
-          loadUserFromNotion(state.syncCode, state.blockName || null);
-        }
-      }, 30000);
+  if (document.visibilityState === "visible" && state.syncCode && !isSaving) {
+    loadUserFromNotion(state.syncCode, state.blockName || ls('rv_blockName','') || null);
+  }
+});
+setInterval(() => {
+  if (state.syncCode && !document.hidden && !isSaving) {
+    loadUserFromNotion(state.syncCode, state.blockName || ls('rv_blockName','') || null);
+  }
+}, 60000);
 
     })();
   </script>
