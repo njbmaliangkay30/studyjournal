@@ -1698,12 +1698,12 @@
         const syncBar = document.getElementById('sync-bar');
         const syncTxt = document.getElementById('sync-txt');
         if (syncBar && syncTxt) {
-          if (syncBar.classList.contains('ok')) {
-            syncTxt.textContent = state.syncCode ? t('txt_sync_ok') : t('txt_ready');
+          if (syncBar.classList.contains('syncing')) {
+            // Jangan ubah teks saat sedang loading
+          } else if (syncBar.classList.contains('ok')) {
+            syncTxt.textContent = state.blokPageId ? t('txt_sync_ok') : t('txt_ready');
           } else if (syncBar.classList.contains('error')) {
             syncTxt.textContent = t('txt_sync_err');
-          } else {
-            syncTxt.textContent = t('sync_conn');
           }
         }
         // ---------------------------------------
@@ -2064,7 +2064,10 @@
       }
 
       /* ---------- FLAG GLOBAL ---------- */
-let isSaving = false;
+      let isSaving = false;
+
+      /* ---------- SYNC ---------- */
+      function setSyncStatus(status, msg) {
         const bar = document.getElementById("sync-bar");
         if (bar) bar.className = "sync-bar " + status;
         const syncTxt = document.getElementById("sync-txt");
