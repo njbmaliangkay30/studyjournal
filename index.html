@@ -15,7 +15,9 @@
     :root {
       --gold: #f5c842; --gold-light: #ffe478; --gold-pale: #fff8d6; --gold-dark: #b8900a;
       --green-deep: #1a3a0f; --green-mid: #2e6b1a; --green-leaf: #4a9b28; --green-light: #8dc95a;
-      --green-pale: #e4f2d3; 
+      --green-pale: #e4f2d3;
+      --amber: #e8a020; --amber-light: #f5c050;
+      --red-soft: #e85050;
       
       --bg-main: #fdfaf0; 
       --bg-card: rgba(255, 255, 255, 0.7);
@@ -312,9 +314,12 @@
     .day.today .day-pts { color: var(--gold-dark); }
     [data-theme="dark"] .day.today .day-pts { color: var(--gold-light); }
     .day-mood { position: absolute; top: -6px; right: -6px; background: var(--bg-card-solid); border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 13px; z-index: 4; }
-    .day.cp-pass { border-color: rgba(74, 155, 40, 0.5); }
-    .day.cp-fail { border-color: rgba(232, 80, 80, 0.5); border-style: dashed; }
-    .day.cp-future { border-color: rgba(232, 160, 32, 0.4); border-style: dashed; }
+    .day.cp-pass { border-color: rgba(74, 155, 40, 0.6); box-shadow: 0 0 0 1px rgba(74,155,40,0.2); }
+    .day.cp-fail { border-color: rgba(232, 80, 80, 0.6); border-style: dashed; box-shadow: 0 0 0 1px rgba(232,80,80,0.15); }
+    .day.cp-future { border-color: rgba(232, 160, 32, 0.5); border-style: dashed; }
+    .cp-badge { position:absolute; top:-8px; left:-6px; background:#e8a020; color:#fff; font-size:8px; font-weight:800; padding:2px 6px; border-radius:6px; box-shadow:0 2px 5px rgba(0,0,0,0.2); letter-spacing:0.03em; z-index:4; white-space:nowrap; }
+    .cp-badge.cp-badge-pass { background: #4a9b28; }
+    .cp-badge.cp-badge-fail { background: #e85050; }
     
     .input-card { padding: 18px; }
     .input-label { font-size: 12px; color: var(--text-soft); margin-bottom: 10px; font-weight: 600; letter-spacing: 0.02em; line-height: 1.5; }
@@ -330,9 +335,10 @@
     .save-msg::before { content: "✦ "; }
     
     .mood-wrap { display: flex; gap: 10px; margin-bottom: 12px; }
-    .mood-btn { background: transparent; border: 1px solid rgba(0,0,0,0.1); border-radius: 50%; width: 40px; height: 40px; font-size: 20px; transition: all 0.2s; display:flex; align-items:center; justify-content:center; padding: 0; }
-    [data-theme="dark"] .mood-btn { border: 1px solid rgba(255,255,255,0.1); }
-    .mood-btn.selected { background: var(--gold-pale); border-color: var(--gold); transform: scale(1.15); box-shadow: 0 0 12px rgba(245,200,66,0.4); }
+    .mood-btn { background: rgba(245,200,66,0.08); border: 1.5px solid rgba(245,200,66,0.3); border-radius: 50%; width: 44px; height: 44px; font-size: 22px; transition: all 0.2s; display:flex; align-items:center; justify-content:center; padding: 0; }
+    .mood-btn:hover { background: rgba(245,200,66,0.18); border-color: var(--gold); transform: scale(1.1); }
+    [data-theme="dark"] .mood-btn { background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.15); }
+    .mood-btn.selected { background: var(--gold-pale); border-color: var(--gold); transform: scale(1.18); box-shadow: 0 0 14px rgba(245,200,66,0.5); }
     
     .match-list-item { padding: 12px; }
     .match-list-item:hover { transform: translateX(5px); box-shadow: 0 6px 15px rgba(245,200,66,0.15); }
@@ -409,11 +415,11 @@
     .page.active > *:nth-child(3) { animation-delay: 0.15s; }
     .page.active > *:nth-child(4) { animation-delay: 0.2s; }
     
-    .welcome-overlay { position: fixed; inset: 0; background: rgba(26, 58, 15, 0.75); backdrop-filter: blur(12px); z-index: 10000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
-    [data-theme="dark"] .welcome-overlay { background: rgba(10, 15, 10, 0.85); }
+    .welcome-overlay { position: fixed; inset: 0; background: rgba(15, 35, 10, 0.82); backdrop-filter: blur(8px); z-index: 10000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
+    [data-theme="dark"] .welcome-overlay { background: rgba(5, 10, 5, 0.88); }
     .welcome-overlay.show { opacity: 1; pointer-events: auto; }
-    .welcome-card { background: rgba(255, 255, 255, 0.95); border-radius: 24px; padding: 36px 24px 24px; text-align: center; border: 2px solid rgba(245,200,66,0.6); box-shadow: 0 10px 40px rgba(0,0,0,0.3), inset 0 0 20px rgba(245,200,66,0.1); transform: translateY(30px) scale(0.9); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); max-width: 320px; width: 85%; position: relative; }
-    [data-theme="dark"] .welcome-card { background: rgba(20, 30, 22, 0.95); border-color: rgba(245,200,66,0.3); }
+    .welcome-card { background: #ffffff; border-radius: 24px; padding: 36px 24px 24px; text-align: center; border: 2px solid rgba(245,200,66,0.6); box-shadow: 0 20px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.8), inset 0 0 20px rgba(245,200,66,0.08); transform: translateY(30px) scale(0.9); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); max-width: 320px; width: 85%; position: relative; }
+    [data-theme="dark"] .welcome-card { background: #141e16; border-color: rgba(245,200,66,0.3); box-shadow: 0 20px 60px rgba(0,0,0,0.7), inset 0 0 20px rgba(245,200,66,0.05); }
     .welcome-overlay.show .welcome-card { transform: translateY(0) scale(1); }
     .welcome-card::before { content: '✦'; position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-size: 46px; color: var(--gold); text-shadow: 0 0 20px var(--gold); animation: star-twinkle 2s infinite alternate; }
     .welcome-title { font-family: var(--serif); font-size: 28px; color: var(--green-deep); margin-bottom: 6px; }
@@ -2790,7 +2796,8 @@
             let cpLabel = "", cpStatus = "";
             if(isCP){
               const cpIdx = Array.from(cpDates).indexOf(ds)+1;
-              cpLabel = `<div style="position:absolute;top:-6px;left:-6px;background:var(--amber);color:#fff;font-size:8px;padding:2px 5px;border-radius:6px;">CP${cpIdx}</div>`;
+              const cpBadgeClass = fmtISO(new Date()) <= ds ? 'cp-badge' : (cpStatus === 'cp-pass' ? 'cp-badge cp-badge-pass' : 'cp-badge cp-badge-fail');
+              cpLabel = `<div class="${cpBadgeClass}">CP${cpIdx}</div>`;
               if(fmtISO(new Date())>ds){
                 const r = CP_RATIOS[cpIdx-1];
                 let cum=0;
@@ -2822,52 +2829,49 @@
 
       // Ambil semua data user dari Notion berdasarkan username
       async function loadUserFromNotion(username, blockName) {
-        if (!username) return;
-        setSyncStatus("syncing", "Menarik data dari Hutan Sihir...");
-        try {
-          // Kalau blockName ada → cari blok spesifik, kalau null → ambil terbaru
-          let url = `/api/weekly-tracker?username=${encodeURIComponent(username)}`;
-          if (blockName) url += `&blockName=${encodeURIComponent(blockName)}`;
-          const res = await fetch(url);
-          const ed  = await res.json();
+  if (!username || !blockName) return;
+  setSyncStatus("syncing", "Menarik data dari Hutan Sihir...");
 
-          if (ed.found) {
-            state.target     = ed.target     || state.target;
-            state.blockStart = ed.blockStart || state.blockStart;
-            state.blockEnd   = ed.blockEnd   || state.blockEnd;
-            state.blokPageId = ed.pageId     || state.blokPageId;
-            state.blockName  = ed.blockName  || state.blockName;
-            try { state.pptDots = Array.isArray(ed.pptDots) ? ed.pptDots : JSON.parse(ed.pptDots || "[]"); } catch { state.pptDots = []; }
-            try { state.moods   = typeof ed.moods === 'object' && ed.moods ? ed.moods : JSON.parse(ed.moods || "{}"); } catch { state.moods = {}; }
-            state.slides = ed.slides || {};
+  try {
+    const res = await fetch(`/api/weekly-tracker?username=${encodeURIComponent(username)}&blockName=${encodeURIComponent(blockName)}`);
+    const ed = await res.json();
 
-            ss('rv_target',     state.target);
-            ss('rv_block_start',state.blockStart);
-            ss('rv_block_end',  state.blockEnd);
-            ss('rv_blokPageId', state.blokPageId);
-            ss('rv_blockName',  state.blockName);
-            ss('rv_pptDots',    state.pptDots);
-            ss('rv_slides',     state.slides);
-            ss('rv_moods',      state.moods);
+    if (ed.found) {
+      // --- KUNCI SINKRONISASI: TIMPA DATA LOKAL DENGAN DATA NOTION ---
+      state.target = ed.target || state.target;
+      state.blockStart = ed.blockStart;
+      state.blockEnd = ed.blockEnd;
+      state.blokPageId = ed.pageId;
+      state.pptDots = Array.isArray(ed.pptDots) ? ed.pptDots : JSON.parse(ed.pptDots || "[]");
+      state.slides = ed.slides || {};
 
-            setSyncStatus("ok", "✦ Tersinkron");
-            showError(null);
-          } else {
-            setSyncStatus("ok", "✦ Petualang Baru");
-            showError(null);
-          }
-        } catch (err) {
-          setSyncStatus("error", "Koneksi terputus");
-          showError(t('txt_sync_err_desc'));
-        }
-      }
+      // Simpan ke localStorage agar HP ingat data terbaru ini
+      ss('rv_target', state.target);
+      ss('rv_block_start', state.blockStart);
+      ss('rv_block_end', state.blockEnd);
+      ss('rv_blokPageId', state.blokPageId);
+      ss('rv_pptDots', state.pptDots);
+      ss('rv_slides', state.slides);
+
+      setSyncStatus("ok", "Tersinkron Penuh");
+      render(); // Gambar ulang semua komponen di layar
+      if (typeof renderPptTrack === "function") renderPptTrack();
+    } else {
+      // Jika user/blok benar-benar belum ada di Notion
+      setSyncStatus("ok", "Siap");
+      checkSetupModal(); // Baru tampilkan modal setup jika data kosong
+    }
+  } catch (err) {
+    setSyncStatus("error", "Koneksi Sihir Terputus");
+    console.error(err);
+  }
+}
 
       // Auto-load saat startup — pakai username + blockName dari localStorage
       async function loadFromNotion() {
         if (state.syncCode && state.blockName) {
           await loadUserFromNotion(state.syncCode, state.blockName);
         } else if (state.syncCode) {
-          // Ada username tapi belum punya blockName — cari blok terbaru
           await loadUserFromNotion(state.syncCode, null);
         } else {
           setSyncStatus("ok", "✦ Siap");
@@ -2878,16 +2882,13 @@
       // Simpan semua progress ke Notion, diidentifikasi oleh username + blockName
       async function saveToNotion(dateStr) {
         const targetDate = dateStr || fmtISO(new Date());
-        // Jangan simpan kalau username atau tanggal blok belum ada
         if (!state.syncCode || !state.blockStart || !state.blockEnd) {
-          setSyncStatus("ok", "✦ Tersimpan lokal");
-          return false;
+          setSyncStatus("ok", "✦ Tersimpan lokal"); return false;
         }
         setSyncStatus("syncing", "Menyimpan...");
         try {
           const res = await fetch("/api/weekly-tracker", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
+            method: "POST", headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               username:   state.syncCode,
               blockName:  state.blockName  || "",
@@ -2904,14 +2905,10 @@
           });
           const json = await res.json();
           if (!res.ok) throw new Error(json.error || "Notion error");
-          // Simpan pageId yang baru dikembalikan Notion
           if (json.pageId) { state.blokPageId = json.pageId; ss("rv_blokPageId", state.blokPageId); }
-          setSyncStatus("ok", "✦ Tersinkron");
-          showError(null);
-          return true;
+          setSyncStatus("ok", "✦ Tersinkron"); showError(null); return true;
         } catch (err) {
-          setSyncStatus("error", "Koneksi terputus");
-          return false;
+          setSyncStatus("error", "Koneksi terputus"); return false;
         }
       }
 
@@ -3184,12 +3181,10 @@
         state.name = inp; state.syncCode = inp;
         ss("rv_name", inp); ss("rv_syncCode", inp);
         document.getElementById('welcome-modal').classList.remove('show');
-        // Cari blok terbaru milik username ini (blockName null = ambil terbaru)
         await loadUserFromNotion(inp, null);
         requestNotifPermission();
         render();
-        // Hanya minta setup jika benar-benar tidak ada blok aktif
-        if (!state.blockStart || !state.blockEnd) checkSetupModal();
+        checkSetupModal();
       };
 
       /* ---------- KEYBOARD ---------- */
@@ -3425,32 +3420,31 @@
 
       /* ===== END PPT DOT TRACKER ===== */
 
-     // Setiap kali kamu membuka kembali tab web ini di HP/Laptop
-document.addEventListener("visibilitychange", function() {
-  if (document.visibilityState === "visible" && state.syncCode && state.blockName) {
-    loadUserFromNotion(state.syncCode, state.blockName);
-  }
-});
-
-// Cek otomatis setiap 2 menit
-setInterval(() => {
-  if (state.syncCode && state.blockName) {
-    loadUserFromNotion(state.syncCode, state.blockName);
-  }
-}, 120000);
       /* INISIALISASI */
       createSparkles();
-      applyTheme();    
+      applyTheme();
       applyLanguage();
-      // Auto-load dari Notion jika sudah pernah login sebelumnya
-      if (state.syncCode) {
-        loadFromNotion(); // async, tidak perlu await — UI sudah jalan
-      }
+      if (state.syncCode) loadFromNotion();
       checkWelcomeModal();
       setupReminders();
       render();
       requestAnimationFrame(updateIndicator);
-      window.addEventListener('resize',updateIndicator);
+      window.addEventListener('resize', updateIndicator);
+
+      // ── AUTO-SYNC: update data dari Notion saat tab aktif kembali ──────────
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible" && state.syncCode) {
+          loadUserFromNotion(state.syncCode, state.blockName || null);
+        }
+      });
+
+      // ── AUTO-SYNC: polling setiap 30 detik saat user aktif ─────────────────
+      setInterval(() => {
+        if (state.syncCode && !document.hidden) {
+          loadUserFromNotion(state.syncCode, state.blockName || null);
+        }
+      }, 30000);
+
     })();
   </script>
 </body>
