@@ -1,202 +1,299 @@
-// ============================================================
-// GANTI SELURUH BLOK SYNC & ACTIONS DI HTML DENGAN INI
-// (dari komentar "NOTION (MOCK)" sampai akhir script)
-// ============================================================
+// /api/weekly-tracker.js  —  FIXED VERSION
+//
+// Perbaikan:
+//  1. Logging detail saat 400 agar mudah debug
+//  2. Guard username & blockStart/blockEnd lebih robust (trim + falsy check)
+//  3. GET dengan blockName=null / "" tidak crash, cari berdasarkan username saja
+//  4. Tidak ada perubahan struktur Notion — tetap kompatibel
+//
+// Kolom WAJIB di Notion Weekly Tracker DB:
+//   Name          → title
+//   Username      → rich_text
+//   Range Date    → date (range)
+//   Block Start   → rich_text
+//   Topik Blok    → rich_text
+//   Weekly Target → number
+//   Nilai Ujian   → number
+//
+// Kolom OPSIONAL:
+//   PPT Dots      → rich_text  (JSON string)
+//   Moods         → rich_text  (JSON string)
 
-      /* ---------- FLAG GLOBAL ---------- */
-      let isSaving = false; // Mencegah auto-sync menimpa data saat sedang menyimpan
+const NOTION_TOKEN   = process.env.NOTION_TOKEN;
+const WEEKLY_DB_ID   = process.env.NOTION_WEEKLY_DB_ID;
+const DAILY_DB_ID    = process.env.NOTION_DAILY_DB_ID;
+const NOTION_VERSION = "2022-06-28";
 
-      /* ---------- SYNC ---------- */
-      function setSyncStatus(status, msg) {
-        const bar = document.getElementById("sync-bar");
-        if (bar) bar.className = "sync-bar " + status;
-        const syncTxt = document.getElementById("sync-txt");
-        if (syncTxt) syncTxt.textContent = msg;
-      }
-      function showError(msg) {
-        const box = document.getElementById("error-box");
-        if (!box) return;
-        if (msg) { box.textContent = msg; box.style.display = "block"; }
-        else box.style.display = "none";
-      }
+function notionHeaders() {
+  return {
+    Authorization: `Bearer ${NOTION_TOKEN}`,
+    "Notion-Version": NOTION_VERSION,
+    "Content-Type": "application/json",
+  };
+}
 
-      // Ambil semua data user dari Notion berdasarkan username
-      async function loadUserFromNotion(username, blockName) {
-        if (!username) return;
-        // PERBAIKAN BUG 2: Jangan sync jika sedang ada operasi simpan
-        if (isSaving) return;
+function getText(props, key)   { return props[key]?.rich_text?.[0]?.plain_text ?? ""; }
+function getNumber(props, key) { return props[key]?.number ?? 0; }
+function makeTitle(t)          { return { title:     [{ text: { content: String(t).slice(0,2000) } }] }; }
+function makeRichText(t)       { return { rich_text: [{ text: { content: String(t ?? "").slice(0,1999) } }] }; }
+function makeNumber(n)         { return { number: typeof n === "number" ? n : 0 }; }
+function makeDate(iso)         { return { date: { start: iso } }; }
+function makeDateRange(s, e)   { return { date: { start: s, end: e } }; }
+function makeRelation(id)      { return { relation: [{ id }] }; }
+function safeJson(obj)         { try { return JSON.stringify(obj ?? {}).slice(0,1999); } catch { return "{}"; } }
 
-        setSyncStatus("syncing", "Menarik data dari Hutan Sihir...");
+// Upsert dengan fallback: kalau gagal karena kolom opsional, coba tanpa mereka
+async function notionUpsert(pageId, props, createExtras) {
+  const url    = pageId ? `https://api.notion.com/v1/pages/${pageId}` : "https://api.notion.com/v1/pages";
+  const method = pageId ? "PATCH" : "POST";
+  const bodyObj = pageId
+    ? { properties: props }
+    : { parent: { database_id: WEEKLY_DB_ID }, properties: { ...createExtras, ...props } };
 
-        try {
-          // PERBAIKAN BUG 3: Selalu baca blockName terbaru dari localStorage
-          const effectiveBlock = blockName || ls('rv_blockName', '') || '';
-          const url = `/api/weekly-tracker?username=${encodeURIComponent(username)}`
-                    + (effectiveBlock ? `&blockName=${encodeURIComponent(effectiveBlock)}` : '');
+  let r = await fetch(url, { method, headers: notionHeaders(), body: JSON.stringify(bodyObj) });
+  let d = await r.json();
 
-          const res = await fetch(url);
+  // Retry tanpa kolom opsional jika Notion menolak karena kolom tidak ada
+  if (!r.ok && (d.message?.includes("not a property") || d.message?.includes("validation"))) {
+    console.warn("[notion-upsert] Retry tanpa kolom opsional. Pesan:", d.message);
+    const safeProps = Object.fromEntries(
+      Object.entries(props).filter(([k]) => !["PPT Dots", "Moods"].includes(k))
+    );
+    const safeBody = pageId
+      ? { properties: safeProps }
+      : { parent: { database_id: WEEKLY_DB_ID }, properties: { ...createExtras, ...safeProps } };
+    r = await fetch(url, { method, headers: notionHeaders(), body: JSON.stringify(safeBody) });
+    d = await r.json();
+  }
+  return { ok: r.ok, status: r.status, data: d };
+}
 
-          // PERBAIKAN BUG 4: Tangani response error dengan informatif
-          if (!res.ok) {
-            const errData = await res.json().catch(() => ({}));
-            const msg = errData.error || `HTTP ${res.status}`;
-            setSyncStatus("error", t('txt_sync_err'));
-            showError(`Gagal memuat data: ${msg}`);
-            console.error("[loadUserFromNotion] Error:", msg);
-            return;
-          }
+// Ambil slides dari Daily Log untuk satu page
+async function fetchSlides(pageId) {
+  if (!DAILY_DB_ID || !pageId) return {};
+  const dr = await fetch(`https://api.notion.com/v1/databases/${DAILY_DB_ID}/query`, {
+    method: "POST", headers: notionHeaders(),
+    body: JSON.stringify({
+      filter: { property: "Weekly Tracker", relation: { contains: pageId } },
+      page_size: 100,
+    }),
+  });
+  if (!dr.ok) return {};
+  const dd = await dr.json();
+  const slides = {};
+  for (const e of dd.results ?? []) {
+    const dt  = e.properties["Date"]?.date?.start || "";
+    const cnt = e.properties["Total Slide"]?.number || 0;
+    if (dt && cnt > 0) slides[dt] = cnt;
+  }
+  return slides;
+}
 
-          const ed = await res.json();
+// Serialisasi satu page Notion → object data
+function pageToData(page) {
+  const p          = page.properties;
+  const target     = getNumber(p, "Weekly Target") || 30;
+  const nilaiUjian = getNumber(p, "Nilai Ujian");
+  const blockStart = getText(p, "Block Start") || p["Range Date"]?.date?.start || "";
+  const blockEnd   = p["Range Date"]?.date?.end || p["Range Date"]?.date?.start || "";
+  const blockName  = getText(p, "Topik Blok");
+  let pptDots = [], moods = {};
+  try { const r = getText(p, "PPT Dots"); if (r) pptDots = JSON.parse(r); } catch {}
+  try { const r = getText(p, "Moods");    if (r) moods   = JSON.parse(r); } catch {}
+  return { target, nilaiUjian, blockStart, blockEnd, blockName, pptDots, moods, pageId: page.id };
+}
 
-          if (ed.found) {
-            // Sinkron data dari Notion ke state
-            state.target     = ed.target     || state.target;
-            state.blockStart = ed.blockStart  || state.blockStart;
-            state.blockEnd   = ed.blockEnd    || state.blockEnd;
-            state.blokPageId = ed.pageId;
+// =============================================================================
+module.exports = async function handler(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  if (req.method === "OPTIONS") return res.status(200).end();
 
-            // PERBAIKAN BUG 2: Hanya timpa pptDots & slides jika tidak sedang menyimpan
-            if (!isSaving) {
-              state.pptDots = Array.isArray(ed.pptDots) ? ed.pptDots
-                            : (() => { try { return JSON.parse(ed.pptDots || "[]"); } catch { return []; } })();
-              state.slides  = ed.slides || {};
-            }
+  if (!NOTION_TOKEN || !WEEKLY_DB_ID) {
+    return res.status(500).json({ error: "NOTION_TOKEN atau NOTION_WEEKLY_DB_ID belum diset di Vercel." });
+  }
 
-            // Simpan ke localStorage
-            ss('rv_target',      state.target);
-            ss('rv_block_start', state.blockStart);
-            ss('rv_block_end',   state.blockEnd);
-            ss('rv_blokPageId',  state.blokPageId);
-            ss('rv_pptDots',     state.pptDots);
-            ss('rv_slides',      state.slides);
+  // ══════════════════════════════════════════════════════════════════════════
+  // GET /api/weekly-tracker?username=xxx[&blockName=yyy]
+  // ══════════════════════════════════════════════════════════════════════════
+  if (req.method === "GET") {
+    const username  = (req.query.username  ?? "").trim();
+    const blockName = (req.query.blockName ?? "").trim();
 
-            setSyncStatus("ok", t('txt_sync_ok'));
-            showError(null);
-            render();
-            if (typeof renderPptTrack === "function") renderPptTrack();
-          } else {
-            setSyncStatus("ok", t('txt_ready'));
-            checkSetupModal();
-          }
-        } catch (err) {
-          setSyncStatus("error", t('txt_sync_err'));
-          showError(t('txt_sync_err_desc'));
-          console.error("[loadUserFromNotion] Network error:", err.message);
-        }
-      }
+    if (!username) return res.status(400).json({ error: "Parameter ?username= wajib diisi." });
 
-      // Auto-load saat startup
-      async function loadFromNotion() {
-        // PERBAIKAN BUG 3: Baca blockName dari localStorage, bukan hanya state
-        const syncCode  = state.syncCode  || ls('rv_syncCode',  '');
-        const blockName = state.blockName || ls('rv_blockName', '');
+    try {
+      const filter = blockName
+        ? { and: [
+            { property: "Username",   rich_text: { equals: username  } },
+            { property: "Topik Blok", rich_text: { equals: blockName } },
+          ]}
+        : { property: "Username", rich_text: { equals: username } };
 
-        if (syncCode) {
-          await loadUserFromNotion(syncCode, blockName || null);
-        } else {
-          setSyncStatus("ok", t('txt_ready'));
-        }
-        render();
-      }
-
-      // Simpan semua progress ke Notion
-      async function saveToNotion(dateStr) {
-        const targetDate = dateStr || fmtISO(new Date());
-
-        // PERBAIKAN BUG 1: Selalu baca nilai terbaru dari localStorage sebagai fallback
-        const username   = state.syncCode  || ls('rv_syncCode',  '');
-        const blockName  = state.blockName || ls('rv_blockName', '');
-        const blockStart = state.blockStart || ls('rv_block_start', '');
-        const blockEnd   = state.blockEnd   || ls('rv_block_end',   '');
-
-        // Guard: jangan POST kalau field wajib kosong
-        if (!username || !blockStart || !blockEnd) {
-          console.warn("[saveToNotion] Skip — field kosong:", { username, blockStart, blockEnd });
-          setSyncStatus("ok", "✦ Tersimpan lokal");
-          return false;
-        }
-
-        // Set flag agar auto-sync tidak menimpa data yang sedang disimpan
-        isSaving = true;
-        setSyncStatus("syncing", t('txt_saving'));
-
-        try {
-          const res = await fetch("/api/weekly-tracker", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              username,
-              blockName:  blockName  || "",
-              target:     state.target     || 30,
-              blockStart,
-              blockEnd,
-              pptDots:    state.pptDots    || [],
-              moods:      state.moods      || {},
-              nilaiUjian: state.nilaiUjian || 0,
-              pageId:     state.blokPageId || null,
-              slideDate:  targetDate,
-              slides:     state.slides     || {}
-            })
-          });
-
-          // PERBAIKAN BUG 4: Tangani error 400 dengan pesan yang jelas
-          if (!res.ok) {
-            const errData = await res.json().catch(() => ({}));
-            const msg = errData.error || `HTTP ${res.status}`;
-            // Tampilkan apa yang diterima server untuk debug
-            if (errData.received) {
-              console.error("[saveToNotion] 400 detail:", errData.received);
-            }
-            setSyncStatus("error", t('txt_sync_err'));
-            showError(`Gagal simpan: ${msg}`);
-            return false;
-          }
-
-          const json = await res.json();
-          if (json.pageId) {
-            state.blokPageId = json.pageId;
-            ss("rv_blokPageId", state.blokPageId);
-          }
-          setSyncStatus("ok", t('txt_sync_ok'));
-          showError(null);
-          return true;
-
-        } catch (err) {
-          setSyncStatus("error", t('txt_sync_err'));
-          showError(t('txt_sync_err_desc'));
-          console.error("[saveToNotion] Network error:", err.message);
-          return false;
-        } finally {
-          // PENTING: Selalu lepas flag setelah selesai
-          isSaving = false;
-        }
-      }
-
-      /* ---------- INISIALISASI (ganti bagian bawah script) ---------- */
-      createSparkles();
-      applyTheme();
-      applyLanguage();
-      if (state.syncCode) loadFromNotion();
-      checkWelcomeModal();
-      setupReminders();
-      render();
-      requestAnimationFrame(updateIndicator);
-      window.addEventListener('resize', updateIndicator);
-
-      // Auto-sync saat tab aktif kembali
-      document.addEventListener("visibilitychange", () => {
-        // PERBAIKAN BUG 2: Tidak sync jika sedang menyimpan
-        if (document.visibilityState === "visible" && state.syncCode && !isSaving) {
-          const blockName = state.blockName || ls('rv_blockName', '');
-          loadUserFromNotion(state.syncCode, blockName || null);
-        }
+      const qr = await fetch(`https://api.notion.com/v1/databases/${WEEKLY_DB_ID}/query`, {
+        method: "POST", headers: notionHeaders(),
+        body: JSON.stringify({
+          filter,
+          sorts: [{ property: "Range Date", direction: "descending" }],
+          page_size: 1,
+        }),
       });
+      const qd = await qr.json();
+      if (!qr.ok) return res.status(qr.status).json({ error: qd.message ?? "Notion query error" });
 
-      // Auto-sync polling setiap 60 detik (diperlambat dari 30s untuk mengurangi konflik)
-      setInterval(() => {
-        // PERBAIKAN BUG 2: Tidak sync jika tab tersembunyi atau sedang menyimpan
-        if (state.syncCode && !document.hidden && !isSaving) {
-          const blockName = state.blockName || ls('rv_blockName', '');
-          loadUserFromNotion(state.syncCode, blockName || null);
+      const page = qd.results?.[0] ?? null;
+      if (!page) return res.json({ found: false, data: null });
+
+      const data   = pageToData(page);
+      const slides = await fetchSlides(page.id);
+      data.slides  = slides;
+
+      return res.json({ found: true, pageId: page.id, ...data });
+
+    } catch (err) {
+      console.error("[GET] Error:", err.message);
+      return res.status(500).json({ error: "Gagal mengambil data: " + err.message });
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // POST /api/weekly-tracker
+  // ══════════════════════════════════════════════════════════════════════════
+  if (req.method === "POST") {
+    // ── PERBAIKAN: Selalu trim dan normalisasi semua field string ──────────
+    const username   = String(req.body?.username   ?? "").trim();
+    const blockName  = String(req.body?.blockName  ?? "").trim();
+    const blockStart = String(req.body?.blockStart ?? "").trim();
+    const blockEnd   = String(req.body?.blockEnd   ?? "").trim();
+    const target     = Number(req.body?.target)    || 30;
+    const nilaiUjian = Number(req.body?.nilaiUjian)|| 0;
+    const slides     = req.body?.slides    ?? {};
+    const pptDots    = req.body?.pptDots   ?? [];
+    const moods      = req.body?.moods     ?? {};
+    const pageId     = req.body?.pageId    ?? null;
+    const slideDate  = req.body?.slideDate ?? null;
+
+    // ── PERBAIKAN: Log detail agar mudah debug di Vercel logs ─────────────
+    if (!username || !blockStart || !blockEnd) {
+      const missing = [];
+      if (!username)   missing.push("username");
+      if (!blockStart) missing.push("blockStart");
+      if (!blockEnd)   missing.push("blockEnd");
+      console.error("[POST 400] Field kosong:", missing.join(", "), "| Body:", JSON.stringify(req.body ?? {}));
+      return res.status(400).json({
+        error: `Field wajib kosong: ${missing.join(", ")}`,
+        received: { username, blockStart, blockEnd }  // bantu debug di browser
+      });
+    }
+
+    try {
+      const coreProps = {
+        "Weekly Target": makeNumber(target),
+        "Nilai Ujian":   makeNumber(nilaiUjian),
+        "Username":      makeRichText(username),
+        "Block Start":   makeRichText(blockStart),
+        "Topik Blok":    makeRichText(blockName),
+        "PPT Dots":      makeRichText(safeJson(pptDots)),
+        "Moods":         makeRichText(safeJson(moods)),
+        "Range Date":    makeDateRange(blockStart, blockEnd),
+      };
+
+      const createExtras = {
+        Name: makeTitle(`${username}${blockName ? " — " + blockName : ""} (${blockStart})`),
+      };
+
+      let blockPageId = pageId;
+
+      if (blockPageId) {
+        // Sudah ada pageId → langsung PATCH
+        const { ok, status, data } = await notionUpsert(blockPageId, coreProps, null);
+        if (!ok) {
+          console.error("[PATCH] Notion error:", data.message);
+          return res.status(status).json({ error: data.message ?? "Notion PATCH error" });
         }
-      }, 60000);
+      } else {
+        // Cari baris yang sudah ada
+        const searchFilter = blockName
+          ? { and: [
+              { property: "Username",   rich_text: { equals: username  } },
+              { property: "Topik Blok", rich_text: { equals: blockName } },
+            ]}
+          : { and: [
+              { property: "Username",   rich_text: { equals: username  } },
+              { property: "Range Date", date:      { on_or_after: blockStart } },
+            ]};
+
+        const cr = await fetch(`https://api.notion.com/v1/databases/${WEEKLY_DB_ID}/query`, {
+          method: "POST", headers: notionHeaders(),
+          body: JSON.stringify({ filter: searchFilter, page_size: 1 }),
+        });
+        const cd = await cr.json();
+        const existing = cd.results?.[0] ?? null;
+
+        if (existing) {
+          blockPageId = existing.id;
+          const { ok, status, data } = await notionUpsert(blockPageId, coreProps, null);
+          if (!ok) {
+            console.error("[PATCH existing] Notion error:", data.message);
+            return res.status(status).json({ error: data.message ?? "Notion PATCH error" });
+          }
+        } else {
+          const { ok, status, data } = await notionUpsert(null, coreProps, createExtras);
+          if (!ok) {
+            console.error("[POST new] Notion error:", data.message);
+            return res.status(status).json({ error: data.message ?? "Notion POST error" });
+          }
+          blockPageId = data.id;
+        }
+      }
+
+      // Upsert Daily Log
+      if (DAILY_DB_ID && slideDate && blockPageId) {
+        const cnt = slides[slideDate] ?? 0;
+        const er = await fetch(`https://api.notion.com/v1/databases/${DAILY_DB_ID}/query`, {
+          method: "POST", headers: notionHeaders(),
+          body: JSON.stringify({
+            filter: { and: [
+              { property: "Weekly Tracker", relation: { contains: blockPageId } },
+              { property: "Date",           date:     { equals: slideDate }     },
+            ]},
+            page_size: 1,
+          }),
+        });
+        let dailyId = null;
+        if (er.ok) { const ed = await er.json(); dailyId = ed.results?.[0]?.id ?? null; }
+
+        const dailyProps = {
+          "Total Slide":    makeNumber(cnt),
+          Date:             makeDate(slideDate),
+          "Weekly Tracker": makeRelation(blockPageId),
+        };
+        if (dailyId) {
+          await fetch(`https://api.notion.com/v1/pages/${dailyId}`, {
+            method: "PATCH", headers: notionHeaders(), body: JSON.stringify({ properties: dailyProps }),
+          });
+        } else {
+          const lbl = new Date(slideDate + "T12:00:00").toLocaleDateString("id-ID", {
+            weekday: "long", day: "numeric", month: "long",
+          });
+          await fetch("https://api.notion.com/v1/pages", {
+            method: "POST", headers: notionHeaders(),
+            body: JSON.stringify({
+              parent: { database_id: DAILY_DB_ID },
+              properties: { ...dailyProps, Name: makeTitle(`${lbl} — ${username}`) },
+            }),
+          });
+        }
+      }
+
+      return res.json({ success: true, pageId: blockPageId });
+
+    } catch (err) {
+      console.error("[POST] Unhandled error:", err.message);
+      return res.status(500).json({ error: "Gagal menyimpan: " + err.message });
+    }
+  }
+
+  return res.status(405).json({ error: "Method not allowed" });
+};
