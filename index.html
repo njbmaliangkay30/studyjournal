@@ -231,6 +231,38 @@
       --green-deep: #c04070; --green-mid: #d06080; --green-leaf: #e07090; --green-light: #f0a0b0;
       --green-pale: #ffe8f0; --amber: #e08090;
     }
+
+    /* Mystic Moon theme (Bulan Mistis) */
+    [data-theme="moon"] {
+      --bg-main: #0a0b12; 
+      --bg-card: rgba(20, 25, 40, 0.7); 
+      --bg-card-solid: #151a28;
+      --bg-tab: rgba(15, 17, 26, 0.85);
+      --bg-tab-active: rgba(25, 30, 45, 0.9);
+      --bg-input: rgba(15, 17, 26, 0.8);
+      
+      --text-dark: #f0f4f8; 
+      --text-mid: #a0aec0; 
+      --text-soft: #718096; 
+      
+      --border-card: rgba(138, 180, 248, 0.2);
+      
+      /* Debu peri emas berubah menjadi cahaya perak rembulan */
+      --gold: #8ab4f8; 
+      --gold-light: #c3d6fe; 
+      --gold-pale: rgba(138, 180, 248, 0.1); 
+      --gold-dark: #669df6;
+      
+      /* Daun hijau berubah menjadi sihir ungu / indigo malam */
+      --green-deep: #a78bfa; 
+      --green-mid: #8b5cf6; 
+      --green-leaf: #7c3aed; 
+      --green-light: #c4b5fd;
+      --green-pale: rgba(167, 139, 250, 0.1);
+      
+      /* Aksen api/kritis menjadi merah muda mistis */
+      --amber: #f472b6; 
+    }
     /* ===== THEME PICKER CSS ===== */
     .theme-pick-btn { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 14px 8px 10px; border-radius: 14px; border: 2px solid var(--border-card); background: var(--bg-card); color: var(--text-dark); font-family: var(--sans); cursor: pointer; position: relative; transition: all 0.22s; width: 100%; }
     .theme-pick-btn:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 4px 14px rgba(245,200,66,0.15); }
@@ -3734,9 +3766,9 @@ setInterval(() => {
       if (!state.inventory[item.id]) state.inventory[item.id] = 0;
       if (item.id === 'themeMoon') {
         state.inventory.themeMoon = (state.inventory.themeMoon || 0) + 1;
-        if (!manualTheme) { state.theme = 'dark'; }
-        document.documentElement.setAttribute('data-theme', 'dark');
-        manualTheme = 'dark';
+        if (!manualTheme) { state.theme = 'moon'; }
+        document.documentElement.setAttribute('data-theme', 'moon');
+        manualTheme = 'moon';
         ss('rv_theme_manual', 'dark');
       } else if (item.id === 'themeSakura') {
         state.inventory.themeSakura = (state.inventory.themeSakura || 0) + 1;
