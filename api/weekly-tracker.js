@@ -165,6 +165,7 @@ module.exports = async function handler(req, res) {
     const moods      = req.body?.moods     ?? {};
     const pageId     = req.body?.pageId    ?? null;
     const slideDate  = req.body?.slideDate ?? null;
+    const forceNew   = req.body?.forceNew  === true;
 
     if (!username || !blockStart || !blockEnd) {
       const missing = [];
@@ -195,13 +196,21 @@ module.exports = async function handler(req, res) {
 
       let blockPageId = pageId;
 
-      if (blockPageId) {
-        // Sudah ada pageId → langsung PATCH
+      if (blockPageId && !forceNew) {
+        // Sudah ada pageId dan bukan blok baru paksa → langsung PATCH
         const { ok, status, data } = await notionUpsert(blockPageId, coreProps, null);
         if (!ok) {
           console.error("[PATCH]", data.message);
           return res.status(status).json({ error: data.message ?? "Notion PATCH error" });
         }
+      } else if (forceNew) {
+        // forceNew=true: selalu buat ROW BARU, abaikan pageId dan pencarian existing
+        const { ok, status, data } = await notionUpsert(null, coreProps, createExtras);
+        if (!ok) {
+          console.error("[POST forceNew]", data.message);
+          return res.status(status).json({ error: data.message ?? "Notion POST error" });
+        }
+        blockPageId = data.id;
       } else {
         // Cari berdasarkan username + Topik Blok (kunci unik per blok)
         const searchFilter = blockName
