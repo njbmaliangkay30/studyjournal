@@ -1,17 +1,18 @@
-// /api/weekly-tracker.js  —  FIXED VERSION
+// /api/weekly-tracker.js  —  FIXED v2
 //
-// Perbaikan:
-//  1. Logging detail saat 400 agar mudah debug
-//  2. Guard username & blockStart/blockEnd lebih robust (trim + falsy check)
-//  3. GET dengan blockName=null / "" tidak crash, cari berdasarkan username saja
-//  4. Tidak ada perubahan struktur Notion — tetap kompatibel
+// Perubahan dari versi sebelumnya:
+//  - Kolom "Block Start" (rich_text) DIHAPUS dari Notion → tidak ditulis lagi
+//  - blockStart sekarang hanya diambil dari Range Date (date range)
+//  - Kunci unik per blok: username + Topik Blok
+//    → username sama + Topik Blok berbeda = ROW BARU di Notion (tidak menimpa)
+//    → username sama + Topik Blok sama   = UPDATE baris yang sudah ada
+//  - notionUpsert retry sekarang juga exclude "Block Start"
 //
 // Kolom WAJIB di Notion Weekly Tracker DB:
 //   Name          → title
 //   Username      → rich_text
+//   Topik Blok    → rich_text   ← kunci blok
 //   Range Date    → date (range)
-//   Block Start   → rich_text
-//   Topik Blok    → rich_text
 //   Weekly Target → number
 //   Nilai Ujian   → number
 //
@@ -34,15 +35,17 @@ function notionHeaders() {
 
 function getText(props, key)   { return props[key]?.rich_text?.[0]?.plain_text ?? ""; }
 function getNumber(props, key) { return props[key]?.number ?? 0; }
-function makeTitle(t)          { return { title:     [{ text: { content: String(t).slice(0,2000) } }] }; }
-function makeRichText(t)       { return { rich_text: [{ text: { content: String(t ?? "").slice(0,1999) } }] }; }
+function makeTitle(t)          { return { title:     [{ text: { content: String(t).slice(0, 2000) } }] }; }
+function makeRichText(t)       { return { rich_text: [{ text: { content: String(t ?? "").slice(0, 1999) } }] }; }
 function makeNumber(n)         { return { number: typeof n === "number" ? n : 0 }; }
 function makeDate(iso)         { return { date: { start: iso } }; }
 function makeDateRange(s, e)   { return { date: { start: s, end: e } }; }
 function makeRelation(id)      { return { relation: [{ id }] }; }
-function safeJson(obj)         { try { return JSON.stringify(obj ?? {}).slice(0,1999); } catch { return "{}"; } }
+function safeJson(obj)         { try { return JSON.stringify(obj ?? {}).slice(0, 1999); } catch { return "{}"; } }
 
-// Upsert dengan fallback: kalau gagal karena kolom opsional, coba tanpa mereka
+// Kolom opsional — kalau tidak ada di DB, retry tanpa mereka
+const OPTIONAL_COLS = ["PPT Dots", "Moods", "Block Start"];
+
 async function notionUpsert(pageId, props, createExtras) {
   const url    = pageId ? `https://api.notion.com/v1/pages/${pageId}` : "https://api.notion.com/v1/pages";
   const method = pageId ? "PATCH" : "POST";
@@ -53,11 +56,10 @@ async function notionUpsert(pageId, props, createExtras) {
   let r = await fetch(url, { method, headers: notionHeaders(), body: JSON.stringify(bodyObj) });
   let d = await r.json();
 
-  // Retry tanpa kolom opsional jika Notion menolak karena kolom tidak ada
   if (!r.ok && (d.message?.includes("not a property") || d.message?.includes("validation"))) {
-    console.warn("[notion-upsert] Retry tanpa kolom opsional. Pesan:", d.message);
+    console.warn("[notion-upsert] Retry tanpa kolom opsional:", d.message);
     const safeProps = Object.fromEntries(
-      Object.entries(props).filter(([k]) => !["PPT Dots", "Moods"].includes(k))
+      Object.entries(props).filter(([k]) => !OPTIONAL_COLS.includes(k))
     );
     const safeBody = pageId
       ? { properties: safeProps }
@@ -68,7 +70,6 @@ async function notionUpsert(pageId, props, createExtras) {
   return { ok: r.ok, status: r.status, data: d };
 }
 
-// Ambil slides dari Daily Log untuk satu page
 async function fetchSlides(pageId) {
   if (!DAILY_DB_ID || !pageId) return {};
   const dr = await fetch(`https://api.notion.com/v1/databases/${DAILY_DB_ID}/query`, {
@@ -89,21 +90,20 @@ async function fetchSlides(pageId) {
   return slides;
 }
 
-// Serialisasi satu page Notion → object data
 function pageToData(page) {
   const p          = page.properties;
   const target     = getNumber(p, "Weekly Target") || 30;
   const nilaiUjian = getNumber(p, "Nilai Ujian");
-  const blockStart = getText(p, "Block Start") || p["Range Date"]?.date?.start || "";
-  const blockEnd   = p["Range Date"]?.date?.end || p["Range Date"]?.date?.start || "";
   const blockName  = getText(p, "Topik Blok");
+  // blockStart & blockEnd sekarang HANYA dari Range Date
+  const blockStart = p["Range Date"]?.date?.start || "";
+  const blockEnd   = p["Range Date"]?.date?.end   || p["Range Date"]?.date?.start || "";
   let pptDots = [], moods = {};
   try { const r = getText(p, "PPT Dots"); if (r) pptDots = JSON.parse(r); } catch {}
   try { const r = getText(p, "Moods");    if (r) moods   = JSON.parse(r); } catch {}
   return { target, nilaiUjian, blockStart, blockEnd, blockName, pptDots, moods, pageId: page.id };
 }
 
-// =============================================================================
 module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -111,18 +111,14 @@ module.exports = async function handler(req, res) {
   if (req.method === "OPTIONS") return res.status(200).end();
 
   if (!NOTION_TOKEN || !WEEKLY_DB_ID) {
-    return res.status(500).json({ error: "NOTION_TOKEN atau NOTION_WEEKLY_DB_ID belum diset di Vercel." });
+    return res.status(500).json({ error: "NOTION_TOKEN atau NOTION_WEEKLY_DB_ID belum diset." });
   }
 
-  // ══════════════════════════════════════════════════════════════════════════
-  // GET /api/weekly-tracker?username=xxx[&blockName=yyy]
-  // ══════════════════════════════════════════════════════════════════════════
+  // GET
   if (req.method === "GET") {
     const username  = (req.query.username  ?? "").trim();
     const blockName = (req.query.blockName ?? "").trim();
-
     if (!username) return res.status(400).json({ error: "Parameter ?username= wajib diisi." });
-
     try {
       const filter = blockName
         ? { and: [
@@ -143,25 +139,21 @@ module.exports = async function handler(req, res) {
       if (!qr.ok) return res.status(qr.status).json({ error: qd.message ?? "Notion query error" });
 
       const page = qd.results?.[0] ?? null;
-      if (!page) return res.json({ found: false, data: null });
+      if (!page) return res.json({ found: false });
 
       const data   = pageToData(page);
       const slides = await fetchSlides(page.id);
       data.slides  = slides;
-
-      return res.json({ found: true, pageId: page.id, ...data });
+      return res.json({ found: true, ...data });
 
     } catch (err) {
-      console.error("[GET] Error:", err.message);
+      console.error("[GET]", err.message);
       return res.status(500).json({ error: "Gagal mengambil data: " + err.message });
     }
   }
 
-  // ══════════════════════════════════════════════════════════════════════════
-  // POST /api/weekly-tracker
-  // ══════════════════════════════════════════════════════════════════════════
+  // POST
   if (req.method === "POST") {
-    // ── PERBAIKAN: Selalu trim dan normalisasi semua field string ──────────
     const username   = String(req.body?.username   ?? "").trim();
     const blockName  = String(req.body?.blockName  ?? "").trim();
     const blockStart = String(req.body?.blockStart ?? "").trim();
@@ -174,34 +166,32 @@ module.exports = async function handler(req, res) {
     const pageId     = req.body?.pageId    ?? null;
     const slideDate  = req.body?.slideDate ?? null;
 
-    // ── PERBAIKAN: Log detail agar mudah debug di Vercel logs ─────────────
     if (!username || !blockStart || !blockEnd) {
       const missing = [];
       if (!username)   missing.push("username");
       if (!blockStart) missing.push("blockStart");
       if (!blockEnd)   missing.push("blockEnd");
-      console.error("[POST 400] Field kosong:", missing.join(", "), "| Body:", JSON.stringify(req.body ?? {}));
+      console.error("[POST 400]", missing.join(", "), JSON.stringify({ username, blockStart, blockEnd }));
       return res.status(400).json({
         error: `Field wajib kosong: ${missing.join(", ")}`,
-        received: { username, blockStart, blockEnd }  // bantu debug di browser
+        received: { username, blockStart, blockEnd },
       });
     }
 
     try {
+      // Tidak ada "Block Start" di sini — sudah dihapus dari kolom Notion
       const coreProps = {
         "Weekly Target": makeNumber(target),
         "Nilai Ujian":   makeNumber(nilaiUjian),
         "Username":      makeRichText(username),
-        "Block Start":   makeRichText(blockStart),
-        "Topik Blok":    makeRichText(blockName),
+        "Topik Blok":    makeRichText(blockName || ""),
         "PPT Dots":      makeRichText(safeJson(pptDots)),
         "Moods":         makeRichText(safeJson(moods)),
         "Range Date":    makeDateRange(blockStart, blockEnd),
       };
 
-      const createExtras = {
-        Name: makeTitle(`${username}${blockName ? " — " + blockName : ""} (${blockStart})`),
-      };
+      const rowTitle   = blockName ? `${username} — ${blockName} (${blockStart})` : `${username} (${blockStart})`;
+      const createExtras = { Name: makeTitle(rowTitle) };
 
       let blockPageId = pageId;
 
@@ -209,11 +199,11 @@ module.exports = async function handler(req, res) {
         // Sudah ada pageId → langsung PATCH
         const { ok, status, data } = await notionUpsert(blockPageId, coreProps, null);
         if (!ok) {
-          console.error("[PATCH] Notion error:", data.message);
+          console.error("[PATCH]", data.message);
           return res.status(status).json({ error: data.message ?? "Notion PATCH error" });
         }
       } else {
-        // Cari baris yang sudah ada
+        // Cari berdasarkan username + Topik Blok (kunci unik per blok)
         const searchFilter = blockName
           ? { and: [
               { property: "Username",   rich_text: { equals: username  } },
@@ -235,13 +225,14 @@ module.exports = async function handler(req, res) {
           blockPageId = existing.id;
           const { ok, status, data } = await notionUpsert(blockPageId, coreProps, null);
           if (!ok) {
-            console.error("[PATCH existing] Notion error:", data.message);
+            console.error("[PATCH existing]", data.message);
             return res.status(status).json({ error: data.message ?? "Notion PATCH error" });
           }
         } else {
+          // Blok baru → buat ROW BARU (data blok lama tetap ada)
           const { ok, status, data } = await notionUpsert(null, coreProps, createExtras);
           if (!ok) {
-            console.error("[POST new] Notion error:", data.message);
+            console.error("[POST new]", data.message);
             return res.status(status).json({ error: data.message ?? "Notion POST error" });
           }
           blockPageId = data.id;
@@ -266,12 +257,13 @@ module.exports = async function handler(req, res) {
 
         const dailyProps = {
           "Total Slide":    makeNumber(cnt),
-          Date:             makeDate(slideDate),
+          "Date":           makeDate(slideDate),
           "Weekly Tracker": makeRelation(blockPageId),
         };
         if (dailyId) {
           await fetch(`https://api.notion.com/v1/pages/${dailyId}`, {
-            method: "PATCH", headers: notionHeaders(), body: JSON.stringify({ properties: dailyProps }),
+            method: "PATCH", headers: notionHeaders(),
+            body: JSON.stringify({ properties: dailyProps }),
           });
         } else {
           const lbl = new Date(slideDate + "T12:00:00").toLocaleDateString("id-ID", {
@@ -290,7 +282,7 @@ module.exports = async function handler(req, res) {
       return res.json({ success: true, pageId: blockPageId });
 
     } catch (err) {
-      console.error("[POST] Unhandled error:", err.message);
+      console.error("[POST]", err.message);
       return res.status(500).json({ error: "Gagal menyimpan: " + err.message });
     }
   }
