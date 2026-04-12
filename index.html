@@ -628,9 +628,427 @@
     .hist-mini-fill.green { background: linear-gradient(90deg, #2e6b1a, #8dc95a); }
     .hist-empty { font-size: 11px; color: var(--text-soft); text-align: center; padding: 16px 0; }
     .hist-loading { font-size: 11px; color: var(--text-soft); text-align: center; padding: 20px 0; grid-column: 1 / -1; }
+
+    /* ── HEADER: Moon Theme ── */
+    [data-theme="moon"] .header {
+      background: linear-gradient(160deg, #04060f 0%, #080c1c 45%, #0c1228 100%);
+      border-bottom-color: rgba(138,180,248,0.25);
+      box-shadow: 0 4px 24px rgba(8,12,28,0.7), 0 0 60px rgba(100,140,255,0.05);
+    }
+    [data-theme="moon"] .header-name span.name-text {
+      text-shadow: 0 0 18px rgba(138,180,248,0.5);
+    }
+
+    /* ── HEADER: Sakura Theme ── */
+    [data-theme="sakura"] .header {
+      background: linear-gradient(160deg, #1a050e 0%, #360a1c 45%, #48102a 100%);
+      border-bottom-color: rgba(240,100,160,0.25);
+      box-shadow: 0 4px 24px rgba(48,8,24,0.5), 0 0 60px rgba(240,100,160,0.05);
+    }
+    [data-theme="sakura"] .header-name span.name-text {
+      text-shadow: 0 0 18px rgba(240,120,160,0.6);
+    }
+
+    /* ── Ornamen dinamis (star, petal) ── */
+    .header-orb {
+      position: absolute; pointer-events: none;
+      animation: orb-drift linear infinite;
+      opacity: 0;
+    }
+    @keyframes orb-drift {
+      0%   { opacity: 0; transform: translateY(0) rotate(0deg) scale(0.6); }
+      15%  { opacity: 0.7; }
+      80%  { opacity: 0.2; }
+      100% { opacity: 0; transform: translateY(var(--orb-dy,-260px)) rotate(var(--orb-rot,180deg)) scale(1.1); }
+    }
+    /* twinkling star jitter untuk moon */
+    .header-star { animation: star-twinkle-slow 2s ease-in-out infinite alternate; opacity: 0; }
+    @keyframes star-twinkle-slow {
+      0%   { opacity: 0.05; transform: scale(0.8); }
+      50%  { opacity: 0.55; transform: scale(1.05); }
+      100% { opacity: 0.15; transform: scale(0.9); }
+    }
+
+    /* ══════════════════════════════════════════════════
+       TEMA MOON — adaptasi semua elemen hardcoded hijau
+       ══════════════════════════════════════════════════ */
+
+    /* PPT Tracker box */
+    [data-theme="moon"] .ppt-track-wrap {
+      background: linear-gradient(160deg, #04060f 0%, #080c1c 40%, #060a18 70%, #050810 100%);
+      border-color: rgba(138,180,248,0.2);
+      box-shadow: 0 6px 24px rgba(8,12,28,0.6), inset 0 1px 0 rgba(138,180,248,0.1);
+    }
+    [data-theme="moon"] .ppt-track-wrap::before {
+      background:
+        radial-gradient(ellipse at 15% 10%, rgba(138,180,248,0.08) 0%, transparent 45%),
+        radial-gradient(ellipse at 85% 90%, rgba(100,140,255,0.06) 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 50%, rgba(20,30,60,0.4) 0%, transparent 70%),
+        radial-gradient(circle at 5% 80%,  rgba(138,180,248,0.05) 0%, transparent 30%),
+        radial-gradient(circle at 95% 20%, rgba(167,139,250,0.05) 0%, transparent 30%);
+    }
+    /* Forest deco → putar jadi warna bintang/bulan */
+    [data-theme="moon"] .ppt-forest-deco {
+      filter: hue-rotate(210deg) saturate(0.65) brightness(1.3);
+    }
+    [data-theme="moon"] .ppt-track-header-lbl { color: rgba(138,180,248,0.8); }
+    [data-theme="moon"] .ppt-track-counter { border-color: rgba(138,180,248,0.2); }
+
+    /* Dot kosong */
+    [data-theme="moon"] .ppt-dot {
+      border-color: rgba(138,180,248,0.3);
+      color: rgba(138,180,248,0.5);
+    }
+    [data-theme="moon"] .ppt-dot:hover:not(.done):not(.migrated) {
+      border-color: var(--green-light);
+      color: var(--green-light);
+      box-shadow: 0 0 12px rgba(138,180,248,0.45);
+    }
+    /* Dot selesai — glow biru/perak */
+    [data-theme="moon"] .ppt-dot.done {
+      background: radial-gradient(circle, rgba(138,180,248,0.28) 0%, rgba(138,180,248,0.08) 70%);
+      box-shadow: 0 0 14px rgba(138,180,248,0.65), inset 0 0 8px rgba(138,180,248,0.18);
+    }
+    [data-theme="moon"] .ppt-dot.migrated {
+      border-color: rgba(138,180,248,0.45);
+      background: rgba(138,180,248,0.05);
+      color: rgba(138,180,248,0.6);
+      box-shadow: 0 0 8px rgba(138,180,248,0.25);
+    }
+    /* Ikon kecil di sudut dot selesai → sabit bulan */
+    [data-theme="moon"] .ppt-dot.done::after { content: '☽'; font-size: 9px; }
+
+    [data-theme="moon"] .ppt-dot-label-date { color: var(--gold-light); text-shadow: 0 0 6px rgba(138,180,248,0.4); }
+    [data-theme="moon"] .ppt-dot-label-empty { color: rgba(138,180,248,0.35); }
+
+    /* Energy lines */
+    [data-theme="moon"] .ppt-energy-line {
+      background: rgba(138,180,248,0.18);
+    }
+    [data-theme="moon"] .ppt-energy-line::before {
+      background: repeating-linear-gradient(90deg, transparent, transparent 3px,
+        rgba(138,180,248,0.2) 3px, rgba(138,180,248,0.2) 6px);
+    }
+    [data-theme="moon"] .ppt-energy-line.lit {
+      background: linear-gradient(90deg,
+        rgba(138,180,248,0.25) 0%, rgba(196,214,254,0.95) 30%,
+        rgba(138,180,248,0.25) 60%, rgba(196,214,254,0.9) 90%,
+        rgba(138,180,248,0.25) 100%);
+      box-shadow: 0 0 8px rgba(138,180,248,0.65), 0 0 16px rgba(138,180,248,0.3);
+    }
+    [data-theme="moon"] .ppt-snake-vline { background: rgba(138,180,248,0.18); }
+    [data-theme="moon"] .ppt-snake-vline::before {
+      background: repeating-linear-gradient(180deg, transparent, transparent 3px,
+        rgba(138,180,248,0.2) 3px, rgba(138,180,248,0.2) 6px);
+    }
+    [data-theme="moon"] .ppt-snake-vline.lit {
+      background: linear-gradient(180deg,
+        rgba(138,180,248,0.25) 0%, rgba(196,214,254,0.95) 30%,
+        rgba(138,180,248,0.25) 60%, rgba(196,214,254,0.9) 90%,
+        rgba(138,180,248,0.25) 100%);
+      box-shadow: 0 0 8px rgba(138,180,248,0.65), 0 0 16px rgba(138,180,248,0.3);
+    }
+
+    /* Reward card */
+    [data-theme="moon"] .reward-card {
+      background: linear-gradient(135deg, #05091a 0%, #040810 60%, #070d1c 100%);
+      box-shadow: 0 6px 25px rgba(8,12,28,0.5);
+    }
+
+    /* Tab indicator + active */
+    [data-theme="moon"] .tab-indicator { background: var(--gold); box-shadow: 0 0 8px rgba(138,180,248,0.6); }
+    [data-theme="moon"] .tab-bar { border-bottom-color: rgba(138,180,248,0.12); }
+
+    /* Float button */
+    [data-theme="moon"] .float-timer-btn {
+      background: linear-gradient(135deg, #3a5fc0, #8ab4f8);
+      box-shadow: 0 8px 20px rgba(100,140,255,0.4), inset 0 0 10px rgba(255,255,255,0.4);
+    }
+
+    /* Sync bar OK */
+    [data-theme="moon"] .sync-bar.ok { color: var(--green-leaf); }
+
+    /* Garis seksi label */
+    [data-theme="moon"] .sec-lbl::after {
+      background: linear-gradient(90deg, rgba(100,140,255,0.2), transparent);
+    }
+
+    /* ══════════════════════════════════════════════════
+       TEMA SAKURA — adaptasi semua elemen hardcoded hijau
+       ══════════════════════════════════════════════════ */
+
+    /* PPT Tracker box */
+    [data-theme="sakura"] .ppt-track-wrap {
+      background: linear-gradient(160deg, #1a050e 0%, #2e0a18 40%, #280a14 70%, #1e0610 100%);
+      border-color: rgba(240,100,160,0.22);
+      box-shadow: 0 6px 24px rgba(40,8,20,0.5), inset 0 1px 0 rgba(240,100,160,0.1);
+    }
+    [data-theme="sakura"] .ppt-track-wrap::before {
+      background:
+        radial-gradient(ellipse at 15% 10%, rgba(240,100,160,0.1) 0%, transparent 45%),
+        radial-gradient(ellipse at 85% 90%, rgba(220,80,130,0.08) 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 50%, rgba(80,20,40,0.4) 0%, transparent 70%),
+        radial-gradient(circle at 5% 80%,  rgba(240,100,160,0.07) 0%, transparent 30%),
+        radial-gradient(circle at 95% 20%, rgba(240,100,160,0.07) 0%, transparent 30%);
+    }
+    /* Forest deco → bunga sakura */
+    [data-theme="sakura"] .ppt-forest-deco {
+      filter: hue-rotate(300deg) saturate(1.1) brightness(1.15);
+    }
+    [data-theme="sakura"] .ppt-track-header-lbl { color: rgba(240,130,170,0.85); }
+    [data-theme="sakura"] .ppt-track-counter { border-color: rgba(240,100,160,0.2); }
+
+    /* Dot kosong */
+    [data-theme="sakura"] .ppt-dot {
+      border-color: rgba(240,100,160,0.3);
+      color: rgba(240,100,160,0.55);
+    }
+    [data-theme="sakura"] .ppt-dot:hover:not(.done):not(.migrated) {
+      border-color: var(--green-light);
+      color: var(--green-light);
+      box-shadow: 0 0 12px rgba(240,100,160,0.45);
+    }
+    /* Dot selesai — glow pink */
+    [data-theme="sakura"] .ppt-dot.done {
+      background: radial-gradient(circle, rgba(240,100,160,0.28) 0%, rgba(240,100,160,0.08) 70%);
+      box-shadow: 0 0 14px rgba(240,100,160,0.65), inset 0 0 8px rgba(240,100,160,0.2);
+    }
+    [data-theme="sakura"] .ppt-dot.migrated {
+      border-color: rgba(240,100,160,0.45);
+      background: rgba(240,100,160,0.05);
+      color: rgba(240,100,160,0.6);
+      box-shadow: 0 0 8px rgba(240,100,160,0.25);
+    }
+    /* Ikon kecil di sudut dot selesai → bunga */
+    [data-theme="sakura"] .ppt-dot.done::after { content: '✿'; font-size: 9px; }
+
+    [data-theme="sakura"] .ppt-dot-label-date { color: var(--gold-light); text-shadow: 0 0 6px rgba(240,100,160,0.4); }
+    [data-theme="sakura"] .ppt-dot-label-empty { color: rgba(240,100,160,0.38); }
+
+    /* Energy lines */
+    [data-theme="sakura"] .ppt-energy-line {
+      background: rgba(240,100,160,0.18);
+    }
+    [data-theme="sakura"] .ppt-energy-line::before {
+      background: repeating-linear-gradient(90deg, transparent, transparent 3px,
+        rgba(240,100,160,0.2) 3px, rgba(240,100,160,0.2) 6px);
+    }
+    [data-theme="sakura"] .ppt-energy-line.lit {
+      background: linear-gradient(90deg,
+        rgba(240,100,160,0.25) 0%, rgba(255,160,190,0.95) 30%,
+        rgba(240,100,160,0.25) 60%, rgba(255,160,190,0.9) 90%,
+        rgba(240,100,160,0.25) 100%);
+      box-shadow: 0 0 8px rgba(240,100,160,0.65), 0 0 16px rgba(240,100,160,0.3);
+    }
+    [data-theme="sakura"] .ppt-snake-vline { background: rgba(240,100,160,0.18); }
+    [data-theme="sakura"] .ppt-snake-vline::before {
+      background: repeating-linear-gradient(180deg, transparent, transparent 3px,
+        rgba(240,100,160,0.2) 3px, rgba(240,100,160,0.2) 6px);
+    }
+    [data-theme="sakura"] .ppt-snake-vline.lit {
+      background: linear-gradient(180deg,
+        rgba(240,100,160,0.25) 0%, rgba(255,160,190,0.95) 30%,
+        rgba(240,100,160,0.25) 60%, rgba(255,160,190,0.9) 90%,
+        rgba(240,100,160,0.25) 100%);
+      box-shadow: 0 0 8px rgba(240,100,160,0.65), 0 0 16px rgba(240,100,160,0.3);
+    }
+
+    /* Reward card */
+    [data-theme="sakura"] .reward-card {
+      background: linear-gradient(135deg, #1a050e 0%, #2e0a18 60%, #220814 100%);
+      box-shadow: 0 6px 25px rgba(40,8,20,0.45);
+    }
+
+    /* Tab indicator + active */
+    [data-theme="sakura"] .tab-indicator { background: var(--gold); box-shadow: 0 0 8px rgba(240,100,160,0.65); }
+    [data-theme="sakura"] .tab-bar { border-bottom-color: rgba(240,100,160,0.12); }
+
+    /* Float button */
+    [data-theme="sakura"] .float-timer-btn {
+      background: linear-gradient(135deg, #c04070, #f090a0);
+      box-shadow: 0 8px 20px rgba(220,70,110,0.4), inset 0 0 10px rgba(255,255,255,0.4);
+    }
+
+    /* Sync bar OK */
+    [data-theme="sakura"] .sync-bar.ok { color: var(--green-leaf); }
+
+    /* Garis seksi label */
+    [data-theme="sakura"] .sec-lbl::after {
+      background: linear-gradient(90deg, rgba(240,100,160,0.22), transparent);
+    }
+
+    /* Fairy footer accent */
+    [data-theme="sakura"] .fairy-footer span { color: var(--gold-dark); }
+
+    /* Gacha modal dark bg sudah oke karena hardcoded — override supaya sesuai */
+    [data-theme="moon"]   .gacha-modal-card { background: linear-gradient(160deg, #04060f 0%, #080c1c 50%, #060a18 100%); border-color: rgba(138,180,248,0.25); }
+    [data-theme="sakura"] .gacha-modal-card { background: linear-gradient(160deg, #1a050e 0%, #2e0a18 50%, #260814 100%); border-color: rgba(240,100,160,0.25); }
+
+    /* ════════════════════════════════════════════════
+       PREMIUM AMBIENT — shared layer
+       ════════════════════════════════════════════════ */
+    #ambient-layer {
+      position: fixed; inset: 0; pointer-events: none;
+      z-index: 0; overflow: hidden;
+    }
+    .amb-particle {
+      position: absolute;
+      animation: amb-float linear infinite;
+      opacity: 0;
+    }
+    @keyframes amb-float {
+      0%   { opacity: 0; transform: translateY(0) translateX(0) rotate(0deg); }
+      10%  { opacity: var(--amb-peak, 0.6); }
+      90%  { opacity: var(--amb-peak, 0.4); }
+      100% { opacity: 0;
+             transform: translateY(var(--amb-dy))
+                        translateX(var(--amb-dx))
+                        rotate(var(--amb-rot)); }
+    }
+
+    /* ── MOON: body backdrop = deep space ── */
+    [data-theme="moon"] body::before {
+      background:
+        radial-gradient(ellipse at 15% 20%, rgba(100,130,255,0.18), transparent 40%),
+        radial-gradient(ellipse at 85% 15%, rgba(140,100,255,0.14), transparent 40%),
+        radial-gradient(ellipse at 50% 70%, rgba(80,100,200,0.12), transparent 50%),
+        radial-gradient(ellipse at 70% 90%, rgba(120,80,220,0.1),  transparent 45%);
+      opacity: 1;
+    }
+
+    /* ── MOON: progress ring → blue-silver ── */
+    [data-theme="moon"] .ring-outer {
+      filter: drop-shadow(0 0 12px rgba(138,180,248,0.7));
+      animation: breathing-glow-moon 4s infinite alternate;
+    }
+    @keyframes breathing-glow-moon {
+      0%   { filter: drop-shadow(0 0 8px  rgba(138,180,248,0.45)); }
+      100% { filter: drop-shadow(0 0 20px rgba(138,180,248,0.85)); }
+    }
+    [data-theme="moon"] .ring-glow  { stroke: rgba(196,214,254,0.3); }
+    [data-theme="moon"] .ring-track { stroke: rgba(138,180,248,0.15); }
+    [data-theme="moon"] .prog-bar-fill {
+      background: linear-gradient(90deg, #3a5fc0, #8ab4f8, #c3d6fe);
+      box-shadow: 0 0 8px rgba(138,180,248,0.8), 0 0 16px rgba(138,180,248,0.4);
+    }
+    [data-theme="moon"] .prog-bar-fill::after {
+      box-shadow: 0 0 6px 2px rgba(196,214,254,0.9),
+                  0 0 12px 4px rgba(138,180,248,0.7),
+                  0 0 20px 8px rgba(100,140,255,0.3);
+    }
+
+    /* ── MOON: card premium shimmer border ── */
+    [data-theme="moon"] .fc-card,
+    [data-theme="moon"] .rules-card,
+    [data-theme="moon"] .settings-card,
+    [data-theme="moon"] .input-card {
+      border-color: rgba(138,180,248,0.18);
+      box-shadow: 0 2px 12px rgba(8,12,28,0.4), inset 0 0 0 1px rgba(138,180,248,0.06);
+    }
+    [data-theme="moon"] .fc-card:hover {
+      box-shadow: 0 4px 20px rgba(100,140,255,0.2), inset 0 0 0 1px rgba(138,180,248,0.14);
+    }
+
+    /* ── MOON: click-dust override ── */
+    [data-theme="moon"] .click-dust {
+      box-shadow: 0 0 8px rgba(196,214,254,0.9), 0 0 16px rgba(138,180,248,0.6);
+      background: rgba(196,214,254,0.95);
+    }
+
+    /* ── MOON: meteor shooting star ── */
+    .meteor {
+      position: fixed; pointer-events: none;
+      width: 2px; height: 2px; border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 6px 2px rgba(196,214,254,0.9), 0 0 20px 6px rgba(138,180,248,0.4);
+      z-index: 1;
+      animation: meteor-fly var(--m-dur, 1.2s) linear forwards;
+    }
+    .meteor::after {
+      content: '';
+      position: absolute;
+      top: 50%; right: 2px;
+      transform: translateY(-50%);
+      width: var(--m-tail, 80px); height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(196,214,254,0.7));
+    }
+    @keyframes meteor-fly {
+      from { opacity: 1; transform: translate(0,0); }
+      to   { opacity: 0; transform: translate(var(--m-tx), var(--m-ty)); }
+    }
+
+    /* ════════════════════════════════════════════════ */
+
+    /* ── SAKURA: body backdrop = warm bokeh ── */
+    [data-theme="sakura"] body::before {
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(255,180,200,0.18), transparent 40%),
+        radial-gradient(ellipse at 80% 15%, rgba(255,200,215,0.15), transparent 40%),
+        radial-gradient(ellipse at 50% 75%, rgba(255,160,185,0.12), transparent 50%),
+        radial-gradient(ellipse at 65% 85%, rgba(255,190,210,0.1),  transparent 45%);
+      opacity: 1;
+    }
+
+    /* ── SAKURA: progress ring → pink-rose ── */
+    [data-theme="sakura"] .ring-outer {
+      filter: drop-shadow(0 0 12px rgba(240,100,160,0.65));
+      animation: breathing-glow-sakura 4s infinite alternate;
+    }
+    @keyframes breathing-glow-sakura {
+      0%   { filter: drop-shadow(0 0 8px  rgba(240,100,160,0.4)); }
+      100% { filter: drop-shadow(0 0 20px rgba(240,100,160,0.8)); }
+    }
+    [data-theme="sakura"] .ring-glow  { stroke: rgba(255,160,190,0.3); }
+    [data-theme="sakura"] .ring-track { stroke: rgba(240,100,160,0.15); }
+    [data-theme="sakura"] .prog-bar-fill {
+      background: linear-gradient(90deg, #b02860, #e87080, #ffc0d0);
+      box-shadow: 0 0 8px rgba(240,100,160,0.8), 0 0 16px rgba(240,100,160,0.4);
+    }
+    [data-theme="sakura"] .prog-bar-fill::after {
+      box-shadow: 0 0 6px 2px rgba(255,160,190,0.9),
+                  0 0 12px 4px rgba(240,100,160,0.7),
+                  0 0 20px 8px rgba(220,60,120,0.3);
+    }
+
+    /* ── SAKURA: card premium shimmer border ── */
+    [data-theme="sakura"] .fc-card,
+    [data-theme="sakura"] .rules-card,
+    [data-theme="sakura"] .settings-card,
+    [data-theme="sakura"] .input-card {
+      border-color: rgba(240,100,160,0.18);
+      box-shadow: 0 2px 12px rgba(40,8,20,0.35), inset 0 0 0 1px rgba(240,100,160,0.06);
+    }
+    [data-theme="sakura"] .fc-card:hover {
+      box-shadow: 0 4px 20px rgba(240,100,160,0.2), inset 0 0 0 1px rgba(240,100,160,0.14);
+    }
+
+    /* ── SAKURA: click-dust override ── */
+    [data-theme="sakura"] .click-dust {
+      box-shadow: 0 0 8px rgba(255,160,190,0.9), 0 0 16px rgba(240,100,160,0.6);
+      background: rgba(255,180,200,0.95);
+    }
+
+    /* ── SAKURA: falling petal ── */
+    .sakura-petal {
+      position: fixed; pointer-events: none;
+      font-size: var(--p-size, 14px);
+      z-index: 1;
+      opacity: 0;
+      animation: petal-fall var(--p-dur, 8s) var(--p-delay, 0s) linear infinite;
+    }
+    @keyframes petal-fall {
+      0%   { opacity: 0;   transform: translateY(-20px) translateX(0) rotate(0deg); }
+      5%   { opacity: 0.75; }
+      85%  { opacity: 0.55; }
+      100% { opacity: 0;
+             transform: translateY(105vh)
+                        translateX(var(--p-drift, 80px))
+                        rotate(var(--p-rot, 540deg)); }
+    }
   </style>
 </head>
 <body>
+  <div id="ambient-layer"></div>
   <div id="dim-overlay"></div>
   <div class="header">
     <div class="header-leaves">
@@ -1786,14 +2204,18 @@
       }
 
       window.applyTheme = function() {
-        if (!manualTheme) {
-            state.theme = getAutoTheme();
+        if (manualTheme) {
+          state.theme = manualTheme;
+        } else {
+          state.theme = getAutoTheme();
         }
         document.documentElement.setAttribute('data-theme', state.theme);
         const btn = document.getElementById('btn-theme-toggle');
         if (btn) {
-            btn.innerHTML = state.theme === 'dark' ? t('btn_to_light') : t('btn_to_dark'); 
+          btn.innerHTML = state.theme === 'dark' ? t('btn_to_light') : t('btn_to_dark');
         }
+        updateHeaderOrnamentation(state.theme);
+        updateSparkleColors(state.theme);
       };
 
       window.toggleTheme = function() {
@@ -2103,9 +2525,16 @@
       document.addEventListener('click', function(e) {
         if(e.target.closest('#fc-view-modal')) return;
         if(e.target.tagName === 'INPUT' || e.target.tagName === 'SUMMARY' || e.target.tagName === 'BUTTON' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT' || e.target.closest('.flashcard')) return;
+        const th = document.documentElement.getAttribute('data-theme');
         for (let i = 0; i < 4; i++) {
           const dust = document.createElement('div');
           dust.className = 'click-dust';
+          // Premium tema: lebih banyak partikel untuk kesan mewah
+          if (th === 'moon' || th === 'sakura') {
+            dust.style.background = th === 'moon' ? 'rgba(196,214,254,0.95)' : 'rgba(255,180,200,0.95)';
+            const gc = th === 'moon' ? 'rgba(138,180,248,0.6)' : 'rgba(240,100,160,0.6)';
+            dust.style.boxShadow = `0 0 8px ${gc}, 0 0 16px ${gc}`;
+          }
           dust.style.left = e.pageX + 'px';
           dust.style.top = e.pageY + 'px';
           const angle = Math.random() * Math.PI * 2;
@@ -3389,20 +3818,229 @@
         else if(e.code==='ArrowLeft') prevFc();
       });
 
+      /* ══ HEADER ORNAMENTATION PER TEMA ══ */
+      function updateHeaderOrnamentation(theme) {
+        const leavesWrap = document.querySelector('.header-leaves');
+        if (!leavesWrap) return;
+
+        if (theme === 'moon') {
+          // Bintang-bintang + konstelasi
+          leavesWrap.innerHTML = `
+            <!-- Bintang statis besar -->
+            <svg class="header-star" width="120" height="90" viewBox="0 0 120 90" style="top:-5px;right:-10px;animation-delay:0s;">
+              <g fill="#8ab4f8" opacity="0.6">
+                <polygon points="20,5 23,14 32,14 25,19 28,28 20,22 12,28 15,19 8,14 17,14" />
+                <polygon points="80,15 82,21 88,21 83,25 85,31 80,27 75,31 77,25 72,21 78,21" style="opacity:0.5"/>
+                <circle cx="105" cy="8" r="2.5" />
+                <circle cx="50" cy="6" r="1.8" opacity="0.7"/>
+                <circle cx="68" cy="25" r="1.5" opacity="0.4"/>
+              </g>
+              <line x1="20" y1="14" x2="50" y2="6" stroke="#8ab4f8" stroke-width="0.4" opacity="0.3"/>
+              <line x1="50" y1="6" x2="80" y2="15" stroke="#8ab4f8" stroke-width="0.4" opacity="0.3"/>
+              <line x1="80" y1="15" x2="105" y2="8" stroke="#8ab4f8" stroke-width="0.4" opacity="0.2"/>
+            </svg>
+            <!-- Sabit bulan kanan bawah -->
+            <svg width="70" height="55" viewBox="0 0 70 55" style="position:absolute;bottom:-5px;right:28%;opacity:0.25;">
+              <path d="M35,8 Q52,8 52,30 Q52,48 35,48 Q42,40 42,30 Q42,16 35,8Z" fill="#c3d6fe"/>
+            </svg>
+            <!-- Bintang kiri atas kecil -->
+            <svg class="header-star" width="70" height="55" viewBox="0 0 70 55" style="top:25px;left:-10px;animation-delay:1.4s;">
+              <g fill="#a78bfa" opacity="0.55">
+                <polygon points="35,5 37,12 44,12 38,16 41,23 35,19 29,23 32,16 26,12 33,12"/>
+                <circle cx="12" cy="20" r="1.5" opacity="0.6"/>
+                <circle cx="55" cy="35" r="2" opacity="0.4"/>
+              </g>
+            </svg>
+            <!-- Titik-titik bintang mungil -->
+            <svg width="45" height="30" viewBox="0 0 45 30" style="position:absolute;top:8px;right:42%;opacity:0.3;">
+              <g fill="#c3d6fe">
+                <circle cx="5" cy="15" r="1.5"/><circle cx="18" cy="8" r="1"/><circle cx="30" cy="20" r="1.8"/>
+                <circle cx="42" cy="10" r="1.2"/><circle cx="12" cy="25" r="0.8"/>
+              </g>
+            </svg>`;
+
+          // Partikel melayang: bintang kecil
+          const orbWrap = document.querySelector('.sparkles');
+          if (orbWrap) {
+            orbWrap.querySelectorAll('.header-orb').forEach(e => e.remove());
+            for (let i = 0; i < 12; i++) {
+              const orb = document.createElement('div');
+              orb.className = 'header-orb';
+              orb.textContent = Math.random() > 0.5 ? '✦' : '★';
+              const sz = (Math.random() * 8 + 6) + 'px';
+              orb.style.cssText = `font-size:${sz};left:${Math.random()*100}%;bottom:${Math.random()*30}%;
+                color:${Math.random()>0.5?'#8ab4f8':'#c4b5fd'};
+                animation-duration:${4+Math.random()*7}s;animation-delay:${Math.random()*6}s;
+                --orb-dy:-${160+Math.random()*180}px;--orb-rot:${Math.floor(Math.random()*360)}deg;`;
+              orbWrap.appendChild(orb);
+            }
+          }
+
+        } else if (theme === 'sakura') {
+          // Kelopak bunga sakura
+          leavesWrap.innerHTML = `
+            <!-- Ranting sakura kanan atas -->
+            <svg width="130" height="100" viewBox="0 0 130 100" style="position:absolute;top:-8px;right:-18px;opacity:0.22;">
+              <path d="M125,5 Q90,30 70,55 Q55,70 40,80" stroke="#f090a0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <path d="M95,22 Q88,12 78,18 Q88,20 95,22Z" fill="#f0a0b8"/>
+              <path d="M80,36 Q71,26 61,33 Q72,33 80,36Z" fill="#f090a0"/>
+              <path d="M65,50 Q56,40 46,47 Q57,47 65,50Z" fill="#f0b0c0"/>
+              <path d="M50,63 Q41,53 32,61 Q43,60 50,63Z" fill="#f090a0" opacity="0.8"/>
+              <!-- kelopak bulat -->
+              <ellipse cx="92" cy="18" rx="5" ry="7" fill="#ffb0c8" opacity="0.7" transform="rotate(-30 92 18)"/>
+              <ellipse cx="75" cy="32" rx="4.5" ry="6" fill="#f090a0" opacity="0.65" transform="rotate(-15 75 32)"/>
+              <ellipse cx="60" cy="47" rx="4" ry="5.5" fill="#ffc0d0" opacity="0.7" transform="rotate(-20 60 47)"/>
+            </svg>
+            <!-- Ranting kiri bawah -->
+            <svg width="90" height="70" viewBox="0 0 90 70" style="position:absolute;bottom:-6px;left:5px;opacity:0.18;transform:rotate(15deg);">
+              <path d="M5,65 Q30,40 55,20 Q65,12 80,8" stroke="#e87080" stroke-width="2" fill="none"/>
+              <ellipse cx="35" cy="38" rx="5" ry="7" fill="#f090a0" opacity="0.7" transform="rotate(25 35 38)"/>
+              <ellipse cx="55" cy="22" rx="4" ry="6" fill="#ffb0c8" opacity="0.65" transform="rotate(10 55 22)"/>
+              <ellipse cx="72" cy="13" rx="3.5" ry="5" fill="#f0a0b8" opacity="0.6" transform="rotate(-5 72 13)"/>
+            </svg>
+            <!-- Ranting kanan bawah -->
+            <svg width="70" height="50" viewBox="0 0 70 50" style="position:absolute;bottom:-5px;right:27%;opacity:0.16;transform:rotate(-10deg);">
+              <path d="M5,45 Q25,25 55,10" stroke="#f090a0" stroke-width="1.8" fill="none"/>
+              <ellipse cx="25" cy="28" rx="4" ry="6" fill="#ffc0d0" opacity="0.65" transform="rotate(20 25 28)"/>
+              <ellipse cx="48" cy="15" rx="3.5" ry="5.5" fill="#f090a0" opacity="0.6" transform="rotate(5 48 15)"/>
+            </svg>
+            <!-- Kelopak melayang kiri atas -->
+            <svg width="50" height="45" viewBox="0 0 50 45" style="position:absolute;top:8px;left:-8px;opacity:0.2;transform:rotate(60deg);">
+              <ellipse cx="25" cy="25" rx="7" ry="9" fill="#f090a0"/>
+              <ellipse cx="15" cy="15" rx="5" ry="7" fill="#ffc0d0" opacity="0.8"/>
+              <ellipse cx="38" cy="30" rx="4" ry="6" fill="#f0a0b8" opacity="0.7"/>
+            </svg>
+            <!-- Titik serbuk sari -->
+            <svg width="50" height="35" viewBox="0 0 50 35" style="position:absolute;top:10px;right:41%;opacity:0.3;">
+              <circle cx="8"  cy="18" r="2"   fill="#ffb0c8"/>
+              <circle cx="22" cy="8"  r="1.5" fill="#f090a0"/>
+              <circle cx="36" cy="22" r="2.2" fill="#ffd0e0"/>
+              <circle cx="45" cy="12" r="1.5" fill="#f0a0b8"/>
+            </svg>`;
+
+          // Partikel melayang: kelopak sakura
+          const orbWrap = document.querySelector('.sparkles');
+          if (orbWrap) {
+            orbWrap.querySelectorAll('.header-orb').forEach(e => e.remove());
+            for (let i = 0; i < 14; i++) {
+              const orb = document.createElement('div');
+              orb.className = 'header-orb';
+              orb.textContent = Math.random() > 0.4 ? '🌸' : '✿';
+              const sz = (Math.random() * 10 + 8) + 'px';
+              orb.style.cssText = `font-size:${sz};left:${Math.random()*100}%;bottom:${Math.random()*25}%;
+                animation-duration:${5+Math.random()*8}s;animation-delay:${Math.random()*6}s;
+                --orb-dy:-${140+Math.random()*160}px;--orb-rot:${Math.floor(Math.random()*360)}deg;`;
+              orbWrap.appendChild(orb);
+            }
+          }
+
+        } else {
+          // Default / dark — kembalikan daun original
+          leavesWrap.innerHTML = `
+            <div class="leaf leaf1"></div>
+            <div class="leaf leaf2"></div>
+            <div class="leaf leaf3"></div>
+            <div class="leaf leaf4"></div>`;
+          const orbWrap = document.querySelector('.sparkles');
+          if (orbWrap) orbWrap.querySelectorAll('.header-orb').forEach(e => e.remove());
+        }
+
+        // ── Override SVG ring gradient per tema ──
+        const gradStop0 = document.querySelector('#goldGrad stop:nth-child(1)');
+        const gradStop1 = document.querySelector('#goldGrad stop:nth-child(2)');
+        const gradStop2 = document.querySelector('#goldGrad stop:nth-child(3)');
+        if (gradStop0 && gradStop1 && gradStop2) {
+          if (theme === 'moon') {
+            gradStop0.setAttribute('stop-color', '#3a5fc0');
+            gradStop1.setAttribute('stop-color', '#8ab4f8');
+            gradStop2.setAttribute('stop-color', '#c3d6fe');
+          } else if (theme === 'sakura') {
+            gradStop0.setAttribute('stop-color', '#b02860');
+            gradStop1.setAttribute('stop-color', '#e87080');
+            gradStop2.setAttribute('stop-color', '#ffc0d0');
+          } else {
+            gradStop0.setAttribute('stop-color', '#B8900A');
+            gradStop1.setAttribute('stop-color', '#F5C842');
+            gradStop2.setAttribute('stop-color', '#FFE478');
+          }
+        }
+        // Update ring-glow stroke color
+        const ringGlowEl = document.getElementById('ring-glow');
+        if (ringGlowEl) {
+          if (theme === 'moon')   ringGlowEl.style.stroke = 'rgba(196,214,254,0.3)';
+          else if (theme === 'sakura') ringGlowEl.style.stroke = 'rgba(255,160,190,0.3)';
+          else ringGlowEl.style.stroke = '';
+        }
+
+        // ── Spawn / destroy ambient particles ──
+        spawnAmbientParticles(theme);
+
+        // ── Update guide label emoji per tema ──
+        const guideLabel = document.querySelector('.ppt-track-header-lbl');
+        if (guideLabel) {
+          const baseText = guideLabel.textContent.replace(/^[^\s]*\s/, '');
+          if (theme === 'moon')   guideLabel.textContent = '⭐ ' + baseText;
+          else if (theme === 'sakura') guideLabel.textContent = '🌸 ' + baseText;
+          else guideLabel.textContent = '🌿 ' + baseText;
+        }
+
+        // ── Update dot-glow-pulse keyframe color per tema ──
+        let glowSheet = document.getElementById('theme-glow-style');
+        if (!glowSheet) {
+          glowSheet = document.createElement('style');
+          glowSheet.id = 'theme-glow-style';
+          document.head.appendChild(glowSheet);
+        }
+        if (theme === 'moon') {
+          glowSheet.textContent = `@keyframes dot-glow-pulse {
+            0%   { box-shadow: 0 0 8px rgba(138,180,248,0.45), inset 0 0 6px rgba(138,180,248,0.12); }
+            100% { box-shadow: 0 0 22px rgba(138,180,248,0.85), inset 0 0 14px rgba(138,180,248,0.28); }
+          }`;
+        } else if (theme === 'sakura') {
+          glowSheet.textContent = `@keyframes dot-glow-pulse {
+            0%   { box-shadow: 0 0 8px rgba(240,100,160,0.45), inset 0 0 6px rgba(240,100,160,0.12); }
+            100% { box-shadow: 0 0 22px rgba(240,100,160,0.85), inset 0 0 14px rgba(240,100,160,0.28); }
+          }`;
+        } else {
+          glowSheet.textContent = `@keyframes dot-glow-pulse {
+            0%   { box-shadow: 0 0 8px rgba(245,200,66,0.4), inset 0 0 6px rgba(245,200,66,0.1); }
+            100% { box-shadow: 0 0 22px rgba(245,200,66,0.8), inset 0 0 14px rgba(245,200,66,0.25); }
+          }`;
+        }
+      }
+      /* ══ END HEADER ORNAMENTATION ══ */
+
       function createSparkles(){
         const wrap = document.getElementById("sparkles");
+        if (!wrap) return;
         wrap.innerHTML="";
+        const th = state.theme || 'light';
         for(let i=0;i<50;i++){
           const sp = document.createElement("div"); sp.className="sp";
           sp.style.width=(Math.random()*5+2)+"px"; sp.style.height=sp.style.width;
           sp.style.left=Math.random()*100+"%"; sp.style.bottom=(Math.random()*-20)+"px";
-          sp.style.background=Math.random()>0.5?"#f5c842":"#8dc95a";
+          if (th === 'moon') {
+            const moonColors = ["#8ab4f8","#c3d6fe","#a78bfa","#c4b5fd","#e0e8ff"];
+            const c = moonColors[Math.floor(Math.random()*moonColors.length)];
+            sp.style.background = c;
+            sp.style.boxShadow = `0 0 6px ${c}, 0 0 12px ${c}88`;
+          } else if (th === 'sakura') {
+            const sakuraColors = ["#f090a0","#e87080","#ffc0d0","#f0b0c0","#ffe0e8"];
+            const c = sakuraColors[Math.floor(Math.random()*sakuraColors.length)];
+            sp.style.background = c;
+            sp.style.boxShadow = `0 0 6px ${c}, 0 0 12px ${c}88`;
+          } else {
+            sp.style.background = Math.random()>0.5?"#f5c842":"#8dc95a";
+          }
           sp.style.animationDuration=(3+Math.random()*6)+"s";
           sp.style.animationDelay=(Math.random()*5)+"s";
           sp.style.setProperty('--float-dist',-(180+Math.random()*200)+'px');
           wrap.appendChild(sp);
         }
       }
+
+      /* Panggil ulang sparkle colors saat tema ganti */
+      function updateSparkleColors(theme) { createSparkles(); }
 
       /* ===== PPT DOT TRACKER ===== */
       let activeDotIdx = -1;
@@ -3696,9 +4334,123 @@
       }
       /* ===== END HISTORY DASHBOARD ===== */
 
+
+      /* ════════════════════════════════════════════════
+         AMBIENT PARTICLE SYSTEM (Moon stars + Sakura petals)
+         ════════════════════════════════════════════════ */
+      let _ambientTheme = null;
+      let _meteorTimer  = null;
+
+      function spawnAmbientParticles(theme) {
+        const layer = document.getElementById('ambient-layer');
+        if (!layer) return;
+
+        // Clean up previous theme
+        layer.innerHTML = '';
+        if (_meteorTimer) { clearInterval(_meteorTimer); _meteorTimer = null; }
+
+        if (theme === 'moon') {
+          _buildMoonStars(layer);
+          // Periodic shooting star every 8–18s
+          _meteorTimer = setInterval(() => {
+            if (document.documentElement.getAttribute('data-theme') === 'moon') {
+              _shootMeteor();
+            }
+          }, 8000 + Math.random() * 10000);
+          // Shoot one right away after a delay
+          setTimeout(_shootMeteor, 2500);
+
+        } else if (theme === 'sakura') {
+          _buildSakuraPetals(layer);
+        }
+        // default/dark → empty (no particles)
+      }
+
+      function _buildMoonStars(layer) {
+        // 60 twinkling stars scattered across full viewport
+        const shapes = ['✦','★','✧','·','✶','⋆'];
+        for (let i = 0; i < 60; i++) {
+          const star = document.createElement('div');
+          star.className = 'amb-particle';
+          const sz = (Math.random() * 10 + 6) + 'px';
+          const colors = ['#c3d6fe','#8ab4f8','#e8eeff','#a78bfa','#ffffff'];
+          const c = colors[Math.floor(Math.random() * colors.length)];
+          const isTiny = Math.random() > 0.7;
+          star.textContent = isTiny ? '·' : shapes[Math.floor(Math.random() * shapes.length)];
+          const peak = (0.2 + Math.random() * 0.55).toFixed(2);
+          star.style.cssText = `
+            left: ${Math.random()*100}%;
+            top:  ${Math.random()*100}%;
+            font-size: ${isTiny ? (Math.random()*6+4)+'px' : sz};
+            color: ${c};
+            text-shadow: 0 0 6px ${c}, 0 0 14px ${c}88;
+            animation-duration: ${2 + Math.random()*4}s;
+            animation-delay: ${Math.random()*5}s;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            animation-name: star-twinkle-slow;
+            --amb-peak: ${peak};
+            --amb-dy: 0px; --amb-dx: 0px; --amb-rot: 0deg;
+          `;
+          layer.appendChild(star);
+        }
+      }
+
+      function _shootMeteor() {
+        if (document.documentElement.getAttribute('data-theme') !== 'moon') return;
+        const meteor = document.createElement('div');
+        meteor.className = 'meteor';
+        const startX = 10 + Math.random() * 60; // % from left
+        const startY = 5  + Math.random() * 25; // % from top
+        const angle  = 25 + Math.random() * 20; // degrees down-right
+        const dist   = 200 + Math.random() * 250;
+        const tx = Math.cos(angle * Math.PI/180) * dist;
+        const ty = Math.sin(angle * Math.PI/180) * dist;
+        const tail = (60 + Math.random() * 100) + 'px';
+        const dur  = (0.8 + Math.random() * 0.7).toFixed(2) + 's';
+        meteor.style.cssText = `
+          left: ${startX}vw; top: ${startY}vh;
+          --m-tx: ${tx}px; --m-ty: ${ty}px;
+          --m-dur: ${dur}; --m-tail: ${tail};
+        `;
+        document.body.appendChild(meteor);
+        setTimeout(() => meteor.remove(), 2000);
+      }
+
+      function _buildSakuraPetals(layer) {
+        const petals = ['🌸','✿','❀','🌺','❁'];
+        // 28 petals drifting down continuously
+        for (let i = 0; i < 28; i++) {
+          const petal = document.createElement('div');
+          petal.className = 'sakura-petal amb-particle';
+          const p  = petals[Math.floor(Math.random() * petals.length)];
+          const sz = (12 + Math.random() * 14) + 'px';
+          const dur = (7 + Math.random() * 8).toFixed(1) + 's';
+          const delay = (Math.random() * 12).toFixed(1) + 's';
+          const drift = ((Math.random() > 0.5 ? 1 : -1) * (40 + Math.random() * 120)).toFixed(0) + 'px';
+          const rot   = (360 + Math.floor(Math.random() * 360)) + 'deg';
+          const peak  = (0.45 + Math.random() * 0.3).toFixed(2);
+          petal.textContent = p;
+          petal.style.cssText = `
+            left:  ${Math.random()*100}%;
+            top:   -30px;
+            font-size: ${sz};
+            --p-dur: ${dur}; --p-delay: -${delay};
+            --p-drift: ${drift}; --p-rot: ${rot};
+            --amb-peak: ${peak};
+            animation: petal-fall ${dur} -${delay} linear infinite;
+          `;
+          layer.appendChild(petal);
+        }
+      }
+      /* ════ END AMBIENT SYSTEM ════ */
+
       /* INISIALISASI */
       createSparkles();
       applyTheme();
+      updateHeaderOrnamentation(state.theme);
+      spawnAmbientParticles(state.theme);
       applyLanguage();
       if (state.syncCode) loadFromNotion();
       loadHistoryDashboard(false);
@@ -3766,15 +4518,14 @@ setInterval(() => {
       if (!state.inventory[item.id]) state.inventory[item.id] = 0;
       if (item.id === 'themeMoon') {
         state.inventory.themeMoon = (state.inventory.themeMoon || 0) + 1;
-        if (!manualTheme) { state.theme = 'moon'; }
-        document.documentElement.setAttribute('data-theme', 'moon');
-        manualTheme = 'moon';
-        ss('rv_theme_manual', 'dark');
+        state.theme = 'moon'; manualTheme = 'moon';
+        ss('rv_theme_manual', 'moon');
+        applyTheme();
       } else if (item.id === 'themeSakura') {
         state.inventory.themeSakura = (state.inventory.themeSakura || 0) + 1;
-        document.documentElement.setAttribute('data-theme', 'sakura');
-        manualTheme = 'sakura';
+        state.theme = 'sakura'; manualTheme = 'sakura';
         ss('rv_theme_manual', 'sakura');
+        applyTheme();
       } else if (item.id === 'doubleStar') {
         state.inventory.doubleStar = (state.inventory.doubleStar || 0) + 1;
         state.doubleStarExpiry = Date.now() + 24 * 60 * 60 * 1000;
@@ -3957,13 +4708,10 @@ setInterval(() => {
       manualTheme = themeId;
       state.theme = themeId;
       ss('rv_theme_manual', manualTheme);
-      
-      document.documentElement.setAttribute('data-theme', themeId);
-      
+      applyTheme(); // handles setAttribute + header ornamentation + sparkles
       renderThemeGrid();
       playChime();
-      
-      saveToNotion(fmtISO(new Date())); 
+      saveToNotion(fmtISO(new Date()));
     };
 
     window.showThemeLocked = function(themeName) {
