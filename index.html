@@ -610,24 +610,52 @@
     .match-review-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 
     /* ===== HISTORY DASHBOARD ===== */
+    /* ===== LEADERBOARD / RIWAYAT BLOK ===== */
     .hist-wrap { margin-top: 4px; }
-    .hist-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .hist-col-head { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-soft); margin-bottom: 8px; }
-    .hist-card { background: var(--bg-card); border: 1px solid var(--border-card); border-radius: 12px; padding: 10px 10px 8px; margin-bottom: 8px; position: relative; overflow: hidden; min-width: 0; }
-    .hist-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 3px 0 0 3px; background: linear-gradient(180deg, var(--gold-dark), var(--gold-light)); }
-    .hist-card.top::before { background: linear-gradient(180deg, #2e6b1a, #8dc95a); }
-    .hist-card-name { font-family: var(--serif); font-size: 12px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; padding-left: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .hist-card-date { font-size: 9px; color: var(--text-soft); padding-left: 6px; margin-bottom: 6px; }
-    .hist-card-row { display: flex; align-items: center; justify-content: space-between; padding-left: 6px; margin-bottom: 4px; }
-    .hist-card-label { font-size: 9px; color: var(--text-soft); font-weight: 600; }
-    .hist-card-val { font-size: 10px; font-weight: 800; color: var(--text-mid); }
-    .hist-card-val.gold { color: var(--gold-dark); }
-    .hist-card-val.green { color: var(--green-mid); }
-    .hist-mini-bar { height: 3px; background: rgba(0,0,0,0.07); border-radius: 2px; margin: 2px 6px 0; overflow: hidden; }
-    .hist-mini-fill { height: 3px; border-radius: 2px; background: linear-gradient(90deg, var(--gold-dark), var(--gold-light)); transition: width 1s ease; }
-    .hist-mini-fill.green { background: linear-gradient(90deg, #2e6b1a, #8dc95a); }
+    .hist-cols { min-height: 40px; }
     .hist-empty { font-size: 11px; color: var(--text-soft); text-align: center; padding: 16px 0; }
-    .hist-loading { font-size: 11px; color: var(--text-soft); text-align: center; padding: 20px 0; grid-column: 1 / -1; }
+    .hist-loading { font-size: 11px; color: var(--text-soft); text-align: center; padding: 20px 0; }
+
+    /* Tab bar */
+    .lb-tab-bar { display: flex; gap: 5px; background: var(--bg-tab); border-radius: 12px; padding: 4px; margin-bottom: 12px; }
+    .lb-tab-btn { flex: 1; padding: 7px 4px; font-size: 11px; font-weight: 700; font-family: var(--sans); text-align: center; border: none; background: transparent; color: var(--text-soft); border-radius: 9px; transition: all 0.2s; }
+    .lb-tab-btn.active { background: var(--bg-card-solid); color: var(--text-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+    /* Row */
+    .lb-row { background: var(--bg-card); border: 1px solid var(--border-card); border-radius: 14px; padding: 11px 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; transition: box-shadow 0.2s; }
+    .lb-row:last-child { margin-bottom: 0; }
+    .lb-rank { font-size: 13px; font-weight: 800; min-width: 22px; text-align: center; flex-shrink: 0; }
+    .lb-rank.r1 { color: var(--gold-dark); }
+    .lb-rank.r2 { color: var(--text-soft); }
+    .lb-rank.r3 { color: var(--amber); }
+    .lb-row-info { flex: 1; min-width: 0; }
+    .lb-row-name { font-family: var(--serif); font-size: 13px; font-weight: 700; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+    .lb-row-date { font-size: 9px; color: var(--text-soft); }
+    .lb-row-stats { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .lb-stat-col { text-align: right; }
+    .lb-stat-val { font-size: 11px; font-weight: 800; color: var(--text-mid); line-height: 1; }
+    .lb-stat-lbl { font-size: 9px; color: var(--text-soft); margin-top: 2px; }
+    .lb-bar-wrap { width: 44px; }
+    .lb-bar-track { height: 3px; background: rgba(0,0,0,0.08); border-radius: 2px; overflow: hidden; margin-bottom: 2px; }
+    .lb-bar-fill { height: 3px; border-radius: 2px; background: linear-gradient(90deg, var(--green-mid), var(--green-light)); transition: width 0.8s ease; }
+    .lb-ujian-badge { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
+    .lb-ujian-pass { background: var(--green-pale); color: var(--green-mid); }
+    .lb-ujian-fail { background: rgba(232,80,80,0.1); color: var(--red-soft); }
+    .lb-ujian-none { background: var(--bg-tab); color: var(--text-soft); }
+
+    /* Podium */
+    .lb-podium { display: flex; align-items: flex-end; justify-content: center; gap: 8px; margin-bottom: 14px; }
+    .lb-pod { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .lb-pod-crown { font-size: 14px; height: 20px; display: flex; align-items: center; justify-content: center; }
+    .lb-pod-emoji { font-size: 28px; line-height: 1; }
+    .lb-pod-name { font-size: 10px; font-weight: 700; color: var(--text-dark); text-align: center; max-width: 72px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .lb-pod-score { font-size: 10px; color: var(--text-soft); }
+    .lb-pod-base { border-radius: 10px 10px 0 0; width: 70px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; }
+    .lb-pod-1 .lb-pod-base { height: 66px; background: linear-gradient(180deg, rgba(245,200,66,0.22), rgba(245,200,66,0.08)); border: 1px solid rgba(245,200,66,0.35); color: var(--gold-dark); }
+    .lb-pod-2 .lb-pod-base { height: 50px; background: var(--bg-card); border: 1px solid var(--border-card); color: var(--text-soft); }
+    .lb-pod-3 .lb-pod-base { height: 36px; background: linear-gradient(180deg, rgba(232,160,32,0.15), rgba(232,160,32,0.05)); border: 1px solid rgba(232,160,32,0.25); color: var(--amber); }
+    .lb-podium-rest-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-soft); margin: 8px 0 6px; }
+    /* ===== END LEADERBOARD ===== */
 
     /* ── HEADER: Moon Theme ── */
     [data-theme="moon"] .header {
@@ -1166,9 +1194,14 @@
         </div>
 
         <div class="hist-wrap">
-          <div class="sec-lbl">📜 Riwayat Blok</div>
+          <div class="sec-lbl" data-i18n="lb_title">📜 Perjalanan Blokku</div>
+          <div class="lb-tab-bar">
+            <button class="lb-tab-btn active" onclick="lbSwitchTab('recent')" data-i18n="lb_tab_recent">🕐 Terakhir</button>
+            <button class="lb-tab-btn" onclick="lbSwitchTab('best')" data-i18n="lb_tab_best">🏆 Terbaik</button>
+            <button class="lb-tab-btn" onclick="lbSwitchTab('podium')" data-i18n="lb_tab_podium">✦ Podium</button>
+          </div>
           <div class="hist-cols" id="hist-cols">
-            <div class="hist-loading">✦ Memuat riwayat...</div>
+            <div class="hist-loading" data-i18n="lb_loading">✦ Memuat riwayat...</div>
           </div>
         </div>
       </div>
@@ -1901,7 +1934,19 @@
           btn_logout: "🚪 Ganti Akun (Log Out)",
           confirm_logout: "Apakah kamu yakin ingin keluar? Pastikan indikator koneksi di atas bertuliskan 'Tersinkron Penuh' ya!",
           txt_ready: "✦ Siap",setup_block_lbl: "Topik Blok Saat Ini:",
-          setup_block_ph: "Contoh: Anatomi Reproduksi Pria"
+          setup_block_ph: "Contoh: Anatomi Reproduksi Pria",
+          lb_title: "📜 Perjalanan Blokku",
+          lb_tab_recent: "🕐 Terakhir",
+          lb_tab_best: "🏆 Terbaik",
+          lb_tab_podium: "✦ Podium",
+          lb_loading: "✦ Memuat riwayat...",
+          lb_no_notion: "Hubungkan ke Notion untuk melihat riwayat.",
+          lb_empty: "Belum ada riwayat blok tersimpan.",
+          lb_error: "Gagal memuat riwayat.",
+          lb_no_blocks: "Belum ada riwayat blok.",
+          lb_no_name: "(Tanpa Nama)",
+          lb_active: "aktif",
+          lb_more: "Selengkapnya"
         },
         en: {
           hdr_eyebrow: "Study Journey",
@@ -2123,7 +2168,19 @@
           confirm_logout: "Are you sure you want to log out? Make sure the connection indicator above says 'Fully Synced'!",
           txt_ready: "✦ Ready",
           setup_block_lbl: "Current Block Topic:",
-          setup_block_ph: "e.g., Male Reproductive Anatomy"
+          setup_block_ph: "e.g., Male Reproductive Anatomy",
+          lb_title: "📜 My Block Journey",
+          lb_tab_recent: "🕐 Recent",
+          lb_tab_best: "🏆 Best",
+          lb_tab_podium: "✦ Podium",
+          lb_loading: "✦ Loading history...",
+          lb_no_notion: "Connect to Notion to see your history.",
+          lb_empty: "No block history saved yet.",
+          lb_error: "Failed to load history.",
+          lb_no_blocks: "No block history yet.",
+          lb_no_name: "(Unnamed)",
+          lb_active: "active",
+          lb_more: "See more"
         }
       };
 
@@ -3703,6 +3760,7 @@
         // Kirim forceNew=true agar backend selalu membuat row baru di Notion
         state._forceNewBlock = true;
         await saveToNotion(fmtISO(new Date()));
+        _histLoaded = false;
         render();
       };
       window.saveSettings = async function(){
@@ -3730,6 +3788,7 @@
         ss("rv_slides",{}); ss("rv_moods",{}); ss("rv_nilai",0); ss("rv_milestones",state.milestones); ss("rv_badges",state.badges); ss("rv_block_start",null); ss("rv_block_end",null); ss("rv_focus",0); ss("matchBestTime",null); ss("fcBestTime",null);
         ss("rv_coins", 0); ss("rv_inv", state.inventory);
         ss("rv_blokPageId", null); ss("rv_blockName", "");
+        _histLoaded = false;
         render(); checkSetupModal();
       };
 
@@ -4256,21 +4315,21 @@
         const container = document.getElementById('hist-cols');
         if (!container) return;
         if (!username) {
-          container.innerHTML = '<div class="hist-loading">Hubungkan ke Notion untuk melihat riwayat.</div>';
+          container.innerHTML = `<div class="hist-loading">${t('lb_no_notion')}</div>`;
           return;
         }
-        container.innerHTML = '<div class="hist-loading">✦ Memuat riwayat...</div>';
+        container.innerHTML = `<div class="hist-loading">${t('lb_loading')}</div>`;
         try {
           const res  = await fetch(`/api/weekly-tracker?username=${encodeURIComponent(username)}&history=true`);
           const json = await res.json();
           if (!res.ok || !json.found || !json.blocks?.length) {
-            container.innerHTML = '<div class="hist-loading">Belum ada riwayat blok tersimpan.</div>';
+            container.innerHTML = `<div class="hist-loading">${t('lb_empty')}</div>`;
             return;
           }
           renderHistoryDashboard(json.blocks);
           _histLoaded = true;
         } catch(e) {
-          container.innerHTML = '<div class="hist-loading">Gagal memuat riwayat.</div>';
+          container.innerHTML = `<div class="hist-loading">${t('lb_error')}</div>`;
         }
       }
 
@@ -4290,47 +4349,87 @@
         return new Date(iso + 'T00:00:00').toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
       }
 
-      function buildHistCard(b, isTop) {
-        const done    = (b.pptDots || []).filter(d => d.done).length;
-        const pct     = b.target > 0 ? Math.round(done / b.target * 100) : 0;
-        const pctCap  = Math.min(pct, 100);
-        const aktif   = histActivedays(b);
-        const ujian   = b.nilaiUjian > 0 ? `<span class="hist-card-val gold">📝 ${b.nilaiUjian}/100</span>` : `<span class="hist-card-val" style="color:var(--text-soft)">—</span>`;
-        const barCls  = isTop ? 'green' : '';
-        const valCls  = isTop ? 'green' : '';
-        return `<div class="hist-card ${isTop ? 'top' : ''}">
-          <div class="hist-card-name" title="${b.blockName || '(Tanpa Nama)'}">${b.blockName || '(Tanpa Nama)'}</div>
-          <div class="hist-card-date">${histFmtDate(b.blockStart)} → ${histFmtDate(b.blockEnd)}</div>
-          <div class="hist-card-row">
-            <span class="hist-card-label">Nilai</span>${ujian}
+      let _lbBlocks = [];
+      let _lbTab = 'recent';
+
+      window.lbSwitchTab = function(tab) {
+        _lbTab = tab;
+        document.querySelectorAll('.lb-tab-btn').forEach((btn, i) => {
+          btn.classList.toggle('active', ['recent','best','podium'][i] === tab);
+        });
+        renderHistoryDashboard(_lbBlocks);
+      };
+
+      function ujianBadge(nilaiUjian) {
+        if (!nilaiUjian || nilaiUjian === 0) return '<span class="lb-ujian-badge lb-ujian-none">—</span>';
+        const cls = nilaiUjian >= 60 ? 'lb-ujian-pass' : 'lb-ujian-fail';
+        return `<span class="lb-ujian-badge ${cls}">${nilaiUjian}/100</span>`;
+      }
+
+      function buildLbRow(b, rank) {
+        const done   = (b.pptDots || []).filter(d => d.done).length;
+        const pct    = b.target > 0 ? Math.round(done / b.target * 100) : 0;
+        const aktif  = histActivedays(b);
+        const rkCls  = rank === 1 ? 'r1' : rank === 2 ? 'r2' : rank === 3 ? 'r3' : '';
+        const rankMark = rank === 1 ? '1' : rank === 2 ? '2' : rank === 3 ? '3' : rank;
+        return `<div class="lb-row">
+          <div class="lb-rank ${rkCls}">${rankMark}</div>
+          <div class="lb-row-info">
+            <div class="lb-row-name" title="${b.blockName || t('lb_no_name')}">${b.blockName || t('lb_no_name')}</div>
+            <div class="lb-row-date">${histFmtDate(b.blockStart)} → ${histFmtDate(b.blockEnd)}</div>
           </div>
-          <div class="hist-card-row">
-            <span class="hist-card-label">PPT</span>
-            <span class="hist-card-val ${valCls}">${done}/${b.target} · ${pct}%</span>
-          </div>
-          <div class="hist-mini-bar"><div class="hist-mini-fill ${barCls}" style="width:${pctCap}%"></div></div>
-          <div class="hist-card-row" style="margin-top:5px;">
-            <span class="hist-card-label">Hari aktif</span>
-            <span class="hist-card-val">${aktif} hari</span>
+          <div class="lb-row-stats">
+            <div class="lb-stat-col">
+              <div class="lb-stat-val">${aktif}h</div>
+              <div class="lb-stat-lbl">${t('lb_active')}</div>
+            </div>
+            <div class="lb-bar-wrap">
+              <div class="lb-bar-track"><div class="lb-bar-fill" style="width:${Math.min(pct,100)}%"></div></div>
+              <div style="font-size:9px;color:var(--text-soft);text-align:right">${done}/${b.target}</div>
+            </div>
+            ${ujianBadge(b.nilaiUjian)}
           </div>
         </div>`;
       }
 
+      function buildLbPodium(blocks) {
+        const sorted = [...blocks].sort((a, b) => histPerfScore(b) - histPerfScore(a));
+        const top3 = sorted.slice(0, 3);
+        const rest  = sorted.slice(3);
+        const emojis = { 0:'🥇', 1:'🥈', 2:'🥉' };
+        const crowns = { 0:'👑', 1:'', 2:'' };
+        const podOrder = top3.length >= 2 ? [1, 0, 2] : [0, 1, 2];
+        const podHTML = podOrder.filter(i => top3[i]).map(i => {
+          const b = top3[i];
+          const pos = i + 1;
+          const name = b.blockName ? b.blockName.split('—').pop().trim() : t('lb_no_name');
+          return `<div class="lb-pod lb-pod-${pos}">
+            <div class="lb-pod-crown">${crowns[i] || ''}</div>
+            <div class="lb-pod-emoji">${emojis[i]}</div>
+            <div class="lb-pod-name">${name}</div>
+            <div class="lb-pod-score">${histPerfScore(b)} pts</div>
+            <div class="lb-pod-base">${pos}</div>
+          </div>`;
+        }).join('');
+        const restHTML = rest.length
+          ? `<div class="lb-podium-rest-lbl">${t('lb_more')}</div>` + rest.map((b, i) => buildLbRow(b, i + 4)).join('')
+          : '';
+        return `<div class="lb-podium">${podHTML}</div>${restHTML}`;
+      }
+
       function renderHistoryDashboard(blocks) {
+        _lbBlocks = blocks;
         const container = document.getElementById('hist-cols');
         if (!container) return;
-        const recent = blocks.slice(0, 3);
-        const sorted = [...blocks].sort((a, b) => histPerfScore(b) - histPerfScore(a));
-        const top3   = sorted.slice(0, 3);
-        const colRecent = `<div>
-          <div class="hist-col-head">🕐 3 Terakhir</div>
-          ${recent.length ? recent.map(b => buildHistCard(b, false)).join('') : '<div class="hist-empty">—</div>'}
-        </div>`;
-        const colTop = `<div>
-          <div class="hist-col-head">🏆 3 Terbaik</div>
-          ${top3.length ? top3.map(b => buildHistCard(b, true)).join('') : '<div class="hist-empty">—</div>'}
-        </div>`;
-        container.innerHTML = colRecent + colTop;
+        if (!blocks.length) { container.innerHTML = `<div class="hist-empty">${t('lb_no_blocks')}</div>`; return; }
+        if (_lbTab === 'recent') {
+          container.innerHTML = blocks.slice(0, 3).map((b, i) => buildLbRow(b, i + 1)).join('');
+        } else if (_lbTab === 'best') {
+          const sorted = [...blocks].sort((a, b) => histPerfScore(b) - histPerfScore(a));
+          container.innerHTML = sorted.slice(0, 3).map((b, i) => buildLbRow(b, i + 1)).join('');
+        } else {
+          container.innerHTML = buildLbPodium(blocks);
+        }
       }
       /* ===== END HISTORY DASHBOARD ===== */
 
