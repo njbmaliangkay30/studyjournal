@@ -118,8 +118,27 @@ module.exports = async function handler(req, res) {
   if (req.method === "GET") {
     const username  = (req.query.username  ?? "").trim();
     const blockName = (req.query.blockName ?? "").trim();
+    const history   = req.query.history === "true";
     if (!username) return res.status(400).json({ error: "Parameter ?username= wajib diisi." });
     try {
+
+      // ── HISTORY MODE: kembalikan SEMUA blok milik username ini ──────────────
+      if (history) {
+        const hr = await fetch(`https://api.notion.com/v1/databases/${WEEKLY_DB_ID}/query`, {
+          method: "POST", headers: notionHeaders(),
+          body: JSON.stringify({
+            filter: { property: "Username", rich_text: { equals: username } },
+            sorts:  [{ property: "Range Date", direction: "descending" }],
+            page_size: 100,
+          }),
+        });
+        const hd = await hr.json();
+        if (!hr.ok) return res.status(hr.status).json({ error: hd.message ?? "Notion query error" });
+        const blocks = (hd.results ?? []).map(pageToData);
+        return res.json({ found: blocks.length > 0, blocks });
+      }
+      // ────────────────────────────────────────────────────────────────────────
+
       const filter = blockName
         ? { and: [
             { property: "Username",   rich_text: { equals: username  } },
