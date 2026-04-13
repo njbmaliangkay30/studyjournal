@@ -3762,6 +3762,9 @@
         await saveToNotion(fmtISO(new Date()));
         _histLoaded = false;
         render();
+        // FIX #2: Force reload leaderboard setelah block baru disimpan,
+        // supaya riwayat block sebelumnya langsung muncul tanpa perlu pindah tab.
+        loadHistoryDashboard(true);
       };
       window.saveSettings = async function(){
         state.target = parseInt(document.getElementById("set-target").value)||30;
@@ -3783,11 +3786,15 @@
         if(!confirm(t('confirm_reset'))) return;
         state.slides={}; state.moods={}; state.nilaiUjian=0; state.milestones={25:false,50:false,75:false,100:false}; state.badges={1:false,2:false,3:false,4:false, 5:false, 6:false, 7:false}; state.blockStart=null; state.blockEnd=null; pageId=null; state.focusTime=0; state.matchBestTime=null; state.fcBestTime=null;
         state.coins = 0; state.inventory = { streakFreeze: 0 };
+        // FIX #3: Juga clear pptDots supaya tidak ada sisa data blok lama
+        state.pptDots = [];
         // Wajib clear blokPageId dan blockName supaya simpanSetupAwal tidak PATCH row lama
         state.blokPageId = null; state.blockName = "";
         ss("rv_slides",{}); ss("rv_moods",{}); ss("rv_nilai",0); ss("rv_milestones",state.milestones); ss("rv_badges",state.badges); ss("rv_block_start",null); ss("rv_block_end",null); ss("rv_focus",0); ss("matchBestTime",null); ss("fcBestTime",null);
         ss("rv_coins", 0); ss("rv_inv", state.inventory);
         ss("rv_blokPageId", null); ss("rv_blockName", "");
+        // FIX #3: Clear pptDots di localStorage juga
+        ss("rv_pptDots", []);
         _histLoaded = false;
         render(); checkSetupModal();
       };
@@ -4322,7 +4329,9 @@
         try {
           const res  = await fetch(`/api/weekly-tracker?username=${encodeURIComponent(username)}&history=true`);
           const json = await res.json();
-          if (!res.ok || !json.found || !json.blocks?.length) {
+          // FIX #1: Untuk endpoint history, cukup cek json.blocks punya isi —
+          // tidak perlu json.found=true (API mungkin return found:false meski ada blok lama).
+          if (!res.ok || !json.blocks?.length) {
             container.innerHTML = `<div class="hist-loading">${t('lb_empty')}</div>`;
             return;
           }
