@@ -3073,6 +3073,7 @@
           document.getElementById('save-msg-fc').style.display = 'block';
           setTimeout(() => document.getElementById('save-msg-fc').style.display = 'none', 3000);
           playGrandChime();
+          saveToNotion(fmtISO(new Date()));
         } else alert(t('alert_fc_fmt'));
       };
       window.tambahFlashcard = function() {
@@ -3087,6 +3088,7 @@
         document.getElementById('save-msg-fc').style.display = 'block';
         setTimeout(() => document.getElementById('save-msg-fc').style.display = 'none', 3000);
         playChime();
+        saveToNotion(fmtISO(new Date()));
       };
       window.hapusFlashcard = function(idx, e) {
         if(e) e.stopPropagation();
@@ -3094,11 +3096,15 @@
         ss("rv_flashcards", state.flashcards);
         if(currentFcIdx >= state.flashcards.length) currentFcIdx = Math.max(0, state.flashcards.length-1);
         renderFcList();
+        saveToNotion(fmtISO(new Date()));
       };
       window.resetSemuaKartu = function() {
         state.flashcards = [];
+        state.difficultCards = [];
         ss("rv_flashcards", state.flashcards);
+        ss('difficultCards', state.difficultCards);
         renderFcList();
+        saveToNotion(fmtISO(new Date()));
       };
       function renderFcList() {
         const container = document.getElementById('fc-list-container');
@@ -3501,6 +3507,20 @@
           ss('rv_moods', state.moods);
         }
       }
+      // Restore flashcards dari Notion — merge: Notion menang jika lebih banyak, lokal tetap jika Notion kosong
+      if (Array.isArray(ed.flashcards) && ed.flashcards.length > 0) {
+        const localCards = state.flashcards || [];
+        if (ed.flashcards.length >= localCards.length) {
+          state.flashcards = ed.flashcards;
+          ss('rv_flashcards', state.flashcards);
+        }
+      }
+      // Restore difficultCards — union lokal + Notion
+      if (Array.isArray(ed.difficultCards)) {
+        const merged = Array.from(new Set([...(state.difficultCards || []), ...ed.difficultCards]));
+        state.difficultCards = merged;
+        ss('difficultCards', state.difficultCards);
+      }
       ss('rv_target', state.target); ss('rv_block_start', state.blockStart);
       ss('rv_block_end', state.blockEnd); ss('rv_blokPageId', state.blokPageId);
       ss('rv_pptDots', state.pptDots); ss('rv_slides', state.slides);
@@ -3553,6 +3573,7 @@
         blockStart, blockEnd, pptDots: state.pptDots || [], moods: moodsWithWallet,
         nilaiUjian: state.nilaiUjian || 0, pageId: state.blokPageId || null,
         slideDate: targetDate, slides: state.slides || {},
+        flashcards: state.flashcards || [], difficultCards: state.difficultCards || [],
         forceNew
       })
     });
