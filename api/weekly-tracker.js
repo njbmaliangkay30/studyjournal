@@ -23,6 +23,7 @@
 const NOTION_TOKEN   = process.env.NOTION_TOKEN;
 const WEEKLY_DB_ID   = process.env.NOTION_WEEKLY_DB_ID;
 const DAILY_DB_ID    = process.env.NOTION_DAILY_DB_ID;
+const FLASHCARD_DB_ID = process.env.NOTION_FLASHCARD_DB_ID;
 const NOTION_VERSION = "2022-06-28";
 
 function notionHeaders() {
@@ -90,6 +91,38 @@ async function fetchSlides(pageId) {
   return slides;
 }
 
+async function fetchFlashcards(blockPageId) {
+  if (!FLASHCARD_DB_ID || !blockPageId) return { flashcards: [], difficultCards: [] };
+  const flashcards = [];
+  const difficultCards = [];
+  let cursor = undefined;
+  do {
+    const body = {
+      filter: { property: "Weekly Tracker", relation: { contains: blockPageId } },
+      page_size: 100,
+    };
+    if (cursor) body.start_cursor = cursor;
+    const r = await fetch(`https://api.notion.com/v1/databases/${FLASHCARD_DB_ID}/query`, {
+      method: "POST", headers: notionHeaders(), body: JSON.stringify(body),
+    });
+    if (!r.ok) break;
+    const d = await r.json();
+    for (const page of d.results ?? []) {
+      const p = page.properties;
+      const cardId = p["Card ID"]?.rich_text?.[0]?.plain_text ?? "";
+      const q      = p["Question"]?.rich_text?.[0]?.plain_text ?? "";
+      const a      = p["Answer"]?.rich_text?.[0]?.plain_text ?? "";
+      const isDiff = p["Is Difficult"]?.checkbox ?? false;
+      if (cardId) {
+        flashcards.push({ id: cardId, q, a });
+        if (isDiff) difficultCards.push(cardId);
+      }
+    }
+    cursor = d.has_more ? d.next_cursor : undefined;
+  } while (cursor);
+  return { flashcards, difficultCards };
+}
+
 function pageToData(page) {
   const p          = page.properties;
   const target     = getNumber(p, "Weekly Target") || 30;
@@ -102,6 +135,62 @@ function pageToData(page) {
   try { const r = getText(p, "PPT Dots"); if (r) pptDots = JSON.parse(r); } catch {}
   try { const r = getText(p, "Moods");    if (r) moods   = JSON.parse(r); } catch {}
   return { target, nilaiUjian, blockStart, blockEnd, blockName, pptDots, moods, pageId: page.id };
+}
+
+async function upsertFlashcards(blockPageId, flashcards, difficultCards) {
+  if (!FLASHCARD_DB_ID || !blockPageId) return;
+
+  // Ambil semua kartu yang sudah ada di Notion untuk blok ini
+  const existing = {};
+  let cursor = undefined;
+  do {
+    const body = {
+      filter: { property: "Weekly Tracker", relation: { contains: blockPageId } },
+      page_size: 100,
+    };
+    if (cursor) body.start_cursor = cursor;
+    const r = await fetch(`https://api.notion.com/v1/databases/${FLASHCARD_DB_ID}/query`, {
+      method: "POST", headers: notionHeaders(), body: JSON.stringify(body),
+    });
+    if (!r.ok) break;
+    const d = await r.json();
+    for (const page of d.results ?? []) {
+      const cardId = page.properties["Card ID"]?.rich_text?.[0]?.plain_text ?? "";
+      if (cardId) existing[cardId] = page.id;
+    }
+    cursor = d.has_more ? d.next_cursor : undefined;
+  } while (cursor);
+
+  const difficultSet = new Set(difficultCards ?? []);
+
+  // Upsert setiap kartu
+  for (const card of flashcards ?? []) {
+    const cardId = String(card.id ?? "");
+    const props = {
+      "Card ID":        makeRichText(cardId),
+      "Question":       makeRichText(String(card.q ?? "").slice(0, 1999)),
+      "Answer":         makeRichText(String(card.a ?? "").slice(0, 1999)),
+      "Is Difficult":   { checkbox: difficultSet.has(cardId) },
+      "Weekly Tracker": makeRelation(blockPageId),
+    };
+
+    if (existing[cardId]) {
+      // Update kartu yang sudah ada
+      await fetch(`https://api.notion.com/v1/pages/${existing[cardId]}`, {
+        method: "PATCH", headers: notionHeaders(),
+        body: JSON.stringify({ properties: props }),
+      });
+    } else {
+      // Buat kartu baru
+      await fetch("https://api.notion.com/v1/pages", {
+        method: "POST", headers: notionHeaders(),
+        body: JSON.stringify({
+          parent: { database_id: FLASHCARD_DB_ID },
+          properties: { ...props, Name: makeTitle(String(card.q ?? "").slice(0, 100)) },
+        }),
+      });
+    }
+  }
 }
 
 module.exports = async function handler(req, res) {
@@ -161,8 +250,11 @@ module.exports = async function handler(req, res) {
       if (!page) return res.json({ found: false });
 
       const data   = pageToData(page);
-      const slides = await fetchSlides(page.id);
-      data.slides  = slides;
+     const slides = await fetchSlides(page.id);
+      const { flashcards, difficultCards } = await fetchFlashcards(page.id);
+      data.slides       = slides;
+      data.flashcards   = flashcards;
+      data.difficultCards = difficultCards;
       return res.json({ found: true, ...data });
 
     } catch (err) {
@@ -306,7 +398,12 @@ module.exports = async function handler(req, res) {
           });
         }
       }
-
+// Simpan flashcards ke database terpisah
+      const flashcards    = req.body?.flashcards    ?? [];
+      const difficultCards = req.body?.difficultCards ?? [];
+      if (flashcards.length > 0) {
+        await upsertFlashcards(blockPageId, flashcards, difficultCards);
+      }
       return res.json({ success: true, pageId: blockPageId });
 
     } catch (err) {
