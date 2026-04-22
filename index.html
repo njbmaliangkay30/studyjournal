@@ -121,26 +121,26 @@
 
     /* Connecting energy line */
     .ppt-energy-line {
-  flex-shrink: 0; width: 100%; height: 2px;
-  background: rgba(141,201,90,0.18); border-radius: 2px;
-  margin-top: 22px; position: relative;
-  margin-left: -6px; margin-right: -6px;
-}
+      flex-shrink: 0; width: 100%; height: 2px;
+      background: rgba(141,201,90,0.18); border-radius: 2px;
+      margin-top: 22px; position: relative;
+      margin-left: -6px; margin-right: -6px;
+    }
 
-/* --- TAMPILAN LAPTOP (Garis untuk 8 Titik) --- */
-@media (min-width: 768px) {
-  .ppt-energy-line { max-width: 24px; }
-  .ppt-snake-connector { margin-top: -34px; }
-  .ppt-snake-vline { height: 48px; margin: 0 31px; } /* Pas di tengah titik ke-8 */
-}
+    /* --- TAMPILAN LAPTOP (Garis untuk 8 Titik) --- */
+    @media (min-width: 768px) {
+      .ppt-energy-line { max-width: 24px; }
+      .ppt-snake-connector { margin-top: -34px; }
+      .ppt-snake-vline { height: 48px; margin: 0 31px; }
+    }
 
-/* --- TAMPILAN HP (Garis untuk 6 Titik) --- */
-@media (max-width: 767px) {
-  .ppt-energy-line { max-width: 10px; margin-top: 20px; }
-  .ppt-snake-connector { margin-top: -33px; }
-  .ppt-snake-vline { height: 46px; margin: 0 25px; } /* Pas di tengah titik ke-6 */
-  .ppt-dot { width: 40px; height: 40px; font-size: 11px; }
-}
+    /* --- TAMPILAN HP (Garis untuk 6 Titik) --- */
+    @media (max-width: 767px) {
+      .ppt-energy-line { max-width: 10px; margin-top: 20px; }
+      .ppt-snake-connector { margin-top: -33px; }
+      .ppt-snake-vline { height: 46px; margin: 0 25px; }
+      .ppt-dot { width: 40px; height: 40px; font-size: 11px; }
+    }
     .ppt-energy-line::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-50%); background: repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(141,201,90,0.2) 3px, rgba(141,201,90,0.2) 6px); }
     .ppt-energy-line.lit { background: linear-gradient(90deg, rgba(245,200,66,0.25) 0%, rgba(255,240,100,0.95) 30%, rgba(245,200,66,0.25) 60%, rgba(255,240,100,0.9) 90%, rgba(245,200,66,0.25) 100%); background-size: 200% 100%; box-shadow: 0 0 8px rgba(245,200,66,0.65), 0 0 16px rgba(245,200,66,0.3); animation: energy-flow-h 1.2s infinite linear; }
     .ppt-energy-line.lit::before { display: none; }
@@ -3061,7 +3061,8 @@
           if (q && a) {
             state.flashcards.push({
               id: 'fc_' + Date.now() + Math.random() + added,
-              q, a
+              q, a,
+              updatedAt: Date.now()
             });
             added++;
           }
@@ -3080,7 +3081,7 @@
         const q = document.getElementById('fc-q').value.trim();
         const a = document.getElementById('fc-a').value.trim();
         if(!q || !a) return;
-        state.flashcards.push({ id: 'fc_' + Date.now() + Math.random(), q, a });
+        state.flashcards.push({ id: 'fc_' + Date.now() + Math.random(), q, a, updatedAt: Date.now() });
         ss("rv_flashcards", state.flashcards);
         document.getElementById('fc-q').value = '';
         document.getElementById('fc-a').value = '';
@@ -3089,6 +3090,7 @@
         setTimeout(() => document.getElementById('save-msg-fc').style.display = 'none', 3000);
         playChime();
         saveToNotion(fmtISO(new Date()));
+        saveFlashcardsGlobal();
       };
       window.hapusFlashcard = function(idx, e) {
         if(e) e.stopPropagation();
@@ -3097,6 +3099,8 @@
         if(currentFcIdx >= state.flashcards.length) currentFcIdx = Math.max(0, state.flashcards.length-1);
         renderFcList();
         saveToNotion(fmtISO(new Date()));
+        // Sync global flashcards after deletion
+        saveFlashcardsGlobal();
       };
       window.resetSemuaKartu = function() {
         state.flashcards = [];
@@ -3105,6 +3109,7 @@
         ss('difficultCards', state.difficultCards);
         renderFcList();
         saveToNotion(fmtISO(new Date()));
+        saveFlashcardsGlobal();
       };
       function renderFcList() {
         const container = document.getElementById('fc-list-container');
@@ -3154,6 +3159,77 @@
         document.getElementById('fc-btn-prev').disabled = currentFcIdx === 0;
         document.getElementById('fc-btn-next').disabled = currentFcIdx === state.flashcards.length-1;
       };
+
+      /* ---------- FLASHCARD GLOBAL SYNC ----------
+         Flashcard tersimpan GLOBAL per username (bukan per blok),
+         agar kartu tetap ada di semua device dan semua blok.
+         Endpoint: /api/flashcards-global?username=X (GET/POST)
+      --------------------------------------------------------- */
+      async function saveFlashcardsGlobal() {
+        const username = state.syncCode || ls('rv_syncCode', '');
+        if (!username) return;
+        try {
+          await fetch('/api/flashcards-global', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              username,
+              flashcards: state.flashcards || [],
+              difficultCards: state.difficultCards || [],
+              savedAt: Date.now()
+            })
+          });
+        } catch(e) {
+          console.warn('[saveFlashcardsGlobal] Gagal:', e.message);
+        }
+      }
+
+      async function loadFlashcardsGlobal() {
+        const username = state.syncCode || ls('rv_syncCode', '');
+        if (!username) return;
+        try {
+          const res = await fetch(`/api/flashcards-global?username=${encodeURIComponent(username)}`);
+          if (!res.ok) return;
+          const data = await res.json();
+          if (!data.found) return;
+
+          // Merge strategy: gabungkan berdasarkan ID, kartu dengan updatedAt lebih baru menang
+          const remoteCards = Array.isArray(data.flashcards) ? data.flashcards : [];
+          const localCards  = state.flashcards || [];
+
+          // Buat map dari id → kartu
+          const cardMap = new Map();
+          // Masukkan lokal dulu
+          localCards.forEach(c => {
+            cardMap.set(c.id, c);
+          });
+          // Remote menang jika updatedAt lebih baru atau lokal tidak punya kartu tsb
+          remoteCards.forEach(c => {
+            const existing = cardMap.get(c.id);
+            if (!existing || (c.updatedAt || 0) >= (existing.updatedAt || 0)) {
+              cardMap.set(c.id, c);
+            }
+          });
+
+          const merged = Array.from(cardMap.values());
+          if (merged.length > 0 || remoteCards.length > 0) {
+            state.flashcards = merged;
+            ss('rv_flashcards', state.flashcards);
+          }
+
+          // Merge difficultCards — union
+          if (Array.isArray(data.difficultCards) && data.difficultCards.length > 0) {
+            const mergedDiff = Array.from(new Set([...(state.difficultCards || []), ...data.difficultCards]));
+            state.difficultCards = mergedDiff;
+            ss('difficultCards', state.difficultCards);
+          }
+
+          renderFcList();
+        } catch(e) {
+          console.warn('[loadFlashcardsGlobal] Gagal:', e.message);
+        }
+      }
+      /* ---------- END FLASHCARD GLOBAL SYNC ---------- */
 
       /* ---------- FLASHCARD TEST MODE ---------- */
       window.switchFcMainTab = function(tab, btn) {
