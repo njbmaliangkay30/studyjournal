@@ -112,9 +112,10 @@ async function fetchFlashcards(blockPageId) {
       const cardId = p["Card ID"]?.rich_text?.[0]?.plain_text ?? "";
       const q      = p["Question"]?.rich_text?.[0]?.plain_text ?? "";
       const a      = p["Answer"]?.rich_text?.[0]?.plain_text ?? "";
-      const isDiff = p["Is Difficult"]?.checkbox ?? false;
+      const isDiff     = p["Is Difficult"]?.checkbox ?? false;
+      const updatedAt  = p["Updated At"]?.number ?? 0;
       if (cardId) {
-        flashcards.push({ id: cardId, q, a });
+        flashcards.push({ id: cardId, q, a, updatedAt });
         if (isDiff) difficultCards.push(cardId);
       }
     }
@@ -162,6 +163,7 @@ async function upsertFlashcards(blockPageId, flashcards, difficultCards) {
   } while (cursor);
 
   const difficultSet = new Set(difficultCards ?? []);
+  const requestedIds = new Set((flashcards ?? []).map(c => String(c.id ?? "")));
 
   // Upsert setiap kartu
   for (const card of flashcards ?? []) {
@@ -171,6 +173,7 @@ async function upsertFlashcards(blockPageId, flashcards, difficultCards) {
       "Question":       makeRichText(String(card.q ?? "").slice(0, 1999)),
       "Answer":         makeRichText(String(card.a ?? "").slice(0, 1999)),
       "Is Difficult":   { checkbox: difficultSet.has(cardId) },
+      "Updated At":     { number: typeof card.updatedAt === "number" ? card.updatedAt : Date.now() },
       "Weekly Tracker": makeRelation(blockPageId),
     };
 
@@ -188,6 +191,16 @@ async function upsertFlashcards(blockPageId, flashcards, difficultCards) {
           parent: { database_id: FLASHCARD_DB_ID },
           properties: { ...props, Name: makeTitle(String(card.q ?? "").slice(0, 100)) },
         }),
+      });
+    }
+  }
+
+  // Archive kartu yang sudah dihapus user (ada di Notion tapi tidak ada di request)
+  for (const [cardId, notionPageId] of Object.entries(existing)) {
+    if (!requestedIds.has(cardId)) {
+      await fetch(`https://api.notion.com/v1/pages/${notionPageId}`, {
+        method: "PATCH", headers: notionHeaders(),
+        body: JSON.stringify({ archived: true }),
       });
     }
   }
@@ -398,12 +411,10 @@ module.exports = async function handler(req, res) {
           });
         }
       }
-// Simpan flashcards ke database terpisah
+// Simpan flashcards ke database terpisah (selalu dijalankan agar kartu yang dihapus bisa di-archive)
       const flashcards    = req.body?.flashcards    ?? [];
       const difficultCards = req.body?.difficultCards ?? [];
-      if (flashcards.length > 0) {
-        await upsertFlashcards(blockPageId, flashcards, difficultCards);
-      }
+      await upsertFlashcards(blockPageId, flashcards, difficultCards);
       return res.json({ success: true, pageId: blockPageId });
 
     } catch (err) {
